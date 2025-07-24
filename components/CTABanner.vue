@@ -1,10 +1,10 @@
 <template>
   <section class="cta-banner relative overflow-hidden">
     <!-- Фоновое изображение с улучшенным параллакс эффектом -->
-    <div class="absolute inset-0 w-full h-[120%] -top-10 parallax-container">
+    <div class="absolute inset-0 w-full h-[100%]">
       <div
         ref="parallaxBg"
-        class="w-full h-full bg-cover bg-center parallax-bg"
+        class="w-full h-full bg-fixed bg-cover bg-center"
         style="background-image: url('/images/cta.webp')"
       />
     </div>
@@ -79,25 +79,6 @@ const scrollToContact = () => {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
-}
-
-/* Добавляем блик для дополнительного эффекта */
-.cta-banner::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(
-    circle at center,
-    rgba(76, 161, 255, 0.05) 0%,
-    rgba(175, 85, 255, 0.05) 30%,
-    transparent 70%
-  );
-  z-index: 1;
-  animation: rotate 30s linear infinite;
-  pointer-events: none;
 }
 
 @keyframes rotate {

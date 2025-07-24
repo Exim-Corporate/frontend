@@ -3,7 +3,7 @@
     <footer class="bg-gray-800 text-white px-4 sm:px-6 py-12 mt-auto">
       <div class="container mx-auto">
         <!-- Main Footer Content -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 justify-items-center gap-8">
           <!-- Column 1: Logo -->
           <div class="flex flex-col items-center text-center md:items-start md:text-left">
             <div
@@ -91,6 +91,7 @@
 <script setup lang="ts">
 import AppIcon from '@/components/UI/AppIcon.vue';
 import FooterLink from '@/components/UI/FooterLink.vue';
+import { useRuntimeConfig, navigateTo } from 'nuxt/app';
 // import { navigateTo } from 'nuxt';
 import { defineComponent, h } from 'vue';
 
@@ -140,6 +141,11 @@ const socialMedia = [
     icon: 'mdi:gmail',
     url: `mailto:${runtimeConfig.public.supportEmail}`,
   },
+  {
+    name: 'X',
+    icon: 'bi:twitter-x',
+    url: `https://x.com/eximltdcy`,
+  },
 ];
 
 // Company address lines
@@ -152,8 +158,8 @@ const addressLines = [
 
 // Legal links with i18n support
 const legalLinks = [
+  // { to: '/blog', label: 'Blog' },
   { to: '/privacy', label: 'Privacy Policy' },
-  // { to: '/impressum', label: 'Impressum' },
   { to: '/terms', label: 'Terms of Service' },
   { to: '/cookie-policy', label: 'Cookie Policy' },
 ];

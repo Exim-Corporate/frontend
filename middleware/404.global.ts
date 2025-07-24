@@ -77,17 +77,27 @@ export default defineNuxtRouteMiddleware(to => {
     '/es/terms',
     '/es/impressum',
     '/es/cookie-policy',
+    '/blog',
+    '/de/blog',
+    '/fr/blog',
+    '/es/blog',
+    '/preview/email',
   ]);
 
   const routePath = to.path;
 
   // Проверяем специальные маршруты
   const isApiRoute = routePath.startsWith('/api/');
+  const isBlogRoute =
+    routePath.startsWith('/blog/') ||
+    routePath.startsWith('/de/blog/') ||
+    routePath.startsWith('/fr/blog/') ||
+    routePath.startsWith('/es/blog/');
   // const isPreviewRoute = routePath.startsWith('/preview/');
   const isValidRoute = validRoutes.has(routePath);
 
   // Редирект на главную для невалидных маршрутов (только client-side)
-  if (import.meta.client && !isValidRoute && !isApiRoute) {
+  if (import.meta.client && !isValidRoute && !isApiRoute && !isBlogRoute) {
     return navigateTo('/', { replace: true });
   }
 });

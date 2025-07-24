@@ -11,25 +11,28 @@ export default defineNuxtConfig({
   ssr: true,
 
   vite: {
+    build: {
+      sourcemap: false,
+    },
     plugins: [tsconfigPaths(), tailwindcss()],
   },
 
   // Конфигурация для Vercel SSG
   nitro: {
+    // preset: process.env.NODE_ENV === 'production' ? 'vercel' : 'node',
     preset: 'vercel',
 
     // Настройки маршрутов для SSG + API
     routeRules: {
       // Статические страницы (SSG) - оставляем как есть или меняем на isr
       '/': { isr: true }, // Пример: главная страница с ISR
-      '/about': { isr: true }, // Пример: страница "О нас" с ISR
-      '/services': { isr: true }, // Пример: страница "Услуги" с ISR
-      '/contact': { isr: true }, // Пример: страница "Контакты" с ISR
       '/privacy': { isr: true }, // Пример: страница "Политика конфиденциальности" с ISR
       '/terms': { isr: true }, // Пример: страница "Условия использования" с ISR
-      '/impressum': { isr: true }, // Пример: страница "Impressum" с ISR
       '/cookie-policy': { isr: true }, // Пример: страница "Политика Cookie" с ISR
 
+      // Blog
+      '/blog': { isr: 300 },
+      '/blog/**': { isr: 300 },
       // Языковые версии - также можно настроить ISR
       '/de': { isr: true },
       '/de/**': { isr: true }, // Все страницы в /de/ с ISR
@@ -41,10 +44,6 @@ export default defineNuxtConfig({
       // API маршруты для серверных функций
       '/api/**': {
         cors: true,
-        // Для API маршрутов ISR не применяется напрямую, но кеширование важно
-        // Устанавливаем stale-while-revalidate для API, если это необходимо.
-        // Vercel автоматически обрабатывает Cache-Control заголовки для Serverless Functions.
-        // s-maxage определяет время кеширования на CDN, stale-while-revalidate позволяет показывать старый кеш во время обновления.
         headers: { 'cache-control': 's-maxage=1, stale-while-revalidate=31536000' }, // Пример: кеш на 1 секунду, ревалидация в течение года
       },
 
@@ -56,44 +55,68 @@ export default defineNuxtConfig({
       // },
     },
 
-    // Настройки prerender для SSG
-    // prerender больше не нужен в таком виде, если мы используем isr для всех страниц.
-    // Vercel будет автоматически генерировать страницы при первом запросе, если они не предрендерены.
-    // Если какие-то страницы должны быть строго предрендерены при сборке, их можно оставить здесь.
-    // Но для ISR основной механизм - это routeRules.
     prerender: {
       crawlLinks: true, // Можно оставить, если есть страницы, которые должны быть предрендерены
-      routes: [
-        // Список можно сократить или убрать, если все страницы покрыты isr: true в routeRules
-        // Например, если '/' : { isr: true }, то '/' здесь не обязателен.
-        // Оставляем только те, что критично важно иметь при сборке.
-        // Для максимальной ISR-оптимизации, этот список может быть пустым,
-        // полагаясь на isr: true и crawlLinks для обнаружения остальных страниц.
-      ],
+      routes: [],
     },
   },
 
-  modules: ['@nuxt/eslint', '@nuxt/image', '@primevue/nuxt-module', '@nuxtjs/i18n', 'nuxt-aos'],
+  modules: [
+    '@nuxt/eslint',
+    '@nuxt/image',
+    '@primevue/nuxt-module',
+    '@nuxtjs/i18n',
+    'nuxt-aos',
+    'nuxt-gtag',
+    '@nuxtjs/sitemap',
+  ],
 
+  // Google Analytics/Tag Manager configuration
+  gtag: {
+    enabled: true,
+    // enabled: process.env.NODE_ENV === 'production',
+    id: process.env.NUXT_PUBLIC_GTAG_ID || 'G-3MTS6NR81E',
+    config: {
+      page_title: 'AS Exim - Expert IT Staffing & Remote Developers',
+      send_page_view: true, // Enhanced measurement должен быть включен в GA4
+    },
+  },
   // Оптимизация изображений для production
   image: {
     dir: 'public',
     format: ['webp', 'jpeg', 'png'],
     quality: 85,
     // Использовать встроенный provider для SSG
-    provider: process.env.NODE_ENV === 'production' ? 'ipx' : 'ipx',
+    provider: 'ipx',
   },
-
   runtimeConfig: {
+    strapiToken: process.env.STRAPI_TOKEN, // Server-only for write operations if any
     gmail: {
       user: process.env.GMAIL_USER,
       pass: process.env.GMAIL_PASS,
       to: process.env.GMAIL_TO,
     },
     public: {
+      strapiUrl: process.env.STRAPI_URL || 'http://localhost:1337',
+      strapiToken: process.env.STRAPI_TOKEN, // Exposed to client for read-only fetching
       privacyEmail: process.env.NUXT_PUBLIC_PRIVACY_EMAIL,
       contactEmail: process.env.NUXT_PUBLIC_CONTACT_EMAIL,
       supportEmail: process.env.NUXT_PUBLIC_SUPPORT_EMAIL,
+      gtagId: process.env.NUXT_PUBLIC_GTAG_ID,
+    },
+  },
+
+  sitemap: {
+    siteUrl: 'https://www.exim.eu.com',
+    async routes() {
+      // Fetch all articles from Strapi for sitemap
+      const res = await fetch(`${process.env.STRAPI_URL}/api/articles?pagination[pageSize]=1000`);
+      const data = await res.json();
+      return data.data.map((article: { slug: string }) => `/blog/${article.slug}`);
+    },
+    defaults: {
+      changefreq: 'daily',
+      priority: 0.7,
     },
   },
 
@@ -116,6 +139,9 @@ export default defineNuxtConfig({
     defaultLocale: 'en',
     skipSettingLocaleOnNavigate: true,
     lazy: true,
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
     locales: [
       { code: 'en', iso: 'en-US', file: 'en.ts', name: 'English' },
       { code: 'de', iso: 'de-DE', file: 'de.ts', name: 'Deutsch' },
@@ -153,6 +179,12 @@ export default defineNuxtConfig({
         de: '/terms',
         es: '/terms',
       },
+      // blog: {
+      //   en: '/blog',
+      //   fr: '/blog',
+      //   de: '/blog',
+      //   es: '/blog',
+      // },
     },
   },
 

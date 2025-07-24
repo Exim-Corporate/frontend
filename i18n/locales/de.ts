@@ -10,6 +10,13 @@ export default {
     switchTheme: 'Thema wechseln',
     language: 'Sprache ändern',
   },
+  navigation: {
+    blog: 'Blog',
+    home: 'Home',
+    about: 'Über uns',
+    services: 'Dienstleistungen',
+    contact: 'Kontakt',
+  },
   hero: {
     title1: 'Schneller, intelligenter, besser bauen',
     title2: 'Mit unseren erfahrenen ',
@@ -233,6 +240,7 @@ export default {
       country_required: 'Land ist erforderlich. Wählen Sie aus der Liste',
       roles_required: 'Bitte wählen Sie mindestens eine Rolle aus',
       message_required: 'Projektanforderungen sind erforderlich',
+      privacy_policy_required: 'Sie müssen der Datenschutzrichtlinie zustimmen',
     },
 
     // Form labels
@@ -258,12 +266,12 @@ export default {
     categories: {
       frontend: 'Frontend',
       backend: 'Backend',
-      mobile: 'Mobile',
+      mobile: 'Mobil',
       devops: 'DevOps',
       database: 'Datenbanken',
       aiml: 'KI/ML',
       design: 'Design',
-      qa: 'QA & Testing',
+      qa: 'QA & Testen',
     },
   },
   cta: {
@@ -275,6 +283,35 @@ export default {
     subtitle:
       'Teilen Sie uns Ihre Bedürfnisse mit – wir liefern Entwickler, die sich wie Ihr internes Team anfühlen, ohne den Overhead.',
     button: 'Jetzt mit der Einstellung beginnen!',
+  },
+  blog: {
+    title: 'Unser Blog',
+    description:
+      'Einblicke, Neuigkeiten und Trends aus der Welt der Technologie und Softwareentwicklung.',
+    loading: 'Artikel werden geladen...',
+    loading_article: 'Artikel wird geladen...',
+    no_articles: 'Momentan sind keine Artikel verfügbar. Bitte schauen Sie später wieder vorbei.',
+    error_loading: 'Fehler beim Laden der Artikel. Bitte versuchen Sie es später erneut.',
+    read_more: 'Weiterlesen',
+    read_more_aria: 'Lesen Sie mehr über {title}',
+    article_not_found: 'Artikel nicht gefunden',
+    back_to_blog: 'Zurück zum Blog',
+    add_to_favorites: 'Zu Favoriten hinzufügen',
+    remove_from_favorites: 'Aus Favoriten entfernen',
+    share: 'Teilen',
+    link_copied: 'Link in die Zwischenablage kopiert',
+    added_to_favorites: 'Artikel zu Favoriten hinzugefügt',
+    removed_from_favorites: 'Artikel aus Favoriten entfernt',
+    pagination_report:
+      'Zeige {first} bis {last} von {total} Artikeln (Seite {page} von {pageCount})',
+  },
+  article: {
+    by: 'Von',
+    tags: 'Tags',
+    add_favorite: 'Zu Favoriten hinzufügen',
+    remove_favorite: 'Aus Favoriten entfernen',
+    share: 'Teilen',
+    no_cover: 'Kein Titelbild verfügbar',
   },
   faq: {
     title_part1: '',
@@ -309,7 +346,7 @@ export default {
           'Ja, unsere Staff-Augmentation-Dienste sind flexibel gestaltet. Sie können Ihr Team je nach Projektbedarf und Zeitplan einfach hoch- oder herunterskalieren.',
       },
     ],
-  }, // legal: {
+  },
   //   test: legalTranslations.legal.test,
   // },
   contactMail: {

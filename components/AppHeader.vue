@@ -5,30 +5,23 @@
   >
     <header
       v-show="isHeaderReady"
-      class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-10 py-1.5"
+      class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-1.5 gap-4"
       :class="[
         isScrolling ? '-translate-y-full' : 'translate-y-0',
-        // Используем CSS переменные для предотвращения FOUC
         'bg-[var(--header-bg)] text-[var(--header-text)] shadow-[var(--header-shadow)]',
       ]"
     >
-      <div class="xl:container m-auto flex items-center justify-between">
-        <div class="flex items-center gap-8">
-          <img
-            src="/images/logoPic.webp"
-            alt="Logo"
-            class="h-full w-20 cursor-pointer transition-all duration-300 filter-[var(--logo-filter)]"
-            @click="navigateToHome"
-          />
-          <img
-            src="/images/logoText.webp"
-            alt="Logo text"
-            class="h-14 w-full cursor-pointer transition-all duration-300 filter-[var(--logo-filter)]"
-            @click="navigateToHome"
-          />
+      <div class="container m-auto flex items-center justify-between gap-4 lg:gap-8">
+        <div class="flex-shrink-0">
+          <HeaderLogo />
         </div>
 
-        <div class="flex items-center gap-4">
+        <!-- Navigation Section -->
+        <div class="flex-1 md:flex hidden items-center justify-center min-w-0">
+          <HeaderNavigation />
+        </div>
+
+        <div class="flex-shrink-0 flex items-center gap-2 lg:gap-4">
           <!-- Language Dropdown - visible on desktop -->
           <div class="hidden md:block">
             <ClientOnly>
@@ -88,24 +81,26 @@
       class="p-4 w-80 bg-[var(--drawer-bg)]"
     >
       <div class="flex flex-col items-start gap-6">
-        <img
+        <NuxtImg
           src="/images/logoPic.webp"
           alt="Logo"
           class="h-auto w-40 mx-auto cursor-pointer filter-[var(--logo-filter)]"
           @click="navigateToHome"
         />
-        <img
+        <NuxtImg
           src="/images/logoText.webp"
           alt="Logo text"
           class="h-auto w-full cursor-pointer filter-[var(--logo-filter)]"
           @click="navigateToHome"
         />
+        <!-- <HeaderLogo /> -->
 
         <!-- Language Switcher in drawer for mobile -->
         <div class="w-full mt-4">
           <AppLanguageSwitcher />
         </div>
 
+        <HeaderNavigation v-model:visible="visible" />
         <!-- Theme switcher in drawer for mobile -->
         <div class="mt-6 flex justify-center items-center gap-3">
           <span class="text-sm text-[var(--drawer-text)]">{{ $t('header.switchTheme') }}:</span>
@@ -114,6 +109,8 @@
             className=""
           />
         </div>
+        <!-- <div class="flex-1 flex items-center justify-center min-w-[300px] h-[300px]"> -->
+        <!-- </div> -->
 
         <div class="mt-4 flex w-full justify-center">
           <AppButton
@@ -135,6 +132,8 @@ import AppButton from '@/components/UI/AppButton.vue';
 import AppIcon from '@/components/UI/AppIcon.vue';
 import AppThemeSwitcher from '@/components/UI/AppThemeSwitcher.vue';
 import AppLanguageSwitcher from '@/components/UI/AppLanguageSwitcher.vue';
+import HeaderLogo from '@/components/UI/HeaderLogo.vue';
+import HeaderNavigation from '@/components/UI/HeaderNavigation.vue';
 import { ref, onMounted, onUnmounted, nextTick, computed } from 'vue';
 import Drawer from 'primevue/drawer';
 import { useI18n } from 'vue-i18n';

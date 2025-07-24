@@ -1,10 +1,12 @@
 import 'tsconfig-paths/register';
 import type { Config } from 'tailwindcss';
 import PrimeUI from 'tailwindcss-primeui';
-import { tailwindColors } from '@/assets/theme/shared-colors';
+import { tailwindColors } from './assets/theme/shared-colors';
+// import { tailwindColors } from '@/assets/theme/shared-colors';
 
 export default {
   content: [
+    // '.',
     './components/**/*.{vue,js,ts}',
     './layouts/**/*.vue',
     './pages/**/*.vue',

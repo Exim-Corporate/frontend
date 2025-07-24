@@ -26,7 +26,7 @@ const emailStyles = {
   outerContainer:
     'width: 100%; max-width: 600px; margin: auto; background-color: #f3f4f6; padding: 20px 0; min-height: 100vh; display: table; table-layout: fixed;',
   // Main email wrapper for proper centering
-  emailWrapper: 'display: table-cell; vertical-align: top; text-align: center; padding: 20px;',
+  emailWrapper: 'vertical-align: top; text-align: center; padding: 20px;',
   // Inner container with max width and centering
   container:
     'font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #333333; max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; text-align: left; display: inline-block; width: 100%;',

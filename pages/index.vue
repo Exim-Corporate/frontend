@@ -28,7 +28,36 @@ useSeoMeta({
   keywords:
     'IT staffing, remote developers, software development, tech talent, outsourcing, developers, engineers, QA, designers, pre-vetted talent',
   robots: 'index, follow',
+
+  // Schema.org данные
+  // 'application-name': 'AS Exim',
+  // 'msapplication-TileColor': '#2563eb',
+  // 'theme-color': '#2563eb',
 });
+
+// Structured Data для лучшего SEO
+// useSchemaOrg([
+//   defineOrganization({
+//     name: 'AS Exim',
+//     logo: '/images/logoPic.webp',
+//     url: 'https://your-domain.com', // Замените на ваш домен
+//     description:
+//       'Your trusted partner for custom software development solutions. We provide pre-vetted developers, designers, and QA engineers.',
+//     address: {
+//       streetAddress: 'Griva Digeni 49, CHRYSTALLA COURT, 5th floor, Flat/Office 51',
+//       addressLocality: 'Larnaca',
+//       addressCountry: 'Cyprus',
+//       postalCode: '6036',
+//     },
+//     contactPoint: {
+//       telephone: '+357-your-phone', // Добавьте ваш телефон
+//       contactType: 'customer service',
+//     },
+//     sameAs: ['https://linkedin.com/company/outsource-tech', 'https://t.me/OutsourceTechSupport'],
+//     serviceType: 'IT Staffing and Software Development Services',
+//     areaServed: 'Worldwide',
+//   }),
+// ]);
 
 // Nuxt auto-imports components
 </script>

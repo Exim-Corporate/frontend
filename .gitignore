@@ -5,6 +5,7 @@
 .nitro
 .cache
 .vercel
+.amplify-hosting
 dist
 
 # Node dependencies

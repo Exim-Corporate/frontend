@@ -8,4 +8,6 @@
     },
     "types": ["@nuxtjs/i18n"]
   }
+  // "include": ["."],
+  // "exclude": ["node_modules"]
 }

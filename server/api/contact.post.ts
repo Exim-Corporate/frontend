@@ -16,9 +16,9 @@ import es from '../../i18n/locales/es';
 import { getQuery } from 'h3';
 import {
   generatePlainTextEmail,
-  type ContactData,
   // type TranslationFunction,
 } from '../utils/emailRenderer';
+import type { ContactData } from '../utils/emailRenderer';
 
 /**
  * Resolves a translation key (dot notation) for a given locale object.

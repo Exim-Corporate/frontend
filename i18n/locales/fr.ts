@@ -1,4 +1,39 @@
 export default {
+  navigation: {
+    blog: 'Blog',
+    home: 'Accueil',
+    about: 'À propos',
+    services: 'Services',
+    contact: 'Contact',
+  },
+  blog: {
+    title: 'Notre Blog',
+    description: 'Dernières nouvelles et articles de notre équipe.',
+    loading: 'Chargement des articles...',
+    loading_article: "Chargement de l'article...",
+    no_articles: 'Aucun article trouvé.',
+    error_loading: 'Échec du chargement des articles. Veuillez réessayer plus tard.',
+    read_more: 'Lire la suite',
+    read_more_aria: 'En savoir plus sur',
+    article_not_found: 'Article non trouvé',
+    back_to_blog: 'Retour au Blog',
+    add_to_favorites: 'Ajouter aux favoris',
+    remove_from_favorites: 'Retirer des favoris',
+    share: 'Partager',
+    link_copied: 'Lien copié dans le presse-papiers',
+    added_to_favorites: 'Article ajouté aux favoris',
+    removed_from_favorites: 'Article retiré des favoris',
+    pagination_report:
+      'Affichage de {first} à {last} sur {total} articles (Page {page} sur {pageCount})',
+  },
+  article: {
+    by: 'Par',
+    tags: 'Étiquettes',
+    add_favorite: 'Ajouter aux favoris',
+    remove_favorite: 'Retirer des favoris',
+    share: 'Partager',
+    no_cover: 'Aucune image de couverture disponible',
+  },
   meta: {
     description:
       'Outsource Tech - Votre partenaire de confiance pour des solutions de développement logiciel personnalisées.',
@@ -197,6 +232,7 @@ export default {
       country_required: 'Le pays est requis',
       roles_required: 'Veuillez sélectionner au moins un rôle',
       message_required: 'Les exigences du projet sont requises',
+      privacy_policy_required: 'Vous devez accepter la politique de confidentialité',
     },
     labels: {
       optional: 'facultatif',
@@ -278,7 +314,7 @@ export default {
       services: 'Services demandés',
       technologies: 'Technologies',
       message: 'Exigences du projet',
-      regards: "Cordialement,\\nL'équipe AS Exim LTD",
+      regards: "Cordialement,\nL'équipe AS Exim LTD",
       replyButton: 'Répondre au client',
       priority: 'Haute priorité - Veuillez répondre dans les 24 heures',
       footerText: 'Ceci est une notification automatisée.',

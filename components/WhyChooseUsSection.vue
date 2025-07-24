@@ -1,5 +1,8 @@
 <template>
-  <section class="pb-20 overflow-hidden section-header">
+  <section
+    id="about"
+    class="pb-20 overflow-hidden section-header"
+  >
     <div class="container">
       <!-- Section Header -->
       <div

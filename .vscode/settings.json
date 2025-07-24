@@ -13,5 +13,18 @@
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  // Явно указываем, что это не VitePress или Petite-Vue проект,
+  // чтобы избежать конфликтов в плагине Volar.
+  "vue.server.vitePress.support": false,
+  "vue.server.petiteVue.support": false,
+  "vue.server.additionalProjects": ["../tsconfig.json"],
+  // "vue.server.additionalProjects": ["./apps/frontend/tsconfig.json"],
+
+  // Помогает редактору правильно ассоциировать файлы
+  "files.associations": {
+    "*.vue": "vue"
   }
 }

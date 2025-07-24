@@ -96,6 +96,6 @@ const borderColorClass = computed(() => {
 
 <style scoped>
 .testimonial-card {
-  backdrop-filter: blur(8px);
+  /* backdrop-filter: blur(8px); */
 }
 </style>

@@ -1,5 +1,8 @@
 <template>
-  <section class="services-section py-24 relative overflow-hidden">
+  <section
+    id="services"
+    class="services-section py-24 relative overflow-hidden"
+  >
     <!-- Gradient Background -->
     <div class="absolute inset-0 bg-indigo-gradient" />
 

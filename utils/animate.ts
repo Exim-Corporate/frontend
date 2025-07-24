@@ -9,7 +9,7 @@ export interface AnimateOptions {
 export function animateValue(
   target: number,
   update: (val: number) => void,
-  options: AnimateOptions = {}
+  options: AnimateOptions = {},
 ): void {
   const { baseDelay = 20, maxDelay = 300 } = options;
   const largeStep = Math.max(1, Math.ceil(target * 0.01));

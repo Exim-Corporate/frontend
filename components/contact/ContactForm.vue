@@ -4,7 +4,6 @@
     data-aos-duration="500"
     class="max-w-4xl mx-auto bg-white dark:bg-navy-blue/80 shadow-xl rounded-2xl p-6 md:p-10 backdrop-blur-sm"
   >
-    <Toast position="bottom-right" />
     <form @submit.prevent="submitForm">
       <!-- Left column -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
@@ -149,7 +148,6 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted } from 'vue';
-import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { useVuelidate } from '@vuelidate/core';
 import { required, email, helpers } from '@vuelidate/validators';

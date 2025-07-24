@@ -1,21 +1,56 @@
 // import legalTranslations from './legal-en';
 
 export default {
+  navigation: {
+    blog: 'Blog',
+    home: 'Inicio',
+    about: 'Acerca de',
+    services: 'Servicios',
+    contact: 'Contacto',
+  },
+  blog: {
+    title: 'Nuestro Blog',
+    description: 'Últimas noticias y artículos de nuestro equipo.',
+    loading: 'Cargando artículos...',
+    loading_article: 'Cargando artículo...',
+    no_articles: 'No se han encontrado artículos.',
+    error_loading: 'Error al cargar los artículos. Por favor, inténtelo de nuevo más tarde.',
+    read_more: 'Leer más',
+    read_more_aria: 'Leer más sobre',
+    article_not_found: 'Artículo no encontrado',
+    back_to_blog: 'Volver al Blog',
+    add_to_favorites: 'Añadir a favoritos',
+    remove_from_favorites: 'Quitar de favoritos',
+    share: 'Compartir',
+    link_copied: 'Enlace copiado al portapapeles',
+    added_to_favorites: 'Artículo añadido a favoritos',
+    removed_from_favorites: 'Artículo eliminado de favoritos',
+    pagination_report:
+      'Mostrando {first} a {last} de {total} artículos (Página {page} de {pageCount})',
+  },
+  article: {
+    by: 'Por',
+    tags: 'Etiquetas',
+    add_favorite: 'Añadir a favoritos',
+    remove_favorite: 'Quitar de favoritos',
+    share: 'Compartir',
+    no_cover: 'Imagen de portada no disponible',
+  },
   meta: {
     description:
       'Outsource Tech - Su socio de confianza para soluciones de desarrollo de software personalizadas. Conéctese con talento tecnológico de primer nivel para las necesidades de su negocio.',
   },
   header: {
-    contactUs: 'Contáctenos',
+    contactUs: 'Contáctanos',
     switchTheme: 'Cambiar tema',
     language: 'Cambiar idioma',
   },
   hero: {
-    title1: 'Construya más rápido, más inteligente, mejor',
+    title1: 'Construye más rápido, más inteligente, mejor',
     title2: 'Con nuestros expertos ',
     title3: 'desarrolladores e ingenieros',
     subtitle:
-      'Ya sea que necesite un solo especialista o un equipo remoto completo, ofrecemos desarrolladores, diseñadores e ingenieros de control de calidad previamente evaluados, listos para integrarse en sus proyectos bajo demanda.',
+      'Ya sea que necesites un solo especialista o un equipo remoto completo, ofrecemos desarrolladores, diseñadores e ingenieros de control de calidad previamente evaluados, listos para integrarse en tus',
     primaryButton: 'Solicitar talento ahora',
     secondaryButton: 'Contáctenos',
   },
@@ -195,6 +230,11 @@ export default {
   contact: {
     title: 'Hablemos sobre sus',
     subtitle: 'necesidades de talento',
+    email: 'Introduce tu correo electrónico',
+    company: 'Nombre de la empresa',
+    country: 'País',
+    roles: '¿Qué perfiles estás buscando?',
+    message: 'Requisitos del proyecto',
     description:
       'Envíenos un breve resumen: le responderemos con una lista de candidatos en 48 horas.',
     name: 'Introduzca su nombre',
@@ -227,6 +267,7 @@ export default {
       country_required: 'El país es obligatorio. Elija de la lista',
       roles_required: 'Por favor, seleccione al menos un rol',
       message_required: 'Los requisitos del proyecto son obligatorios',
+      privacy_policy_required: 'Debe aceptar la política de privacidad',
     },
 
     // Form labels
