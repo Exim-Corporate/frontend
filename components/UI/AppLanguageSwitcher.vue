@@ -5,6 +5,7 @@
       :options="locales"
       optionLabel="name"
       optionValue="code"
+      trigger="{hide:true}"
       class="language-selector"
       @change="switchLanguage($event.value)"
     >
@@ -68,15 +69,26 @@ function getFlagIconName(code: string): string {
 }
 </script>
 
-<style scoped>
+<style>
 .language-selector {
-  min-width: 100px;
   background-color: transparent;
+  border: transparent;
+}
+.p-select {
+  box-shadow: none !important;
 }
 .language-selector:hover {
   background-color: transparent;
 }
 .language-selector:hover .dark {
   background-color: transparent;
+}
+.p-select-dropdown {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+.p-dropdown-trigger {
+  display: none !important;
 }
 </style>

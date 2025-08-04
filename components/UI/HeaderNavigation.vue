@@ -75,7 +75,7 @@ async function handleNavClick(to: string, event: MouseEvent): Promise<void> {
       v-for="item in navItems"
       :key="item.to"
       :to="item.to"
-      class="text-gray-300 hover:text-accent transition-colors cursor-pointer whitespace-nowrap"
+      class="dark:text-gray-300 text-dark hover:text-accent transition-colors cursor-pointer whitespace-nowrap"
       :class="{
         // 'bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent-hover'
         // 'text-gray-700 dark:text-gray-200 hover:bg-accent/10 hover:text-accent': !isActive(item.to),

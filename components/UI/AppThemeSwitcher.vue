@@ -86,7 +86,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style>
 .sr-only {
   position: absolute;
   width: 1px;
@@ -98,4 +98,45 @@ onMounted(() => {
   white-space: nowrap;
   border-width: 0;
 }
+.p-toggleswitch-slider {
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.p-toggleswitch-slider:hover {
+  background: transparent !important;
+}
+/* @keyframes rotateIn {
+  from {
+    transform: rotateX(180deg);
+    opacity: 0;
+  }
+  to {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes rotateOut {
+  from {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: rotateX(180deg);
+    opacity: 0;
+  }
+}
+.icon-rotate-in {
+  animation: rotateIn 0.5s ease-in-out;
+}
+
+.icon-rotate-out {
+  animation: rotateOut 0.5s ease-in-out;
+} */
+
+/* .theme-switcher-container {
+  width: 2.5rem;
+  height: 2.5rem; 
+} */
 </style>

@@ -1,14 +1,14 @@
 <template>
-  <div class="flex flex-col items-center w-full mb-10">
+  <div class="flex flex-col items-center w-full my-10">
     <Paginator
       :rows="pageSize"
       :totalRecords="totalItems"
       :first="(currentPage - 1) * pageSize"
       template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
-      class="mb-2"
+      class="mb-2 bg-transparent border-none shadow-none"
       @page="onPageChange"
     />
-    <div class="text-sm text-gray-400 mt-2">
+    <div class="text-sm text-gray-300 mt-2">
       {{
         $t('blog.pagination_report', {
           first: (currentPage - 1) * pageSize + 1,
@@ -45,3 +45,11 @@ function onPageChange(event: { first: number; rows: number; page: number; pageCo
   emit('page-change', event.page + 1);
 }
 </script>
+
+<style>
+.p-paginator {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+</style>
