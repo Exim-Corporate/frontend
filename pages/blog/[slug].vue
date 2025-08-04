@@ -45,14 +45,14 @@ import ArticleFooter from '@/components/blog/ArticleFooter.vue';
 import ArticleState from '@/components/blog/ArticleState.vue';
 
 // Composables
-const { fetchArticleBySlug, fetchArticleById } = useStrapiData();
+const { fetchArticleBySlug } = useStrapiData();
 const route = useRoute();
 const { locale } = useI18n();
 
 // Get slug from route params and documentId from query
 const slug = computed(() => route.params.slug as string);
 const documentId = computed(() => route.query.id as string | undefined);
-
+console.log('slug', slug);
 // Fetch article data
 const {
   data: article,
@@ -60,12 +60,7 @@ const {
   error,
 } = useLazyAsyncData(
   `article-${documentId.value || slug.value}-${locale.value}`,
-  async () => {
-    if (documentId.value) {
-      return await fetchArticleById(documentId.value, locale.value);
-    }
-    return await fetchArticleBySlug(slug.value, locale.value);
-  },
+  async () => await fetchArticleBySlug(slug.value, locale.value),
   {
     default: () => null,
     watch: [locale, slug, documentId],

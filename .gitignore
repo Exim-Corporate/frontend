@@ -27,3 +27,6 @@ logs
 .vercel/output/static/terms/index.html
 
 .vercel
+
+# Ignore compiled JavaScript files
+*.js

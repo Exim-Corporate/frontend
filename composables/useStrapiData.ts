@@ -66,15 +66,24 @@ export const useStrapiData = () => {
     slug: string,
     locale?: string,
   ): Promise<StrapiArticle | null> => {
-    console.log('fetchArticleBySlug called with:', { slug, locale });
-
     const params: QueryParams = {
-      filters: {
-        slug: { $eq: slug },
-        publishedAt: { $notNull: true },
+      populate: {
+        categories: {
+          slug: { $eq: slug },
+          fields: ['id', 'name'],
+        },
+        cover: {
+          fields: ['url', 'alternativeText', 'caption'],
+        },
+        authors: {
+          fields: ['name', 'position', 'bio'],
+          populate: {
+            avatar: {
+              fields: ['url', 'alternativeText'],
+            },
+          },
+        },
       },
-      populate: ['authors', 'categories'],
-      // populate: '*', // Получаем все связанные данные
       locale,
     };
 
@@ -82,13 +91,13 @@ export const useStrapiData = () => {
       encodeValuesOnly: true,
     });
 
-    const url = `${strapiUrl}/api/articles?${query}`;
+    const url = `${strapiUrl}/api/articles/${slug}?${query}`;
 
     try {
-      const response = await $fetch<StrapiResponse<StrapiArticle[]>>(url, {
+      const response = await $fetch<StrapiResponse<StrapiArticle>>(url, {
         headers: getHeaders(),
       });
-      return response?.data?.[0] || null;
+      return response?.data || null;
     } catch (error) {
       console.error('Error fetching article by slug:', error);
       return null;
