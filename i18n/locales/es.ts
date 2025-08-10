@@ -7,6 +7,7 @@ export default {
     about: 'Acerca de',
     services: 'Servicios',
     contact: 'Contacto',
+    faq: 'FAQ',
   },
   blog: {
     title: 'Nuestro Blog',

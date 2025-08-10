@@ -1,5 +1,8 @@
 <template>
-  <section class="py-20 overflow-hidden section-header">
+  <section
+    id="faq"
+    class="py-20 overflow-hidden section-header"
+  >
     <div class="container">
       <!-- Section Header -->
       <div

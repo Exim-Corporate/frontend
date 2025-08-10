@@ -67,6 +67,7 @@ export const useStrapiData = () => {
     locale?: string,
   ): Promise<StrapiArticle | null> => {
     const params: QueryParams = {
+      // populate: '*',
       populate: {
         categories: {
           slug: { $eq: slug },

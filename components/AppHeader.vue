@@ -22,6 +22,18 @@
         </div>
 
         <div class="flex-shrink-0 flex items-center gap-2 lg:gap-4">
+          <!-- Theme switcher - visible only on desktop -->
+          <ClientOnly>
+            <AppThemeSwitcher
+              size="medium"
+              className="hidden md:block"
+            />
+            <template #fallback>
+              <div
+                class="hidden md:block w-12 h-6 bg-[var(--skeleton-bg)] rounded-full animate-pulse"
+              />
+            </template>
+          </ClientOnly>
           <!-- Language Dropdown - visible on desktop -->
           <div class="hidden md:block">
             <ClientOnly>
@@ -45,19 +57,6 @@
               :color="'currentColor'"
             />
           </button>
-
-          <!-- Theme switcher - visible only on desktop -->
-          <ClientOnly>
-            <AppThemeSwitcher
-              size="medium"
-              className="hidden md:block"
-            />
-            <template #fallback>
-              <div
-                class="hidden md:block w-12 h-6 bg-[var(--skeleton-bg)] rounded-full animate-pulse"
-              />
-            </template>
-          </ClientOnly>
 
           <AppButton
             class="hidden md:block"

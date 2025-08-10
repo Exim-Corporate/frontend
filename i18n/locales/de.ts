@@ -16,6 +16,7 @@ export default {
     about: 'Über uns',
     services: 'Dienstleistungen',
     contact: 'Kontakt',
+    faq: 'FAQ',
   },
   hero: {
     title1: 'Schneller, intelligenter, besser bauen',

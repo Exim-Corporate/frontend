@@ -97,7 +97,7 @@ export default defineNuxtConfig({
       to: process.env.GMAIL_TO,
     },
     public: {
-      strapiUrl: process.env.STRAPI_URL || 'http://localhost:1337',
+      strapiUrl: process.env.STRAPI_URL || 'https://strapi-production-3c8f.up.railway.app',
       strapiToken: process.env.STRAPI_TOKEN, // Exposed to client for read-only fetching
       privacyEmail: process.env.NUXT_PUBLIC_PRIVACY_EMAIL,
       contactEmail: process.env.NUXT_PUBLIC_CONTACT_EMAIL,
@@ -108,8 +108,8 @@ export default defineNuxtConfig({
 
   sitemap: {
     // siteUrl removed to satisfy types; will fall back to runtime detection or can be set via NUXT_PUBLIC_SITE_URL
-  // @ts-expect-error 'routes' option provided by module runtime but not typed in current version
-  async routes() {
+    // @ts-expect-error 'routes' option provided by module runtime but not typed in current version
+    async routes() {
       // Fetch all articles from Strapi for sitemap
       const res = await fetch(`${process.env.STRAPI_URL}/api/articles?pagination[pageSize]=1000`);
       const data = await res.json();

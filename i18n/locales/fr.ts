@@ -5,6 +5,7 @@ export default {
     about: 'À propos',
     services: 'Services',
     contact: 'Contact',
+    faq: 'FAQ',
   },
   blog: {
     title: 'Notre Blog',

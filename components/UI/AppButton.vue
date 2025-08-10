@@ -41,8 +41,8 @@ const handleClick = (event: Event) => {
     if (contactSection) {
       if (visible.value) visible.value = false; // close drawer if bound
       contactSection.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
+        // behavior: 'smooth',
+        block: 'center',
       });
     }
   }
