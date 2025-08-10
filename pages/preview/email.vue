@@ -153,7 +153,7 @@
 </template>
 
 <script setup lang="ts">
-import type { EmailPreviewResponse, EmailTemplateType, EmailLocale } from '~/types/email-preview';
+import type { EmailPreviewResponse, EmailTemplateType, EmailLocale } from '@/types/email-preview';
 
 /** Page metadata */
 definePageMeta({

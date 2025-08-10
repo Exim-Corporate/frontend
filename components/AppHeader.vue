@@ -133,13 +133,13 @@ import AppIcon from '@/components/UI/AppIcon.vue';
 import AppThemeSwitcher from '@/components/UI/AppThemeSwitcher.vue';
 import AppLanguageSwitcher from '@/components/UI/AppLanguageSwitcher.vue';
 import HeaderLogo from '@/components/UI/HeaderLogo.vue';
+import { useNavigateHome } from '@/composables/useNavigateHome';
 import HeaderNavigation from '@/components/UI/HeaderNavigation.vue';
 import { ref, onMounted, onUnmounted, nextTick, computed } from 'vue';
 import Drawer from 'primevue/drawer';
-import { useI18n } from 'vue-i18n';
+// import { useI18n } from 'vue-i18n';
 
-const { locale } = useI18n();
-const router = useRouter();
+// locale & router handled inside useNavigateHome composable now
 
 const isScrolling = ref(false);
 const visible = ref(false);
@@ -217,29 +217,9 @@ function handleScroll(): void {
   lastScrollTop = scrollTop;
 }
 
-// Function to navigate to home page according to current language
-function navigateToHome(): void {
-  // Close mobile drawer if open
-  if (visible.value) {
-    visible.value = false;
-  }
-  const route = locale.value === 'en' ? '/' : `/${locale.value}`;
-  // Use router to navigate to the root path, which will respect the current language
-  router.push(route);
-  scrollToTop(); // Scroll to top after navigation
-}
-
-// Function to scroll to the top of the page
-function scrollToTop(): void {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  });
-  // Close mobile drawer if open
-  if (visible.value) {
-    visible.value = false;
-  }
-}
+// Navigation helpers (DRY)
+// scrollToTop currently unused here but returned for possible future use
+const { navigateToHome, scrollToTop: _scrollToTop } = useNavigateHome({ visibleRef: visible });
 
 onMounted(async () => {
   // Добавляем обработчик скролла

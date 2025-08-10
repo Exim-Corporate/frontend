@@ -24,7 +24,6 @@
 
 <script setup lang="ts">
 import Paginator from 'primevue/paginator';
-import { defineProps, defineEmits } from 'vue';
 
 interface Props {
   currentPage: number;

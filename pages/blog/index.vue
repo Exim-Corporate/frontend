@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
+import { useRouter } from 'nuxt/app';
 import { ref, computed } from 'vue';
 import { useStrapiData } from '@/composables/useStrapiData';
 // import type { StrapiResponse, StrapiArticle } from '../../types/strapi';

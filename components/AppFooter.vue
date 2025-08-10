@@ -91,7 +91,8 @@
 <script setup lang="ts">
 import AppIcon from '@/components/UI/AppIcon.vue';
 import FooterLink from '@/components/UI/FooterLink.vue';
-import { useRuntimeConfig, navigateTo } from 'nuxt/app';
+import { useRuntimeConfig } from 'nuxt/app';
+import { useNavigateHome } from '@/composables/useNavigateHome';
 // import { navigateTo } from 'nuxt';
 import { defineComponent, h } from 'vue';
 
@@ -164,8 +165,6 @@ const legalLinks = [
   { to: '/cookie-policy', label: 'Cookie Policy' },
 ];
 
-// Function to navigate to home page according to current language
-function navigateToHome(): void {
-  navigateTo('/');
-}
+// Use shared navigation composable
+const { navigateToHome } = useNavigateHome();
 </script>

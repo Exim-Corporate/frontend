@@ -33,7 +33,7 @@
     >
       {{ article.description }}
     </div>
-    <div class="border-t border-gray-300 dark:border-gray-600"></div>
+  <div class="border-t border-gray-300 dark:border-gray-600" />
 
     <!-- Actions Bar -->
     <div class="flex items-center justify-between py-4 mb-6">
@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
+import { useRouter } from 'nuxt/app';
 
 import type { StrapiArticle } from '@/types/strapi';
 import BlogButton from '@/components/UI/blog/BlogButton.vue';

@@ -14,5 +14,8 @@
     />
   </div>
 </template>
-<script setup></script>
+<script setup lang="ts">
+import { useNavigateHome } from '@/composables/useNavigateHome';
+const { navigateToHome } = useNavigateHome();
+</script>
 <style lang=""></style>

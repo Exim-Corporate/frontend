@@ -1,5 +1,8 @@
 <template>
-  <div v-if="tags && tags.length > 0" class="py-6">
+  <div
+    v-if="tags && tags.length > 0"
+    class="py-6"
+  >
     <div class="text-sm text-gray-600 dark:text-gray-400 mb-3">{{ $t('article.tags') }}</div>
     <div class="flex flex-wrap gap-2">
       <span
@@ -14,9 +17,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Tag } from '@/types/strapi';
+import type { StrapiTag } from '@/types/strapi';
 
 defineProps<{
-  tags: Tag[] | null;
+  tags: StrapiTag[] | null;
 }>();
 </script>
