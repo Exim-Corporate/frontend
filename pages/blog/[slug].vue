@@ -76,7 +76,8 @@ if (article && article.value) {
     typeof rawImage === 'string' && rawImage.startsWith('http')
       ? rawImage
       : new URL(String(rawImage), String(siteBase)).href;
-  const ogUrl = new URL(String(route.path), String(siteBase)).href;
+  // Use fullPath (path + query/hash) so the OG url includes the article slug during SSR
+  const ogUrl = new URL(String(route.fullPath || route.path || '/'), String(siteBase)).href;
 
   useSEO({
     title: newArticle.title,
