@@ -28,16 +28,22 @@ import BlogButton from '@/components/UI/blog/BlogButton.vue';
 import { useI18n } from 'vue-i18n';
 import { copyArticleLink } from '@/utils/articleUtils';
 import { useToastMessage } from '@/composables/useToast';
+import { useRuntimeConfig, useRoute } from '#imports';
 
 const { showSuccess } = useToastMessage();
 
 const { t } = useI18n();
 
+const runtime = useRuntimeConfig();
+const route = useRoute();
+
+// Canonical page URL: prefer window.location on client, fallback to siteUrl + route.path on server
 const pageUrl = computed(() => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== 'undefined' && window.location?.href) {
     return window.location.href;
   }
-  return '';
+  const base = runtime.public.siteUrl || runtime.public.strapiUrl || 'https://www.exim.eu.com';
+  return new URL(String(route.path || '/'), String(base)).href;
 });
 
 function copyLink() {
@@ -53,23 +59,33 @@ const shareActions = computed(() => [
     icon: 'pi pi-facebook',
     ariaLabel: t('article.share') + ' Facebook',
     severity: 'secondary',
-    onClick: () =>
-      window.open(`https://www.facebook.com/sharer/sharer.php?u=${pageUrl.value}`, '_blank'),
+    onClick: () => {
+      const u = encodeURIComponent(pageUrl.value);
+      const w = window.open(`https://www.facebook.com/sharer/sharer.php?u=${u}`, '_blank');
+      if (w) w.opener = null;
+    },
   },
   {
     key: 'x',
     icon: 'pi pi-twitter', // используйте подходящий icon для X
     ariaLabel: t('article.share') + ' X',
     severity: 'secondary',
-    onClick: () => window.open(`https://x.com/share?url=${pageUrl.value}`, '_blank'),
+    onClick: () => {
+      const u = encodeURIComponent(pageUrl.value);
+      const w = window.open(`https://x.com/share?url=${u}`, '_blank');
+      if (w) w.opener = null;
+    },
   },
   {
     key: 'linkedin',
     icon: 'pi pi-linkedin',
     ariaLabel: t('article.share') + ' LinkedIn',
     severity: 'secondary',
-    onClick: () =>
-      window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${pageUrl.value}`, '_blank'),
+    onClick: () => {
+      const u = encodeURIComponent(pageUrl.value);
+      const w = window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${u}`, '_blank');
+      if (w) w.opener = null;
+    },
   },
   {
     key: 'copy',
