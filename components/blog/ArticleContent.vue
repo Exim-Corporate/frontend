@@ -48,4 +48,22 @@ const renderedContent = computed(() => {
 .article-content ::v-deep a:hover {
   opacity: 0.9;
 }
+
+/* Paragraph spacing: ensure paragraphs from markdown keep vertical rhythm even if global reset removed p margins */
+.article-content ::v-deep p {
+  margin: 0 0 1rem;
+  line-height: 1.7;
+}
+
+/* Headings spacing */
+.article-content ::v-deep h1,
+.article-content ::v-deep h2,
+.article-content ::v-deep h3,
+.article-content ::v-deep h4,
+.article-content ::v-deep h5,
+.article-content ::v-deep h6 {
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
 </style>
