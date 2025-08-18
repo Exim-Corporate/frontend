@@ -97,6 +97,8 @@ export default defineNuxtConfig({
       to: process.env.GMAIL_TO,
     },
     public: {
+      // Public site URL for constructing absolute OG links (used by useSEO)
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://www.exim.eu.com',
       strapiUrl: process.env.STRAPI_URL || 'https://strapi-production-3c8f.up.railway.app',
       strapiToken: process.env.STRAPI_TOKEN, // Exposed to client for read-only fetching
       privacyEmail: process.env.NUXT_PUBLIC_PRIVACY_EMAIL,

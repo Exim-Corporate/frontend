@@ -20,7 +20,7 @@ export const useSEO = (config: SEOConfig = {}) => {
   const {
     title = 'AS Exim - Expert IT Staffing & Remote Developers',
     description = 'Your trusted partner for custom software development solutions. Connect with top-tier tech talent - pre-vetted developers, designers, and QA engineers ready for your projects.',
-    image = '/images/logoPic.webp',
+    image = '/logo.png',
     imageAlt = 'AS Exim - Expert IT Developers & Engineers',
     url,
     type = 'website',
@@ -30,9 +30,15 @@ export const useSEO = (config: SEOConfig = {}) => {
     // twitterHandle = '@outsource_tech',
   } = config;
 
-  // Получаем текущий URL, если не передан
+  // Получаем текущий URL и сайт базовый URL из runtimeConfig
   const route = useRoute();
-  const currentUrl = url || `https://www.exim.eu.com/${route.path}`; // Замените на ваш домен
+  const runtime = useRuntimeConfig();
+  const siteBase = runtime.public.siteUrl || runtime.public.strapiUrl || 'https://www.exim.eu.com';
+  const currentUrl = url || new URL(String(route.path || '/'), String(siteBase)).href;
+
+  // Resolve image to absolute URL
+  const resolvedImage =
+    image && image.startsWith('http') ? image : new URL(String(image), String(siteBase)).href;
 
   // Устанавливаем SEO мета-теги
   useSeoMeta({
@@ -42,7 +48,7 @@ export const useSEO = (config: SEOConfig = {}) => {
     // Open Graph теги
     ogTitle: title,
     ogDescription: description,
-    ogImage: image,
+    ogImage: resolvedImage,
     ogImageAlt: imageAlt,
     ogType: type,
     ogUrl: currentUrl,

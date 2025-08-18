@@ -49,38 +49,41 @@ const { fetchArticleBySlug } = useStrapiData();
 const route = useRoute();
 const { locale } = useI18n();
 
-// Get slug from route params and documentId from query
+// Get slug from route params
 const slug = computed(() => route.params.slug as string);
-const documentId = computed(() => route.query.id as string | undefined);
 console.log('slug', slug);
-// Fetch article data
+
+// Fetch article data on the server (useAsyncData so meta can be set during SSR)
 const {
   data: article,
   pending,
   error,
-} = useLazyAsyncData(
-  `article-${documentId.value || slug.value}-${locale.value}`,
-  async () => await fetchArticleBySlug(slug.value, locale.value),
-  {
-    default: () => null,
-    watch: [locale, slug, documentId],
-  },
+} = await useAsyncData(
+  `article-${slug.value}-${locale.value}`,
+  () => fetchArticleBySlug(slug.value, locale.value),
+  { default: () => null },
 );
-// SEO Meta
-watch(
-  article,
-  newArticle => {
-    if (newArticle) {
-      useSeoMeta({
-        title: newArticle.title,
-        description: newArticle.description || '',
-        ogTitle: newArticle.title,
-        ogDescription: newArticle.description || '',
-        ogImage: newArticle.cover?.url,
-        twitterCard: 'summary_large_image',
-      });
-    }
-  },
-  { immediate: true },
-);
+
+// Build SEO meta when article is available (this runs during SSR because useAsyncData resolved)
+const config = useRuntimeConfig();
+const siteBase = config.public.siteUrl || config.public.strapiUrl || 'https://www.exim.eu.com';
+
+if (article && article.value) {
+  const newArticle = article.value;
+  // Ensure ogImage is an absolute URL; fall back to a site-level og-image
+  const rawImage = (newArticle.cover?.url as unknown as string) || '/images/og-image.jpg';
+  const ogImage =
+    typeof rawImage === 'string' && rawImage.startsWith('http')
+      ? rawImage
+      : new URL(String(rawImage), String(siteBase)).href;
+  const ogUrl = new URL(String(route.path), String(siteBase)).href;
+
+  useSEO({
+    title: newArticle.title,
+    description: newArticle.description || '',
+    image: ogImage,
+    url: ogUrl,
+    type: 'article',
+  });
+}
 </script>

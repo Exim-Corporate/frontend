@@ -25,12 +25,11 @@ const coverUrl = computed(() => {
   return `${config.public.strapiUrl}${url}`;
 });
 
-// Вычисляемое свойство для создания ссылки с documentId
+// Вычисляемое свойство для создания ссылки на статью (используем только slug)
 const articleLink = computed(() => {
   return {
     name: 'blog-slug___' + locale.value,
     params: { slug: props.article.slug },
-    query: { id: props.article.documentId },
   };
 });
 
@@ -59,7 +58,7 @@ const formattedDate = computed(() => {
       v-else
       class="w-full h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center"
     >
-      <i class="pi pi-image text-4xl text-gray-400"></i>
+      <i class="pi pi-image text-4xl text-gray-400" />
     </div>
 
     <div class="p-4 flex flex-col flex-grow">
