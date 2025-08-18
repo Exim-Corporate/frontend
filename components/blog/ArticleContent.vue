@@ -1,6 +1,7 @@
 <template>
   <div
     v-if="renderedContent"
+    class="article-content"
     v-html="renderedContent"
   />
   <p
@@ -20,8 +21,13 @@ import type { StrapiArticle } from '@/types/strapi';
 const props = defineProps<{
   content: StrapiArticle['content'] | null;
 }>();
-
-const md = new MarkdownIt();
+console.log('ArticleContent props:', props.content);
+const md = new MarkdownIt({
+  html: true,
+  linkify: true,
+  typographer: true,
+  // breaks: true,
+});
 
 const renderedContent = computed(() => {
   if (props.content && typeof props.content === 'string') {
@@ -32,3 +38,14 @@ const renderedContent = computed(() => {
   return '';
 });
 </script>
+
+<style scoped>
+/* Ensure links inside rendered markdown (v-html) look like links - use deep selector */
+.article-content ::v-deep a {
+  color: var(--accent, #2563eb);
+  text-decoration: underline;
+}
+.article-content ::v-deep a:hover {
+  opacity: 0.9;
+}
+</style>
