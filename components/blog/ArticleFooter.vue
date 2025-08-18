@@ -37,13 +37,15 @@ const { t } = useI18n();
 const runtime = useRuntimeConfig();
 const route = useRoute();
 
-// Canonical page URL: prefer window.location on client, fallback to siteUrl + route.path on server
+// Canonical page URL: prefer window.location on client; on server build from siteUrl + route.fullPath (safer than route.path)
 const pageUrl = computed(() => {
   if (typeof window !== 'undefined' && window.location?.href) {
     return window.location.href;
   }
   const base = runtime.public.siteUrl || runtime.public.strapiUrl || 'https://www.exim.eu.com';
-  return new URL(String(route.path || '/'), String(base)).href;
+  // route.fullPath includes path + query/hash; fall back to route.path or '/'
+  const path = String(route.fullPath || route.path || '/');
+  return new URL(path, String(base)).href;
 });
 
 function copyLink() {
