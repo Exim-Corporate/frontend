@@ -85,7 +85,7 @@ const shareActions = computed(() => [
     severity: 'secondary',
     onClick: () => {
       const u = encodeURIComponent(pageUrl.value);
-      const w = window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${u}`, '_blank');
+      const w = window.open(`https://www.linkedin.com/shareArticle?url=${u}`, '_blank');
       if (w) w.opener = null;
     },
   },
