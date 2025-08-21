@@ -405,12 +405,12 @@ export default {
         'Stellen Sie Unternehmen vor, die Tech-Talente benötigen, und erhalten Sie eine Prämie.',
     },
     hero: {
-      title_part1: 'Verdienen Sie Prämien durch das Empfehlen von',
-      title_span: 'Unternehmen',
+      title_part1: 'Empfehlen Sie eine Firma,',
+      title_span: 'Verdienen Sie €1.000+',
       title_part2: '',
       subtitle:
-        'Kennen Sie ein Unternehmen, das zuverlässige Entwickler oder ein Remote-Team braucht? Empfehlen Sie es uns und sichern Sie sich eine Belohnung.',
-      primary_button: 'Unternehmen empfehlen',
+        'Verwandeln Sie Ihr Netzwerk in Einnahmen. Helfen Sie IT-Unternehmen, erstklassige Talente zu finden, und verdienen Sie erhebliche Prämien für jede erfolgreiche Empfehlung.',
+      primary_button: 'Jetzt empfehlen',
       secondary_button: 'So funktioniert es',
     },
     programs: {

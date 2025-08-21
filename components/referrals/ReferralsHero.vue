@@ -1,47 +1,42 @@
 <template>
-  <section class="relative overflow-hidden py-20 md:py-28">
-    <div
-      class="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-primary/10 pointer-events-none"
-      aria-hidden="true"
+  <section
+    class="relative min-h-screen w-full overflow-hidden flex items-top md:items-start justify-center"
+  >
+    <!-- Background image (same path and settings as HeroSection) -->
+    <NuxtImg
+      :src="'/images/referral/hero.webp'"
+      alt="Hero background"
+      format="webp"
+      quality="80"
+      class="absolute inset-0 w-full h-full object-cover z-0"
+      preload
     />
-    <div class="container mx-auto px-4 relative z-10 max-w-5xl text-center">
-      <h1
-        data-aos="fade-up"
-        class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-6"
-      >
-        <span class="block text-gradient">
-          {{ $t('referrals.hero.title_part1') }}
-          <span class="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
-            {{ $t('referrals.hero.title_span') }}
-          </span>
-          {{ $t('referrals.hero.title_part2') }}
-        </span>
+
+    <!-- Overlay matching project gradient -->
+    <div class="absolute inset-0 z-10 bg-tech-gradient mix-blend-hard-light opacity-80" />
+
+    <!-- Content: centered on mobile, slightly above center on md+ -->
+    <div class="relative z-20 px-6 sm:px-10 max-w-3xl text-center pt-[25vh]">
+      <h1 class="text-5xl lg:text-6xl font-extrabold mb-4">
+        <div>{{ $t('referrals.hero.title_part1') }}</div>
+        <div>
+          <span class="text-gradient">{{ $t('referrals.hero.title_span') }}</span>
+        </div>
       </h1>
-      <p
-        data-aos="fade-up"
-        data-aos-delay="100"
-        class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8"
-      >
+
+      <p class="text-base md:text-lg text-gray-100 mb-6">
         {{ $t('referrals.hero.subtitle') }}
       </p>
-      <div
-        data-aos="zoom-in"
-        data-aos-delay="150"
-        class="flex flex-wrap justify-center gap-4"
-      >
+
+      <div class="flex justify-center">
         <AppButton
-          variant="primary"
+          severity="contrast"
           size="large"
-          @click="$emit('primary-cta')"
+          icon-position="right"
+          icon="mingcute:arrow-right-fill"
+          @click="onPrimaryCta"
         >
           {{ $t('referrals.hero.primary_button') }}
-        </AppButton>
-        <AppButton
-          variant="outline"
-          size="large"
-          @click="$emit('secondary-cta')"
-        >
-          {{ $t('referrals.hero.secondary_button') }}
         </AppButton>
       </div>
     </div>
@@ -49,10 +44,24 @@
 </template>
 
 <script setup lang="ts">
-/**
- * Hero section for the referrals page.
- */
-defineEmits<{
-  (e: 'primary-cta' | 'secondary-cta'): void;
+import { defineEmits } from 'vue';
+import AppButton from '@/components/UI/AppButton.vue';
+
+const emits = defineEmits<{
+  (e: 'primary-cta'): void;
 }>();
+
+function onPrimaryCta() {
+  emits('primary-cta');
+}
 </script>
+
+<style scoped>
+.text-gradient {
+  background: linear-gradient(90deg, #4ca1ff 0%, #ca8dff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+</style>

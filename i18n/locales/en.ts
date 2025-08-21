@@ -396,12 +396,12 @@ export default {
         'Introduce businesses needing top tech talent and receive cash or revenue share rewards.',
     },
     hero: {
-      title_part1: 'Earn Rewards by Referring',
-      title_span: 'Great Companies',
+      title_part1: 'Refer a Company,',
+      title_span: 'Earn €1,000+',
       title_part2: '',
       subtitle:
-        'Know a company that needs reliable software engineers or a full remote team? Refer them and get rewarded when they engage with us.',
-      primary_button: 'Refer a Company',
+        'Turn your network into revenue. Help IT companies find premium talent and earn substantial rewards for every successful referral.',
+      primary_button: 'Start Referring Today',
       secondary_button: 'How It Works',
     },
     programs: {

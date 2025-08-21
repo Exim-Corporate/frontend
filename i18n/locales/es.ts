@@ -403,12 +403,12 @@ export default {
       ogDescription: 'Presenta negocios que buscan ingenieros confiables y recibe recompensas.',
     },
     hero: {
-      title_part1: 'Gana recompensas refiriendo',
-      title_span: 'empresas',
+      title_part1: 'Recomienda una empresa,',
+      title_span: 'Gana €1,000+',
       title_part2: '',
       subtitle:
-        '¿Conoces una empresa que necesita desarrolladores confiables o un equipo remoto? Refíerela y recibe una recompensa.',
-      primary_button: 'Referir empresa',
+        'Convierte tu red en ingresos. Ayuda a las empresas de TI a encontrar talento premium y gana recompensas sustanciales por cada referido exitoso.',
+      primary_button: 'Comienza a referir hoy',
       secondary_button: 'Cómo funciona',
     },
     programs: {

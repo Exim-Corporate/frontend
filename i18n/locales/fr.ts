@@ -352,12 +352,12 @@ export default {
         'Présentez des entreprises recherchant des développeurs fiables et recevez une récompense.',
     },
     hero: {
-      title_part1: 'Gagnez des récompenses en parrainant des',
-      title_span: 'entreprises',
+      title_part1: 'Parrainez une entreprise,',
+      title_span: 'Gagnez €1,000+',
       title_part2: '',
       subtitle:
-        'Vous connaissez une entreprise qui a besoin de développeurs ou dune équipe distante ? Parrainez-la et soyez récompensé.',
-      primary_button: 'Parrainer une entreprise',
+        'Transformez votre réseau en revenus. Aidez les entreprises IT à trouver des talents premium et gagnez des récompenses substantielles pour chaque parrainage réussi.',
+      primary_button: "Commencez à parrainer aujourd'hui",
       secondary_button: 'Comment ça marche',
     },
     programs: {
