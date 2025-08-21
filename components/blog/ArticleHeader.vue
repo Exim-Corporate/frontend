@@ -33,7 +33,7 @@
     >
       {{ article.description }}
     </div>
-  <div class="border-t border-gray-300 dark:border-gray-600" />
+    <div class="border-t border-gray-300 dark:border-gray-600" />
 
     <!-- Actions Bar -->
     <div class="flex items-center justify-between py-4 mb-6">

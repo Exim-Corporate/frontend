@@ -8,6 +8,7 @@ export default {
     services: 'Servicios',
     contact: 'Contacto',
     faq: 'FAQ',
+    referrals: 'Referidos',
   },
   blog: {
     title: 'Nuestro Blog',
@@ -393,4 +394,80 @@ export default {
     },
   },
   error: 'No se pudo enviar. Inténtalo de nuevo más tarde.',
+  referrals: {
+    meta: {
+      title: 'Programa de Referidos – Gana recompensas por presentar empresas',
+      description:
+        'Refiere empresas que necesiten talento tecnológico y gana bonos en efectivo o ingresos recurrentes.',
+      ogTitle: 'Gana con nuestro programa de referidos',
+      ogDescription: 'Presenta negocios que buscan ingenieros confiables y recibe recompensas.',
+    },
+    hero: {
+      title_part1: 'Gana recompensas refiriendo',
+      title_span: 'empresas',
+      title_part2: '',
+      subtitle:
+        '¿Conoces una empresa que necesita desarrolladores confiables o un equipo remoto? Refíerela y recibe una recompensa.',
+      primary_button: 'Referir empresa',
+      secondary_button: 'Cómo funciona',
+    },
+    programs: {
+      title: 'Elige tu modelo de recompensa',
+      subtitle: 'Opciones flexibles: pago único o ingresos recurrentes a largo plazo.',
+      items: {
+        cash: {
+          title: 'Bono único en efectivo',
+          description:
+            'Recibe un pago único cuando la empresa referida firme y comience la colaboración.',
+          reward: 'Hasta €2,000 por referido',
+        },
+        revenue: {
+          title: 'Participación recurrente de ingresos',
+          description: 'Gana un porcentaje de la factura mensual durante un período definido.',
+          reward: '3–5% hasta 12 meses',
+        },
+        hybrid: {
+          title: 'Modelo híbrido',
+          description: 'Combina un bono inicial menor con una participación reducida continua.',
+          reward: '€750 + 2% por 6 meses',
+        },
+      },
+    },
+    submission: {
+      title: 'Enviar un referido',
+      subtitle: 'Comparte un lead en menos de un minuto. Nosotros hacemos el resto.',
+    },
+    form: {
+      full_name: 'Tu nombre completo',
+      email: 'Tu correo electrónico',
+      company: 'Tu empresa (opcional)',
+      referred_company: 'Empresa referida',
+      message: 'Notas (opcional)',
+      placeholders: {
+        full_name: 'Ingresa tu nombre completo',
+        email: 'Ingresa tu correo',
+        company: 'Ingresa tu empresa (opcional)',
+        referred_company: 'Nombre de la empresa referida',
+        message: 'Información adicional (opcional)',
+      },
+      submit: 'Enviar referido',
+      sending: 'Enviando...',
+      success: '¡Referido enviado correctamente!',
+      personalized_success: '¡{name}, gracias por el referido!',
+      success_generic: 'Gracias, revisaremos y te contactaremos.',
+      privacy_policy_agreement: 'Acepto el tratamiento de mis datos personales de acuerdo con la',
+      validation: {
+        name_required: 'El nombre es obligatorio',
+        email_required: 'El correo es obligatorio',
+        email_invalid: 'Ingrese un correo válido',
+        referred_company_required: 'La empresa referida es obligatoria',
+        privacy_required: 'Debe aceptar la política de privacidad',
+      },
+    },
+    cta: {
+      title: '¿Listo para comenzar?',
+      subtitle: 'Conviértete en socio y genera ingresos adicionales.',
+      button: 'Enviar un referido ahora',
+    },
+  },
 };

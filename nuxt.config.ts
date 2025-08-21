@@ -32,6 +32,7 @@ export default defineNuxtConfig({
 
       // Blog
       '/blog': { isr: 300 },
+      '/referrals': { isr: true },
       '/blog/**': { isr: 300 },
       // Языковые версии - также можно настроить ISR
       '/de': { isr: true },

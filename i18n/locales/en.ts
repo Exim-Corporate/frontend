@@ -8,6 +8,7 @@ export default {
     services: 'Services',
     contact: 'Contact',
     faq: 'FAQ',
+    referrals: 'Referrals',
   },
   blog: {
     title: 'Our Blog',
@@ -385,4 +386,85 @@ export default {
     },
   },
   error: 'Failed to send. Try again later.',
+  referrals: {
+    meta: {
+      title: 'Referral Program – Earn Rewards by Introducing Great Companies',
+      description:
+        'Refer companies to us and earn cash bonuses or recurring revenue when they become clients.',
+      ogTitle: 'Earn Rewards with Our Referral Program',
+      ogDescription:
+        'Introduce businesses needing top tech talent and receive cash or revenue share rewards.',
+    },
+    hero: {
+      title_part1: 'Earn Rewards by Referring',
+      title_span: 'Great Companies',
+      title_part2: '',
+      subtitle:
+        'Know a company that needs reliable software engineers or a full remote team? Refer them and get rewarded when they engage with us.',
+      primary_button: 'Refer a Company',
+      secondary_button: 'How It Works',
+    },
+    programs: {
+      title: 'Choose Your Reward Model',
+      subtitle: 'Flexible options whether you prefer an upfront bonus or long-term passive income.',
+      items: {
+        cash: {
+          title: 'One-Time Cash Bonus',
+          description:
+            'Receive a flat bonus once the referred company signs and starts collaboration with our team.',
+          reward: 'Up to €2,000 per referral',
+        },
+        revenue: {
+          title: 'Recurring Revenue Share',
+          description:
+            'Earn a percentage of the monthly invoice for a defined period while the cooperation continues.',
+          reward: '3–5% for up to 12 months',
+        },
+        hybrid: {
+          title: 'Hybrid Model',
+          description:
+            'Combine a smaller upfront bonus with a reduced recurring share for balanced short & long-term value.',
+          reward: '€750 + 2% for 6 months',
+        },
+      },
+    },
+    submission: {
+      title: 'Submit a Referral',
+      subtitle: 'Share a lead in under a minute. We’ll handle the rest and keep you updated.',
+    },
+    form: {
+      full_name: 'Your Full Name',
+      email: 'Your Email',
+      company: 'Your Company (optional)',
+      referred_company: 'Referred Company Name',
+      message: 'Notes (optional)',
+      placeholders: {
+        full_name: 'Enter your full name',
+        email: 'Enter your email',
+        company: 'Enter your company (optional)',
+        referred_company: 'Company you are referring',
+        message: 'Anything we should know (optional)',
+      },
+      submit: 'Send Referral',
+      sending: 'Submitting...',
+      success: 'Referral submitted successfully!',
+      personalized_success: '{name}, thanks for the referral!',
+      success_generic: 'Thank you, we will review and reach out shortly.',
+      privacy_policy_agreement:
+        'I agree to the processing of my personal data in accordance with the',
+
+      validation: {
+        name_required: 'Full name is required',
+        email_required: 'Email is required',
+        email_invalid: 'Enter a valid email address',
+        referred_company_required: 'Referred company is required',
+        privacy_required: 'You must accept the Privacy Policy',
+      },
+    },
+    cta: {
+      title: 'Ready to Start Referring?',
+      subtitle: 'Become a trusted partner and generate an additional income stream.',
+      button: 'Submit a Referral Now',
+    },
+  },
 };

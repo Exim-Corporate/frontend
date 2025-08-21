@@ -44,9 +44,9 @@ const sharedColors = {
 
   // Override primary color
   primary: '#0A1F44',
-}
+};
 
-export default sharedColors
+export default sharedColors;
 
 // Export a subset of colors formatted for Tailwind
 export const tailwindColors = {
@@ -62,4 +62,4 @@ export const tailwindColors = {
   'accent-yellow': sharedColors['accent-yellow'],
   'accent-blue': sharedColors['accent-blue'],
   primary: sharedColors.primary,
-}
+};

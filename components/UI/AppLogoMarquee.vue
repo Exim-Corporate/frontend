@@ -1,7 +1,7 @@
 <template>
   <div class="marquee-container">
-    <div class="gradient-mask-left"></div>
-    <div class="gradient-mask-right"></div>
+    <div class="gradient-mask-left" />
+    <div class="gradient-mask-right" />
     <div class="marquee">
       <div class="marquee-content">
         <div

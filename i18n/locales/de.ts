@@ -17,6 +17,7 @@ export default {
     services: 'Dienstleistungen',
     contact: 'Kontakt',
     faq: 'FAQ',
+    referrals: 'Empfehlungen',
   },
   hero: {
     title1: 'Schneller, intelligenter, besser bauen',
@@ -394,4 +395,84 @@ export default {
     },
   },
   error: 'Senden fehlgeschlagen. Bitte versuchen Sie es später erneut.',
+  referrals: {
+    meta: {
+      title: 'Referral-Programm – Verdienen Sie Prämien für Empfehlungen',
+      description:
+        'Empfehlen Sie uns Unternehmen und erhalten Sie Geldprämien oder wiederkehrende Umsatzbeteiligungen.',
+      ogTitle: 'Verdienen Sie mit unserem Referral-Programm',
+      ogDescription:
+        'Stellen Sie Unternehmen vor, die Tech-Talente benötigen, und erhalten Sie eine Prämie.',
+    },
+    hero: {
+      title_part1: 'Verdienen Sie Prämien durch das Empfehlen von',
+      title_span: 'Unternehmen',
+      title_part2: '',
+      subtitle:
+        'Kennen Sie ein Unternehmen, das zuverlässige Entwickler oder ein Remote-Team braucht? Empfehlen Sie es uns und sichern Sie sich eine Belohnung.',
+      primary_button: 'Unternehmen empfehlen',
+      secondary_button: 'So funktioniert es',
+    },
+    programs: {
+      title: 'Wählen Sie Ihr Vergütungsmodell',
+      subtitle: 'Flexible Optionen – einmalige Prämie oder wiederkehrende Umsatzbeteiligung.',
+      items: {
+        cash: {
+          title: 'Einmalige Geldprämie',
+          description:
+            'Erhalten Sie eine einmalige Prämie, sobald der empfohlene Kunde eine Zusammenarbeit startet.',
+          reward: 'Bis zu 2.000 € pro Empfehlung',
+        },
+        revenue: {
+          title: 'Monatliche Umsatzbeteiligung',
+          description:
+            'Verdienen Sie einen Prozentsatz der monatlichen Rechnung für einen definierten Zeitraum.',
+          reward: '3–5% bis zu 12 Monate',
+        },
+        hybrid: {
+          title: 'Hybrid-Modell',
+          description:
+            'Kombinieren Sie eine kleinere Sofortprämie mit reduzierter laufender Beteiligung.',
+          reward: '750 € + 2% für 6 Monate',
+        },
+      },
+    },
+    submission: {
+      title: 'Empfehlung einreichen',
+      subtitle: 'Teilen Sie einen Lead in unter einer Minute. Wir übernehmen den Rest.',
+    },
+    form: {
+      full_name: 'Ihr vollständiger Name',
+      email: 'Ihre E-Mail',
+      company: 'Ihr Unternehmen (optional)',
+      referred_company: 'Empfohlenes Unternehmen',
+      message: 'Notizen (optional)',
+      placeholders: {
+        full_name: 'Vollständigen Namen eingeben',
+        email: 'E-Mail eingeben',
+        company: 'Unternehmen eingeben (optional)',
+        referred_company: 'Name des empfohlenen Unternehmens',
+        message: 'Weitere Hinweise (optional)',
+      },
+      submit: 'Empfehlung senden',
+      sending: 'Wird gesendet...',
+      success: 'Erfolgreich eingereicht!',
+      personalized_success: '{name}, danke für die Empfehlung!',
+      success_generic: 'Vielen Dank, wir prüfen und melden uns.',
+      privacy_policy_agreement:
+        'Ich stimme der Verarbeitung meiner personenbezogenen Daten gemäß der',
+      validation: {
+        name_required: 'Name ist erforderlich',
+        email_required: 'E-Mail ist erforderlich',
+        email_invalid: 'Gültige E-Mail eingeben',
+        referred_company_required: 'Empfohlenes Unternehmen ist erforderlich',
+        privacy_required: 'Bitte Datenschutz akzeptieren',
+      },
+    },
+    cta: {
+      title: 'Bereit zum Empfehlen?',
+      subtitle: 'Werden Sie Partner und schaffen Sie sich eine Zusatz-Einnahmequelle.',
+      button: 'Jetzt Empfehlung senden',
+    },
+  },
 };

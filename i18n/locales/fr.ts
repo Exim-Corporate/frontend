@@ -6,6 +6,7 @@ export default {
     services: 'Services',
     contact: 'Contact',
     faq: 'FAQ',
+    referrals: 'Parrainages',
   },
   blog: {
     title: 'Notre Blog',
@@ -341,4 +342,82 @@ export default {
     },
   },
   error: "Échec de l'envoi. Veuillez réessayer plus tard.",
+  referrals: {
+    meta: {
+      title: 'Programme de parrainage – Gagnez des récompenses',
+      description:
+        'Parrainez des entreprises ayant des besoins tech et gagnez un bonus ou un partage de revenus.',
+      ogTitle: 'Gagnez avec notre programme de parrainage',
+      ogDescription:
+        'Présentez des entreprises recherchant des développeurs fiables et recevez une récompense.',
+    },
+    hero: {
+      title_part1: 'Gagnez des récompenses en parrainant des',
+      title_span: 'entreprises',
+      title_part2: '',
+      subtitle:
+        'Vous connaissez une entreprise qui a besoin de développeurs ou dune équipe distante ? Parrainez-la et soyez récompensé.',
+      primary_button: 'Parrainer une entreprise',
+      secondary_button: 'Comment ça marche',
+    },
+    programs: {
+      title: 'Choisissez votre modèle de récompense',
+      subtitle: 'Options flexibles : prime unique ou pourcentage récurrent.',
+      items: {
+        cash: {
+          title: 'Prime unique',
+          description:
+            'Recevez une prime unique dès que la société référée démarre la collaboration.',
+          reward: 'Jusqu’à 2 000 € par parrainage',
+        },
+        revenue: {
+          title: 'Part de revenus récurrente',
+          description: 'Touchez un pourcentage mensuel pendant une durée limitée.',
+          reward: '3–5% jusqu’à 12 mois',
+        },
+        hybrid: {
+          title: 'Modèle hybride',
+          description: 'Allie une petite prime immédiate à un pourcentage réduit récurrent.',
+          reward: '750 € + 2% pendant 6 mois',
+        },
+      },
+    },
+    submission: {
+      title: 'Soumettre un parrainage',
+      subtitle: 'Partagez un lead en moins dune minute. Nous prenons le relais.',
+    },
+    form: {
+      full_name: 'Votre nom complet',
+      email: 'Votre e-mail',
+      company: 'Votre entreprise (optionnel)',
+      referred_company: 'Entreprise parrainée',
+      message: 'Notes (optionnel)',
+      placeholders: {
+        full_name: 'Entrez votre nom complet',
+        email: 'Entrez votre email',
+        company: 'Entrez votre entreprise',
+        referred_company: 'Nom de l’entreprise parrainée',
+        message: 'Informations supplémentaires (optionnel)',
+      },
+      submit: 'Envoyer',
+      sending: 'Envoi...',
+      success: 'Parrainage envoyé avec succès !',
+      personalized_success: '{name}, merci pour votre parrainage !',
+      success_generic: 'Merci, nous reviendrons vers vous rapidement.',
+      privacy_policy_agreement:
+        'Je consens au traitement de mes données personnelles conformément à la',
+      validation: {
+        name_required: 'Nom requis',
+        email_required: 'Email requis',
+        email_invalid: 'Adresse email invalide',
+        referred_company_required: 'Entreprise parrainée requise',
+        privacy_required: 'Veuillez accepter la politique de confidentialité',
+      },
+    },
+    cta: {
+      title: 'Prêt à commencer ?',
+      subtitle: 'Devenez partenaire et générez un revenu additionnel.',
+      button: 'Soumettre un parrainage',
+    },
+  },
 };

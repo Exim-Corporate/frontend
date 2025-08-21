@@ -3,11 +3,8 @@
  * Renders email templates for preview without sending actual emails
  */
 
-import {
-  renderAdminContactEmail,
-  renderUserContactEmail,
-  type ContactData,
-} from '../../utils/emailRenderer';
+import { renderAdminContactEmail, renderUserContactEmail } from '../../utils/emailRenderer';
+import type { ContactData } from '../../utils/emailRenderer';
 import en from '../../../i18n/locales/en';
 import de from '../../../i18n/locales/de';
 import fr from '../../../i18n/locales/fr';

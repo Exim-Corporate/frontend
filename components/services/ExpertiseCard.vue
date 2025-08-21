@@ -1,6 +1,6 @@
 <template>
   <div
-    data-aos="zoom-in" 
+    data-aos="zoom-in"
     data-aos-duration="500"
     class="flex flex-col sm:flex-row items-center sm:space-x-4 bg-background/20 dark:bg-background/50 p-4 rounded-xl"
   >
