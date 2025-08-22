@@ -412,19 +412,26 @@ export default {
       secondary_button: 'Cómo funciona',
     },
     programs: {
-      title: 'Elige tu modelo de recompensa',
-      subtitle: 'Opciones flexibles: pago único o ingresos recurrentes a largo plazo.',
+      title: 'Two Ways to Earn Big',
+      subtitle: 'Choose the program that fits your network',
       items: {
         cash: {
-          title: 'Bono único en efectivo',
+          title: 'Local Partners',
           description:
-            'Recibe un pago único cuando la empresa referida firme y comience la colaboración.',
-          reward: 'Hasta €2,000 por referido',
+            'Recruiter & Consultant Program\nPerfect for recruiters, freelance consultants, and industry professionals',
+          features1: '5% of first 6 months billing',
+          features2: "One-time finder's fee",
+          features3: 'Potential earnings: €1,000 - €5,000+ per referral',
+          example: 'Ejemplo: Recomienda una empresa con €2,000/mes = €600 de recompensa',
         },
         revenue: {
-          title: 'Participación recurrente de ingresos',
-          description: 'Gana un porcentaje de la factura mensual durante un período definido.',
-          reward: '3–5% hasta 12 meses',
+          title: 'Client Advocates',
+          description:
+            'Client Referral Rewards\nExclusive program for our existing clients and early adopters',
+          features1: 'Next month invoice discount or premium gift cards',
+          features2: '3-month window for qualification',
+          features3: 'Must be an active client to participate in this program',
+          example: '',
         },
         hybrid: {
           title: 'Modelo híbrido',

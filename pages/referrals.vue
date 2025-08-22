@@ -22,6 +22,7 @@ import ReferralSubmission from '@/components/referrals/ReferralSubmission.vue';
 import ReferralCTA from '@/components/referrals/ReferralCTA.vue';
 
 const { t } = useI18n();
+// Keep features simple: use three keys per locale and build an array with `t(...)` directly.
 
 useSEO({
   title: t('referrals.meta.title'),
@@ -37,23 +38,25 @@ const programs: ReferralProgram[] = [
     id: 'cash',
     title: t('referrals.programs.items.cash.title'),
     description: t('referrals.programs.items.cash.description'),
-    reward: t('referrals.programs.items.cash.reward'),
-    highlight: true,
-    icon: 'ph:currency-dollar',
+    features: [
+      t('referrals.programs.items.cash.features1'),
+      t('referrals.programs.items.cash.features2'),
+      t('referrals.programs.items.cash.features3'),
+    ],
+    example: t('referrals.programs.items.cash.example'),
+    icon: 'octicon:people-24',
   },
   {
     id: 'revenue',
     title: t('referrals.programs.items.revenue.title'),
     description: t('referrals.programs.items.revenue.description'),
-    reward: t('referrals.programs.items.revenue.reward'),
-    icon: 'ph:chart-line-up',
-  },
-  {
-    id: 'hybrid',
-    title: t('referrals.programs.items.hybrid.title'),
-    description: t('referrals.programs.items.hybrid.description'),
-    reward: t('referrals.programs.items.hybrid.reward'),
-    icon: 'ph:arrows-left-right',
+    features: [
+      t('referrals.programs.items.revenue.features1'),
+      t('referrals.programs.items.revenue.features2'),
+      t('referrals.programs.items.revenue.features3'),
+    ],
+    example: t('referrals.programs.items.revenue.example'),
+    icon: 'mdi:gift-outline',
   },
 ];
 

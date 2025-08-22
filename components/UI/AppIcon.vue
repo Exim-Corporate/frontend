@@ -1,16 +1,22 @@
 <template>
   <Icon
     :icon="icon"
-    :class="['hover:scale-110 transition-all duration-300 cursor-pointer', className, colorClass]"
+    :class="[
+      'hover:scale-110',
+      'transition-all',
+      'duration-300',
+      'cursor-pointer',
+      ...mergedClasses,
+    ]"
     :width="size"
     :height="size"
-    :color="color === 'currentColor' && !colorClass ? 'currentColor' : color"
   />
+  <!-- :color="color === 'currentColor' && !colorClass ? 'currentColor' : color" -->
 </template>
 
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
-import { computed } from 'vue';
+import { computed, useAttrs } from 'vue';
 
 const props = defineProps({
   icon: {
@@ -31,15 +37,16 @@ const props = defineProps({
   },
 });
 
-// Extract color classes from className to apply separately
-const colorClass = computed(() => {
-  // Check if className contains Tailwind color utilities
-  const colorUtilities = ['text-', 'bg-', 'fill-', 'stroke-'];
-  const classNames = props.className.split(' ');
-
-  // Filter out color-related classes
-  return classNames
-    .filter(cls => colorUtilities.some(utility => cls.startsWith(utility)))
-    .join(' ');
+// Merge classes from prop and attrs so parent size/color classes are forwarded
+const mergedClasses = computed(() => {
+  const attrs = useAttrs();
+  const list: string[] = [];
+  if (props.className) list.push(...String(props.className).split(/\s+/));
+  const attrClass = attrs.class;
+  if (attrClass) {
+    if (Array.isArray(attrClass)) list.push(...attrClass.map(String));
+    else list.push(...String(attrClass).split(/\s+/));
+  }
+  return list.filter(Boolean);
 });
 </script>

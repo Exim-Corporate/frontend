@@ -361,19 +361,27 @@ export default {
       secondary_button: 'Comment ça marche',
     },
     programs: {
-      title: 'Choisissez votre modèle de récompense',
-      subtitle: 'Options flexibles : prime unique ou pourcentage récurrent.',
+      title: 'Two Ways to Earn Big',
+      subtitle: 'Choose the program that fits your network',
       items: {
         cash: {
-          title: 'Prime unique',
+          title: 'Local Partners',
           description:
-            'Recevez une prime unique dès que la société référée démarre la collaboration.',
-          reward: 'Jusqu’à 2 000 € par parrainage',
+            'Recruiter & Consultant Program\nPerfect for recruiters, freelance consultants, and industry professionals',
+          features1: '5% of first 6 months billing',
+          features2: "One-time finder's fee",
+          features3: 'Potential earnings: €1,000 - €5,000+ per referral',
+          example:
+            'Exemple : Recommandez une entreprise facturant €2,000/mois = €600 de récompense',
         },
         revenue: {
-          title: 'Part de revenus récurrente',
-          description: 'Touchez un pourcentage mensuel pendant une durée limitée.',
-          reward: '3–5% jusqu’à 12 mois',
+          title: 'Client Advocates',
+          description:
+            'Client Referral Rewards\nExclusive program for our existing clients and early adopters',
+          features1: 'Next month invoice discount or premium gift cards',
+          features2: '3-month window for qualification',
+          features3: 'Must be an active client to participate in this program',
+          example: '',
         },
         hybrid: {
           title: 'Modèle hybride',

@@ -405,26 +405,26 @@ export default {
       secondary_button: 'How It Works',
     },
     programs: {
-      title: 'Choose Your Reward Model',
-      subtitle: 'Flexible options whether you prefer an upfront bonus or long-term passive income.',
+      title: 'Two Ways to Earn Big',
+      subtitle: 'Choose the program that fits your network',
       items: {
         cash: {
-          title: 'One-Time Cash Bonus',
+          title: 'Local Partners',
           description:
-            'Receive a flat bonus once the referred company signs and starts collaboration with our team.',
-          reward: 'Up to €2,000 per referral',
+            'Recruiter & Consultant Program\nPerfect for recruiters, freelance consultants, and industry professionals',
+          features1: '5% of first 6 months billing',
+          features2: "One-time finder's fee",
+          features3: 'Potential earnings: €1,000 - €5,000+ per referral',
+          example: 'Example: Refer a company with €2,000/month billing = €600 reward',
         },
         revenue: {
-          title: 'Recurring Revenue Share',
+          title: 'Client Advocates',
           description:
-            'Earn a percentage of the monthly invoice for a defined period while the cooperation continues.',
-          reward: '3–5% for up to 12 months',
-        },
-        hybrid: {
-          title: 'Hybrid Model',
-          description:
-            'Combine a smaller upfront bonus with a reduced recurring share for balanced short & long-term value.',
-          reward: '€750 + 2% for 6 months',
+            'Client Referral Rewards\nExclusive program for our existing clients and early adopters',
+          features1: 'Next month invoice discount or premium gift cards',
+          features2: '3-month window for qualification',
+          features3: 'Must be an active client to participate in this program',
+          example: '',
         },
       },
     },

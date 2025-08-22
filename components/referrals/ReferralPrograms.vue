@@ -17,13 +17,15 @@
         </p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+      <div class="flex flex-col md:flex-row gap-8 justify-center text-start h-auto">
         <ReferralProgramCard
           v-for="(program, idx) in programs"
           :key="program.id"
+          :index="idx"
           :title="program.title"
           :description="program.description"
-          :reward="program.reward"
+          :features="program.features || []"
+          :example="program.example"
           :highlight="program.highlight"
           :icon="program.icon"
           :data-aos-delay="idx * 100"
@@ -35,6 +37,8 @@
 
 <script setup lang="ts">
 import type { ReferralProgram } from '@/types/referrals';
+
+import ReferralProgramCard from '@/components/referrals/ReferralProgramCard.vue';
 
 /** Props */
 defineProps<{ programs: ReferralProgram[] }>();

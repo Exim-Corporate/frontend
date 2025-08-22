@@ -17,7 +17,7 @@
 
     <!-- Content: centered on mobile, slightly above center on md+ -->
     <div class="relative z-20 px-6 sm:px-10 max-w-3xl text-center pt-[25vh]">
-      <h1 class="text-5xl lg:text-6xl font-extrabold mb-4">
+      <h1 class="text-5xl lg:text-6xl font-extrabold mb-4 text-text-dark dark:text-text-light">
         <div>{{ $t('referrals.hero.title_part1') }}</div>
         <div>
           <span class="text-gradient">{{ $t('referrals.hero.title_span') }}</span>
