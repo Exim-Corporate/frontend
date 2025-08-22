@@ -395,26 +395,26 @@ export default {
       secondary_button: 'Comment ça marche',
     },
     programs: {
-      title: 'Two Ways to Earn Big',
-      subtitle: 'Choose the program that fits your network',
+      title: 'Deux façons de gagner gros',
+      subtitle: 'Choisissez le programme adapté à votre réseau',
       items: {
         cash: {
-          title: 'Local Partners',
+          title: 'Partenaires locaux',
           description:
-            'Recruiter & Consultant Program\nPerfect for recruiters, freelance consultants, and industry professionals',
-          features1: '5% of first 6 months billing',
-          features2: "One-time finder's fee",
-          features3: 'Potential earnings: €1,000 - €5,000+ per referral',
+            'Programme pour recruteurs et consultants\nIdéal pour les recruteurs, consultants indépendants et professionnels du secteur',
+          features1: '5 % des facturations des 6 premiers mois',
+          features2: 'Prime de recrutement unique',
+          features3: 'Gains potentiels : 1 000 € - 5 000 €+ par recommandation',
           example:
             'Exemple : Recommandez une entreprise facturant €2,000/mois = €600 de récompense',
         },
         revenue: {
-          title: 'Client Advocates',
+          title: 'Ambassadeurs clients',
           description:
-            'Client Referral Rewards\nExclusive program for our existing clients and early adopters',
-          features1: 'Next month invoice discount or premium gift cards',
-          features2: '3-month window for qualification',
-          features3: 'Must be an active client to participate in this program',
+            'Récompenses pour parrainage client\nProgramme exclusif pour nos clients existants et premiers utilisateurs',
+          features1: 'Remise sur la facture du mois suivant ou cartes cadeaux premium',
+          features2: 'Fenêtre de qualification de 3 mois',
+          features3: 'Doit être un client actif pour participer à ce programme',
           example: '',
         },
         hybrid: {

@@ -2,7 +2,7 @@
   <div data-aos="fade-up">
     <div
       :class="[
-        'rounded-lg h-auto shadow-sm relative overflow-hidden border-1 transition-all duration-300 hover:scale-105 flex flex-col',
+        'rounded-lg h-full shadow-sm relative overflow-hidden border-1 transition-all duration-300 hover:scale-105 flex flex-col',
         'border-gray-200 dark:border-white/10',
         hoverEffectClass,
       ]"
@@ -21,17 +21,18 @@
             class="inline-flex items-center rounded-full border px-4.5 py-0.5 text-xs font-semibold border-gray-300 dark:border-gray-300"
             :class="badgeClass"
           >
-            {{ title }}
+            {{ $t(props.title) }}
+            <!-- {{ $t(props.title) }} -->
           </div>
         </div>
 
         <div class="text-muted-foreground text-lg mb-4">
           <p
-            v-for="(line, i) in description.split('\n')"
+            v-for="(line, i) in ($t(props.description as string) || '').split('\n')"
             :key="i"
             :class="['mb-2', i === 0 ? 'font-semibold text-2xl' : 'text-secondary text-sm']"
           >
-            {{ line }}
+            {{ $t(line) }}
           </p>
         </div>
       </div>
@@ -40,7 +41,7 @@
         <div class="space-y-4">
           <!-- Render exactly three feature rows from the provided features array -->
           <div
-            v-for="(line, idx) in (features || []).slice(0, 3)"
+            v-for="(line, idx) in (props.features || []).slice(0, 3)"
             :key="idx"
             class="flex items-center gap-3"
           >
@@ -48,18 +49,17 @@
               :icon="iconForIndex(idx)"
               :class="['h-6', 'w-6', iconTextClass]"
             />
-            <span :class="idx === 0 ? 'font-semibold' : ''">{{ line }}</span>
+            <span :class="idx === 0 ? 'font-semibold' : ''">{{ $t(line as string) }}</span>
           </div>
 
           <div
+            v-if="props.example.length > 0"
             class="mt-6 p-4 rounded-lg"
-            :class="example && iconBgClass"
+            :class="props.example && iconBgClass"
           >
-            <p
-              v-if="example"
-              :class="['text-sm text-muted-color mt-auto']"
-              >{{ example }}</p
-            >
+            <p :class="['text-sm text-muted-color mt-auto']">
+              {{ $t(props.example as string) }}
+            </p>
           </div>
         </div>
       </div>
@@ -96,7 +96,7 @@ const iconBgClass = computed(() => {
   if (props.color) return props.color;
   return props.index === 0 ? 'bg-accent/10' : 'bg-violet-100';
 });
-
+console.log('props example???', props.example);
 // Icon text color - return one of the explicit classes above
 const iconTextClass = computed(() => {
   return props.index === 0 ? 'text-accent' : 'text-violet-400';

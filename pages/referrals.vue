@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSEO } from '@/composables/useSEO';
 import type { ReferralProgram } from '@/types/referrals';
@@ -33,32 +33,33 @@ useSEO({
 
 const formSection = ref<InstanceType<typeof ReferralSubmission> | null>(null);
 
-const programs: ReferralProgram[] = [
+// Pass translation keys here; child component will call $t to keep translations reactive
+const programs = computed<ReferralProgram[]>(() => [
   {
     id: 'cash',
-    title: t('referrals.programs.items.cash.title'),
-    description: t('referrals.programs.items.cash.description'),
+    title: 'referrals.programs.items.cash.title',
+    description: 'referrals.programs.items.cash.description',
     features: [
-      t('referrals.programs.items.cash.features1'),
-      t('referrals.programs.items.cash.features2'),
-      t('referrals.programs.items.cash.features3'),
+      'referrals.programs.items.cash.features1',
+      'referrals.programs.items.cash.features2',
+      'referrals.programs.items.cash.features3',
     ],
-    example: t('referrals.programs.items.cash.example'),
+    example: 'referrals.programs.items.cash.example',
     icon: 'octicon:people-24',
   },
   {
     id: 'revenue',
-    title: t('referrals.programs.items.revenue.title'),
-    description: t('referrals.programs.items.revenue.description'),
+    title: 'referrals.programs.items.revenue.title',
+    description: 'referrals.programs.items.revenue.description',
     features: [
-      t('referrals.programs.items.revenue.features1'),
-      t('referrals.programs.items.revenue.features2'),
-      t('referrals.programs.items.revenue.features3'),
+      'referrals.programs.items.revenue.features1',
+      'referrals.programs.items.revenue.features2',
+      'referrals.programs.items.revenue.features3',
     ],
-    example: t('referrals.programs.items.revenue.example'),
+    example: 'referrals.programs.items.revenue.example',
     icon: 'mdi:gift-outline',
   },
-];
+]);
 
 const scrollToForm = () => {
   const el = document.getElementById('refForm') as HTMLElement | null;

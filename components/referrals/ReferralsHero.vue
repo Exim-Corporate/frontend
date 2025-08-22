@@ -1,6 +1,8 @@
 <template>
   <section
     class="relative min-h-screen w-full overflow-hidden flex items-top md:items-start justify-center"
+    data-aos="fade-up"
+    data-aos-anchor-placement="top-bottom"
   >
     <!-- Background image (same path and settings as HeroSection) -->
     <NuxtImg
@@ -13,22 +15,34 @@
     />
 
     <!-- Overlay matching project gradient -->
-    <div class="absolute inset-0 z-10 bg-tech-gradient mix-blend-hard-light opacity-80" />
+    <div class="absolute inset-0 z-10 bg-tech-gradient mix-blend-color-burn opacity-30" />
 
     <!-- Content: centered on mobile, slightly above center on md+ -->
-    <div class="relative z-20 px-6 sm:px-10 max-w-3xl text-center pt-[25vh]">
-      <h1 class="text-5xl lg:text-6xl font-extrabold mb-4 text-text-light dark:text-text-light">
+    <div class="relative z-20 px-6 sm:px-10 max-w-3xl text-center pt-[20vh]">
+      <h1
+        class="text-5xl lg:text-6xl font-extrabold mb-4 text-text-light dark:text-text-light"
+        data-aos="fade-up"
+        data-aos-delay="100"
+      >
         <div>{{ $t('referrals.hero.title_part1') }}</div>
         <div>
           <span class="text-gradient">{{ $t('referrals.hero.title_span') }}</span>
         </div>
       </h1>
 
-      <p class="text-base md:text-lg text-gray-100 mb-6">
+      <p
+        class="text-base md:text-lg text-gray-100 mb-6"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
         {{ $t('referrals.hero.subtitle') }}
       </p>
 
-      <div class="flex justify-center">
+      <div
+        class="flex justify-center"
+        data-aos="zoom-in"
+        data-aos-delay="300"
+      >
         <AppButton
           severity="contrast"
           size="large"
@@ -44,7 +58,9 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmits } from 'vue';
+import { defineEmits, onMounted } from 'vue';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import AppButton from '@/components/UI/AppButton.vue';
 
 const emits = defineEmits<{
@@ -54,6 +70,12 @@ const emits = defineEmits<{
 function onPrimaryCta() {
   emits('primary-cta');
 }
+
+onMounted(() => {
+  if (typeof window !== 'undefined') {
+    AOS.init({ once: true, duration: 700, easing: 'ease-out' });
+  }
+});
 </script>
 
 <style scoped>

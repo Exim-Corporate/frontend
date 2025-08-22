@@ -445,30 +445,30 @@ export default {
       secondary_button: 'Cómo funciona',
     },
     programs: {
-      title: 'Two Ways to Earn Big',
-      subtitle: 'Choose the program that fits your network',
+      title: 'Dos maneras de ganar a lo grande',
+      subtitle: 'Elige el programa que mejor se adapte a tu red',
       items: {
         cash: {
-          title: 'Local Partners',
+          title: 'Socios locales',
           description:
-            'Recruiter & Consultant Program\nPerfect for recruiters, freelance consultants, and industry professionals',
-          features1: '5% of first 6 months billing',
-          features2: "One-time finder's fee",
-          features3: 'Potential earnings: €1,000 - €5,000+ per referral',
+            'Programa para reclutadores y consultores\nIdeal para reclutadores, consultores freelance y profesionales del sector',
+          features1: '5 % de la facturación de los primeros 6 meses',
+          features2: 'Pago único por referencia',
+          features3: 'Ganancias potenciales: 1.000 € - 5.000 €+ por referido',
           example: 'Ejemplo: Recomienda una empresa con €2,000/mes = €600 de recompensa',
         },
         revenue: {
-          title: 'Client Advocates',
+          title: 'Defensores de clientes',
           description:
-            'Client Referral Rewards\nExclusive program for our existing clients and early adopters',
-          features1: 'Next month invoice discount or premium gift cards',
-          features2: '3-month window for qualification',
-          features3: 'Must be an active client to participate in this program',
+            'Recompensas por referidos de clientes\nPrograma exclusivo para nuestros clientes existentes y primeros usuarios',
+          features1: 'Descuento en la factura del mes siguiente o tarjetas regalo premium',
+          features2: 'Periodo de calificación de 3 meses',
+          features3: 'Debe ser un cliente activo para participar en este programa',
           example: '',
         },
         hybrid: {
           title: 'Modelo híbrido',
-          description: 'Combina un bono inicial menor con una participación reducida continua.',
+          description: 'Combina un bono inicial menor con una participación recurrente reducida.',
           reward: '€750 + 2% por 6 meses',
         },
       },

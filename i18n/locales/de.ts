@@ -447,32 +447,32 @@ export default {
       secondary_button: 'So funktioniert es',
     },
     programs: {
-      title: 'Two Ways to Earn Big',
-      subtitle: 'Choose the program that fits your network',
+      title: 'Zwei Wege, groß zu verdienen',
+      subtitle: 'Wählen Sie das Programm, das zu Ihrem Netzwerk passt',
       items: {
         cash: {
-          title: 'Local Partners',
+          title: 'Lokale Partner',
           description:
-            'Recruiter & Consultant Program\nPerfect for recruiters, freelance consultants, and industry professionals',
-          features1: '5% of first 6 months billing',
-          features2: "One-time finder's fee",
-          features3: 'Potential earnings: €1,000 - €5,000+ per referral',
+            'Programm für Recruiter & Berater\nIdeal für Recruiter, freiberufliche Berater und Branchenprofis',
+          features1: '5 % der Abrechnung der ersten 6 Monate',
+          features2: 'Einmalige Vermittlungsprämie',
+          features3: 'Mögliche Einnahmen: 1.000 € - 5.000 €+ pro Empfehlung',
           example:
             'Beispiel: Empfehlen Sie ein Unternehmen mit €2.000/Monat Abrechnung = €600 Prämie',
         },
         revenue: {
-          title: 'Client Advocates',
+          title: 'Kundenbotschafter',
           description:
-            'Client Referral Rewards\nExclusive program for our existing clients and early adopters',
-          features1: 'Next month invoice discount or premium gift cards',
-          features2: '3-month window for qualification',
-          features3: 'Must be an active client to participate in this program',
+            'Belohnungen für Kundenempfehlungen\nExklusives Programm für unsere bestehenden Kunden und Early Adopters',
+          features1: 'Rabatt auf die Rechnung des nächsten Monats oder Premium-Geschenkkarten',
+          features2: '3-monatiges Qualifizierungsfenster',
+          features3: 'Teilnahme nur für aktive Kunden',
           example: '',
         },
         hybrid: {
           title: 'Hybrid-Modell',
           description:
-            'Kombinieren Sie eine kleinere Sofortprämie mit reduzierter laufender Beteiligung.',
+            'Kombinieren Sie eine kleinere Sofortprämie mit einer reduzierten laufenden Beteiligung.',
           reward: '750 € + 2% für 6 Monate',
         },
       },

@@ -508,9 +508,9 @@ export default {
       },
     },
     cta: {
-      title: 'Ready to Start Referring?',
-      subtitle: 'Become a trusted partner and generate an additional income stream.',
-      button: 'Submit a Referral Now',
+      title: 'Questions About Our Referral Program?',
+      subtitle: 'Get in touch with our team to learn more about earning opportunities.',
+      button: 'Contact Us',
     },
   },
 };

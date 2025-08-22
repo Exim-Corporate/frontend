@@ -11,7 +11,7 @@
     <section class="px-6 py-16 container">
       <div
         data-aos="fade-up"
-        data-aos-duration="500"
+        data-aos-duration="300"
         class="text-center mb-16"
       >
         <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -27,7 +27,7 @@
         class="max-w-4xl mx-auto bg-white dark:bg-navy-blue/80 shadow-xl rounded-2xl p-6 md:p-10 backdrop-blur-sm"
       >
         <form @submit.prevent="submitForm">
-          <div class="space-y-6">
+          <div class="space-y-3">
             <!-- Referrer info -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
               <FormInput
@@ -56,7 +56,7 @@
               />
             </div>
 
-            <div class="border-t border-gray-300 pt-6">
+            <div class="">
               <h3 class="text-lg font-semibold mb-4">{{
                 $t('referrals.form.referred_section_title')
               }}</h3>
@@ -83,7 +83,7 @@
                 />
               </div>
 
-              <div class="grid md:grid-cols-2 gap-6 mt-6">
+              <div class="grid md:grid-cols-2 gap-6">
                 <FormInput
                   id="contactName"
                   v-model="form.contactName"

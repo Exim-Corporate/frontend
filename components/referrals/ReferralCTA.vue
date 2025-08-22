@@ -15,20 +15,25 @@
       >
         {{ $t('referrals.cta.subtitle') }}
       </p>
-      <AppButton
+      <NuxtLink
+        to="/#contact-us"
         data-aos="zoom-in"
         data-aos-delay="150"
-        size="large"
-        variant="primary"
-        @click="$emit('cta')"
+        class="inline-block"
       >
-        {{ $t('referrals.cta.button') }}
-      </AppButton>
+        <AppButton
+          size="large"
+          variant="primary"
+        >
+          {{ $t('referrals.cta.button') }}
+        </AppButton>
+      </NuxtLink>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
 /** CTA section for referrals page */
+import AppButton from '../UI/AppButton.vue';
 defineEmits<{ (e: 'cta'): void }>();
 </script>
