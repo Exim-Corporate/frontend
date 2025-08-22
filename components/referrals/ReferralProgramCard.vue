@@ -1,64 +1,66 @@
 <template>
-  <div
-    :class="[
-      'rounded-lg h-auto shadow-sm relative overflow-hidden border-1 transition-all duration-300 hover:scale-105 flex flex-col',
-      'border-gray-200 dark:border-white/10',
-      hoverEffectClass,
-    ]"
-  >
-    <div class="p-6 relative z-10 flex-1 flex flex-col">
-      <div class="flex items-center gap-3 mb-2">
-        <div :class="['p-3 rounded-lg', iconBgClass]">
-          <AppIcon
-            v-if="icon"
-            :icon="icon"
-            :class="['h-8', 'w-8', iconTextClass]"
-          />
-        </div>
+  <div data-aos="fade-up">
+    <div
+      :class="[
+        'rounded-lg h-auto shadow-sm relative overflow-hidden border-1 transition-all duration-300 hover:scale-105 flex flex-col',
+        'border-gray-200 dark:border-white/10',
+        hoverEffectClass,
+      ]"
+    >
+      <div class="p-6 relative z-10 flex-1 flex flex-col">
+        <div class="flex items-center gap-3 mb-2">
+          <div :class="['p-3 rounded-lg', iconBgClass]">
+            <AppIcon
+              v-if="icon"
+              :icon="icon"
+              :class="['h-8', 'w-8', iconTextClass]"
+            />
+          </div>
 
-        <div
-          class="inline-flex items-center rounded-full border px-4.5 py-0.5 text-xs font-semibold border-gray-300 dark:border-gray-300"
-          :class="badgeClass"
-        >
-          {{ title }}
-        </div>
-      </div>
-
-      <div class="text-muted-foreground text-lg mb-4">
-        <p
-          v-for="(line, i) in description.split('\n')"
-          :key="i"
-          :class="['mb-2', i === 0 ? 'font-semibold text-2xl' : 'text-secondary text-sm']"
-        >
-          {{ line }}
-        </p>
-      </div>
-    </div>
-
-    <div class="p-6 pt-0 relative z-10 mt-auto">
-      <div class="space-y-4">
-        <!-- Render exactly three feature rows from the provided features array -->
-        <div
-          v-for="(line, idx) in (features || []).slice(0, 3)"
-          :key="idx"
-          class="flex items-center gap-3"
-        >
-          <AppIcon
-            :icon="iconForIndex(idx)"
-            :class="['h-6', 'w-6', iconTextClass]"
-          />
-          <span :class="idx === 0 ? 'font-semibold' : ''">{{ line }}</span>
-        </div>
-
-        <div
-          class="mt-6 p-4 rounded-lg"
-          :class="example && iconBgClass"
-        >
-          <p
-            v-if="example"
-            :class="['text-sm text-muted-color mt-auto']"
-            >{{ example }}</p
+          <div
+            class="inline-flex items-center rounded-full border px-4.5 py-0.5 text-xs font-semibold border-gray-300 dark:border-gray-300"
+            :class="badgeClass"
           >
+            {{ title }}
+          </div>
+        </div>
+
+        <div class="text-muted-foreground text-lg mb-4">
+          <p
+            v-for="(line, i) in description.split('\n')"
+            :key="i"
+            :class="['mb-2', i === 0 ? 'font-semibold text-2xl' : 'text-secondary text-sm']"
+          >
+            {{ line }}
+          </p>
+        </div>
+      </div>
+
+      <div class="p-6 pt-0 relative z-10 mt-auto">
+        <div class="space-y-4">
+          <!-- Render exactly three feature rows from the provided features array -->
+          <div
+            v-for="(line, idx) in (features || []).slice(0, 3)"
+            :key="idx"
+            class="flex items-center gap-3"
+          >
+            <AppIcon
+              :icon="iconForIndex(idx)"
+              :class="['h-6', 'w-6', iconTextClass]"
+            />
+            <span :class="idx === 0 ? 'font-semibold' : ''">{{ line }}</span>
+          </div>
+
+          <div
+            class="mt-6 p-4 rounded-lg"
+            :class="example && iconBgClass"
+          >
+            <p
+              v-if="example"
+              :class="['text-sm text-muted-color mt-auto']"
+              >{{ example }}</p
+            >
+          </div>
         </div>
       </div>
     </div>

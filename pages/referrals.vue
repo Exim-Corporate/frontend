@@ -61,9 +61,9 @@ const programs: ReferralProgram[] = [
 ];
 
 const scrollToForm = () => {
-  const el = document.querySelector('#__nuxt form');
+  const el = document.getElementById('refForm') as HTMLElement | null;
   if (el) {
-    el.scrollIntoView({ behavior: 'smooth' });
+    el.scrollIntoView({ block: 'start' });
   }
 };
 </script>

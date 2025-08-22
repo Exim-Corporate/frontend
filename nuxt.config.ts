@@ -41,7 +41,6 @@ export default defineNuxtConfig({
       '/fr/**': { isr: true }, // Все страницы в /fr/ с ISR
       '/es': { isr: true },
       '/es/**': { isr: true }, // Все страницы в /es/ с ISR
-
       // API маршруты для серверных функций
       '/api/**': {
         cors: true,
@@ -49,11 +48,10 @@ export default defineNuxtConfig({
       },
 
       // Preview страницы (только для разработки)
-      // '/preview/**': {
-      //   prerender: false, // Оставляем false, т.к. это для разработки
-      //   index: false,
-      //   robots: false,
-      // },
+      '/preview/**': {
+        prerender: false, // Оставляем false, т.к. это для разработки
+        index: false,
+      },
     },
 
     prerender: {

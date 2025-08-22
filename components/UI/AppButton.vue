@@ -2,7 +2,7 @@
   <Button
     v-bind="$attrs"
     :class="[
-      'transition-all duration-300 border-0 px-5 bg-gradient hover:scale-110 active:bg-accent active:text-inherit active:scale-x-90',
+      'transition-all duration-300 border-0 px-5 bg-gradient hover:scale-105 active:bg-accent active:text-inherit active:scale-x-90',
     ]"
     @click="handleClick"
   >
