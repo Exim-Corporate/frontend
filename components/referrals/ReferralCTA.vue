@@ -4,14 +4,14 @@
     <div class="container mx-auto px-4 relative z-10 text-center max-w-3xl">
       <h2
         data-aos="fade-up"
-        class="text-3xl md:text-4xl font-bold mb-6"
+        class="text-5xl font-bold mb-6"
       >
         <span class="text-gradient">{{ $t('referrals.cta.title') }}</span>
       </h2>
       <p
         data-aos="fade-up"
         data-aos-delay="100"
-        class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8"
+        class="text-lg w-full md:w-auto md:text-xl text-gray-600 dark:text-gray-300 mb-8"
       >
         {{ $t('referrals.cta.subtitle') }}
       </p>

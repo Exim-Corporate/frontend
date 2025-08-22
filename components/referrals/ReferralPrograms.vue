@@ -4,7 +4,7 @@
       <div class="max-w-3xl mx-auto text-center mb-14">
         <h2
           data-aos="fade-up"
-          class="text-3xl md:text-4xl font-bold tracking-tight mb-4"
+          class="text-5xl font-bold tracking-tight mb-4"
         >
           <span class="text-gradient">{{ $t('referrals.programs.title') }}</span>
         </h2>
@@ -17,7 +17,7 @@
         </p>
       </div>
 
-      <div class="flex flex-col md:flex-row gap-8 justify-center text-start h-auto">
+      <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch text-start">
         <ReferralProgramCard
           v-for="(program, idx) in programs"
           :key="program.id"

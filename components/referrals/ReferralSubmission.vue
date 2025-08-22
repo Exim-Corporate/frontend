@@ -14,7 +14,7 @@
         data-aos-duration="300"
         class="text-center mb-16"
       >
-        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+        <h2 class="text-5xl font-bold mb-4">
           <span class="text-gradient">{{ $t('referrals.submission.title') }}</span>
         </h2>
         <p class="text-lg text-gray-100 max-w-3xl mx-auto">
@@ -27,7 +27,7 @@
         class="max-w-4xl mx-auto bg-white dark:bg-navy-blue/80 shadow-xl rounded-2xl p-6 md:p-10 backdrop-blur-sm"
       >
         <form @submit.prevent="submitForm">
-          <div class="space-y-3">
+          <div class="space-y-0">
             <!-- Referrer info -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
               <FormInput
@@ -60,7 +60,7 @@
               <h3 class="text-lg font-semibold mb-4">{{
                 $t('referrals.form.referred_section_title')
               }}</h3>
-              <div class="grid md:grid-cols-2 gap-6">
+              <div class="grid md:grid-cols-2 gap-0 lg:gap-6">
                 <FormInput
                   id="referredCompany"
                   v-model="form.referredCompany"
@@ -83,7 +83,7 @@
                 />
               </div>
 
-              <div class="grid md:grid-cols-2 gap-6">
+              <div class="grid md:grid-cols-2 gap-0 lg:gap-6">
                 <FormInput
                   id="contactName"
                   v-model="form.contactName"
@@ -155,6 +155,7 @@
                 :label="$t('referrals.form.submit')"
                 :loading="loading"
                 :loading-label="$t('referrals.form.sending')"
+                :class="'w-full md:w-auto'"
                 severity="contrast"
                 size="large"
               />

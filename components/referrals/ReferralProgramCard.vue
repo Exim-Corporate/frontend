@@ -1,11 +1,15 @@
 <template>
-  <div data-aos="fade-up">
+  <div
+    data-aos="fade-up"
+    class="max-w-[450px] h-full"
+  >
     <div
       :class="[
-        'rounded-lg h-full shadow-sm relative overflow-hidden border-1 transition-all duration-300 hover:scale-105 flex flex-col',
+        'w-full rounded-lg h-full shadow-sm relative overflow-hidden border-1 transition-all duration-300 hover:scale-105 flex flex-col',
         'border-gray-200 dark:border-white/10',
         hoverEffectClass,
       ]"
+      class="h-full"
     >
       <div class="p-6 relative z-10 flex-1 flex flex-col">
         <div class="flex items-center gap-3 mb-2">
@@ -47,13 +51,13 @@
           >
             <AppIcon
               :icon="iconForIndex(idx)"
-              :class="['h-6', 'w-6', iconTextClass]"
+              :class="['min-h-6', 'min-w-6', iconTextClass]"
             />
             <span :class="idx === 0 ? 'font-semibold' : ''">{{ $t(line as string) }}</span>
           </div>
 
           <div
-            v-if="props.example.length > 0"
+            v-if="!props.index"
             class="mt-6 p-4 rounded-lg"
             :class="props.example && iconBgClass"
           >
