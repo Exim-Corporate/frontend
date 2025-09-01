@@ -68,6 +68,7 @@ export default defineNuxtConfig({
     'nuxt-aos',
     'nuxt-gtag',
     '@nuxtjs/sitemap',
+    '@nuxtjs/robots',
   ],
 
   // Google Analytics/Tag Manager configuration
@@ -108,18 +109,20 @@ export default defineNuxtConfig({
   },
 
   sitemap: {
-    // siteUrl removed to satisfy types; will fall back to runtime detection or can be set via NUXT_PUBLIC_SITE_URL
-    // @ts-expect-error 'routes' option provided by module runtime but not typed in current version
-    async routes() {
-      // Fetch all articles from Strapi for sitemap
-      const res = await fetch(`${process.env.STRAPI_URL}/api/articles?pagination[pageSize]=1000`);
-      const data = await res.json();
-      return data.data.map((article: { slug: string }) => `/blog/${article.slug}`);
-    },
-    defaults: {
-      changefreq: 'daily',
-      priority: 0.7,
-    },
+    // Include dynamic blog URLs from our server endpoint; static pages are discovered automatically
+    sources: ['/api/__sitemap__/urls/blog'],
+    exclude: ['/preview/**', '/api/**'],
+  },
+
+  robots: {
+    groups: [
+      {
+        userAgent: '*',
+        allow: ['/'],
+        disallow: ['/api/**', '/preview/**'],
+      },
+    ],
+    sitemap: 'https://www.exim.eu.com/sitemap.xml',
   },
 
   experimental: {

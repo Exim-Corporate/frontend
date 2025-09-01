@@ -3,7 +3,7 @@
  * Mirrors the style and API of `emailRenderer.ts` but with referral-specific copy
  */
 import escape from 'escape-html';
-import type { ContactData } from './emailRenderer';
+import type { ContactData, TranslationFunction } from './emailRenderer';
 
 export type ReferralData = {
   company?: string;
@@ -13,8 +13,6 @@ export type ReferralData = {
   referralContactEmail?: string;
   privacyPolicyAccepted?: boolean;
 } & ContactData;
-
-export type TranslationFunction = (key: string) => string;
 
 const emailStyles = {
   outerContainer:

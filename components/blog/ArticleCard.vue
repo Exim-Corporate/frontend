@@ -13,15 +13,11 @@ const { locale, t } = useI18n();
 
 // Вычисляемое свойство для полного URL изображения
 const coverUrl = computed(() => {
-  const url = props.article.cover?.url;
+  const url = props.article.cover?.formats!.thumbnail.url;
   if (!url) return '';
-
-  // Если URL уже абсолютный, возвращаем его как есть
   if (url.startsWith('http')) {
     return url;
   }
-
-  // Если URL относительный, добавляем strapiUrl
   return `${config.public.strapiUrl}${url}`;
 });
 

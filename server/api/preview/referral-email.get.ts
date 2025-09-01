@@ -7,7 +7,8 @@ import {
   renderReferralEmails,
   generatePlainTextReferralEmail,
 } from '../../utils/referralEmailRenderer';
-import type { ReferralData, TranslationFunction } from '../../utils/referralEmailRenderer';
+import type { ReferralData } from '../../utils/referralEmailRenderer';
+import type { TranslationFunction } from '../../utils/emailRenderer';
 import en from '../../../i18n/locales/en';
 import de from '../../../i18n/locales/de';
 import fr from '../../../i18n/locales/fr';

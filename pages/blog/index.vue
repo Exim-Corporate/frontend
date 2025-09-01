@@ -81,7 +81,7 @@ const { locale, t } = useI18n();
 
 // Pagination state
 const currentPage = ref(1);
-const pageSize = ref(10); // Можно изменить на любое значение
+const pageSize = ref(12);
 const totalItems = ref(0);
 const totalPages = ref(0);
 

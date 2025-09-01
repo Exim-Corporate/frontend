@@ -100,7 +100,6 @@ const iconBgClass = computed(() => {
   if (props.color) return props.color;
   return props.index === 0 ? 'bg-accent/10' : 'bg-violet-100';
 });
-console.log('props example???', props.example);
 // Icon text color - return one of the explicit classes above
 const iconTextClass = computed(() => {
   return props.index === 0 ? 'text-accent' : 'text-violet-400';

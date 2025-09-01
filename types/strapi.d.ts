@@ -23,14 +23,7 @@ export interface StrapiArticle {
   createdAt: string;
   updatedAt: string;
   locale: string;
-  cover?: {
-    id: number;
-    url: string;
-    alternativeText?: string;
-    caption?: string;
-    width: number;
-    height: number;
-  };
+  cover: StrapiUploadFile;
   authors?: StrapiAuthor[];
   categories?: StrapiArticleCategory[];
   tags?: {
@@ -68,6 +61,21 @@ export interface StrapiCategory {
   slug: string;
   description?: string;
   articles?: StrapiArticle[];
+}
+
+export interface StrapiUploadFile {
+  id: number;
+  url: string;
+  alternativeText?: string;
+  caption?: string;
+  width: number;
+  height: number;
+  formats?: {
+    thumbnail?: StrapiImageFormat;
+    small?: StrapiImageFormat;
+    medium?: StrapiImageFormat;
+    large?: StrapiImageFormat;
+  };
 }
 
 export interface StrapiTag {
