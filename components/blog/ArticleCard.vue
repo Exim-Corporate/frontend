@@ -15,12 +15,19 @@ const { locale, t } = useI18n();
 
 // Вычисляемое свойство для полного URL изображения
 const coverUrl = computed(() => {
-  const url = props.article.cover?.formats!.thumbnail.url;
+  // Попытка взять thumbnail, иначе общий url
+  const raw = props.article.cover?.formats?.thumbnail?.url ?? props.article.cover?.url ?? '';
+  const url = raw ? String(raw).trim() : '';
   if (!url) return '';
-  if (url.startsWith('http')) {
-    return url;
+
+  // Если абсолютный URL (http(s) или protocol-relative), просто закодируем пробелы
+  if (/^https?:\/\//i.test(url) || url.startsWith('//')) {
+    return encodeURI(url);
   }
-  return `${config.public.strapiUrl}${url}`;
+
+  // Относительный путь — убедимся, что он начинается с "/"
+  const path = url.startsWith('/') ? url : `/${url}`;
+  return encodeURI(`${config.public.strapiUrl}${path}`);
 });
 
 // Вычисляемое свойство для создания ссылки на статью (используем только slug)
