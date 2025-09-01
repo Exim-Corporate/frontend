@@ -2,7 +2,7 @@
   <div class="mb-8">
     <NuxtImg
       v-if="cover?.url"
-      :src="cover.url"
+      :src="normalizeImageUrl(cover.url)"
       :alt="cover?.alternativeText || cover?.caption || 'Article cover'"
       class="w-full h-auto"
       loading="lazy"

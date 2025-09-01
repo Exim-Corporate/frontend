@@ -62,15 +62,21 @@ function onImgLoad() {
         v-if="!imgLoaded"
         class="absolute inset-0 bg-gray-200 dark:bg-gray-700 animate-pulse"
       />
-      <NuxtImg
-        v-if="coverUrl"
-        :src="coverUrl"
-        :alt="article.cover?.alternativeText || article.title"
-        loading="lazy"
-        class="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out"
-        :class="imgLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-2xl scale-105'"
-        @load="onImgLoad"
-      />
+
+      <!-- wrapper that scales on hover (5s) -->
+      <div
+        class="absolute inset-0 w-full h-full transform transition-transform duration-[5000ms] ease-out group-hover:scale-[1.15]"
+      >
+        <NuxtImg
+          v-if="coverUrl"
+          :src="coverUrl"
+          :alt="article.cover?.alternativeText || article.title"
+          loading="lazy"
+          class="absolute inset-0 w-full h-full object-cover transition-[opacity,filter] duration-[200ms] ease-out"
+          :class="imgLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-2xl'"
+          @load="onImgLoad"
+        />
+      </div>
     </div>
 
     <div class="p-4 flex flex-col flex-grow">

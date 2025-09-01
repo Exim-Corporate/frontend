@@ -18,10 +18,11 @@ import { copyArticleLink } from '@/utils/articleUtils';
 import { useFavorites } from '@/composables/useFavorites';
 
 const { showSuccess } = useToastMessage();
-const { t } = useI18n();
+const { t, te } = useI18n();
 
 interface Props {
   articleId: string;
+  title?: string;
 }
 const props = defineProps<Props>();
 
@@ -35,6 +36,15 @@ function copyArticle(): void {
   copyArticleLink(showSuccess, t, 'blog.link_copied');
 }
 
+const favoriteAriaLabel = computed(() => {
+  if (isFavorite.value) {
+    return te('article.remove_from_favorites')
+      ? t('article.remove_from_favorites')
+      : 'Remove from favorites';
+  }
+  return te('article.add_to_favorites') ? t('article.add_to_favorites') : 'Add to favorites';
+});
+
 const actions = computed(() => [
   {
     key: 'favorite',
@@ -42,9 +52,7 @@ const actions = computed(() => [
     rounded: true,
     icon: isFavorite.value ? 'pi pi-bookmark-fill' : 'pi pi-bookmark',
     color: isFavorite.value ? 'var(--primary-color)' : 'var(--secondary-color)',
-    ariaLabel: isFavorite.value
-      ? t('article.remove_from_favorites')
-      : t('article.add_to_favorites'),
+    ariaLabel: favoriteAriaLabel.value,
     onClick: handleToggleFavorite,
   },
   {

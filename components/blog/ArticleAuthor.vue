@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="authors?.length ?? 0 > 0"
+    v-if="authors && authors.length > 0"
     class="py-2"
   >
     <div
@@ -21,10 +21,29 @@
           v-else
           class="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center"
         >
-          <Icon
-            name="mdi:account"
+          <!-- Inline fallback avatar icon to avoid unresolved global Icon component -->
+          <svg
             class="w-6 h-6 text-gray-400"
-          />
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M12 12c2.7614 0 5-2.2386 5-5s-2.2386-5-5-5-5 2.2386-5 5 2.2386 5 5 5z"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M21 21c0-4.4183-3.5817-8-8-8H11c-4.4183 0-8 3.5817-8 8"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </div>
       </div>
 
@@ -50,6 +69,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { StrapiAuthor } from '@/types/strapi';
+import { normalizeImageUrl } from '@/utils/normalizeImageUrl';
 
 const props = defineProps<{
   authors: StrapiAuthor[] | null;
@@ -58,8 +78,7 @@ const props = defineProps<{
 const config = useRuntimeConfig();
 
 const authorAvatarUrl = computed(() => {
-  const url = props.authors?.[0]?.avatar?.url;
-  if (!url) return '';
-  return url.startsWith('http') ? url : `${config.public.strapiUrl}${url}`;
+  const raw = props.authors?.[0]?.avatar?.url ?? '';
+  return normalizeImageUrl(raw, config.public.strapiUrl);
 });
 </script>
