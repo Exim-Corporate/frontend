@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { StrapiArticle } from '../../types/strapi';
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 // Используем defineProps для строгой типизации входных данных
 interface Props {
@@ -36,6 +38,11 @@ const formattedDate = computed(() => {
     day: 'numeric',
   });
 });
+// Image load state for smooth blur-up transition
+const imgLoaded = ref(false);
+function onImgLoad() {
+  imgLoaded.value = true;
+}
 </script>
 
 <template>
@@ -43,18 +50,20 @@ const formattedDate = computed(() => {
     :to="articleLink"
     class="group flex bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 flex-col border border-gray-200 dark:border-gray-700 overflow-hidden animate-zoomin hover:scale-105"
   >
-    <NuxtImg
-      v-if="coverUrl"
-      :src="coverUrl"
-      :alt="article.cover?.alternativeText || article.title"
-      class="w-full h-48 object-cover group-hover:scale-120 transition-transform duration-[3000ms]"
-      loading="lazy"
-    />
-    <div
-      v-else
-      class="w-full h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center"
-    >
-      <i class="pi pi-image text-4xl text-gray-400" />
+    <div class="w-full h-48 relative overflow-hidden">
+      <div
+        v-if="!imgLoaded"
+        class="absolute inset-0 bg-gray-200 dark:bg-gray-700 animate-pulse"
+      />
+      <NuxtImg
+        v-if="coverUrl"
+        :src="coverUrl"
+        :alt="article.cover?.alternativeText || article.title"
+        loading="lazy"
+        class="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out"
+        :class="imgLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-2xl scale-105'"
+        @load="onImgLoad"
+      />
     </div>
 
     <div class="p-4 flex flex-col flex-grow">
