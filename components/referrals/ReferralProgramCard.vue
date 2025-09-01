@@ -25,8 +25,8 @@
             class="inline-flex items-center rounded-full border px-4.5 py-0.5 text-xs font-semibold border-gray-300 dark:border-gray-300"
             :class="badgeClass"
           >
+            <!-- {{ props.title }} -->
             {{ $t(props.title) }}
-            <!-- {{ $t(props.title) }} -->
           </div>
         </div>
 
@@ -36,7 +36,7 @@
             :key="i"
             :class="['mb-2', i === 0 ? 'font-semibold text-2xl' : 'text-secondary text-sm']"
           >
-            {{ $t(line) }}
+            {{ line }}
           </p>
         </div>
       </div>
@@ -62,7 +62,7 @@
             :class="props.example && iconBgClass"
           >
             <p :class="['text-sm text-muted-color mt-auto']">
-              {{ $t(props.example as string) }}
+              {{ props.example }}
             </p>
           </div>
         </div>
