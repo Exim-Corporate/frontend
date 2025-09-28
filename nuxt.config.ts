@@ -247,6 +247,10 @@ export default defineNuxtConfig({
           content:
             'IT staffing, remote developers, software development, tech talent, outsourcing, developers, engineers, QA, designers',
         },
+        {
+          name: 'google-site-verification',
+          content: 'Oq2vobaqC1HvDwUzo_GiWlx1xSTm_FqREO0lXFYf0AY',
+        },
       ],
       link: [
         // Favicon

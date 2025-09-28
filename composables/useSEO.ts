@@ -33,8 +33,15 @@ export const useSEO = (config: SEOConfig = {}) => {
   // Получаем текущий URL и сайт базовый URL из runtimeConfig
   const route = useRoute();
   const runtime = useRuntimeConfig();
+  const { locale } = useI18n();
   const siteBase = runtime.public.siteUrl || runtime.public.strapiUrl || 'https://www.exim.eu.com';
   const currentUrl = url || new URL(String(route.path || '/'), String(siteBase)).href;
+  const localeMap: Record<string, string> = {
+    en: 'en_US',
+    de: 'de_DE',
+    fr: 'fr_FR',
+    es: 'es_ES',
+  };
 
   // Resolve image to absolute URL
   const resolvedImage =
@@ -53,7 +60,7 @@ export const useSEO = (config: SEOConfig = {}) => {
     ogType: type,
     ogUrl: currentUrl,
     ogSiteName: siteName,
-    ogLocale: 'en_US',
+    ogLocale: localeMap[locale.value] || 'en_US',
 
     // Twitter Card теги
     // twitterCard: 'summary_large_image',
