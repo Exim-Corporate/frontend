@@ -476,4 +476,10 @@ export default {
       button: 'Soumettre un parrainage',
     },
   },
+  // ... other translations
+  errors: {
+    go_home: "Retour à l'accueil",
+    not_found: "Désolé, la page que vous recherchez n'a pas pu être trouvée.",
+    generic: 'Une erreur inattendue est survenue.',
+  },
 };

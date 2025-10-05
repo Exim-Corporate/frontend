@@ -118,6 +118,33 @@ export const techStacks: TechCategory[] = [
       { name: 'Terraform', id: 'terraform', icon: 'logos:terraform-icon' },
     ],
   },
+  {
+    name: 'Mobile',
+    nameKey: 'techStack.categories.mobile',
+    id: 'mobile',
+    icon: '📱',
+    technologies: [
+      { name: 'React Native', id: 'react-native', icon: 'logos:react' },
+      { name: 'Flutter', id: 'flutter', icon: 'logos:flutter' },
+      { name: 'Swift', id: 'swift', icon: 'logos:swift' },
+      { name: 'Kotlin', id: 'kotlin', icon: 'logos:kotlin-icon' },
+      { name: 'iOS Development', id: 'ios', icon: 'fa6-brands:apple' },
+      { name: 'Android Development', id: 'android', icon: 'logos:android-icon' },
+    ],
+  },
+  {
+    name: 'Databases',
+    nameKey: 'techStack.categories.database',
+    id: 'database',
+    icon: '🗃️',
+    technologies: [
+      { name: 'PostgreSQL', id: 'postgresql', icon: 'logos:postgresql' },
+      { name: 'MySQL', id: 'mysql', icon: 'logos:mysql' },
+      { name: 'MongoDB', id: 'mongodb', icon: 'logos:mongodb-icon' },
+      { name: 'Redis', id: 'redis', icon: 'logos:redis' },
+      { name: 'Microsoft SQL Server', id: 'mssql', icon: 'vscode-icons:file-type-sql' },
+    ],
+  },
 ];
 
 // List of service roles used across the project
