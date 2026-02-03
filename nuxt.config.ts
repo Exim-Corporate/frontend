@@ -15,12 +15,37 @@ export default defineNuxtConfig({
       sourcemap: false,
     },
     plugins: [tsconfigPaths(), tailwindcss()],
+    optimizeDeps: {
+      include: [
+        'primevue/badge',
+        'primevue/accordion',
+        'primevue/accordiontab',
+        'primevue/button',
+        'primevue/toast',
+        'primevue/drawer',
+        'primevue/dropdown',
+        'primevue/toggleswitch',
+        'primevue/checkbox',
+        'primevue/textarea',
+        'primevue/multiselect',
+        'primevue/inputtext',
+        'primevue/autocomplete',
+        'primevue/paginator',
+        'primevue/usetoast',
+        '@iconify/vue',
+        '@vuelidate/core',
+        '@vuelidate/validators',
+        'vue3-carousel-3d',
+        'vue-star-rating',
+        'qs',
+      ],
+    },
   },
 
   // Конфигурация для Vercel SSG
   nitro: {
     // preset: process.env.NODE_ENV === 'production' ? 'vercel' : 'node',
-    preset: 'vercel',
+    preset: 'aws_amplify',
 
     // Настройки маршрутов для SSG + API
     routeRules: {
@@ -29,11 +54,17 @@ export default defineNuxtConfig({
       '/privacy': { isr: true }, // Пример: страница "Политика конфиденциальности" с ISR
       '/terms': { isr: true }, // Пример: страница "Условия использования" с ISR
       '/cookie-policy': { isr: true }, // Пример: страница "Политика Cookie" с ISR
+      '/impressum': { isr: true }, // Страница "Impressum" с ISR
 
       // Blog
       '/blog': { isr: 300 },
       '/referrals': { isr: true },
       '/blog/**': { isr: 300 },
+
+      // // Hire pages (30 days)
+      // '/hire': { isr: 2592000 },
+      // '/hire/**': { isr: 2592000 },
+
       // Языковые версии - также можно настроить ISR
       '/de': { isr: true },
       '/de/**': { isr: true }, // Все страницы в /de/ с ISR
@@ -59,6 +90,28 @@ export default defineNuxtConfig({
       routes: [],
     },
   },
+
+  // router: {
+  //   options: {
+  //     scrollBehavior(to, from, savedPosition) {
+  //       if (savedPosition) {
+  //         return savedPosition;
+  //       }
+  //       if (to.hash) {
+  //         return new Promise(resolve => {
+  //           setTimeout(() => {
+  //             resolve({
+  //               el: to.hash,
+  //               top: 100, // Смещение сверху, если у вас фиксированный хедер
+  //               behavior: 'smooth',
+  //             });
+  //           }, 500); // Небольшая задержка для рендера DOM
+  //         });
+  //       }
+  //       return { top: 0, behavior: 'smooth' };
+  //     },
+  //   },
+  // },
 
   modules: [
     '@nuxt/eslint',
@@ -109,20 +162,16 @@ export default defineNuxtConfig({
   },
 
   sitemap: {
-    // Include dynamic blog URLs from our server endpoint; static pages are discovered automatically
-    sources: ['/api/__sitemap__/urls/blog'],
-    exclude: ['/preview/**', '/api/**'],
-  },
-
-  robots: {
-    groups: [
-      {
-        userAgent: '*',
-        allow: ['/'],
-        disallow: ['/api/**', '/preview/**'],
-      },
+    // Автоматическая генерация для всех языков
+    autoI18n: true,
+    // Динамические маршруты из Strapi
+    sources: [
+      '/api/__sitemap__/urls', // API endpoint для динамических URL из блога
     ],
-    sitemap: 'https://www.exim.eu.com/sitemap.xml',
+    defaults: {
+      changefreq: 'daily',
+      priority: 0.7,
+    },
   },
 
   experimental: {
@@ -140,6 +189,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
+    baseUrl: 'https://www.exim.eu.com',
     langDir: 'locales',
     defaultLocale: 'en',
     skipSettingLocaleOnNavigate: true,
@@ -258,8 +308,6 @@ export default defineNuxtConfig({
         // Favicon
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/images/logoPic.webp' },
-        // Canonical URL
-        { rel: 'canonical', href: 'https://www.exim.eu.com' }, // Замените на ваш домен
       ],
     },
     pageTransition: {
