@@ -103,20 +103,20 @@ export const useStrapiData = () => {
       if (response?.data?.[0]) {
         return response.data[0];
       }
-      
+
       // Fallback: try without locale if not found
       if (locale) {
         const fallbackParams = { ...params };
         delete fallbackParams.locale;
         const fallbackQuery = stringify(fallbackParams, { encodeValuesOnly: true });
         const fallbackUrl = `${strapiUrl}/api/articles?${fallbackQuery}`;
-        
+
         const fallbackResponse = await $fetch<StrapiResponse<StrapiArticle[]>>(fallbackUrl, {
           headers: getHeaders(),
         });
         return fallbackResponse?.data?.[0] || null;
       }
-      
+
       return null;
     } catch (error) {
       console.error('Error fetching article by slug:', error);
