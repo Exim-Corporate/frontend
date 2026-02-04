@@ -215,6 +215,7 @@ export default {
     submit: 'Anfrage absenden',
     sending: 'Wird gesendet...',
     success: 'Vielen Dank! Wir melden uns bald.',
+    error: 'Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es später erneut.',
     personalized_success:
       '{name}, vielen Dank für Ihre Nachricht! Wir freuen uns über Ihre Kontaktaufnahme.',
     form_submitted_successfully:

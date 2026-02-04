@@ -237,6 +237,7 @@ export default {
     country: 'País',
     roles: '¿Qué perfiles estás buscando?',
     message: 'Requisitos del proyecto',
+    requirements: 'Cuéntenos sobre sus necesidades tecnológicas específicas, el tamaño del equipo, las habilidades requeridas y el cronograma del proyecto',
     description:
       'Envíenos un breve resumen: le responderemos con una lista de candidatos en 48 horas.',
     name: 'Introduzca su nombre',
@@ -254,6 +255,7 @@ export default {
     submit: 'Enviar solicitud',
     sending: 'Enviando...',
     success: '¡Gracias! Nos pondremos en contacto pronto.',
+    error: 'Error al enviar el mensaje. Por favor, inténtelo de nuevo más tarde.',
     form_submitted_successfully:
       'Su formulario ha sido enviado con éxito. Nos pondremos en contacto en breve.',
     personalized_success:

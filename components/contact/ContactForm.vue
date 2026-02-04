@@ -294,7 +294,7 @@ const submitForm = async () => {
     toast.add({
       severity: 'error',
       summary: 'Error',
-      detail: t('error') || 'Failed to send. Try again later.',
+      detail: t('contact.error'),
       life: 5000,
     });
   } finally {

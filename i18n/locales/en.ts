@@ -239,6 +239,7 @@ export default {
     submit: 'Submit Request',
     sending: 'Sending...',
     success: "Thank you! We'll be in touch soon.",
+    error: 'Failed to send message. Please try again later.',
     form_submitted_successfully:
       'Your form has been submitted successfully. We will contact you shortly.',
     personalized_success: '{name}, thank you for your message! We appreciate you reaching out.',
