@@ -7,6 +7,8 @@ export default {
     about: 'About',
     services: 'Services',
     contact: 'Contact',
+    faq: 'FAQ',
+    referrals: 'Referrals',
   },
   blog: {
     title: 'Our Blog',

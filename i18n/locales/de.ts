@@ -13,6 +13,8 @@ export default {
   navigation: {
     blog: 'Blog',
     home: 'Home',
+    faq: 'FAQ',
+    referrals: 'Empfehlungen',
     about: 'Über uns',
     services: 'Dienstleistungen',
     contact: 'Kontakt',
