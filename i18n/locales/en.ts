@@ -502,4 +502,48 @@ export default {
     goHome: 'Go Home',
     goBack: 'Go Back',
   },
+  referralMail: {
+    admin: {
+      subject: 'New Referral Received',
+      subtitle: 'Referral Program Notification',
+      intro: 'A new referral was submitted via the website. See details below.',
+      contactInfo: 'Referral Details',
+      referrerName: 'Referrer Name',
+      referrerEmail: 'Referrer Email',
+      referredCompany: 'Referred Company',
+      companySize: 'Company Size',
+      referralContact: 'Referred Contact',
+      privacy: 'Privacy Accepted',
+      yes: 'Yes',
+      no: 'No',
+      message: 'Message',
+      replyButton: 'Reply to Referrer',
+      footerText: 'You are receiving this message because a referral was submitted.',
+    },
+    user: {
+      subject: 'We Received Your Referral',
+      subtitle: 'Thank You for Your Referral',
+      greeting: 'Hello',
+      intro:
+        'We have received your referral. Our team will review it and contact you within 24 hours.',
+      submission: 'Referral Summary',
+      whatNext: 'Next Steps',
+      nextStep:
+        'Our team will review the referral and contact you within 24 hours.',
+      personalNote: 'If you have additional information, please reply to this message.',
+      footerText: 'Best regards, The AS Exim Team',
+    },
+  },
+  referrals: {
+    form: {
+      full_name: 'Full Name',
+      email: 'Email',
+      company: 'Your Company',
+      referred_company: 'Referred Company Name',
+      company_size_label: 'Company Size',
+      contact_name: 'Contact Person',
+      contact_email: 'Contact Email',
+      message: 'Additional Information',
+    },
+  },
 };

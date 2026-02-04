@@ -237,7 +237,8 @@ export default {
     country: 'País',
     roles: '¿Qué perfiles estás buscando?',
     message: 'Requisitos del proyecto',
-    requirements: 'Cuéntenos sobre sus necesidades tecnológicas específicas, el tamaño del equipo, las habilidades requeridas y el cronograma del proyecto',
+    requirements:
+      'Cuéntenos sobre sus necesidades tecnológicas específicas, el tamaño del equipo, las habilidades requeridas y el cronograma del proyecto',
     description:
       'Envíenos un breve resumen: le responderemos con una lista de candidatos en 48 horas.',
     name: 'Introduzca su nombre',
@@ -510,5 +511,49 @@ export default {
     help: '¿Necesita ayuda? Contacte a nuestro equipo de soporte.',
     goHome: 'Ir al Inicio',
     goBack: 'Volver',
+  },
+  referralMail: {
+    admin: {
+      subject: 'Nueva recomendación recibida',
+      subtitle: 'Notificación del programa de referencias',
+      intro: 'Se ha enviado una nueva recomendación a través del sitio web. Ver detalles a continuación.',
+      contactInfo: 'Detalles de la recomendación',
+      referrerName: 'Nombre del recomendador',
+      referrerEmail: 'Email del recomendador',
+      referredCompany: 'Empresa recomendada',
+      companySize: 'Tamaño de la empresa',
+      referralContact: 'Contacto recomendado',
+      privacy: 'Privacidad aceptada',
+      yes: 'Sí',
+      no: 'No',
+      message: 'Mensaje',
+      replyButton: 'Responder al recomendador',
+      footerText: 'Recibe este mensaje porque se envió una recomendación.',
+    },
+    user: {
+      subject: 'Hemos recibido su recomendación',
+      subtitle: 'Gracias por su recomendación',
+      greeting: 'Hola',
+      intro:
+        'Hemos recibido su recomendación. Nuestro equipo la revisará y se pondrá en contacto con usted dentro de 24 horas.',
+      submission: 'Resumen de la recomendación',
+      whatNext: 'Próximos pasos',
+      nextStep:
+        'Nuestro equipo revisará la recomendación y se pondrá en contacto con usted dentro de 24 horas.',
+      personalNote: 'Si tiene información adicional, responda a este mensaje.',
+      footerText: 'Saludos cordiales, El equipo de AS Exim',
+    },
+  },
+  referrals: {
+    form: {
+      full_name: 'Nombre completo',
+      email: 'Email',
+      company: 'Su empresa',
+      referred_company: 'Nombre de la empresa referida',
+      company_size_label: 'Tamaño de la empresa',
+      contact_name: 'Persona de contacto',
+      contact_email: 'Email de contacto',
+      message: 'Información adicional',
+    },
   },
 };
