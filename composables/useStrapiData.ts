@@ -67,10 +67,11 @@ export const useStrapiData = () => {
     locale?: string,
   ): Promise<StrapiArticle | null> => {
     const params: QueryParams = {
-      // populate: '*',
+      filters: {
+        slug: { $eq: slug },
+      },
       populate: {
         categories: {
-          slug: { $eq: slug },
           fields: ['id', 'name'],
         },
         cover: {
@@ -92,13 +93,31 @@ export const useStrapiData = () => {
       encodeValuesOnly: true,
     });
 
-    const url = `${strapiUrl}/api/articles/${slug}?${query}`;
+    const url = `${strapiUrl}/api/articles?${query}`;
 
     try {
-      const response = await $fetch<StrapiResponse<StrapiArticle>>(url, {
+      const response = await $fetch<StrapiResponse<StrapiArticle[]>>(url, {
         headers: getHeaders(),
       });
-      return response?.data || null;
+      // Return first match or try without locale as fallback
+      if (response?.data?.[0]) {
+        return response.data[0];
+      }
+      
+      // Fallback: try without locale if not found
+      if (locale) {
+        const fallbackParams = { ...params };
+        delete fallbackParams.locale;
+        const fallbackQuery = stringify(fallbackParams, { encodeValuesOnly: true });
+        const fallbackUrl = `${strapiUrl}/api/articles?${fallbackQuery}`;
+        
+        const fallbackResponse = await $fetch<StrapiResponse<StrapiArticle[]>>(fallbackUrl, {
+          headers: getHeaders(),
+        });
+        return fallbackResponse?.data?.[0] || null;
+      }
+      
+      return null;
     } catch (error) {
       console.error('Error fetching article by slug:', error);
       return null;
@@ -150,6 +169,49 @@ export const useStrapiData = () => {
     fetchArticles,
     fetchArticleBySlug,
     fetchArticleById,
+  };
+};
+
+export const useHireData = () => {
+  const config = useRuntimeConfig();
+  const strapiUrl = config.public.strapiUrl;
+  const strapiToken = config.public.strapiToken;
+
+  const getHeaders = () => {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    if (strapiToken) {
+      headers.Authorization = `Bearer ${strapiToken}`;
+    }
+    return headers;
+  };
+
+  const fetchHirePageBySlug = async (slug: string, locale?: string) => {
+    const params: QueryParams = {
+      populate: '*',
+      locale,
+    };
+
+    const query = stringify(params, {
+      encodeValuesOnly: true,
+    });
+
+    const url = `${strapiUrl}/api/hire-pages/${slug}?${query}`;
+
+    try {
+      const response = await $fetch(url, {
+        headers: getHeaders(),
+      });
+      return response?.data || null;
+    } catch (error) {
+      console.error('Error fetching hire page by slug:', error);
+      return null;
+    }
+  };
+
+  return {
+    fetchHirePageBySlug,
   };
 };
 
