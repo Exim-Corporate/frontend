@@ -276,8 +276,6 @@ export default {
     company: 'AS Exim LTD',
     connect: 'Connect with Us',
     legal: 'Legal',
-    hire: 'Hire Developers',
-    loading: 'Loading...',
     trusted_partner: 'Your trusted partner for custom software development solutions.',
   },
   techStack: {
@@ -385,107 +383,10 @@ export default {
       footerText: 'We look forward to partnering with you on your next project.',
     },
   },
-  hire: {
-    error: 'Failed to load page. Please try again later.',
-    notFound: 'Page not found.',
-    hero: {
-      cta: 'Get Started',
-    },
-    stats: {
-      title: 'At a Glance',
-    },
-    overview: {
-      title: 'Overview',
-      techHubs: 'Top Tech Hubs',
-    },
-    benefits: {
-      title: 'Why Hire Here?',
-      subtitle: 'Discover the advantages of building your tech team in this location.',
-    },
-    employment: {
-      title1: 'Employment Conditions',
-      title_span: 'Overview',
-      subtitle: 'Key information about hiring and employment regulations in this country.',
-      tabs: {
-        payment: 'Payment & Tax',
-        leave: 'Leave Policy',
-        holidays: 'Holidays',
-        additional: 'Additional Info',
-      },
-      payroll: {
-        title: 'Payroll Cycle',
-        description:
-          'Employees typically receive their pay once a month, usually around the 25th of the month, though the exact pay date is determined by the individual employment contract.',
-      },
-      taxes: {
-        title: 'Employer Taxes',
-        description:
-          'Employer contributions typically range from 19-21% of gross salary, covering social security, health insurance, unemployment insurance, and pension contributions.',
-      },
-      overtime: {
-        title: 'Overtime Pay',
-        description:
-          'Overtime work should adhere to the maximum working hours specified in the employment contract or collective agreement. Additional hours typically require compensation or time off in lieu.',
-      },
-      vacation: {
-        title: 'Annual Leave',
-        description:
-          'Employees are entitled to a minimum of 20 paid vacation days per year (based on a 5-day work week). Many companies offer 25-30 days as standard.',
-      },
-      sick: {
-        title: 'Sick Leave',
-        description:
-          'Employees receive full pay for up to 6 weeks of illness. After that, health insurance covers approximately 70% of gross salary.',
-      },
-      parental: {
-        title: 'Parental Leave',
-        description:
-          'Parents are entitled to up to 3 years of parental leave per child. Parental allowance is provided for the first 12-14 months.',
-      },
-      public: {
-        title: 'Public Holidays',
-        description:
-          'There are 9 national public holidays, with additional regional holidays varying by state (up to 13 total days in some regions).',
-      },
-      workweek: {
-        title: 'Standard Work Week',
-        description:
-          'The standard work week is 40 hours (8 hours per day, 5 days per week). Maximum allowed is 48 hours per week on average.',
-      },
-      contracts: {
-        title: 'Employment Contracts',
-        description:
-          'Written employment contracts are standard and recommended. They should include job description, salary, working hours, vacation days, and notice periods.',
-      },
-    },
-    services: {
-      title: "What's Possible With Us?",
-      learnMore: 'Learn more',
-    },
-    cta: {
-      title: 'Ready to Build Your',
-      titleSpan: 'Dream Team?',
-      subtitle:
-        'Contact us today and let us help you find the perfect tech talent for your project.',
-      button: 'Get in Touch',
-    },
-    atGlance: {
-      title: 'At a',
-      titleSpan: 'Glance',
-    },
-    whyHire: {
-      title: 'Why Hire Software',
-      titleSpan: 'Developers',
-      defaultDescription:
-        'Discover the benefits of hiring top tech talent in this region. Our team of experts will help you find the perfect developers for your project.',
-      cta: 'Get Started',
-    },
-  },
   error: {
     '404': {
       title: 'Page Not Found',
-      description:
-        'The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.',
+      description: 'The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.',
     },
     '500': {
       title: 'Internal Server Error',
@@ -496,7 +397,5 @@ export default {
       description: 'An unexpected error occurred. Please try again.',
     },
     help: 'Need help? Contact our support team.',
-    goHome: 'Go Home',
-    goBack: 'Go Back',
   },
 };

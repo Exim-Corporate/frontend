@@ -255,8 +255,6 @@ export default {
     company: 'AS Exim LTD',
     connect: 'Verbinden Sie sich mit uns',
     legal: 'Rechtliches',
-    hire: 'Entwickler einstellen',
-    loading: 'Laden...',
     trusted_partner:
       'Ihr vertrauensvoller Partner für maßgeschneiderte Softwareentwicklungslösungen.',
   },
@@ -394,108 +392,10 @@ export default {
       footerText: 'Wir freuen uns darauf, mit Ihnen an Ihrem nächsten Projekt zu arbeiten.',
     },
   },
-  hire: {
-    error: 'Seite konnte nicht geladen werden. Bitte versuchen Sie es später erneut.',
-    notFound: 'Seite nicht gefunden.',
-    hero: {
-      cta: 'Jetzt starten',
-    },
-    stats: {
-      title: 'Auf einen Blick',
-    },
-    overview: {
-      title: 'Überblick',
-      techHubs: 'Top Tech-Standorte',
-    },
-    benefits: {
-      title: 'Warum hier einstellen?',
-      subtitle: 'Entdecken Sie die Vorteile, Ihr Tech-Team an diesem Standort aufzubauen.',
-    },
-    employment: {
-      title1: 'Beschäftigungsbedingungen',
-      title_span: 'im Überblick',
-      subtitle:
-        'Wichtige Informationen zu Einstellungs- und Beschäftigungsvorschriften in diesem Land.',
-      tabs: {
-        payment: 'Bezahlung & Steuern',
-        leave: 'Urlaubsrichtlinien',
-        holidays: 'Feiertage',
-        additional: 'Zusätzliche Infos',
-      },
-      payroll: {
-        title: 'Gehaltszyklus',
-        description:
-          'Mitarbeiter erhalten ihr Gehalt in der Regel einmal im Monat, üblicherweise um den 25. des Monats, wobei das genaue Zahlungsdatum durch den individuellen Arbeitsvertrag bestimmt wird.',
-      },
-      taxes: {
-        title: 'Arbeitgebersteuern',
-        description:
-          'Arbeitgeberbeiträge liegen typischerweise zwischen 19-21% des Bruttogehalts und decken Sozialversicherung, Krankenversicherung, Arbeitslosenversicherung und Rentenbeiträge ab.',
-      },
-      overtime: {
-        title: 'Überstundenvergütung',
-        description:
-          'Überstunden sollten sich an die im Arbeitsvertrag oder Tarifvertrag festgelegten maximalen Arbeitszeiten halten. Zusätzliche Stunden erfordern in der Regel eine Vergütung oder Freizeitausgleich.',
-      },
-      vacation: {
-        title: 'Jahresurlaub',
-        description:
-          'Mitarbeiter haben Anspruch auf mindestens 20 bezahlte Urlaubstage pro Jahr (basierend auf einer 5-Tage-Woche). Viele Unternehmen bieten standardmäßig 25-30 Tage an.',
-      },
-      sick: {
-        title: 'Krankenstand',
-        description:
-          'Mitarbeiter erhalten bis zu 6 Wochen lang volle Lohnfortzahlung bei Krankheit. Danach übernimmt die Krankenversicherung etwa 70% des Bruttogehalts.',
-      },
-      parental: {
-        title: 'Elternzeit',
-        description:
-          'Eltern haben Anspruch auf bis zu 3 Jahre Elternzeit pro Kind. Elterngeld wird für die ersten 12-14 Monate gezahlt.',
-      },
-      public: {
-        title: 'Gesetzliche Feiertage',
-        description:
-          'Es gibt 9 bundesweite Feiertage, mit zusätzlichen regionalen Feiertagen je nach Bundesland (bis zu 13 Tage insgesamt in einigen Regionen).',
-      },
-      workweek: {
-        title: 'Standard-Arbeitswoche',
-        description:
-          'Die Standard-Arbeitswoche beträgt 40 Stunden (8 Stunden pro Tag, 5 Tage pro Woche). Maximal erlaubt sind durchschnittlich 48 Stunden pro Woche.',
-      },
-      contracts: {
-        title: 'Arbeitsverträge',
-        description:
-          'Schriftliche Arbeitsverträge sind Standard und empfohlen. Sie sollten Stellenbeschreibung, Gehalt, Arbeitszeiten, Urlaubstage und Kündigungsfristen enthalten.',
-      },
-    },
-    services: {
-      title: 'Was ist mit uns möglich?',
-      learnMore: 'Mehr erfahren',
-    },
-    cta: {
-      title: 'Bereit, Ihr',
-      titleSpan: 'Traumteam aufzubauen?',
-      subtitle:
-        'Kontaktieren Sie uns noch heute und lassen Sie uns Ihnen helfen, die perfekten Tech-Talente für Ihr Projekt zu finden.',
-      button: 'Kontakt aufnehmen',
-    },
-    atGlance: {
-      title: 'Auf einen',
-      titleSpan: 'Blick',
-    },
-    whyHire: {
-      title: 'Warum Software',
-      titleSpan: 'Entwickler einstellen',
-      defaultDescription:
-        'Entdecken Sie die Vorteile der Einstellung von Top-Tech-Talenten in dieser Region. Unser Expertenteam hilft Ihnen, die perfekten Entwickler für Ihr Projekt zu finden.',
-      cta: 'Jetzt starten',
-    },
-  },
   error: {
     '404': {
       title: 'Seite nicht gefunden',
-      description:
-        'Die gesuchte Seite wurde möglicherweise entfernt, umbenannt oder ist vorübergehend nicht verfügbar.',
+      description: 'Die gesuchte Seite wurde möglicherweise entfernt, umbenannt oder ist vorübergehend nicht verfügbar.',
     },
     '500': {
       title: 'Interner Serverfehler',
@@ -506,7 +406,5 @@ export default {
       description: 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.',
     },
     help: 'Brauchen Sie Hilfe? Kontaktieren Sie unser Support-Team.',
-    goHome: 'Zur Startseite',
-    goBack: 'Zurück',
   },
 };

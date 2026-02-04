@@ -1,5 +1,5 @@
 import { defineNuxtConfig } from 'nuxt/config';
-import Noir from './assets/theme';
+import Noir from '../assets/theme';
 import tailwindcss from '@tailwindcss/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
@@ -45,7 +45,7 @@ export default defineNuxtConfig({
   // Конфигурация для Vercel SSG
   nitro: {
     // preset: process.env.NODE_ENV === 'production' ? 'vercel' : 'node',
-    preset: 'vercel',
+    preset: 'aws_amplify',
 
     // Настройки маршрутов для SSG + API
     routeRules: {
@@ -58,13 +58,7 @@ export default defineNuxtConfig({
 
       // Blog
       '/blog': { isr: 300 },
-      '/referrals': { isr: true },
       '/blog/**': { isr: 300 },
-
-      // // Hire pages (30 days)
-      // '/hire': { isr: 2592000 },
-      // '/hire/**': { isr: 2592000 },
-
       // Языковые версии - также можно настроить ISR
       '/de': { isr: true },
       '/de/**': { isr: true }, // Все страницы в /de/ с ISR
@@ -72,6 +66,7 @@ export default defineNuxtConfig({
       '/fr/**': { isr: true }, // Все страницы в /fr/ с ISR
       '/es': { isr: true },
       '/es/**': { isr: true }, // Все страницы в /es/ с ISR
+
       // API маршруты для серверных функций
       '/api/**': {
         cors: true,
@@ -79,10 +74,11 @@ export default defineNuxtConfig({
       },
 
       // Preview страницы (только для разработки)
-      '/preview/**': {
-        prerender: false, // Оставляем false, т.к. это для разработки
-        index: false,
-      },
+      // '/preview/**': {
+      //   prerender: false, // Оставляем false, т.к. это для разработки
+      //   index: false,
+      //   robots: false,
+      // },
     },
 
     prerender: {
@@ -90,28 +86,6 @@ export default defineNuxtConfig({
       routes: [],
     },
   },
-
-  // router: {
-  //   options: {
-  //     scrollBehavior(to, from, savedPosition) {
-  //       if (savedPosition) {
-  //         return savedPosition;
-  //       }
-  //       if (to.hash) {
-  //         return new Promise(resolve => {
-  //           setTimeout(() => {
-  //             resolve({
-  //               el: to.hash,
-  //               top: 100, // Смещение сверху, если у вас фиксированный хедер
-  //               behavior: 'smooth',
-  //             });
-  //           }, 500); // Небольшая задержка для рендера DOM
-  //         });
-  //       }
-  //       return { top: 0, behavior: 'smooth' };
-  //     },
-  //   },
-  // },
 
   modules: [
     '@nuxt/eslint',
@@ -121,7 +95,6 @@ export default defineNuxtConfig({
     'nuxt-aos',
     'nuxt-gtag',
     '@nuxtjs/sitemap',
-    '@nuxtjs/robots',
   ],
 
   // Google Analytics/Tag Manager configuration
@@ -150,9 +123,7 @@ export default defineNuxtConfig({
       to: process.env.GMAIL_TO,
     },
     public: {
-      // Public site URL for constructing absolute OG links (used by useSEO)
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://www.exim.eu.com',
-      strapiUrl: process.env.STRAPI_URL || 'https://strapi-production-3c8f.up.railway.app',
+      strapiUrl: process.env.STRAPI_URL || 'http://localhost:1337',
       strapiToken: process.env.STRAPI_TOKEN, // Exposed to client for read-only fetching
       privacyEmail: process.env.NUXT_PUBLIC_PRIVACY_EMAIL,
       contactEmail: process.env.NUXT_PUBLIC_CONTACT_EMAIL,
@@ -189,7 +160,6 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    baseUrl: 'https://www.exim.eu.com',
     langDir: 'locales',
     defaultLocale: 'en',
     skipSettingLocaleOnNavigate: true,
@@ -207,9 +177,7 @@ export default defineNuxtConfig({
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
-      // redirectOn: 'root',
-      alwaysRedirect: false,
-      fallbackLocale: 'en',
+      redirectOn: 'root',
     },
     pages: {
       'cookie-policy': {
@@ -298,10 +266,6 @@ export default defineNuxtConfig({
           name: 'keywords',
           content:
             'IT staffing, remote developers, software development, tech talent, outsourcing, developers, engineers, QA, designers',
-        },
-        {
-          name: 'google-site-verification',
-          content: 'Oq2vobaqC1HvDwUzo_GiWlx1xSTm_FqREO0lXFYf0AY',
         },
       ],
       link: [

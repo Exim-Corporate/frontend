@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /preview/
+
+# Sitemap
+Sitemap: https://www.exim.eu.com/sitemap_index.xml

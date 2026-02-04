@@ -282,8 +282,6 @@ export default {
     company: 'AS Exim LTD',
     connect: 'Conéctese con nosotros',
     legal: 'Legal',
-    hire: 'Contratar desarrolladores',
-    loading: 'Cargando...',
     trusted_partner:
       'Su socio de confianza para soluciones de desarrollo de software personalizadas.',
   },
@@ -393,107 +391,10 @@ export default {
       footerText: 'Esperamos colaborar con usted en su próximo proyecto.',
     },
   },
-  hire: {
-    error: 'No se pudo cargar la página. Por favor, inténtelo de nuevo más tarde.',
-    notFound: 'Página no encontrada.',
-    hero: {
-      cta: 'Comenzar',
-    },
-    stats: {
-      title: 'De un vistazo',
-    },
-    overview: {
-      title: 'Resumen',
-      techHubs: 'Principales centros tecnológicos',
-    },
-    benefits: {
-      title: '¿Por qué contratar aquí?',
-      subtitle: 'Descubra las ventajas de construir su equipo tech en esta ubicación.',
-    },
-    employment: {
-      title1: 'Condiciones laborales',
-      title_span: 'Resumen',
-      subtitle: 'Información clave sobre las regulaciones de contratación y empleo en este país.',
-      tabs: {
-        payment: 'Pago e impuestos',
-        leave: 'Política de permisos',
-        holidays: 'Días festivos',
-        additional: 'Info adicional',
-      },
-      payroll: {
-        title: 'Ciclo de nómina',
-        description:
-          'Los empleados normalmente reciben su salario una vez al mes, generalmente alrededor del día 25, aunque la fecha exacta de pago se determina por el contrato de trabajo individual.',
-      },
-      taxes: {
-        title: 'Impuestos del empleador',
-        description:
-          'Las contribuciones del empleador suelen oscilar entre el 19-21% del salario bruto, cubriendo seguridad social, seguro médico, seguro de desempleo y contribuciones a pensiones.',
-      },
-      overtime: {
-        title: 'Horas extras',
-        description:
-          'Las horas extras deben cumplir con las horas máximas de trabajo especificadas en el contrato de trabajo o convenio colectivo. Las horas adicionales generalmente requieren compensación o tiempo libre equivalente.',
-      },
-      vacation: {
-        title: 'Vacaciones anuales',
-        description:
-          'Los empleados tienen derecho a un mínimo de 20 días de vacaciones pagadas al año (basado en una semana de 5 días). Muchas empresas ofrecen 25-30 días como estándar.',
-      },
-      sick: {
-        title: 'Baja por enfermedad',
-        description:
-          'Los empleados reciben el salario completo durante hasta 6 semanas de enfermedad. Después, el seguro médico cubre aproximadamente el 70% del salario bruto.',
-      },
-      parental: {
-        title: 'Permiso parental',
-        description:
-          'Los padres tienen derecho a hasta 3 años de permiso parental por hijo. La prestación parental se proporciona durante los primeros 12-14 meses.',
-      },
-      public: {
-        title: 'Días festivos',
-        description:
-          'Hay 9 días festivos nacionales, con días festivos regionales adicionales que varían según el estado (hasta 13 días en total en algunas regiones).',
-      },
-      workweek: {
-        title: 'Semana laboral estándar',
-        description:
-          'La semana laboral estándar es de 40 horas (8 horas por día, 5 días por semana). El máximo permitido es un promedio de 48 horas por semana.',
-      },
-      contracts: {
-        title: 'Contratos de trabajo',
-        description:
-          'Los contratos de trabajo escritos son estándar y recomendados. Deben incluir descripción del puesto, salario, horario de trabajo, días de vacaciones y períodos de preaviso.',
-      },
-    },
-    services: {
-      title: '¿Qué es posible con nosotros?',
-      learnMore: 'Saber más',
-    },
-    cta: {
-      title: '¿Listo para construir tu',
-      titleSpan: 'equipo soñado?',
-      subtitle:
-        'Contáctenos hoy y permítanos ayudarle a encontrar el talento tech perfecto para su proyecto.',
-      button: 'Contactar',
-    },
-    atGlance: {
-      title: 'De un',
-      titleSpan: 'vistazo',
-    },
-    whyHire: {
-      title: 'Por qué contratar',
-      titleSpan: 'desarrolladores',
-      defaultDescription:
-        'Descubra los beneficios de contratar talento tecnológico de primer nivel en esta región. Nuestro equipo de expertos le ayudará a encontrar los desarrolladores perfectos para su proyecto.',
-      cta: 'Empezar',
-    },
-  },
   error: {
     '404': {
       title: 'Página no encontrada',
-      description:
-        'Es posible que la página que busca haya sido eliminada, renombrada o no esté disponible temporalmente.',
+      description: 'Es posible que la página que busca haya sido eliminada, renombrada o no esté disponible temporalmente.',
     },
     '500': {
       title: 'Error interno del servidor',
@@ -504,7 +405,5 @@ export default {
       description: 'Ocurrió un error inesperado. Por favor, inténtelo de nuevo.',
     },
     help: '¿Necesita ayuda? Contacte a nuestro equipo de soporte.',
-    goHome: 'Ir al Inicio',
-    goBack: 'Volver',
   },
 };

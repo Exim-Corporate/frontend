@@ -245,8 +245,6 @@ export default {
     company: 'AS Exim LTD',
     connect: 'Connectez-vous avec nous',
     legal: 'Mentions légales',
-    hire: 'Recruter des développeurs',
-    loading: 'Chargement...',
     trusted_partner: 'Votre partenaire de confiance.',
   },
   techStack: {
@@ -341,102 +339,6 @@ export default {
       footerText: 'Nous avons hâte de collaborer avec vous.',
     },
   },
-  hire: {
-    error: 'Impossible de charger la page. Veuillez réessayer plus tard.',
-    notFound: 'Page non trouvée.',
-    hero: {
-      cta: 'Commencer',
-    },
-    stats: {
-      title: "En un coup d'œil",
-    },
-    overview: {
-      title: 'Aperçu',
-      techHubs: 'Principaux pôles technologiques',
-    },
-    benefits: {
-      title: 'Pourquoi embaucher ici ?',
-      subtitle: 'Découvrez les avantages de constituer votre équipe tech à cet emplacement.',
-    },
-    employment: {
-      title1: "Conditions d'emploi",
-      title_span: 'Aperçu',
-      subtitle: "Informations clés sur les réglementations d'embauche et d'emploi dans ce pays.",
-      tabs: {
-        payment: 'Paiement et impôts',
-        leave: 'Politique de congés',
-        holidays: 'Jours fériés',
-        additional: 'Infos supplémentaires',
-      },
-      payroll: {
-        title: 'Cycle de paie',
-        description:
-          'Les employés reçoivent généralement leur salaire une fois par mois, habituellement vers le 25 du mois, bien que la date exacte soit déterminée par le contrat de travail individuel.',
-      },
-      taxes: {
-        title: 'Charges patronales',
-        description:
-          "Les cotisations patronales varient généralement de 19 à 21% du salaire brut, couvrant la sécurité sociale, l'assurance maladie, l'assurance chômage et les cotisations retraite.",
-      },
-      overtime: {
-        title: 'Heures supplémentaires',
-        description:
-          "Les heures supplémentaires doivent respecter le maximum d'heures de travail spécifié dans le contrat de travail ou la convention collective. Les heures supplémentaires nécessitent généralement une compensation ou un repos compensateur.",
-      },
-      vacation: {
-        title: 'Congés annuels',
-        description:
-          "Les employés ont droit à un minimum de 20 jours de congés payés par an (sur la base d'une semaine de 5 jours). De nombreuses entreprises offrent 25 à 30 jours en standard.",
-      },
-      sick: {
-        title: 'Congé maladie',
-        description:
-          "Les employés reçoivent leur salaire complet pendant jusqu'à 6 semaines de maladie. Ensuite, l'assurance maladie couvre environ 70% du salaire brut.",
-      },
-      parental: {
-        title: 'Congé parental',
-        description:
-          "Les parents ont droit à jusqu'à 3 ans de congé parental par enfant. L'allocation parentale est versée pendant les 12 à 14 premiers mois.",
-      },
-      public: {
-        title: 'Jours fériés',
-        description:
-          "Il y a 9 jours fériés nationaux, avec des jours fériés régionaux supplémentaires variant selon les régions (jusqu'à 13 jours au total dans certaines régions).",
-      },
-      workweek: {
-        title: 'Semaine de travail standard',
-        description:
-          'La semaine de travail standard est de 40 heures (8 heures par jour, 5 jours par semaine). Le maximum autorisé est de 48 heures par semaine en moyenne.',
-      },
-      contracts: {
-        title: 'Contrats de travail',
-        description:
-          'Les contrats de travail écrits sont standards et recommandés. Ils doivent inclure la description du poste, le salaire, les horaires de travail, les jours de congés et les délais de préavis.',
-      },
-    },
-    services: {
-      title: "Qu'est-ce qui est possible avec nous ?",
-      learnMore: 'En savoir plus',
-    },
-    cta: {
-      title: 'Prêt à construire votre',
-      titleSpan: 'équipe de rêve ?',
-      subtitle:
-        "Contactez-nous dès aujourd'hui et laissez-nous vous aider à trouver les talents tech parfaits.",
-      button: 'Nous contacter',
-    },
-    atGlance: {
-      title: 'En un',
-      titleSpan: "coup d'œil",
-    },
-    whyHire: {
-      title: 'Pourquoi embaucher des',
-      titleSpan: 'développeurs',
-      defaultDescription:
-        "Découvrez les avantages d'embaucher les meilleurs talents tech dans cette région. Notre équipe d'experts vous aidera à trouver les développeurs parfaits pour votre projet.",
-      cta: 'Commencer',
-    },
-  },
   error: {
     '404': {
       title: 'Page non trouvée',
@@ -452,7 +354,5 @@ export default {
       description: "Une erreur inattendue s'est produite. Veuillez réessayer.",
     },
     help: "Besoin d'aide ? Contactez notre équipe d'assistance.",
-    goHome: 'Accueil',
-    goBack: 'Retour',
   },
 };
