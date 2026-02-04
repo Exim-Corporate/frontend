@@ -464,12 +464,13 @@ export default {
     admin: {
       subject: 'Nouvelle recommandation reçue',
       subtitle: 'Notification du programme de parrainage',
-      intro: 'Une nouvelle recommandation a été soumise via le site Web. Voir les détails ci-dessous.',
+      intro:
+        'Une nouvelle recommandation a été soumise via le site Web. Voir les détails ci-dessous.',
       contactInfo: 'Détails de la recommandation',
       referrerName: 'Nom du parrain',
       referrerEmail: 'Email du parrain',
       referredCompany: 'Entreprise recommandée',
-      companySize: 'Taille de l\'entreprise',
+      companySize: "Taille de l'entreprise",
       referralContact: 'Contact recommandé',
       privacy: 'Confidentialité acceptée',
       yes: 'Oui',
@@ -483,13 +484,13 @@ export default {
       subtitle: 'Merci pour votre recommandation',
       greeting: 'Bonjour',
       intro:
-        'Nous avons reçu votre recommandation. Notre équipe l\'examinera et vous contactera dans les 24 heures.',
+        "Nous avons reçu votre recommandation. Notre équipe l'examinera et vous contactera dans les 24 heures.",
       submission: 'Résumé de la recommandation',
       whatNext: 'Prochaines étapes',
-      nextStep:
-        'Notre équipe examinera la recommandation et vous contactera dans les 24 heures.',
-      personalNote: 'Si vous avez des informations supplémentaires, veuillez répondre à ce message.',
-      footerText: 'Cordialement, L\'équipe AS Exim',
+      nextStep: 'Notre équipe examinera la recommandation et vous contactera dans les 24 heures.',
+      personalNote:
+        'Si vous avez des informations supplémentaires, veuillez répondre à ce message.',
+      footerText: "Cordialement, L'équipe AS Exim",
     },
   },
   referrals: {
@@ -497,8 +498,8 @@ export default {
       full_name: 'Nom complet',
       email: 'Email',
       company: 'Votre entreprise',
-      referred_company: 'Nom de l\'entreprise recommandée',
-      company_size_label: 'Taille de l\'entreprise',
+      referred_company: "Nom de l'entreprise recommandée",
+      company_size_label: "Taille de l'entreprise",
       contact_name: 'Personne de contact',
       contact_email: 'Email de contact',
       message: 'Informations supplémentaires',

@@ -516,7 +516,8 @@ export default {
     admin: {
       subject: 'Nueva recomendación recibida',
       subtitle: 'Notificación del programa de referencias',
-      intro: 'Se ha enviado una nueva recomendación a través del sitio web. Ver detalles a continuación.',
+      intro:
+        'Se ha enviado una nueva recomendación a través del sitio web. Ver detalles a continuación.',
       contactInfo: 'Detalles de la recomendación',
       referrerName: 'Nombre del recomendador',
       referrerEmail: 'Email del recomendador',

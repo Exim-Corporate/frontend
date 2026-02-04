@@ -528,8 +528,7 @@ export default {
         'We have received your referral. Our team will review it and contact you within 24 hours.',
       submission: 'Referral Summary',
       whatNext: 'Next Steps',
-      nextStep:
-        'Our team will review the referral and contact you within 24 hours.',
+      nextStep: 'Our team will review the referral and contact you within 24 hours.',
       personalNote: 'If you have additional information, please reply to this message.',
       footerText: 'Best regards, The AS Exim Team',
     },

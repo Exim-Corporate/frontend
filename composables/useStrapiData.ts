@@ -70,22 +70,7 @@ export const useStrapiData = () => {
       filters: {
         slug: { $eq: slug },
       },
-      populate: {
-        categories: {
-          fields: ['id', 'name'],
-        },
-        cover: {
-          fields: ['url', 'alternativeText', 'caption'],
-        },
-        authors: {
-          fields: ['name', 'position', 'bio'],
-          populate: {
-            avatar: {
-              fields: ['url', 'alternativeText'],
-            },
-          },
-        },
-      },
+      populate: '*',
       locale,
     };
 
@@ -99,25 +84,7 @@ export const useStrapiData = () => {
       const response = await $fetch<StrapiResponse<StrapiArticle[]>>(url, {
         headers: getHeaders(),
       });
-      // Return first match or try without locale as fallback
-      if (response?.data?.[0]) {
-        return response.data[0];
-      }
-
-      // Fallback: try without locale if not found
-      if (locale) {
-        const fallbackParams = { ...params };
-        delete fallbackParams.locale;
-        const fallbackQuery = stringify(fallbackParams, { encodeValuesOnly: true });
-        const fallbackUrl = `${strapiUrl}/api/articles?${fallbackQuery}`;
-
-        const fallbackResponse = await $fetch<StrapiResponse<StrapiArticle[]>>(fallbackUrl, {
-          headers: getHeaders(),
-        });
-        return fallbackResponse?.data?.[0] || null;
-      }
-
-      return null;
+      return response?.data?.[0] || null;
     } catch (error) {
       console.error('Error fetching article by slug:', error);
       return null;
