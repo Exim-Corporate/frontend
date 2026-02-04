@@ -7,6 +7,12 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
 
+  // Site config for SEO
+  site: {
+    url: 'https://www.exim.eu.com',
+    name: 'AS Exim',
+  },
+
   // Включаем SSR для генерации статических страниц
   ssr: true,
 
@@ -168,10 +174,6 @@ export default defineNuxtConfig({
     sources: [
       '/api/__sitemap__/urls', // API endpoint для динамических URL из блога
     ],
-    defaults: {
-      changefreq: 'daily',
-      priority: 0.7,
-    },
   },
 
   experimental: {
@@ -207,7 +209,7 @@ export default defineNuxtConfig({
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
-      // redirectOn: 'root',
+      redirectOn: 'root', // Редирект только на корневой странице для SEO
       alwaysRedirect: false,
       fallbackLocale: 'en',
     },
