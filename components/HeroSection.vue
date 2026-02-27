@@ -57,7 +57,7 @@
             :delay="200"
           >
             <p class="text-base md:text-xl mb-8 text-gray-100 max-w-2xl md:mx-0 mx-auto">
-              {{ $t('hero.subtitle') }}
+              {{ $t('hero.subtitle!!!!!') }}
             </p>
           </AnimatedElement>
           <!-- Buttons -->
