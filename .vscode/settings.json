@@ -1,30 +1,40 @@
 {
+  // Formatting
   "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[vue]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+
+  // ESLint — auto-fix on save, flat config
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
+  "eslint.useFlatConfig": true,
   "eslint.validate": ["javascript", "typescript", "vue"],
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[vue]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "typescript.tsdk": "node_modules/typescript/lib",
 
-  // Явно указываем, что это не VitePress или Petite-Vue проект,
-  // чтобы избежать конфликтов в плагине Volar.
+  // TypeScript — use workspace TS, limit memory
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.tsserver.maxTsServerMemory": 4096,
+
+  // Volar — disable unused project types
   "vue.server.vitePress.support": false,
   "vue.server.petiteVue.support": false,
-  "vue.server.additionalProjects": ["../tsconfig.json"],
-  // "vue.server.additionalProjects": ["./apps/frontend/tsconfig.json"],
 
-  // Помогает редактору правильно ассоциировать файлы
-  "files.associations": {
-    "*.vue": "vue"
+  // File associations
+  "files.associations": { "*.vue": "vue" },
+
+  // Exclude heavy folders from TS/search/watch
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.nuxt/**": true,
+    "**/.output/**": true,
+    "**/dist/**": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.nuxt": true,
+    "**/.output": true,
+    "**/dist": true
   }
 }

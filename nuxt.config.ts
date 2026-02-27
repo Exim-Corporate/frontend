@@ -1,7 +1,6 @@
 import { defineNuxtConfig } from 'nuxt/config';
 import Noir from './assets/theme';
 import tailwindcss from '@tailwindcss/vite';
-import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
@@ -20,7 +19,7 @@ export default defineNuxtConfig({
     build: {
       sourcemap: false,
     },
-    plugins: [tsconfigPaths(), tailwindcss()],
+    plugins: [tailwindcss()],
     optimizeDeps: {
       include: [
         'primevue/badge',
@@ -50,8 +49,7 @@ export default defineNuxtConfig({
 
   // Конфигурация для Vercel SSG
   nitro: {
-    // preset: process.env.NODE_ENV === 'production' ? 'vercel' : 'node',
-    preset: 'vercel',
+    preset: process.env.NODE_ENV === 'development' ? 'node' : 'vercel',
 
     // Настройки маршрутов для SSG + API
     routeRules: {
@@ -130,10 +128,15 @@ export default defineNuxtConfig({
     '@nuxtjs/robots',
   ],
 
+  eslint: {
+    checker: {
+      lintOnStart: false,
+    },
+  },
+
   // Google Analytics/Tag Manager configuration
   gtag: {
-    enabled: true,
-    // enabled: process.env.NODE_ENV === 'production',
+    enabled: process.env.NODE_ENV === 'production',
     id: process.env.NUXT_PUBLIC_GTAG_ID || 'G-3MTS6NR81E',
     config: {
       page_title: 'AS Exim - Expert IT Staffing & Remote Developers',
@@ -178,8 +181,8 @@ export default defineNuxtConfig({
 
   experimental: {
     scanPageMeta: true,
-    // Отключаем payload extraction для лучшей производительности SSG
     payloadExtraction: false,
+    renderJsonPayloads: false,
   },
 
   aos: {
@@ -197,7 +200,7 @@ export default defineNuxtConfig({
     skipSettingLocaleOnNavigate: true,
     lazy: true,
     bundle: {
-      optimizeTranslationDirective: false,
+      optimizeTranslationDirective: true,
     },
     locales: [
       { code: 'en', iso: 'en-US', file: 'en.ts', name: 'English' },
@@ -209,7 +212,7 @@ export default defineNuxtConfig({
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
-      redirectOn: 'root', // Редирект только на корневой странице для SEO
+      redirectOn: 'root',
       alwaysRedirect: false,
       fallbackLocale: 'en',
     },

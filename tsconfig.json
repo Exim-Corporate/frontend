@@ -2,35 +2,28 @@
   // https://nuxt.com/docs/guide/concepts/typescript
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-  "@/*": ["./*"],
-  "#imports": ["./.nuxt/imports.d.ts"],
-  "#app/nuxt": ["./.nuxt/types/nitro-nuxt.d.ts"],
-  "#app": ["./.nuxt/types/app"],
-  "#build/*": ["./.nuxt/*"]
-    },
-    "types": ["@nuxtjs/i18n", "node"],
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true,
-    "importsNotUsedAsValues": "remove",
-    "isolatedModules": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "moduleResolution": "bundler",
-    "allowJs": false,
-    "verbatimModuleSyntax": true,
     "incremental": true,
     "tsBuildInfoFile": "./node_modules/.cache/tsconfig.tsbuildinfo"
   },
   "include": [
-    "**/*.ts",
-    "**/*.vue",
+    "components/**/*.vue",
+    "composables/**/*.ts",
+    "layouts/**/*.vue",
+    "pages/**/*.vue",
+    "plugins/**/*.ts",
+    "server/**/*.ts",
+    "utils/**/*.ts",
     "types/**/*.d.ts",
-    ".nuxt/**/*.ts",
-    ".nuxt/**/*.d.ts"
-  ]
+    "app.vue",
+    "error.vue",
+    "nuxt.config.ts",
+    "app/**/*.ts"
+  ],
+  "exclude": ["node_modules", "dist", ".output", "changes"]
 }

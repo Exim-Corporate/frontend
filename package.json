@@ -42,7 +42,6 @@
     "tailwindcss-primeui": "^0.6.1",
     "vanilla-cookieconsent": "^3.1.0",
     "vue": "^3.5.13",
-    "vue-carousel-3d": "^0.2.0",
     "vue-router": "^4.5.0",
     "vue-star-rating": "^2.1.0",
     "vue3-carousel-3d": "^1.0.4",
@@ -58,9 +57,7 @@
     "eslint-plugin-prettier": "^5.2.6",
     "prettier": "^3.5.3",
     "tailwindcss": "^4.1.11",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-plugin-eslint2": "^5.0.5"
   },
   "resolutions": {
     "resolve": "1.20.0"

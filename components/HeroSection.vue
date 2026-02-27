@@ -45,7 +45,7 @@
           >
             <h1 class="text-5xl md:text-5xl lg:text-7xl font-bold mb-6">
               {{ $t('hero.title1') }}<br />
-              <span class="text-gradient">{{ $t('hero.title2') }}</span
+              <span class="text-gradient">{{ $t('hero.title223') }}</span
               ><br />
               {{ $t('hero.title3') }}
             </h1>
