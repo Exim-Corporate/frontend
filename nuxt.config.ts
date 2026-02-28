@@ -181,8 +181,6 @@ export default defineNuxtConfig({
 
   experimental: {
     scanPageMeta: true,
-    payloadExtraction: false,
-    renderJsonPayloads: false,
   },
 
   aos: {

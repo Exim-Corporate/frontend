@@ -6,6 +6,7 @@
 .cache
 .vercel
 .amplify-hosting
+.github/
 dist
 
 # Node dependencies
@@ -30,3 +31,4 @@ logs
 
 # Ignore compiled JavaScript files
 *.js
+.github/copilot-instructions.md
