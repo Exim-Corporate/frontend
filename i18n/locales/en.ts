@@ -8,6 +8,20 @@ export default {
     inputPlaceholder: 'Enter your email',
     scheduleButton: 'Schedule free consultation'
   },
+  servicesCards: {
+    aiConsulting: {
+      title: 'AI Consulting',
+      description: 'Transform your operations with intelligent systems that work smarter. From predictive analytics to automation and custom AI model integration, we help you turn complex data into measurable business impact.',
+    },
+    generativeAi: {
+      title: 'Generative AI',
+      description: 'Unlock creativity and innovation with cutting-edge generative AI solutions. From creating realistic images and text to designing personalized content and simulating scenarios, we empower your team to generate novel ideas, streamline workflows, and drive unprecedented growth in a data-driven world.',
+    },
+    bigData: {
+      title: 'Big Data Consulting',
+      description: 'Harness the power of massive datasets with expert big data strategies. From scalable storage and real-time processing to advanced analytics and machine learning insights, we guide you in extracting actionable intelligence, optimizing decisions, and achieving competitive advantages in an era of information overload.',
+    },
+  },
   navigation: {
     blog: 'Blog',
     home: 'Home',

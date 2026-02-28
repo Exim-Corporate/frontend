@@ -1,9 +1,8 @@
 <template>
   <div
     :class="[
-      'inline-flex items-center justify-center font-sans transition-colors rounded-full text-center',
+      'inline-flex items-center justify-center font-sans transition-colors rounded-full text-center bg-background-gray text-black text-sm md:text-xl',
       size === 'large' ? 'px-7 py-4' : 'px-5 py-4',
-      variant === 'dark' ? 'bg-black text-text-light' : 'bg-background-gray text-text-dark',
       uiClass,
     ]"
   >

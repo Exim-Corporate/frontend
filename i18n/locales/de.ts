@@ -8,6 +8,20 @@ export default {
     inputPlaceholder: 'Geben Sie Ihre E-Mail ein',
     scheduleButton: 'Kostenlose Beratung vereinbaren'
   },
+  servicesCards: {
+    aiConsulting: {
+      title: 'KI-Beratung',
+      description: 'Transformieren Sie Ihre Abläufe mit intelligenten Systemen, die smarter arbeiten. Von prädiktiver Analytik über Automatisierung bis hin zur individuellen KI-Modellintegration – wir helfen Ihnen, komplexe Daten in messbare Geschäftsergebnisse umzuwandeln.',
+    },
+    generativeAi: {
+      title: 'Generative KI',
+      description: 'Entfesseln Sie Kreativität und Innovation mit modernsten generativen KI-Lösungen. Von der Erstellung realistischer Bilder und Texte über personalisierte Inhalte bis hin zur Simulation von Szenarien – wir befähigen Ihr Team, neue Ideen zu entwickeln, Arbeitsabläufe zu optimieren und beispielloses Wachstum voranzutreiben.',
+    },
+    bigData: {
+      title: 'Big-Data-Beratung',
+      description: 'Nutzen Sie die Kraft riesiger Datensätze mit fachkundigen Big-Data-Strategien. Von skalierbarer Speicherung und Echtzeitverarbeitung bis hin zu fortschrittlicher Analytik und Machine-Learning-Erkenntnissen – wir unterstützen Sie dabei, handlungsrelevante Informationen zu gewinnen und Wettbewerbsvorteile zu erzielen.',
+    },
+  },
   meta: {
     description:
       'Outsource Tech - Ihr vertrauensvoller Partner für maßgeschneiderte Softwareentwicklungslösungen. Verbinden Sie sich mit erstklassigem Tech-Talent für Ihre Geschäftsbedürfnisse.',

@@ -1,6 +1,6 @@
 const sharedColors = {
   'background-gray': '#F5F7FA',
-  'text-dark': '#2C2C2E',
+  'text-dark': '#000000',
   'text-secondary': '#6B7280',
   'text-light': '#F5F7FA',
 
@@ -9,6 +9,8 @@ const sharedColors = {
 
   'btn-gradient-from': '#EBE8D2',
   'btn-gradient-to': '#CBBB97',
+
+  'card-overlay': '#FFFFFFE5',
 };
 
 export default sharedColors;
@@ -20,4 +22,5 @@ export const tailwindColors = {
   'text-light': sharedColors['text-light'],
   'form-border': sharedColors['form-border'],
   'form-border-hover': sharedColors['form-border-hover'],
+  'card-overlay': sharedColors['card-overlay'],
 };

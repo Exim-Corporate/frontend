@@ -8,6 +8,20 @@ export default {
     inputPlaceholder: 'Ingresa tu correo electrónico',
     scheduleButton: 'Programar consulta gratuita'
   },
+  servicesCards: {
+    aiConsulting: {
+      title: 'Consultoría de IA',
+      description: 'Transforma tus operaciones con sistemas inteligentes que trabajan de manera más eficiente. Desde análisis predictivo hasta automatización e integración personalizada de modelos de IA, te ayudamos a convertir datos complejos en un impacto empresarial medible.',
+    },
+    generativeAi: {
+      title: 'IA Generativa',
+      description: 'Desbloquea la creatividad y la innovación con soluciones de IA generativa de vanguardia. Desde la creación de imágenes y textos realistas hasta el diseño de contenido personalizado y la simulación de escenarios, empoderamos a tu equipo para generar ideas novedosas e impulsar un crecimiento sin precedentes.',
+    },
+    bigData: {
+      title: 'Consultoría Big Data',
+      description: 'Aprovecha el poder de conjuntos de datos masivos con estrategias expertas de big data. Desde almacenamiento escalable y procesamiento en tiempo real hasta análisis avanzado y aprendizaje automático, te guiamos en la extracción de inteligencia accionable y la obtención de ventajas competitivas.',
+    },
+  },
   navigation: {
     blog: 'Blog',
     home: 'Inicio',

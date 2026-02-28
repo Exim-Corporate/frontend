@@ -6,6 +6,20 @@ export default {
     inputPlaceholder: 'Entrez votre email',
     scheduleButton: 'Planifier une consultation gratuite'
   },
+  servicesCards: {
+    aiConsulting: {
+      title: 'Conseil en IA',
+      description: 'Transformez vos opérations grâce à des systèmes intelligents qui travaillent plus efficacement. De l\'analyse prédictive à l\'automatisation et à l\'intégration de modèles IA personnalisés, nous vous aidons à transformer des données complexes en un impact commercial mesurable.',
+    },
+    generativeAi: {
+      title: 'IA Générative',
+      description: 'Libérez la créativité et l\'innovation avec des solutions d\'IA générative de pointe. De la création d\'images et de textes réalistes à la conception de contenu personnalisé et à la simulation de scénarios, nous permettons à votre équipe de générer de nouvelles idées et de stimuler une croissance sans précédent.',
+    },
+    bigData: {
+      title: 'Conseil Big Data',
+      description: 'Exploitez la puissance de volumes de données massifs avec des stratégies big data expertes. Du stockage évolutif au traitement en temps réel, en passant par l\'analyse avancée et les insights du machine learning, nous vous guidons dans l\'extraction d\'intelligence actionnable et l\'obtention d\'avantages concurrentiels.',
+    },
+  },
   navigation: {
     blog: 'Blog',
     home: 'Accueil',

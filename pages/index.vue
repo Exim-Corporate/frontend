@@ -39,6 +39,8 @@ useSEO({
   <main>
     <HeroSection />
 
+    <ServicesCardsSection />
+
     <!-- Companies section -->
     <CompaniesCarousel />
 
