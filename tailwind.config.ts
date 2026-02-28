@@ -1,5 +1,5 @@
 import type { Config } from 'tailwindcss';
-import { tailwindColors } from './assets/theme/shared-colors';
+import sharedColors, { tailwindColors } from './assets/theme/shared-colors';
 
 export default {
   content: [
@@ -12,11 +12,13 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        serif: ['"Shippori Mincho"', 'serif'],
+      },
       colors: tailwindColors,
       backgroundImage: {
-        'tech-gradient': 'linear-gradient(135deg, #0A1F44 0%, #4CA1FF 100%)',
-        'indigo-gradient': 'linear-gradient(135deg, #2E1A47 0%, #4CA1FF 100%)',
-        'frosted-light': 'linear-gradient(135deg, #FFFFFF 0%, #F5F7FA 100%)',
+        'btn-gradient': `linear-gradient(180deg, ${sharedColors['btn-gradient-from']} 0%, ${sharedColors['btn-gradient-to']} 100%)`,
       },
     },
   },

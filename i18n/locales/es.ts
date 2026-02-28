@@ -1,6 +1,13 @@
 // import legalTranslations from './legal-en';
 
 export default {
+  heroNew: {
+    badge: 'Socio de Desarrollo de Software e IA',
+    title: 'Impulsando cambios a través\nde soluciones de IA y Datos.',
+    subtitle: 'Convertimos ideas audaces en IA\ny productos digitales',
+    inputPlaceholder: 'Ingresa tu correo electrónico',
+    scheduleButton: 'Programar consulta gratuita'
+  },
   navigation: {
     blog: 'Blog',
     home: 'Inicio',

@@ -1,40 +1,68 @@
-import colors from '../colors';
-
-/**
- * Button component theme customization
- */
 const buttonSchema = {
-  light: {
-    root: {
-      contrast: {
-        color: colors['text-light'],
-        background: colors.accent,
-        hoverBackground: colors['accent-hover'],
-        borderColor: colors['accent'],
-        hoverColor: colors['text-light'],
-        activeColor: colors['accent-active'],
-      },
+  root: {
+    borderRadius: '9999px',
+    paddingX: '1.75rem',
+    paddingY: '1rem',
+    sm: {
+      paddingX: '1.25rem',
+      paddingY: '0.75rem',
     },
-    outlined: {
-      primary: {
-        color: colors['text-light'],
-        background: colors['background-gray-hover'],
-        borderColor: colors['background-gray-hover'],
-        hoverColor: colors['text-dark'],
-        hoverBackground: colors['background-gray-hover'],
-        activeBackground: 'transparent',
-        activeColor: colors['text-dark'],
-      },
+    label: {
+      fontWeight: '500',
     },
+    transitionDuration: '0.3s',
   },
-  dark: {
-    root: {
-      contrast: {
-        color: colors['text-light'],
-        hoverColor: colors['text-light'],
-        background: colors['accent'],
-        hoverBackground: colors['accent-hover'],
-        activeBackground: colors['accent-active'],
+  colorScheme: {
+    light: {
+      root: {
+        primary: {
+          background: '#000000',
+          hoverBackground: '#1a1a12',
+          activeBackground: '#000000',
+          borderColor: 'transparent',
+          hoverBorderColor: 'transparent',
+          activeBorderColor: 'transparent',
+          color: '#EBE8D2',
+          hoverColor: '#CBBB97',
+          activeColor: '#EBE8D2',
+        },
+        contrast: {
+          background: '#000000',
+          hoverBackground: '#1a1a12',
+          activeBackground: '#000000',
+          borderColor: 'transparent',
+          hoverBorderColor: 'transparent',
+          activeBorderColor: 'transparent',
+          color: '#EBE8D2',
+          hoverColor: '#CBBB97',
+          activeColor: '#EBE8D2',
+        },
+      },
+    },
+    dark: {
+      root: {
+        primary: {
+          background: '#000000',
+          hoverBackground: '#1a1a1a',
+          activeBackground: '#000000',
+          borderColor: 'transparent',
+          hoverBorderColor: 'transparent',
+          activeBorderColor: 'transparent',
+          color: '#EBE8D2',
+          hoverColor: '#CBBB97',
+          activeColor: '#EBE8D2',
+        },
+        contrast: {
+          background: '#000000',
+          hoverBackground: '#1a1a1a',
+          activeBackground: '#000000',
+          borderColor: 'transparent',
+          hoverBorderColor: 'transparent',
+          activeBorderColor: 'transparent',
+          color: '#EBE8D2',
+          hoverColor: '#CBBB97',
+          activeColor: '#EBE8D2',
+        },
       },
     },
   },

@@ -1,5 +1,4 @@
 <template>
-  <!-- Основной контейнер с атрибутами AOS -->
   <div
     :data-aos="getAosAnimation"
     :data-aos-duration="duration"
@@ -14,7 +13,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-// Props для конфигурации анимации
 const props = defineProps({
   direction: {
     type: String,
@@ -32,7 +30,6 @@ const props = defineProps({
   },
 });
 
-// Определяем подходящую анимацию AOS в зависимости от направления
 const getAosAnimation = computed(() => {
   switch (props.direction) {
     case 'left':

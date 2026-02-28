@@ -1,12 +1,9 @@
 <template>
   <Button
     v-bind="$attrs"
-    :class="[
-      'transition-all duration-300 border-0 px-5 bg-gradient hover:scale-105 active:bg-accent active:text-inherit active:scale-x-90',
-    ]"
-    @click="handleClick"
+    class="w-full md:w-auto max-md:px-0! max-md:py-[14.5px]! hover:scale-105 transition-transform duration-300"
+    @click="onClick"
   >
-    <!-- Icon left -->
     <AppIcon
       v-if="icon && iconPosition === 'left'"
       :icon="icon"
@@ -14,13 +11,19 @@
       className="mr-3"
     />
 
-    <!-- Content: prefer slot, fallback to label prop -->
-    <span v-if="$slots.default">
+    <span
+      v-if="$slots.default"
+      class="bg-btn-gradient bg-clip-text text-transparent font-sans font-normal text-[16px] md:text-[18px] leading-[100%] tracking-normal align-middle w-full text-center block"
+    >
       <slot />
     </span>
-    <span v-else-if="label">{{ label }}</span>
+    <span
+      v-else-if="label"
+      class="bg-btn-gradient bg-clip-text text-transparent font-sans font-normal text-[16px] md:text-[18px] leading-[100%] tracking-normal align-middle w-full text-center block"
+    >
+      {{ label }}
+    </span>
 
-    <!-- Icon right -->
     <AppIcon
       v-if="icon && iconPosition === 'right'"
       :icon="icon"
@@ -34,14 +37,7 @@
 import Button from 'primevue/button';
 import AppIcon from '@/components/UI/AppIcon.vue';
 
-/**
- * AppButton - Reusable button component with optional icon/label and scroll-to-contact logic.
- */
 const props = defineProps({
-  scrollToContact: {
-    type: Boolean,
-    default: false,
-  },
   icon: {
     type: String,
     default: '',
@@ -58,27 +54,15 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  scrollToContact: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-// Two-way binding for drawer visibility (if used)
-const visible = defineModel<boolean>('visible');
-
-const emit = defineEmits(['click']);
-
-/**
- * Handles button click: emits click, optionally scrolls to contact, and closes drawer if visible.
- */
-const handleClick = (event: Event) => {
-  emit('click', event);
-
+const onClick = () => {
   if (props.scrollToContact) {
-    const contactSection = document.getElementById('contact-us');
-    if (contactSection) {
-      if (visible.value) visible.value = false; // close drawer if bound
-      contactSection.scrollIntoView({
-        block: 'center',
-      });
-    }
+    document.getElementById('contact-us')?.scrollIntoView({ block: 'center' });
   }
 };
 </script>

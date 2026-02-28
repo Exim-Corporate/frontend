@@ -11,7 +11,6 @@
     :width="size"
     :height="size"
   />
-  <!-- :color="color === 'currentColor' && !colorClass ? 'currentColor' : color" -->
 </template>
 
 <script setup lang="ts">
@@ -37,7 +36,6 @@ const props = defineProps({
   },
 });
 
-// Merge classes from prop and attrs so parent size/color classes are forwarded
 const mergedClasses = computed(() => {
   const attrs = useAttrs();
   const list: string[] = [];

@@ -1,6 +1,13 @@
 // import legalTranslations from './legal-en';
 
 export default {
+  heroNew: {
+    badge: 'KI & Softwareentwicklungspartner',
+    title: 'Veränderungen durch\nKI- & Datenlösungen vorantreiben.',
+    subtitle: 'Wir verwandeln mutige Ideen in KI\nund digitale Produkte',
+    inputPlaceholder: 'Geben Sie Ihre E-Mail ein',
+    scheduleButton: 'Kostenlose Beratung vereinbaren'
+  },
   meta: {
     description:
       'Outsource Tech - Ihr vertrauensvoller Partner für maßgeschneiderte Softwareentwicklungslösungen. Verbinden Sie sich mit erstklassigem Tech-Talent für Ihre Geschäftsbedürfnisse.',

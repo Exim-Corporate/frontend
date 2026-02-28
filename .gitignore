@@ -32,3 +32,4 @@ logs
 # Ignore compiled JavaScript files
 *.js
 .github/copilot-instructions.md
+.eslintcache

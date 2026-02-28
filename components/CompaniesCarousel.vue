@@ -1,11 +1,5 @@
 <template>
-  <section class="container py-30 text-center test">
-    <h2
-      data-aos="fade-up"
-      data-aos-duration="500"
-    >
-      {{ $t('companies.title') }}
-    </h2>
+  <section class="container py-20 text-center test">
     <AppLogoMarquee />
   </section>
 </template>

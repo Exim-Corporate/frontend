@@ -2,12 +2,16 @@
 /* @import "tailwindcss"; */
 /* @import './base.css'; */
 /* @import "tailwindcss-primeui/css"; */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Shippori+Mincho:wght@600&display=swap');
 @import "tailwindcss";
 @config "@/tailwind.config.ts";
 @import 'primeicons/primeicons.css';
 
-
 @layer base {
+  body {
+    font-family: theme('fontFamily.sans');
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
     color: var('--colors.text-dark')

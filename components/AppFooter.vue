@@ -14,12 +14,12 @@
                 src="/images/logoPic.webp"
                 alt="Logo"
                 class="h-auto w-16 brightness-100"
-              />
+              >
               <img
                 src="/images/logoText.webp"
                 alt="Logo text"
                 class="h-10 ml-4 brightness-100"
-              />
+              >
             </div>
             <p class="text-gray-300 mt-4 max-w-xs mx-auto md:mx-0">
               {{ $t('footer.trusted_partner') }}

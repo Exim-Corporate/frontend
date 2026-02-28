@@ -7,7 +7,7 @@
         <div
           v-for="(company, index) in companies"
           :key="index"
-          class="company-item flex flex-col items-center justify-center mx-2"
+          class="company-item flex flex-col items-center justify-center mx-2 text-black opacity-[35%]"
         >
           <AppIcon
             :icon="company.icon"
@@ -24,7 +24,7 @@
         <div
           v-for="(company, index) in companies"
           :key="index"
-          class="company-item flex flex-col items-center justify-center mx-2"
+          class="company-item flex flex-col items-center justify-center mx-2 text-black opacity-[35%]"
         >
           <AppIcon
             :icon="company.icon"
@@ -41,7 +41,6 @@
 <script setup lang="ts">
 import AppIcon from './AppIcon.vue';
 
-// Company icons collection using Iconify icons
 const companies = [
   {
     name: 'Dell',
@@ -55,18 +54,6 @@ const companies = [
     name: 'DuckDuckGo',
     icon: 'cib:duckduckgo',
   },
-  // {
-  //   name: 'Fedex',
-  //   icon: 'cib:fedex',
-  // },
-  // {
-  //   name: 'IBM',
-  //   icon: 'cib:ibm',
-  // },
-  // {
-  //   name: 'Samsung',
-  //   icon: 'cib:samsung',
-  // },
   {
     name: 'Spotify',
     icon: 'cib:spotify',
@@ -95,7 +82,6 @@ const companies = [
     name: 'Slack',
     icon: 'cib:slack',
   },
-  // { name: 'PayPal', icon: 'cib:paypal' },
 ];
 </script>
 
@@ -104,27 +90,7 @@ const companies = [
   width: 100%;
   overflow: hidden;
   position: relative;
-  /* padding: 20px 0; */
 }
-
-/* .gradient-mask-left, .gradient-mask-right {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 150px;
-  z-index: 2;
-  pointer-events: none;
-} */
-
-/* .gradient-mask-left {
-  left: 0;
-  background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0));
-}
-
-.gradient-mask-right {
-  right: 0;
-  background: linear-gradient(to left, rgba(255,255,255,1), rgba(255,255,255,0));
-} */
 
 .marquee {
   display: flex;
@@ -150,7 +116,6 @@ const companies = [
   }
 }
 
-/* Ensure smooth animation */
 @media (prefers-reduced-motion: no-preference) {
   .marquee {
     transition: transform 0.1s linear;

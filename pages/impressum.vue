@@ -25,8 +25,8 @@
             </div>
             <div class="md:col-span-2">
               <p>
-                Managing Director: Artem Shapovalov<br />
-                Company Registration: HE123456<br />
+                Managing Director: Artem Shapovalov<br >
+                Company Registration: HE123456<br >
                 VAT ID: CY98765432L
               </p>
             </div>
@@ -38,11 +38,11 @@
             </div>
             <div class="md:col-span-2">
               <p>
-                Responsible under press law:<br />
-                AS Exim LTD<br />
-                Griva Digeni 49<br />
-                CHRYSTALLA COURT<br />
-                5th floor, Flat/Office 51<br />
+                Responsible under press law:<br >
+                AS Exim LTD<br >
+                Griva Digeni 49<br >
+                CHRYSTALLA COURT<br >
+                5th floor, Flat/Office 51<br >
                 6036 Larnaca, Cyprus
               </p>
             </div>

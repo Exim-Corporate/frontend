@@ -14,7 +14,7 @@
           :src="testimonial.avatarSrc"
           :alt="`${testimonial.name} avatar`"
           class="w-full h-full object-cover"
-        />
+        >
       </div>
       <div class="min-w-0">
         <h3 class="text-base sm:text-lg font-bold text-gray-800 dark:text-white truncate">
