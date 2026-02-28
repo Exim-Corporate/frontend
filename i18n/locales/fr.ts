@@ -20,6 +20,49 @@ export default {
       description: 'Exploitez la puissance de volumes de données massifs avec des stratégies big data expertes. Du stockage évolutif au traitement en temps réel, en passant par l\'analyse avancée et les insights du machine learning, nous vous guidons dans l\'extraction d\'intelligence actionnable et l\'obtention d\'avantages concurrentiels.',
     },
   },
+  servicesProvide: {
+    title: 'Nos Services',
+    subtitle: 'Des solutions numériques complètes adaptées aux besoins de votre entreprise.',
+    button: 'Demander une Proposition',
+    cards: {
+      ai: {
+        title: 'Intelligence Artificielle',
+        description: 'Des solutions IA sur mesure qui automatisent les processus, améliorent la prise de décision et ouvrent de nouvelles sources de revenus grâce à l\'analyse intelligente des données.',
+      },
+      customSoftware: {
+        title: 'Développement Logiciel Sur Mesure',
+        description: 'Des logiciels conçus de A à Z pour correspondre à vos flux de travail, intégrations et exigences de scalabilité uniques.',
+      },
+      webApp: {
+        title: 'Développement d\'Applications Web',
+        description: 'Des applications web performantes avec des frameworks modernes, un design réactif et des expériences utilisateur fluides.',
+      },
+      mobile: {
+        title: 'Développement Mobile',
+        description: 'Des applications mobiles natives et cross-platform offrant des performances fluides et des interfaces intuitives sur chaque appareil.',
+      },
+      chatbots: {
+        title: 'Chatbots IA',
+        description: 'Des agents conversationnels intelligents qui gèrent les demandes clients, optimisent le support et stimulent l\'engagement en permanence.',
+      },
+      dataEngineering: {
+        title: 'Ingénierie des Données',
+        description: 'Des pipelines et architectures de données robustes qui transforment les informations brutes en jeux de données fiables et prêts pour l\'analyse.',
+      },
+      cloud: {
+        title: 'Services Cloud',
+        description: 'Infrastructure cloud évolutive, stratégies de migration et services managés qui réduisent les coûts et augmentent l\'agilité.',
+      },
+      vcto: {
+        title: 'VCTO',
+        description: 'Conseil de CTO virtuel qui aligne votre stratégie technologique avec vos objectifs commerciaux et guide le leadership technique.',
+      },
+      enterpriseSearch: {
+        title: 'Recherche d\'Entreprise',
+        description: 'Des solutions de recherche alimentées par l\'IA qui font apparaître instantanément les bonnes informations dans toutes vos sources de données.',
+      },
+    },
+  },
   navigation: {
     blog: 'Blog',
     home: 'Accueil',

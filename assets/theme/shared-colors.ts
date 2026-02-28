@@ -11,6 +11,7 @@ const sharedColors = {
   'btn-gradient-to': '#CBBB97',
 
   'card-overlay': '#FFFFFFE5',
+  'card-bg': '#F5F5F5',
 };
 
 export default sharedColors;
@@ -23,4 +24,5 @@ export const tailwindColors = {
   'form-border': sharedColors['form-border'],
   'form-border-hover': sharedColors['form-border-hover'],
   'card-overlay': sharedColors['card-overlay'],
+  'card-bg': sharedColors['card-bg'],
 };

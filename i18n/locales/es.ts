@@ -22,6 +22,49 @@ export default {
       description: 'Aprovecha el poder de conjuntos de datos masivos con estrategias expertas de big data. Desde almacenamiento escalable y procesamiento en tiempo real hasta análisis avanzado y aprendizaje automático, te guiamos en la extracción de inteligencia accionable y la obtención de ventajas competitivas.',
     },
   },
+  servicesProvide: {
+    title: 'Servicios que Ofrecemos',
+    subtitle: 'Soluciones digitales integrales adaptadas a las necesidades de tu negocio.',
+    button: 'Solicitar Propuesta',
+    cards: {
+      ai: {
+        title: 'Inteligencia Artificial',
+        description: 'Soluciones de IA personalizadas que automatizan procesos, mejoran la toma de decisiones y desbloquean nuevas fuentes de ingresos mediante análisis inteligente de datos.',
+      },
+      customSoftware: {
+        title: 'Desarrollo de Software a Medida',
+        description: 'Software personalizado construido desde cero para adaptarse a tus flujos de trabajo, integraciones y requisitos de escalabilidad únicos.',
+      },
+      webApp: {
+        title: 'Desarrollo de Aplicaciones Web',
+        description: 'Aplicaciones web de alto rendimiento con frameworks modernos, diseño responsivo y experiencias de usuario perfectas.',
+      },
+      mobile: {
+        title: 'Desarrollo Móvil',
+        description: 'Aplicaciones móviles nativas y multiplataforma que ofrecen un rendimiento fluido e interfaces intuitivas en cada dispositivo.',
+      },
+      chatbots: {
+        title: 'Chatbots de IA',
+        description: 'Agentes conversacionales inteligentes que gestionan consultas, optimizan el soporte e impulsan el compromiso las 24 horas.',
+      },
+      dataEngineering: {
+        title: 'Ingeniería de Datos',
+        description: 'Pipelines y arquitecturas de datos robustas que transforman información en bruto en conjuntos de datos fiables y listos para análisis.',
+      },
+      cloud: {
+        title: 'Servicios en la Nube',
+        description: 'Infraestructura cloud escalable, estrategias de migración y servicios gestionados que reducen costes y aumentan la agilidad.',
+      },
+      vcto: {
+        title: 'VCTO',
+        description: 'Asesoramiento de CTO virtual que alinea tu estrategia tecnológica con los objetivos de negocio y guía el liderazgo técnico.',
+      },
+      enterpriseSearch: {
+        title: 'Búsqueda Empresarial',
+        description: 'Soluciones de búsqueda potenciadas por IA que muestran la información correcta al instante en todas tus fuentes de datos empresariales.',
+      },
+    },
+  },
   navigation: {
     blog: 'Blog',
     home: 'Inicio',

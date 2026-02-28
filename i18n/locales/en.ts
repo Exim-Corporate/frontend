@@ -22,6 +22,49 @@ export default {
       description: 'Harness the power of massive datasets with expert big data strategies. From scalable storage and real-time processing to advanced analytics and machine learning insights, we guide you in extracting actionable intelligence, optimizing decisions, and achieving competitive advantages in an era of information overload.',
     },
   },
+  servicesProvide: {
+    title: 'Services We Provide',
+    subtitle: 'End-to-end digital solutions tailored to your business needs.',
+    button: 'Request Proposal',
+    cards: {
+      ai: {
+        title: 'Artificial Intelligence',
+        description: 'Custom AI solutions that automate processes, enhance decision-making, and unlock new revenue streams through intelligent data analysis.',
+      },
+      customSoftware: {
+        title: 'Custom Software Development',
+        description: 'Bespoke software built from the ground up to match your unique workflows, integrations, and scalability requirements.',
+      },
+      webApp: {
+        title: 'Web Application Development',
+        description: 'High-performance web applications with modern frameworks, responsive design, and seamless user experiences.',
+      },
+      mobile: {
+        title: 'Mobile Development',
+        description: 'Native and cross-platform mobile apps that deliver smooth performance and intuitive interfaces on every device.',
+      },
+      chatbots: {
+        title: 'AI Chatbots',
+        description: 'Intelligent conversational agents that handle customer inquiries, streamline support, and drive engagement around the clock.',
+      },
+      dataEngineering: {
+        title: 'Data Engineering',
+        description: 'Robust data pipelines and architectures that transform raw information into reliable, analytics-ready datasets.',
+      },
+      cloud: {
+        title: 'Cloud Services',
+        description: 'Scalable cloud infrastructure, migration strategies, and managed services that reduce costs and increase agility.',
+      },
+      vcto: {
+        title: 'VCTO',
+        description: 'Virtual CTO advisory that aligns your technology strategy with business goals and guides technical leadership.',
+      },
+      enterpriseSearch: {
+        title: 'Enterprise Search',
+        description: 'AI-powered search solutions that surface the right information instantly across all your enterprise data sources.',
+      },
+    },
+  },
   navigation: {
     blog: 'Blog',
     home: 'Home',

@@ -2,7 +2,7 @@
   <div class="flex flex-col min-h-screen">
     <Toast />
     <AppHeader />
-    <main class="flex-grow">
+    <main class="grow">
       <slot />
     </main>
     <AppScrollToTop />

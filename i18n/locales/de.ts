@@ -22,6 +22,49 @@ export default {
       description: 'Nutzen Sie die Kraft riesiger Datensätze mit fachkundigen Big-Data-Strategien. Von skalierbarer Speicherung und Echtzeitverarbeitung bis hin zu fortschrittlicher Analytik und Machine-Learning-Erkenntnissen – wir unterstützen Sie dabei, handlungsrelevante Informationen zu gewinnen und Wettbewerbsvorteile zu erzielen.',
     },
   },
+  servicesProvide: {
+    title: 'Unsere Dienstleistungen',
+    subtitle: 'Ganzheitliche digitale Lösungen, maßgeschneidert für Ihre Geschäftsanforderungen.',
+    button: 'Angebot anfordern',
+    cards: {
+      ai: {
+        title: 'Künstliche Intelligenz',
+        description: 'Individuelle KI-Lösungen, die Prozesse automatisieren, Entscheidungen verbessern und durch intelligente Datenanalyse neue Umsatzquellen erschließen.',
+      },
+      customSoftware: {
+        title: 'Individuelle Softwareentwicklung',
+        description: 'Maßgeschneiderte Software, die von Grund auf für Ihre individuellen Arbeitsabläufe, Integrationen und Skalierungsanforderungen entwickelt wird.',
+      },
+      webApp: {
+        title: 'Webanwendungsentwicklung',
+        description: 'Leistungsstarke Webanwendungen mit modernen Frameworks, responsivem Design und nahtloser Benutzererfahrung.',
+      },
+      mobile: {
+        title: 'Mobile Entwicklung',
+        description: 'Native und plattformübergreifende Apps mit herausragender Performance und intuitiven Oberflächen auf jedem Gerät.',
+      },
+      chatbots: {
+        title: 'KI-Chatbots',
+        description: 'Intelligente Konversationsagenten, die Kundenanfragen bearbeiten, den Support optimieren und rund um die Uhr Engagement fördern.',
+      },
+      dataEngineering: {
+        title: 'Data Engineering',
+        description: 'Robuste Datenpipelines und Architekturen, die Rohdaten in zuverlässige, analysebereite Datensätze umwandeln.',
+      },
+      cloud: {
+        title: 'Cloud Services',
+        description: 'Skalierbare Cloud-Infrastruktur, Migrationsstrategien und verwaltete Dienste, die Kosten senken und Agilität erhöhen.',
+      },
+      vcto: {
+        title: 'VCTO',
+        description: 'Virtuelle CTO-Beratung, die Ihre Technologiestrategie mit Geschäftszielen abstimmt und technische Führung begleitet.',
+      },
+      enterpriseSearch: {
+        title: 'Enterprise Search',
+        description: 'KI-gestützte Suchlösungen, die sofort die richtigen Informationen aus allen Unternehmensdatenquellen bereitstellen.',
+      },
+    },
+  },
   meta: {
     description:
       'Outsource Tech - Ihr vertrauensvoller Partner für maßgeschneiderte Softwareentwicklungslösungen. Verbinden Sie sich mit erstklassigem Tech-Talent für Ihre Geschäftsbedürfnisse.',

@@ -41,29 +41,31 @@ useSEO({
 
     <ServicesCardsSection />
 
+    <ServicesProvideSection />
+
     <!-- Companies section -->
-    <CompaniesCarousel />
+    <!-- <CompaniesCarousel /> -->
 
     <!-- Why Choose Us section -->
-    <WhyChooseUsSection />
+    <!-- <WhyChooseUsSection /> -->
 
     <!-- Services Section -->
-    <ServicesSection />
+    <!-- <ServicesSection /> -->
 
     <!-- Tech Stack Section -->
-    <TechStackSection />
+    <!-- <TechStackSection /> -->
 
     <!-- Process Section -->
-    <ProcessSection />
+    <!-- <ProcessSection /> -->
 
     <!-- Team Section -->
-    <TeamSection />
+    <!-- <TeamSection /> -->
 
     <!-- Testimonials Section -->
-    <TestimonialsSection />
+    <!-- <TestimonialsSection /> -->
 
     <!-- CTA Banner Section -->
-    <CTABanner />
+    <!-- <CTABanner /> -->
 
     <!-- FAQ Section -->
     <FAQSection />
