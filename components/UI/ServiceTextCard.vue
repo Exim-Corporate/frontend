@@ -1,15 +1,16 @@
 <template>
   <div class="w-full aspect-square rounded-4xl bg-card-bg flex flex-col justify-between p-6 md:p-10">
-    <BaseSubheader ui-class="!text-left">
+    <BaseTitle variant="subheader" class-name="text-left">
       {{ title }}
-    </BaseSubheader>
+    </BaseTitle>
 
-    <p class="">{{ description }}</p>
+    <BaseText variant="card">{{ description }}</BaseText>
   </div>
 </template>
 
 <script setup lang="ts">
-import BaseSubheader from '@/components/UI/BaseSubheader.vue';
+import BaseTitle from '@/components/UI/BaseTitle.vue';
+import BaseText from '@/components/UI/BaseText.vue';
 
 defineProps({
   title: {

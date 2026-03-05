@@ -4,14 +4,14 @@
       <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-12 md:mb-16">
         <div class="flex flex-col gap-4">
           <AnimatedElement direction="bottom" :delay="100">
-            <BaseTitle tag="h2" ui-class="text-left text-[24px] leading-[110%] md:text-[40px] md:!leading-[100%] !my-0">
+            <BaseTitle tag="h2" variant="main" class-name="text-left">
               {{ $t('servicesProvide.title') }}
             </BaseTitle>
           </AnimatedElement>
           <AnimatedElement direction="bottom" :delay="200">
-            <p class="text-left max-w-md">
+            <BaseText variant="section" class-name="text-left max-w-md">
               {{ $t('servicesProvide.subtitle') }}
-            </p>
+            </BaseText>
           </AnimatedElement>
         </div>
         <AnimatedElement direction="bottom" :delay="200">
@@ -52,9 +52,9 @@
 <script setup lang="ts">
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
+import BaseText from '@/components/UI/BaseText.vue';
 import AppButton from '@/components/UI/AppButton.vue';
 import ServiceCard from '@/components/UI/ServiceCard.vue';
-import ServiceIconCard from '@/components/UI/ServiceIconCard.vue';
 import ServiceTextCard from '@/components/UI/ServiceTextCard.vue';
 
 interface CardConfig {

@@ -7,12 +7,14 @@
     >
 
     <div class="relative flex flex-col justify-between h-full p-6 md:p-10">
-      <BaseSubheader ui-class="!text-left">
+      <BaseTitle variant="subheader" class-name="text-left">
         {{ title }}
-      </BaseSubheader>
+      </BaseTitle>
 
       <div class="flex items-end justify-between gap-4">
-        <p>{{ description }}</p>
+        <BaseText variant="card">
+          {{ description }}
+        </BaseText>
         <img
           :src="icon"
           :alt="title"
@@ -24,7 +26,8 @@
 </template>
 
 <script setup lang="ts">
-import BaseSubheader from '@/components/UI/BaseSubheader.vue';
+import BaseTitle from '@/components/UI/BaseTitle.vue';
+import BaseText from '@/components/UI/BaseText.vue';
 
 defineProps({
   title: {

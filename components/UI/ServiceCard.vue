@@ -7,24 +7,25 @@
     >
 
     <div class="absolute inset-14.5 transition-opacity duration-300 group-hover:opacity-0">
-      <BaseSubheader ui-class="text-white drop-shadow-lg !text-left">
+      <BaseTitle variant="subheader" class-name="text-white drop-shadow-lg text-left">
         {{ title }}
-      </BaseSubheader>
+      </BaseTitle>
     </div>
 
     <div class="absolute inset-7.5 rounded-[28px] bg-card-overlay p-6 md:p-10 flex flex-col gap-4 md:gap-6 scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 origin-center">
-      <BaseSubheader ui-class="text-text-dark !text-left">
+      <BaseTitle variant="subheader" class-name="text-text-dark text-left">
         {{ title }}
-      </BaseSubheader>
-      <p class="leading-7">
+      </BaseTitle>
+      <BaseText variant="card" class-name="text-text-dark">
         {{ description }}
-      </p>
+      </BaseText>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import BaseSubheader from '@/components/UI/BaseSubheader.vue';
+import BaseTitle from '@/components/UI/BaseTitle.vue';
+import BaseText from '@/components/UI/BaseText.vue';
 
 defineProps({
   image: {

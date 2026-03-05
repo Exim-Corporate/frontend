@@ -9,15 +9,15 @@
       </AnimatedElement>
 
       <AnimatedElement direction="bottom" :delay="200" class="max-w-3xl">
-        <BaseTitle class="mb-6 whitespace-pre-line">
+        <BaseTitle variant="main" class-name="mb-6 whitespace-pre-line text-center">
           {{ $t('heroNew.title') }}
         </BaseTitle>
       </AnimatedElement>
 
       <AnimatedElement direction="bottom" :delay="300">
-        <BaseSubheader class="mb-12 whitespace-pre-line max-w-lg">
+        <BaseText variant="main" class-name="mb-12 whitespace-pre-line max-w-lg text-center">
           {{ $t('heroNew.subtitle') }}
-        </BaseSubheader>
+        </BaseText>
       </AnimatedElement>
 
       <AnimatedElement direction="bottom" :delay="400" class="w-full max-w-xl">
@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
-import BaseSubheader from '@/components/UI/BaseSubheader.vue';
+import BaseText from '@/components/UI/BaseText.vue';
 import BaseChip from '@/components/UI/BaseChip.vue';
 import AppButton from '@/components/UI/AppButton.vue';
 import InputText from 'primevue/inputtext';
