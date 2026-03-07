@@ -1,5 +1,9 @@
 <template>
-  <div class="md:hidden mt-10 text-center">
+  <div
+    class="md:hidden mt-10 text-center"
+    data-aos="fade-up"
+    data-aos-duration="500"
+  >
     <Accordion :multiple="false" :active-index="0" class="tech-accordion">
       <template #expandicon>
         <Icon icon="ri:arrow-down-s-line" class="text-base transition-transform duration-300" />

@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-x-hidden">
+  <div class="app-shell overflow-x-hidden">
     <Analytics />
     <NuxtLayout>
       <NuxtPage

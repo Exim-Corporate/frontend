@@ -21,9 +21,9 @@ const chooseUs = {
     'Wir arbeiten ausschließlich mit bewährten Experten in Softwareentwicklung, Daten, KI/ML, QA und Design.',
   feat5_title: 'Kommunikationsbereite Talente',
   feat5_desc: 'Jeder Kandidat spricht fließend Englisch, ist kollaborativ und remote-affin.',
-  feat6_title: 'Reibungslose Einarbeitung & teamübergreifende Zusammenarbeit',
+  feat6_title: 'Außergewöhnliche Entwicklungsqualität',
   feat6_desc:
-    'Unsere ausgelagerten Teams integrieren sich nahtlos in Ihr internes Personal, passen sich Ihren Prozessen, Tools und Zeitzonen an, um schnell Ergebnisse ohne Reibungen zu liefern.',
+    'Von der Idee bis zur Auslieferung helfen wir Ihnen, schneller zu liefern, ohne Kompromisse bei der Qualität.',
 };
 
 export default chooseUs;

@@ -46,14 +46,14 @@ useSEO({
     <!-- Companies section -->
     <!-- <CompaniesCarousel /> -->
 
-    <!-- Why Choose Us section -->
-    <!-- <WhyChooseUsSection /> -->
-
     <!-- Services Section -->
     <!-- <ServicesSection /> -->
 
     <!-- Tech Stack Section -->
     <TechStackSection />
+
+    <!-- Why Choose Us section -->
+    <WhyChooseUsSection />
 
     <!-- Process Section -->
     <!-- <ProcessSection /> -->

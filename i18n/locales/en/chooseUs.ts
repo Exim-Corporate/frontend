@@ -1,5 +1,5 @@
 const chooseUs = {
-  title: 'Your Strategic Tech Partner — Not Just a Vendor',
+  title: 'Your Strategic Tech Partner. Not Just A Vendor',
   subtitle:
     'We deliver more than just talent. We provide a complete solution for your technology needs.',
   counter: 'What Makes Us Stand Apart?',
@@ -21,9 +21,9 @@ const chooseUs = {
     'We only work with proven experts in software development, data, AI/ML, QA, and design.',
   feat5_title: 'Communication-Ready Talent',
   feat5_desc: 'Every candidate is fluent in English, collaborative, and remote-native.',
-  feat6_title: 'Smooth Onboarding & Cross-Team Collaboration',
+  feat6_title: 'Exceptional Quality of Development',
   feat6_desc:
-    'Our outsourced teams integrate seamlessly with your in-house staff, aligning with your processes, tools, and time zones to deliver fast results without friction.',
+    'From idea to delivery, we help you ship faster without compromising quality.',
 };
 
 export default chooseUs;

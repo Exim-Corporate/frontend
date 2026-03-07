@@ -8,14 +8,21 @@
       class="absolute inset-0 bg-cover bg-center z-0"
       style="background-image: url('/images/contactForm.webp')"
     />
-    <div class="absolute inset-0 bg-gradient-to-l from-navy-blue/95 to-accent/60 z-0" />
+    <div class="absolute inset-0 bg-linear-to-l from-navy-blue/95 to-accent/60 z-0" />
 
     <div class="container relative z-10">
       <!-- Header Component -->
-      <ContactHeader />
+      <ContactHeader
+        data-aos="fade-up"
+        data-aos-duration="600"
+      />
 
       <!-- Form Component -->
-      <ContactForm />
+      <ContactForm
+        data-aos="fade-up"
+        data-aos-duration="600"
+        data-aos-delay="120"
+      />
     </div>
   </section>
 </template>

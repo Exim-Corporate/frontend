@@ -22,9 +22,9 @@ const chooseUs = {
   feat5_title: 'Talento preparado para la comunicación',
   feat5_desc:
     'Cada candidato habla inglés con fluidez, es colaborativo y está adaptado al trabajo remoto.',
-  feat6_title: 'Integración fluida y colaboración entre equipos',
+  feat6_title: 'Calidad excepcional de desarrollo',
   feat6_desc:
-    'Nuestros equipos externalizados se integran perfectamente con su personal interno, alineándose con sus procesos, herramientas y zonas horarias para entregar resultados rápidos sin fricciones.',
+    'Desde la idea hasta la entrega, le ayudamos a avanzar más rápido sin comprometer la calidad.',
 };
 
 export default chooseUs;

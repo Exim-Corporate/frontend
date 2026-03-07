@@ -1,6 +1,10 @@
 <template>
   <div class="hidden md:grid md:grid-cols-[220px_1fr] gap-10 mt-12">
-    <div class="flex flex-col">
+    <div
+      class="flex flex-col"
+      data-aos="fade-right"
+      data-aos-duration="500"
+    >
       <button
         v-for="role in section.roles"
         :key="role.id"
@@ -24,7 +28,12 @@
     </div>
 
     <Transition name="role-fade" mode="out-in">
-      <div :key="selectedRole.id" class="grid grid-cols-2 xl:grid-cols-4 gap-4 justify-items-start">
+      <div
+        :key="selectedRole.id"
+        class="grid grid-cols-2 xl:grid-cols-4 gap-4 justify-items-start"
+        data-aos="fade-left"
+        data-aos-duration="500"
+      >
         <TechStackCard
           v-for="technology in selectedRole.technologies"
           :key="`${section.id}-${selectedRole.id}-${technology.name}`"

@@ -19,8 +19,9 @@ const chooseUs = {
   feat4_desc: 'Nous travaillons uniquement avec des experts confirmés.',
   feat5_title: 'Talents prêts à communiquer',
   feat5_desc: "Chaque candidat parle couramment l'anglais et est adapté au travail à distance.",
-  feat6_title: 'Intégration fluide et collaboration inter-équipes',
-  feat6_desc: "Nos équipes s'intègrent parfaitement à votre personnel interne.",
+  feat6_title: 'Qualité de développement exceptionnelle',
+  feat6_desc:
+    'De l’idée à la livraison, nous vous aidons à livrer plus vite sans compromettre la qualité.',
 };
 
 export default chooseUs;

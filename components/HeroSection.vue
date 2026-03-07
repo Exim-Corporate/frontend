@@ -1,6 +1,6 @@
 <template>
-  <section class="relative w-full overflow-hidden bg-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 flex flex-col items-center justify-center min-h-[80vh]">
+  <section class="relative w-full overflow-hidden bg-white pb-0">
+    <div class="container mx-auto flex flex-col items-center justify-center min-h-[80vh]">
       
       <AnimatedElement direction="bottom" :delay="100">
         <BaseChip variant="light" size="normal" class="mb-6 md:mb-8">

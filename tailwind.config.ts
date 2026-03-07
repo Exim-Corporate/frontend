@@ -11,6 +11,20 @@ export default {
     './assets/**/*.{css,scss,ts}',
   ],
   theme: {
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: '1rem',
+        sm: '1.5rem',
+        lg: '3rem',
+        xl: '3.125rem',
+        '2xl': '3.125rem',
+      },
+      screens: {
+        xl: '1400px',
+        '2xl': '1400px',
+      },
+    },
     extend: {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

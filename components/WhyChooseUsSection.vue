@@ -1,113 +1,140 @@
 <template>
   <section
     id="about"
-    class="pb-20 overflow-hidden section-header"
+    class="w-ful mx-auto container overflow-hidden"
   >
-    <div class="container">
-      <!-- Section Header -->
-      <div
-        data-aos="fade-up"
-        data-aos-duration="500"
-        class="text-center mb-16"
-      >
-        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-          {{ $t('chooseUs.title') }}
-        </h2>
-        <p class="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-          {{ $t('chooseUs.subtitle') }}
-        </p>
-      </div>
-
-      <!-- Feature Cards Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <FeatureCard
-          v-for="(feature, index) in features"
-          :key="index"
-          :title="$t(feature.title)"
-          :icon="feature.icon"
-          :iconBgColor="getIconBgColor(index)"
-          :iconTextColor="getIconTextColor(index)"
+      <div class="relative">
+        <AnimatedElement
+          direction="bottom"
+          :delay="100"
         >
-          {{ $t(feature.description) }}
-        </FeatureCard>
+          <BaseTitle
+            tag="h2"
+            variant="main"
+            class-name="text-center lg:text-left max-w-md"
+          >
+            {{ $t('chooseUs.title') }}
+          </BaseTitle>
+        </AnimatedElement>
+
+        <NuxtImg
+          src="/images/techPartner/img.png"
+          alt="Strategic tech partner"
+          width="270"
+          height="220"
+          class="hidden lg:block absolute right-[0%] top-[5%] z-100 rounded-xl w-67.5 h-55 object-cover"
+          data-aos="fade-left"
+          data-aos-duration="600"
+          data-aos-delay="180"
+        />
+
+        <div class="mt-10 md:mt-12 flex flex-col gap-6 lg:gap-8">
+          <div
+            v-for="(item, index) in items"
+            :key="item.titleKey"
+            :ref="element => setItemRef(element, index)"
+            data-aos="fade-up"
+            data-aos-duration="600"
+            :data-aos-delay="220 + index * 80"
+          >
+            <ChooseUsPartnerRow
+              :title="$t(item.titleKey)"
+              :description="$t(item.descriptionKey)"
+              :is-active="activeIndex === index"
+            />
+          </div>
+        </div>
       </div>
-      <ChooseUsCounter />
-    </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import FeatureCard from '@/components/chooseUs/FeatureCard.vue';
+import { nextTick, onBeforeUnmount, onMounted, ref, type ComponentPublicInstance } from 'vue';
+import AnimatedElement from '@/components/UI/AnimatedElement.vue';
+import BaseTitle from '@/components/UI/BaseTitle.vue';
+// import BaseText from '@/components/UI/BaseText.vue';
+import ChooseUsPartnerRow from '@/components/chooseUs/ChooseUsPartnerRow.vue';
 
-// Feature data using translation keys
-const features = [
-  {
-    icon: 'material-symbols:bolt',
-    title: 'chooseUs.feat1_title',
-    description: 'chooseUs.feat1_desc',
-  },
-  {
-    icon: 'material-symbols:public',
-    title: 'chooseUs.feat3_title',
-    description: 'chooseUs.feat3_desc',
-  },
-  {
-    icon: 'material-symbols:handyman',
-    title: 'chooseUs.feat2_title',
-    description: 'chooseUs.feat2_desc',
-  },
-  {
-    icon: 'material-symbols:check-circle',
-    title: 'chooseUs.feat4_title',
-    description: 'chooseUs.feat4_desc',
-  },
-  {
-    icon: 'material-symbols:chat-bubble',
-    title: 'chooseUs.feat5_title',
-    description: 'chooseUs.feat5_desc',
-  },
-  {
-    icon: 'material-symbols:shield',
-    title: 'chooseUs.feat6_title',
-    description: 'chooseUs.feat6_desc',
-  },
+interface ChooseUsItem {
+  titleKey: string;
+  descriptionKey: string;
+}
+
+const items: ChooseUsItem[] = [
+  { titleKey: 'chooseUs.feat3_title', descriptionKey: 'chooseUs.feat3_desc' },
+  { titleKey: 'chooseUs.feat2_title', descriptionKey: 'chooseUs.feat2_desc' },
+  { titleKey: 'chooseUs.feat4_title', descriptionKey: 'chooseUs.feat4_desc' },
+  { titleKey: 'chooseUs.feat5_title', descriptionKey: 'chooseUs.feat5_desc' },
+  { titleKey: 'chooseUs.feat6_title', descriptionKey: 'chooseUs.feat6_desc' },
 ];
 
-// Generate different background and text colors for variety
-const colorVariants = [
-  {
-    bg: 'bg-accent/20 dark:bg-accent/30',
-    text: 'text-accent dark:text-accent-hover',
-  },
-  {
-    bg: 'bg-accent-mint/20 dark:bg-accent-mint/30',
-    text: 'text-accent-mint dark:text-accent-mint-hover',
-  },
-  {
-    bg: 'bg-accent-yellow/20 dark:bg-accent-yellow/30',
-    text: 'text-accent-yellow dark:text-accent-yellow-hover',
-  },
-  {
-    bg: 'bg-accent-coral/20 dark:bg-accent-coral/30',
-    text: 'text-accent-coral dark:text-accent-coral-hover',
-  },
-  {
-    bg: 'bg-accent-blue/20 dark:bg-accent-blue/40',
-    text: 'text-accent-blue dark:text-text-light',
-  },
-  {
-    bg: 'bg-violet-500/20 dark:bg-violet-300/30',
-    text: 'text-violet-500 dark:violet-300/30',
-  },
-];
+const activeIndex = ref<number>(0);
+const rowElements = ref<Array<HTMLElement | null>>([]);
+let frameId: number | null = null;
 
-const getIconBgColor = (index: number) => {
-  const variant = colorVariants[index % colorVariants.length];
-  return variant.bg;
+const setItemRef = (element: Element | ComponentPublicInstance | null, index: number) => {
+  if (element instanceof HTMLElement) {
+    rowElements.value[index] = element;
+    return;
+  }
+
+  rowElements.value[index] = null;
 };
 
-const getIconTextColor = (index: number) => {
-  const variant = colorVariants[index % colorVariants.length];
-  return variant.text;
+const updateActiveIndex = () => {
+  const viewportCenter = window.innerHeight / 2;
+  let minDistance = Number.POSITIVE_INFINITY;
+  let nextActiveIndex = activeIndex.value;
+
+  rowElements.value.forEach((element, index) => {
+    if (!element) {
+      return;
+    }
+
+    const rect = element.getBoundingClientRect();
+    const isVisible = rect.bottom > 0 && rect.top < window.innerHeight;
+
+    if (!isVisible) {
+      return;
+    }
+
+    const rowCenter = rect.top + rect.height / 2;
+    const distance = Math.abs(viewportCenter - rowCenter);
+
+    if (distance < minDistance) {
+      minDistance = distance;
+      nextActiveIndex = index;
+    }
+  });
+
+  activeIndex.value = nextActiveIndex;
 };
+
+const requestUpdate = () => {
+  if (frameId !== null) {
+    return;
+  }
+
+  frameId = window.requestAnimationFrame(() => {
+    updateActiveIndex();
+    frameId = null;
+  });
+};
+
+onMounted(async() => {
+  await nextTick();
+  updateActiveIndex();
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+});
+
+onBeforeUnmount(() => {
+  if (frameId !== null) {
+    window.cancelAnimationFrame(frameId);
+    frameId = null;
+  }
+
+  window.removeEventListener('scroll', requestUpdate);
+  window.removeEventListener('resize', requestUpdate);
+});
 </script>

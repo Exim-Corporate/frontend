@@ -1,6 +1,5 @@
 <template>
-  <section class="w-full bg-white py-16 md:py-24">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+  <section class="w-full bg-white container">
       <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-12 md:mb-16">
         <div class="flex flex-col gap-4">
           <AnimatedElement direction="bottom" :delay="100">
@@ -45,7 +44,6 @@
           />
         </AnimatedElement>
       </div>
-    </div>
   </section>
 </template>
 
