@@ -32,12 +32,12 @@
             :title="$t(card.titleKey)"
             :description="$t(card.descriptionKey)"
           />
-          <ServiceIconCard
+          <!-- <ServiceIconCard
             v-else-if="card.type === 'icon'"
             :title="$t(card.titleKey)"
             :description="$t(card.descriptionKey)"
             :icon="card.icon!"
-          />
+          /> -->
           <ServiceTextCard
             v-else
             :title="$t(card.titleKey)"

@@ -1,0 +1,504 @@
+[
+  {
+    "id": "softwareEngineering",
+    "sectionKey": "techStack.sections.softwareEngineering",
+    "roles": [
+      {
+        "id": "frontend",
+        "roleKey": "techStack.roles.softwareEngineering.frontend",
+        "technologies": [
+          {
+            "name": "React",
+            "icon": "logos:react"
+          },
+          {
+            "name": "Vue",
+            "icon": "logos:vue"
+          },
+          {
+            "name": "TypeScript",
+            "icon": "logos:typescript-icon"
+          },
+          {
+            "name": "Next.js",
+            "icon": "logos:nextjs-icon"
+          },
+          {
+            "name": "Nuxt",
+            "icon": "logos:nuxt-icon"
+          }
+        ]
+      },
+      {
+        "id": "backend",
+        "roleKey": "techStack.roles.softwareEngineering.backend",
+        "technologies": [
+          {
+            "name": "Node.js",
+            "icon": "logos:nodejs-icon"
+          },
+          {
+            "name": "Go",
+            "icon": "logos:go"
+          },
+          {
+            "name": "Rust",
+            "icon": "logos:rust"
+          },
+          {
+            "name": "PostgreSQL",
+            "icon": "logos:postgresql"
+          },
+          {
+            "name": "Redis",
+            "icon": "logos:redis"
+          }
+        ]
+      },
+      {
+        "id": "platform",
+        "roleKey": "techStack.roles.softwareEngineering.platform",
+        "technologies": [
+          {
+            "name": "Kubernetes",
+            "icon": "logos:kubernetes"
+          },
+          {
+            "name": "Docker",
+            "icon": "logos:docker-icon"
+          },
+          {
+            "name": "Terraform",
+            "icon": "logos:terraform-icon"
+          },
+          {
+            "name": "Helm",
+            "icon": "logos:helm"
+          },
+          {
+            "name": "GitHub Actions",
+            "icon": "logos:github-actions"
+          }
+        ]
+      },
+      {
+        "id": "mobile",
+        "roleKey": "techStack.roles.softwareEngineering.mobile",
+        "technologies": [
+          {
+            "name": "Flutter",
+            "icon": "logos:flutter"
+          },
+          {
+            "name": "React Native",
+            "icon": "logos:react"
+          },
+          {
+            "name": "Swift",
+            "icon": "logos:swift"
+          },
+          {
+            "name": "Kotlin",
+            "icon": "logos:kotlin-icon"
+          },
+          {
+            "name": "Expo",
+            "icon": "logos:expo-icon"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aiData",
+    "sectionKey": "techStack.sections.aiData",
+    "roles": [
+      {
+        "id": "llmEngineering",
+        "roleKey": "techStack.roles.aiData.llmEngineering",
+        "technologies": [
+          {
+            "name": "OpenAI",
+            "icon": "simple-icons:openai"
+          },
+          {
+            "name": "Anthropic",
+            "icon": "simple-icons:anthropic"
+          },
+          {
+            "name": "LangChain",
+            "icon": "simple-icons:langchain"
+          },
+          {
+            "name": "vLLM",
+            "icon": "simple-icons:v"
+          }
+        ]
+      },
+      {
+        "id": "mlEngineering",
+        "roleKey": "techStack.roles.aiData.mlEngineering",
+        "technologies": [
+          {
+            "name": "PyTorch",
+            "icon": "logos:pytorch-icon"
+          },
+          {
+            "name": "Hugging Face",
+            "icon": "simple-icons:huggingface"
+          },
+          {
+            "name": "Ray",
+            "icon": "simple-icons:ray"
+          },
+          {
+            "name": "Weights & Biases",
+            "icon": "simple-icons:weightsandbiases"
+          }
+        ]
+      },
+      {
+        "id": "dataEngineering",
+        "roleKey": "techStack.roles.aiData.dataEngineering",
+        "technologies": [
+          {
+            "name": "Apache Spark",
+            "icon": "logos:apache-spark"
+          },
+          {
+            "name": "dbt",
+            "icon": "simple-icons:dbt"
+          },
+          {
+            "name": "Airflow",
+            "icon": "logos:airflow-icon"
+          },
+          {
+            "name": "Kafka",
+            "icon": "logos:kafka-icon"
+          },
+          {
+            "name": "Snowflake",
+            "icon": "logos:snowflake-icon"
+          }
+        ]
+      },
+      {
+        "id": "analyticsBi",
+        "roleKey": "techStack.roles.aiData.analyticsBi",
+        "technologies": [
+          {
+            "name": "Power BI",
+            "icon": "logos:microsoft-power-bi"
+          },
+          {
+            "name": "Looker",
+            "icon": "logos:looker-icon"
+          },
+          {
+            "name": "Metabase",
+            "icon": "simple-icons:metabase"
+          },
+          {
+            "name": "Superset",
+            "icon": "simple-icons:apache"
+          },
+          {
+            "name": "Hex",
+            "icon": "simple-icons:hexlet"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cloudInfrastructure",
+    "sectionKey": "techStack.sections.cloudInfrastructure",
+    "roles": [
+      {
+        "id": "cloudPlatform",
+        "roleKey": "techStack.roles.cloudInfrastructure.cloudPlatform",
+        "technologies": [
+          {
+            "name": "AWS",
+            "icon": "logos:aws"
+          },
+          {
+            "name": "Google Cloud",
+            "icon": "logos:google-cloud"
+          },
+          {
+            "name": "Azure",
+            "icon": "logos:microsoft-azure"
+          },
+          {
+            "name": "Cloudflare",
+            "icon": "logos:cloudflare-icon"
+          },
+          {
+            "name": "Vercel",
+            "icon": "logos:vercel-icon"
+          }
+        ]
+      },
+      {
+        "id": "devopsSre",
+        "roleKey": "techStack.roles.cloudInfrastructure.devopsSre",
+        "technologies": [
+          {
+            "name": "Kubernetes",
+            "icon": "logos:kubernetes"
+          },
+          {
+            "name": "Argo CD",
+            "icon": "simple-icons:argo"
+          },
+          {
+            "name": "Terraform",
+            "icon": "logos:terraform-icon"
+          },
+          {
+            "name": "Pulumi",
+            "icon": "simple-icons:pulumi"
+          },
+          {
+            "name": "Ansible",
+            "icon": "logos:ansible"
+          }
+        ]
+      },
+      {
+        "id": "observability",
+        "roleKey": "techStack.roles.cloudInfrastructure.observability",
+        "technologies": [
+          {
+            "name": "Prometheus",
+            "icon": "logos:prometheus"
+          },
+          {
+            "name": "Grafana",
+            "icon": "logos:grafana"
+          },
+          {
+            "name": "OpenTelemetry",
+            "icon": "simple-icons:opentelemetry"
+          },
+          {
+            "name": "Datadog",
+            "icon": "logos:datadog-icon"
+          },
+          {
+            "name": "Sentry",
+            "icon": "logos:sentry-icon"
+          }
+        ]
+      },
+      {
+        "id": "security",
+        "roleKey": "techStack.roles.cloudInfrastructure.security",
+        "technologies": [
+          {
+            "name": "Vault",
+            "icon": "logos:vault-icon"
+          },
+          {
+            "name": "Trivy",
+            "icon": "simple-icons:trivy"
+          },
+          {
+            "name": "SonarQube",
+            "icon": "simple-icons:sonarqube"
+          },
+          {
+            "name": "Falco",
+            "icon": "simple-icons:falco"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "productDesign",
+    "sectionKey": "techStack.sections.productDesign",
+    "roles": [
+      {
+        "id": "productDesign",
+        "roleKey": "techStack.roles.productDesign.productDesign",
+        "technologies": [
+          {
+            "name": "Figma",
+            "icon": "logos:figma"
+          },
+          {
+            "name": "Framer",
+            "icon": "simple-icons:framer"
+          },
+          {
+            "name": "Miro",
+            "icon": "simple-icons:miro"
+          },
+          {
+            "name": "Notion",
+            "icon": "logos:notion-icon"
+          },
+          {
+            "name": "Maze",
+            "icon": "simple-icons:maze"
+          }
+        ]
+      },
+      {
+        "id": "designSystems",
+        "roleKey": "techStack.roles.productDesign.designSystems",
+        "technologies": [
+          {
+            "name": "Storybook",
+            "icon": "logos:storybook-icon"
+          },
+          {
+            "name": "Tailwind",
+            "icon": "logos:tailwindcss-icon"
+          },
+          {
+            "name": "PrimeVue",
+            "icon": "simple-icons:primevue"
+          },
+          {
+            "name": "Radix UI",
+            "icon": "simple-icons:radixui"
+          },
+          {
+            "name": "Tokens Studio",
+            "icon": "simple-icons:figma"
+          }
+        ]
+      },
+      {
+        "id": "uxResearch",
+        "roleKey": "techStack.roles.productDesign.uxResearch",
+        "technologies": [
+          {
+            "name": "Hotjar",
+            "icon": "simple-icons:hotjar"
+          },
+          {
+            "name": "Mixpanel",
+            "icon": "logos:mixpanel"
+          },
+          {
+            "name": "Dovetail",
+            "icon": "simple-icons:dovetail"
+          }
+        ]
+      },
+      {
+        "id": "prototyping",
+        "roleKey": "techStack.roles.productDesign.prototyping",
+        "technologies": [
+          {
+            "name": "Lottie",
+            "icon": "simple-icons:lottiefiles"
+          },
+          {
+            "name": "Rive",
+            "icon": "simple-icons:rive"
+          },
+          {
+            "name": "Webflow",
+            "icon": "logos:webflow"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "qa",
+    "sectionKey": "techStack.sections.qa",
+    "roles": [
+      {
+        "id": "testAutomation",
+        "roleKey": "techStack.roles.qa.testAutomation",
+        "technologies": [
+          {
+            "name": "Playwright",
+            "icon": "logos:playwright"
+          },
+          {
+            "name": "Cypress",
+            "icon": "logos:cypress-icon"
+          },
+          {
+            "name": "Vitest",
+            "icon": "logos:vitest"
+          },
+          {
+            "name": "Jest",
+            "icon": "logos:jest"
+          },
+          {
+            "name": "Appium",
+            "icon": "logos:appium"
+          }
+        ]
+      },
+      {
+        "id": "performance",
+        "roleKey": "techStack.roles.qa.performance",
+        "technologies": [
+          {
+            "name": "JMeter",
+            "icon": "simple-icons:apachejmeter"
+          },
+          {
+            "name": "Lighthouse",
+            "icon": "logos:lighthouse"
+          },
+          {
+            "name": "SpeedCurve",
+            "icon": "simple-icons:speedtest"
+          }
+        ]
+      },
+      {
+        "id": "securityTesting",
+        "roleKey": "techStack.roles.qa.securityTesting",
+        "technologies": [
+          {
+            "name": "OWASP ZAP",
+            "icon": "simple-icons:owasp"
+          },
+          {
+            "name": "Burp Suite",
+            "icon": "simple-icons:burpsuite"
+          },
+          {
+            "name": "Snyk",
+            "icon": "simple-icons:snyk"
+          },
+          {
+            "name": "Nuclei",
+            "icon": "simple-icons:nucleo"
+          }
+        ]
+      },
+      {
+        "id": "qualityEngineering",
+        "roleKey": "techStack.roles.qa.qualityEngineering",
+        "technologies": [
+          {
+            "name": "TestRail",
+            "icon": "simple-icons:testrail"
+          },
+          {
+            "name": "Qase",
+            "icon": "simple-icons:qase"
+          },
+          {
+            "name": "Postman",
+            "icon": "logos:postman-icon"
+          }
+        ]
+      }
+    ]
+  }
+]

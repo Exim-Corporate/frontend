@@ -319,18 +319,46 @@ export default {
     trusted_partner: 'Votre partenaire de confiance.',
   },
   techStack: {
-    title1: 'Experts techniques pour chaque',
-    title_span: 'stack moderne',
+    title: 'Experts techniques pour chaque stack moderne',
     subtitle: 'Nous avons les spécialistes pour le faire correctement.',
-    categories: {
-      frontend: 'Frontend',
-      backend: 'Backend',
-      mobile: 'Mobile',
-      devops: 'DevOps',
-      database: 'Bases de données',
-      aiml: 'IA/ML',
-      design: 'Design',
-      qa: 'QA & Tests',
+    sections: {
+      softwareEngineering: 'Ingénierie logicielle',
+      aiData: 'IA et Données',
+      cloudInfrastructure: 'Cloud et Infrastructure',
+      productDesign: 'Produit et Design',
+      qa: 'QA',
+    },
+    roles: {
+      softwareEngineering: {
+        frontend: 'Frontend',
+        backend: 'Backend',
+        platform: 'Plateforme',
+        mobile: 'Mobile',
+      },
+      aiData: {
+        llmEngineering: 'Ingénierie LLM',
+        mlEngineering: 'Ingénierie ML',
+        dataEngineering: 'Data Engineering',
+        analyticsBi: 'Analytics & BI',
+      },
+      cloudInfrastructure: {
+        cloudPlatform: 'Plateforme Cloud',
+        devopsSre: 'DevOps / SRE',
+        observability: 'Observabilité',
+        security: 'Sécurité',
+      },
+      productDesign: {
+        productDesign: 'Product Design',
+        designSystems: 'Design Systems',
+        uxResearch: 'Recherche UX',
+        prototyping: 'Prototypage',
+      },
+      qa: {
+        testAutomation: 'Automatisation des tests',
+        performance: 'Performance',
+        securityTesting: 'Tests de sécurité',
+        qualityEngineering: 'Quality Engineering',
+      },
     },
   },
   cta: {

@@ -53,7 +53,7 @@ useSEO({
     <!-- <ServicesSection /> -->
 
     <!-- Tech Stack Section -->
-    <!-- <TechStackSection /> -->
+    <TechStackSection />
 
     <!-- Process Section -->
     <!-- <ProcessSection /> -->

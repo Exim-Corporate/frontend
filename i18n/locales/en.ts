@@ -348,19 +348,47 @@ export default {
     trusted_partner: 'Your trusted partner for custom software development solutions.',
   },
   techStack: {
-    title1: 'Tech Experts Across Every',
-    title_span: 'Modern Stack',
+    title: 'Tech Experts Across Every Modern Stack',
     subtitle:
       "Whether you're scaling a React project, deploying data pipelines, or launching your next AI product—we've got the specialists to get it done right.",
-    categories: {
-      frontend: 'Frontend',
-      backend: 'Backend',
-      mobile: 'Mobile',
-      devops: 'DevOps',
-      database: 'Databases',
-      aiml: 'AI/ML',
-      design: 'Design',
-      qa: 'QA & Testing',
+    sections: {
+      softwareEngineering: 'Software Engineering',
+      aiData: 'AI & Data',
+      cloudInfrastructure: 'Cloud & Infrastructure',
+      productDesign: 'Product & Design',
+      qa: 'QA',
+    },
+    roles: {
+      softwareEngineering: {
+        frontend: 'Frontend',
+        backend: 'Backend',
+        platform: 'Platform',
+        mobile: 'Mobile',
+      },
+      aiData: {
+        llmEngineering: 'LLM Engineering',
+        mlEngineering: 'ML Engineering',
+        dataEngineering: 'Data Engineering',
+        analyticsBi: 'Analytics & BI',
+      },
+      cloudInfrastructure: {
+        cloudPlatform: 'Cloud Platform',
+        devopsSre: 'DevOps / SRE',
+        observability: 'Observability',
+        security: 'Security',
+      },
+      productDesign: {
+        productDesign: 'Product Design',
+        designSystems: 'Design Systems',
+        uxResearch: 'UX Research',
+        prototyping: 'Prototyping',
+      },
+      qa: {
+        testAutomation: 'Test Automation',
+        performance: 'Performance',
+        securityTesting: 'Security Testing',
+        qualityEngineering: 'Quality Engineering',
+      },
     },
   },
   cta: {

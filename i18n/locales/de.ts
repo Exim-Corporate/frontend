@@ -328,19 +328,47 @@ export default {
       'Ihr vertrauensvoller Partner für maßgeschneiderte Softwareentwicklungslösungen.',
   },
   techStack: {
-    title1: 'Tech-Experten für jeden',
-    title_span: 'modernen Stack',
+    title: 'Tech-Experten für jeden modernen Stack',
     subtitle:
       'Ob Sie ein React-Projekt skalieren, Datenpipelines bereitstellen oder Ihr nächstes KI-Produkt launchen – wir haben die Spezialisten, um es richtig zu machen.',
-    categories: {
-      frontend: 'Frontend',
-      backend: 'Backend',
-      mobile: 'Mobil',
-      devops: 'DevOps',
-      database: 'Datenbanken',
-      aiml: 'KI/ML',
-      design: 'Design',
-      qa: 'QA & Testen',
+    sections: {
+      softwareEngineering: 'Softwareentwicklung',
+      aiData: 'KI & Daten',
+      cloudInfrastructure: 'Cloud & Infrastruktur',
+      productDesign: 'Produkt & Design',
+      qa: 'Qualitätssicherung',
+    },
+    roles: {
+      softwareEngineering: {
+        frontend: 'Frontend',
+        backend: 'Backend',
+        platform: 'Plattform',
+        mobile: 'Mobil',
+      },
+      aiData: {
+        llmEngineering: 'LLM-Entwicklung',
+        mlEngineering: 'ML-Engineering',
+        dataEngineering: 'Data Engineering',
+        analyticsBi: 'Analytics & BI',
+      },
+      cloudInfrastructure: {
+        cloudPlatform: 'Cloud-Plattform',
+        devopsSre: 'DevOps / SRE',
+        observability: 'Observability',
+        security: 'Sicherheit',
+      },
+      productDesign: {
+        productDesign: 'Produktdesign',
+        designSystems: 'Design-Systeme',
+        uxResearch: 'UX-Research',
+        prototyping: 'Prototyping',
+      },
+      qa: {
+        testAutomation: 'Testautomatisierung',
+        performance: 'Performance',
+        securityTesting: 'Sicherheitstests',
+        qualityEngineering: 'Quality Engineering',
+      },
     },
   },
   cta: {
