@@ -5,7 +5,7 @@
     <div class="flex items-center justify-center h-16">
       <Icon :icon="technology.icon" class="text-[42px] md:text-[56px] text-text-dark grayscale transition-transform duration-300 group-hover:scale-115" />
     </div>
-    <BaseText variant="card" class-name="text-center mt-3 md:mt-6">{{ technology.name }}</BaseText>
+    <BaseText variant="card" class-name="text-center mt-3 md:mt-6 line-clamp-2">{{ technology.name }}</BaseText>
   </div>
 </template>
 

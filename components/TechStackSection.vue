@@ -3,13 +3,13 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <AnimatedElement direction="bottom" :delay="100">
         <BaseTitle tag="h3" variant="main" class-name="text-center">
-          Our Tech Stack
+          {{ $t('techStack.title') }}
         </BaseTitle>
       </AnimatedElement>
 
       <AnimatedElement direction="bottom" :delay="200">
         <BaseText variant="section" class-name="text-center max-w-3xl mx-auto mt-4">
-          Industry leading technologies across every layer of development
+          {{ $t('techStack.subtitle') }}
         </BaseText>
       </AnimatedElement>
 

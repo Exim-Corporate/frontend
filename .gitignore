@@ -33,3 +33,4 @@ logs
 *.js
 .github/copilot-instructions.md
 .eslintcache
+.eslintcache

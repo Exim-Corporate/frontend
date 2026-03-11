@@ -1,6 +1,6 @@
 <template>
   <section class="w-full bg-white container pb-0">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <AnimatedElement
           v-for="(card, index) in cards"
           :key="card.titleKey"

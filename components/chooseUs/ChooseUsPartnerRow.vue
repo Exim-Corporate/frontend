@@ -6,14 +6,14 @@
     <BaseTitle
       tag="h3"
       variant="subheader"
-      class-name="text-center justify-center"
+      class-name="text-center justify-center line-clamp-2"
     >
       {{ title }}
     </BaseTitle>
 
     <BaseText
       variant="section"
-      class-name="mt-3 text-center mx-auto text-light"
+      class-name="mt-3 text-center mx-auto text-light line-clamp-3"
     >
       {{ description }}
     </BaseText>
