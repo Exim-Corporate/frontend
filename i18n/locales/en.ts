@@ -348,9 +348,8 @@ export default {
     trusted_partner: 'Your trusted partner for custom software development solutions.',
   },
   techStack: {
-    title: 'Tech Experts Across Every Modern Stack',
-    subtitle:
-      "Whether you're scaling a React project, deploying data pipelines, or launching your next AI product—we've got the specialists to get it done right.",
+    title: 'Our Tech Stack',
+    subtitle: 'Industry leading technologies across every layer of development',
     sections: {
       softwareEngineering: 'Software Engineering',
       aiData: 'AI & Data',

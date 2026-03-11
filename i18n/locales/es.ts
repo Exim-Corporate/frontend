@@ -357,9 +357,8 @@ export default {
       'Su socio de confianza para soluciones de desarrollo de software personalizadas.',
   },
   techStack: {
-    title: 'Expertos tecnológicos en cada stack moderno',
-    subtitle:
-      'Ya sea que esté escalando un proyecto React, implementando pipelines de datos o lanzando su próximo producto de IA, tenemos los especialistas para hacerlo bien.',
+    title: 'Nuestro Tech Stack',
+    subtitle: 'Tecnologías líderes de la industria en cada capa del desarrollo',
     sections: {
       softwareEngineering: 'Ingeniería de Software',
       aiData: 'IA y Datos',

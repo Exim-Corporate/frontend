@@ -8,7 +8,7 @@
       :class="selectedSectionId === section.id ? 'opacity-100' : 'opacity-50 hover:opacity-100'"
       @click="$emit('change', section.id)"
     >
-      <BaseText variant="main" class-name="text-center break-all leading-tight md:max-w-[180px]">{{ $t(section.sectionKey) }}</BaseText>
+      <BaseText variant="main" class-name="text-center break-auto leading-tight md:max-w-[180px]">{{ $t(section.sectionKey) }}</BaseText>
       <span
         class="absolute left-0 -bottom-px h-px bg-text-dark transition-all duration-300"
         :class="selectedSectionId === section.id ? 'w-full' : 'w-0'"

@@ -328,9 +328,8 @@ export default {
       'Ihr vertrauensvoller Partner für maßgeschneiderte Softwareentwicklungslösungen.',
   },
   techStack: {
-    title: 'Tech-Experten für jeden modernen Stack',
-    subtitle:
-      'Ob Sie ein React-Projekt skalieren, Datenpipelines bereitstellen oder Ihr nächstes KI-Produkt launchen – wir haben die Spezialisten, um es richtig zu machen.',
+    title: 'Unser Tech Stack',
+    subtitle: 'Branchenführende Technologien über alle Entwicklungsebenen hinweg',
     sections: {
       softwareEngineering: 'Softwareentwicklung',
       aiData: 'KI & Daten',

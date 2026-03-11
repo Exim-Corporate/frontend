@@ -320,8 +320,8 @@ export default {
     trusted_partner: 'Votre partenaire de confiance.',
   },
   techStack: {
-    title: 'Experts techniques pour chaque stack moderne',
-    subtitle: 'Nous avons les spécialistes pour le faire correctement.',
+    title: 'Notre Tech Stack',
+    subtitle: 'Des technologies leaders du secteur à chaque couche du développement',
     sections: {
       softwareEngineering: 'Ingénierie logicielle',
       aiData: 'IA et Données',
