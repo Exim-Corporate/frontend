@@ -56,7 +56,7 @@ useSEO({
     <WhyChooseUsSection />
 
     <!-- Process Section -->
-    <!-- <ProcessSection /> -->
+    <ProcessSection />
 
     <!-- Team Section -->
     <!-- <TeamSection /> -->

@@ -213,23 +213,28 @@ export default {
   },
   process: {
     title: "Notre processus d'externalisation",
-    subtitle: 'Une approche rationalisée pour fournir des talents exceptionnels.',
+    subtitle: 'Des méthodologies de pointe à chaque étape du développement',
     steps: {
+      estimation: {
+        title: 'Estimation',
+        description:
+          'Nous analysons vos besoins pour définir clairement le périmètre, les délais et les coûts',
+      },
       discovery: {
         title: 'Découverte',
-        description: 'Nous analysons vos besoins et exigences.',
+        description: 'Analyse approfondie de vos objectifs, processus et besoins techniques',
       },
-      matching: {
-        title: 'Matching',
-        description: 'Nous sélectionnons le talent technologique parfait.',
+      design: {
+        title: 'Conception',
+        description: 'Conception de solutions adaptées à vos besoins métier',
       },
-      onboarding: {
-        title: 'Intégration',
-        description: 'Intégration fluide avec votre équipe existante.',
+      development: {
+        title: 'Développement',
+        description: 'Livraison agile avec des mises à jour régulières et des boucles de feedback',
       },
-      support: {
+      continuousSupport: {
         title: 'Support continu',
-        description: 'Suivi continu et optimisation.',
+        description: 'Optimisation continue, maintenance et montée en charge au fil de la croissance',
       },
     },
   },

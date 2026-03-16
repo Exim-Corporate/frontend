@@ -229,27 +229,27 @@ export default {
   },
   process: {
     title: 'Our Outsourcing Process',
-    subtitle:
-      'A streamlined approach to deliver exceptional tech talent that integrates seamlessly with your team',
+    subtitle: 'Industry leading methodologies across every layer of development',
     steps: {
+      estimation: {
+        title: 'Estimation',
+        description: 'We analyze your requirements and provide clear scope, timelines, and costs',
+      },
       discovery: {
         title: 'Discovery',
-        description:
-          'We analyze your needs and requirements to understand your project scope and team dynamics',
+        description: 'Deep dive into your goals, workflows, and technical needs',
       },
-      matching: {
-        title: 'Matching',
-        description:
-          'We select the perfect tech talent from our pool, matching technical skills and culture fit',
+      design: {
+        title: 'Design',
+        description: 'Designing solutions tailored to your business needs',
       },
-      onboarding: {
-        title: 'Onboarding',
-        description: 'Seamless integration of our talent with your existing team and systems',
+      development: {
+        title: 'Development',
+        description: 'Agile delivery with regular updates and feedback loops',
       },
-      support: {
-        title: 'Ongoing Support',
-        description:
-          'Continuous monitoring, feedback, and optimization to ensure long-term success',
+      continuousSupport: {
+        title: 'Continuous Support',
+        description: 'Ongoing optimization, maintenance, and scaling as you grow',
       },
     },
   },

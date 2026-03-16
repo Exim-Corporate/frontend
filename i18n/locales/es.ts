@@ -235,27 +235,31 @@ export default {
   },
   process: {
     title: 'Nuestro proceso de externalización',
-    subtitle:
-      'Un enfoque optimizado para entregar talento tecnológico excepcional que se integra perfectamente con su equipo',
+    subtitle: 'Metodologías líderes en la industria en cada etapa del desarrollo',
     steps: {
+      estimation: {
+        title: 'Estimación',
+        description:
+          'Analizamos sus requisitos y definimos con claridad alcance, plazos y costes',
+      },
       discovery: {
         title: 'Descubrimiento',
         description:
-          'Analizamos sus necesidades y requisitos para comprender el alcance de su proyecto y la dinámica del equipo',
+          'Análisis profundo de sus objetivos, flujos de trabajo y necesidades técnicas',
       },
-      matching: {
-        title: 'Emparejamiento',
+      design: {
+        title: 'Diseño',
         description:
-          'Seleccionamos el talento tecnológico perfecto de nuestro grupo, alineando habilidades técnicas y ajuste cultural',
+          'Diseñamos soluciones adaptadas a las necesidades de su negocio',
       },
-      onboarding: {
-        title: 'Integración',
-        description: 'Integración fluida de nuestro talento con su equipo y sistemas existentes',
+      development: {
+        title: 'Desarrollo',
+        description: 'Entrega ágil con actualizaciones periódicas y ciclos de retroalimentación',
       },
-      support: {
+      continuousSupport: {
         title: 'Soporte continuo',
         description:
-          'Monitoreo continuo, retroalimentación y optimización para garantizar el éxito a largo plazo',
+          'Optimización continua, mantenimiento y escalado a medida que crece su producto',
       },
     },
   },

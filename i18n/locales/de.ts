@@ -205,27 +205,30 @@ export default {
   },
   process: {
     title: 'Unser Outsourcing-Prozess',
-    subtitle:
-      'Ein optimierter Ansatz, um außergewöhnliche Tech-Talente zu liefern, die sich nahtlos in Ihr Team integrieren',
+    subtitle: 'Branchenführende Methoden über alle Entwicklungsphasen hinweg',
     steps: {
+      estimation: {
+        title: 'Aufwandschätzung',
+        description:
+          'Wir analysieren Ihre Anforderungen und liefern einen klaren Umfang, Zeitplan und Kostenrahmen',
+      },
       discovery: {
-        title: 'Erforschung',
-        description:
-          'Wir analysieren Ihre Bedürfnisse und Anforderungen, um den Umfang Ihres Projekts und die Teamdynamik zu verstehen',
+        title: 'Discovery',
+        description: 'Detaillierte Analyse Ihrer Ziele, Abläufe und technischen Anforderungen',
       },
-      matching: {
-        title: 'Matching',
+      design: {
+        title: 'Design',
         description:
-          'Wir wählen das perfekte Tech-Talent aus unserem Pool aus, passend zu technischen Fähigkeiten und kultureller Passung',
+          'Wir entwerfen Lösungen, die exakt auf Ihre Geschäftsanforderungen abgestimmt sind',
       },
-      onboarding: {
-        title: 'Einarbeitung',
-        description: 'Nahtlose Integration unserer Talente in Ihr bestehendes Team und Systeme',
+      development: {
+        title: 'Entwicklung',
+        description: 'Agile Umsetzung mit regelmäßigen Updates und Feedback-Schleifen',
       },
-      support: {
-        title: 'Laufende Unterstützung',
+      continuousSupport: {
+        title: 'Kontinuierliche Unterstützung',
         description:
-          'Kontinuierliche Überwachung, Feedback und Optimierung, um langfristigen Erfolg zu sichern',
+          'Laufende Optimierung, Wartung und Skalierung, während Ihr Produkt wächst',
       },
     },
   },
