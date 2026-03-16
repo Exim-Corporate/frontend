@@ -3,7 +3,7 @@
     <div
       class="flex flex-col"
       data-aos="fade-right"
-      data-aos-duration="500"
+      data-aos-duration="250"
     >
       <button
         v-for="role in section.roles"
@@ -27,20 +27,18 @@
       </button>
     </div>
 
-    <Transition name="role-fade" mode="out-in">
-      <div
-        :key="selectedRole.id"
-        class="grid grid-cols-2 xl:grid-cols-4 gap-4 justify-items-start"
-        data-aos="fade-left"
-        data-aos-duration="500"
-      >
-        <TechStackCard
-          v-for="technology in selectedRole.technologies"
-          :key="`${section.id}-${selectedRole.id}-${technology.name}`"
-          :technology="technology"
-        />
-      </div>
-    </Transition>
+    <div
+      :key="selectedRole.id"
+      class="grid grid-cols-2 xl:grid-cols-4 gap-4 justify-items-start"
+      data-aos="fade-left"
+      data-aos-duration="500"
+    >
+      <TechStackCard
+        v-for="technology in selectedRole.technologies"
+        :key="`${section.id}-${selectedRole.id}-${technology.name}`"
+        :technology="technology"
+      />
+    </div>
   </div>
 </template>
 
@@ -64,32 +62,3 @@ const selectedRole = computed<TechStackRole>(() => {
   return props.section.roles.find(role => role.id === props.selectedRoleId) ?? props.section.roles[0];
 });
 </script>
-
-<style scoped>
-.role-fade-enter-active {
-  transition: opacity 0.15s ease, transform 0.15s ease;
-  /* transition-delay: 100ms; */
-}
-
-.role-fade-leave-active {
-  transition: opacity 0.10s ease;
-}
-
-.role-fade-enter-from,
-.role-fade-leave-to {
-  opacity: 0;
-}
-
-.role-fade-enter-from {
-  transform: scale(0.85);
-}
-
-.role-fade-enter-to,
-.role-fade-leave-from {
-  opacity: 1;
-}
-
-.role-fade-enter-to {
-  transform: scale(1);
-}
-</style>

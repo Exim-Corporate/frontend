@@ -1,5 +1,5 @@
 <template>
-  <section class="w-full py-16 md:py-24">
+  <section class="w-full py-16 md:py-24 min-h-210">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <AnimatedElement direction="bottom" :delay="100">
         <BaseTitle tag="h3" variant="main" class-name="text-center">
