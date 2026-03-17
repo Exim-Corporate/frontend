@@ -8,11 +8,11 @@
       </AnimatedElement>
 
       <AnimatedElement direction="bottom" :delay="160">
-        <Button
-          :label="$t('industryExpertise.button')"
-          class="shrink-0 rounded-full border-0 bg-text-dark px-4 py-2.5 text-[11px] font-normal text-text-light shadow-none transition-transform duration-300 hover:scale-105 hover:bg-text-dark md:px-6 md:py-3 md:text-[15px]"
+        <AppButton
           @click="scrollToContact"
-        />
+        >
+            {{ $t('industryExpertise.button') }}
+      </AppButton>
       </AnimatedElement>
     </div>
 
@@ -35,7 +35,6 @@
 </template>
 
 <script setup lang="ts">
-import Button from 'primevue/button';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import ServiceCard from '@/components/UI/ServiceCard.vue';

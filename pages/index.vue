@@ -43,22 +43,22 @@ useSEO({
 
     <ServicesProvideSection />
 
-    <IndustryExpertiseSection />
-
+    
     <!-- Companies section -->
     <!-- <CompaniesCarousel /> -->
-
+    
     <!-- Services Section -->
     <!-- <ServicesSection /> -->
-
+    
     <!-- Tech Stack Section -->
     <TechStackSection />
-
+    
     <!-- Why Choose Us section -->
     <WhyChooseUsSection />
-
+    
     <!-- Process Section -->
     <ProcessSection />
+    <IndustryExpertiseSection />
 
     <!-- Team Section -->
     <!-- <TeamSection /> -->

@@ -3,10 +3,10 @@
     :value="label"
     rounded
     :class="[
-      'border bg-transparent px-3 py-1 font-sans text-[14px] leading-[1.1] md:text-[18px] shadow-none',
+      'border bg-transparent px-3 py-1 font-sans text-[14px] font-normal leading-[1.1] md:text-[18px] shadow-none',
       inverted
         ? 'border-text-dark/10 text-text-dark'
-        : 'border-text-light/60 text-text-light',
+        : 'border-text-light text-text-light',
     ]"
   />
 </template>
