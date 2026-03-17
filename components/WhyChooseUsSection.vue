@@ -4,10 +4,7 @@
     class="w-full mx-auto container overflow-hidden"
   >
     <div ref="sectionRef" class="relative">
-      <AnimatedElement
-        direction="bottom"
-        :delay="100"
-      >
+      <AnimatedElement direction="bottom" :delay="100">
         <BaseTitle
           tag="h2"
           variant="main"
@@ -22,20 +19,18 @@
         alt="Strategic tech partner"
         width="270"
         height="220"
-        class="hidden lg:block absolute top-0 right-0 z-10 rounded-xl w-67.5 h-55 object-cover transition-transform duration-500 ease-out"
-        :style="{ transform: imageTransform }"
-        :class="isSectionInView ? 'opacity-100' : 'opacity-0'"
-        data-aos="fade-left"
-        data-aos-duration="600"
-        data-aos-delay="180"
+        class="hidden lg:block absolute top-0 right-0 z-10 rounded-xl w-67.5 h-55 object-cover transition-all duration-2000 ease-out"
+        :style="{
+          transform: `translateY(${imageY}px)`,
+          opacity: isSectionInView ? 1 : 0,
+        }"
       />
 
       <div class="mt-10 md:mt-12 flex flex-col gap-6 lg:gap-8">
         <div
           v-for="(item, index) in items"
           :key="item.titleKey"
-          :ref="element => setItemRef(element, index)"
-          :class="activeIndex === index ? 'relative' : ''"
+          :ref="(el) => setItemRef(el, index)"
           data-aos="fade-up"
           data-aos-duration="600"
           :data-aos-delay="220 + index * 80"
@@ -53,7 +48,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, type ComponentPublicInstance } from 'vue';
-import { useInView } from 'motion-v';
+import { inView, useInView } from 'motion-v';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import ChooseUsPartnerRow from '@/components/chooseUs/ChooseUsPartnerRow.vue';
@@ -72,130 +67,61 @@ const items: ChooseUsItem[] = [
 ];
 
 const sectionRef = ref<HTMLElement | null>(null);
-const isSectionInView = useInView(sectionRef, { amount: 0.35, initial: false });
+const isSectionInView = useInView(sectionRef, { amount: 0.2, initial: false });
 
-const activeIndex = ref<number>(0);
-const imageTranslateY = ref<number>(0);
+const activeIndex = ref(0);
 const rowElements = ref<Array<HTMLElement | null>>([]);
+// item center Y relative to the section, computed once on mount
+const itemCenters = ref<number[]>([]);
 
 const imageHeight = 220;
 const baseImageTop = 20;
-const switchThreshold = 24;
-let frameId: number | null = null;
 
-const imageTransform = computed(() => {
-  const offsetY = isSectionInView.value ? imageTranslateY.value : imageTranslateY.value - 16;
-  return `translateY(${offsetY}px)`;
+// Image Y derived purely from pre-measured layout — no per-frame DOM reads
+const imageY = computed(() => {
+  const center = itemCenters.value[activeIndex.value];
+  if (center === undefined || !sectionRef.value) return 0;
+  const maxY = Math.max(sectionRef.value.offsetHeight - imageHeight, 0);
+  return Math.min(Math.max(center - imageHeight / 2 - baseImageTop, 0), maxY);
 });
 
-const setItemRef = (element: Element | ComponentPublicInstance | null, index: number) => {
-  if (element instanceof HTMLElement) {
-    rowElements.value[index] = element;
-    return;
-  }
-
-  rowElements.value[index] = null;
+const setItemRef = (el: Element | ComponentPublicInstance | null, index: number) => {
+  rowElements.value[index] = el instanceof HTMLElement ? el : null;
 };
 
-const updateActiveState = () => {
-  if (!sectionRef.value || !import.meta.client || !isSectionInView.value) {
-    return;
-  }
+const stopFns: Array<() => void> = [];
 
-  const viewportCenter = window.innerHeight / 2;
-  let minDistance = Number.POSITIVE_INFINITY;
-  let nextActiveIndex = activeIndex.value;
-  let nextActiveDistance = Number.POSITIVE_INFINITY;
-
-  rowElements.value.forEach((element, index) => {
-    if (!element) {
-      return;
-    }
-
-    const rect = element.getBoundingClientRect();
-    const isVisible = rect.bottom > 0 && rect.top < window.innerHeight;
-
-    if (!isVisible) {
-      return;
-    }
-
-    const rowCenter = rect.top + rect.height / 2;
-    const distance = Math.abs(viewportCenter - rowCenter);
-
-    if (distance < minDistance) {
-      minDistance = distance;
-      nextActiveIndex = index;
-      nextActiveDistance = distance;
-    }
-  });
-
-  const currentElement = rowElements.value[activeIndex.value];
-
-  if (currentElement) {
-    const currentRect = currentElement.getBoundingClientRect();
-    const currentIsVisible = currentRect.bottom > 0 && currentRect.top < window.innerHeight;
-
-    if (currentIsVisible) {
-      const currentCenter = currentRect.top + currentRect.height / 2;
-      const currentDistance = Math.abs(viewportCenter - currentCenter);
-      const shouldSwitch =
-        nextActiveIndex !== activeIndex.value &&
-        nextActiveDistance + switchThreshold < currentDistance;
-
-      if (shouldSwitch) {
-        activeIndex.value = nextActiveIndex;
-      }
-    } else {
-      activeIndex.value = nextActiveIndex;
-    }
-  } else {
-    activeIndex.value = nextActiveIndex;
-  }
-
-  const activeElement = rowElements.value[activeIndex.value];
-
-  if (!activeElement) {
-    return;
-  }
-
-  const sectionRect = sectionRef.value.getBoundingClientRect();
-  const activeRect = activeElement.getBoundingClientRect();
-  const targetTop = activeRect.top - sectionRect.top + activeRect.height / 2 - imageHeight / 2;
-  const maxTop = Math.max(sectionRect.height - imageHeight, 0);
-  const clampedTop = Math.min(Math.max(targetTop, 0), maxTop);
-
-  imageTranslateY.value = clampedTop - baseImageTop;
-};
-
-const requestUpdate = () => {
-  if (!import.meta.client || frameId !== null) {
-    return;
-  }
-
-  frameId = window.requestAnimationFrame(() => {
-    updateActiveState();
-    frameId = null;
-  });
-};
-
-onMounted(async() => {
+onMounted(async () => {
   await nextTick();
-  requestUpdate();
-  window.addEventListener('scroll', requestUpdate, { passive: true });
-  window.addEventListener('resize', requestUpdate);
+
+  // One-time layout measurement — no scroll-time DOM reads
+  itemCenters.value = rowElements.value.map(
+    (el) => (el ? el.offsetTop + el.offsetHeight / 2 : 0),
+  );
+
+  // Scroll-spy via inView: fires when item top crosses 60% mark from the top
+  rowElements.value.forEach((el, index) => {
+    if (!el) return;
+
+    const stop = inView(
+      el,
+      () => {
+        activeIndex.value = index;
+        // On leave (scroll back up): step back to previous item
+        return () => {
+          if (activeIndex.value === index) {
+            activeIndex.value = Math.max(0, index - 1);
+          }
+        };
+      },
+      { margin: '0px 0px -40% 0px' },
+    );
+
+    if (typeof stop === 'function') stopFns.push(stop);
+  });
 });
 
 onBeforeUnmount(() => {
-  if (!import.meta.client) {
-    return;
-  }
-
-  if (frameId !== null) {
-    window.cancelAnimationFrame(frameId);
-    frameId = null;
-  }
-
-  window.removeEventListener('scroll', requestUpdate);
-  window.removeEventListener('resize', requestUpdate);
+  stopFns.forEach((fn) => fn());
 });
 </script>
