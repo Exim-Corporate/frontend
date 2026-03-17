@@ -227,6 +227,56 @@ export default {
       },
     },
   },
+  industryExpertise: {
+    title: 'Industry Expertise',
+    button: 'Request Proposal',
+    tags: {
+      clinicalDecisionSupport: 'Clinical Decision Support',
+      patientDataAnalytics: 'Patient Data Analytics',
+      aiSupplyChain: 'AI-powered Supply Chain',
+      blockchainSaas: 'Blockchain-based SaaS',
+      aiPricing: 'AI Pricing Optimization',
+      retailAnalytics: 'Retail Analytics Platforms',
+      fraudDetection: 'Fraud Detection',
+      riskAnalytics: 'Risk Analytics',
+      adaptiveLearning: 'Adaptive Learning',
+      learningAnalytics: 'Learning Analytics',
+      predictiveMaintenance: 'Predictive Maintenance',
+      qualityAnalytics: 'Quality Analytics',
+    },
+    cards: {
+      healthcare: {
+        title: 'Healthcare',
+        description:
+          'We build secure, compliant healthcare solutions that improve patient care, streamline operations, and unlock insights from medical data. From mental health platforms to clinical decision support and predictive analytics, we help healthcare organizations innovate responsibly and scale with confidence.',
+      },
+      logistics: {
+        title: 'Logistics',
+        description:
+          'Supply chain visibility, route planning, and warehouse systems built to reduce delays and keep operations predictable.',
+      },
+      retail: {
+        title: 'Retail',
+        description:
+          'Commerce platforms, dynamic pricing, and analytics workflows that help retail teams respond faster to customer demand.',
+      },
+      finance: {
+        title: 'Finance & FinTech',
+        description:
+          'Fraud prevention, risk tooling, and financial data products designed for resilient, regulated digital services.',
+      },
+      education: {
+        title: 'Education & EdTech',
+        description:
+          'Learning products with adaptive journeys, reporting, and engagement tooling for modern digital education.',
+      },
+      manufacturing: {
+        title: 'Manufacturing',
+        description:
+          'Operational platforms that surface quality trends, maintenance signals, and production insights in real time.',
+      },
+    },
+  },
   process: {
     title: 'Our Outsourcing Process',
     subtitle: 'Industry leading methodologies across every layer of development',

@@ -12,6 +12,17 @@
       </BaseTitle>
     </div>
 
+    <div
+      v-if="tags.length"
+      class="absolute inset-x-6 bottom-6 flex flex-col items-start gap-2 transition-opacity duration-100 group-hover:opacity-0"
+    >
+      <ExpertiseTag
+        v-for="tag in tags"
+        :key="tag"
+        :label="tag"
+      />
+    </div>
+
     <div class="absolute inset-5 rounded-[28px] bg-card-overlay p-6 md:p-10 flex flex-col gap-4 md:gap-6 scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 origin-center overflow-hidden">
       <BaseTitle variant="subheader" class-name="text-text-dark text-left">
         {{ title }}
@@ -19,6 +30,15 @@
       <BaseText variant="card" class-name="text-text-dark">
         {{ description }}
       </BaseText>
+<!-- 
+      <div v-if="tags.length" class="mt-auto flex flex-wrap gap-2">
+        <ExpertiseTag
+          v-for="tag in tags"
+          :key="`${tag}-overlay`"
+          :label="tag"
+          inverted
+        />
+      </div> -->
     </div>
   </div>
 </template>
@@ -26,19 +46,14 @@
 <script setup lang="ts">
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
+import ExpertiseTag from '@/components/UI/ExpertiseTag.vue';
 
-defineProps({
-  image: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
+withDefaults(defineProps<{
+  image: string;
+  title: string;
+  description: string;
+  tags?: string[];
+}>(), {
+  tags: () => [],
 });
 </script>

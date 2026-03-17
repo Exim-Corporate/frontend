@@ -203,6 +203,56 @@ export default {
       },
     },
   },
+  industryExpertise: {
+    title: 'Branchenexpertise',
+    button: 'Angebot anfordern',
+    tags: {
+      clinicalDecisionSupport: 'Klinische Entscheidungsunterstutzung',
+      patientDataAnalytics: 'Patientendatenanalyse',
+      aiSupplyChain: 'KI-gestutzte Lieferkette',
+      blockchainSaas: 'Blockchain-basiertes SaaS',
+      aiPricing: 'KI-Preisoptimierung',
+      retailAnalytics: 'Retail-Analytics-Plattformen',
+      fraudDetection: 'Betrugserkennung',
+      riskAnalytics: 'Risikanalytik',
+      adaptiveLearning: 'Adaptives Lernen',
+      learningAnalytics: 'Lernanalytik',
+      predictiveMaintenance: 'Vorausschauende Wartung',
+      qualityAnalytics: 'Qualitatsanalytik',
+    },
+    cards: {
+      healthcare: {
+        title: 'Gesundheitswesen',
+        description:
+          'Wir entwickeln sichere und konforme Gesundheitslosungen, die die Patientenversorgung verbessern, Ablaufe optimieren und medizinische Daten in verwertbare Erkenntnisse umwandeln. Von Mental-Health-Plattformen uber klinische Entscheidungsunterstutzung bis hin zu pradiktiver Analytik helfen wir Gesundheitsorganisationen, verantwortungsvoll zu innovieren und sicher zu skalieren.',
+      },
+      logistics: {
+        title: 'Logistik',
+        description:
+          'Transparenz in der Lieferkette, Routenplanung und Lagersysteme, die Verzogerungen reduzieren und planbare Ablaufe sichern.',
+      },
+      retail: {
+        title: 'Einzelhandel',
+        description:
+          'Commerce-Plattformen, dynamische Preisgestaltung und Analytics-Workflows, mit denen Retail-Teams schneller auf Kundennachfrage reagieren konnen.',
+      },
+      finance: {
+        title: 'Finanzen und FinTech',
+        description:
+          'Betrugspravention, Risikowerkzeuge und Finanzdatenprodukte fur resiliente, regulierte digitale Services.',
+      },
+      education: {
+        title: 'Bildung und EdTech',
+        description:
+          'Lernprodukte mit adaptiven Lernpfaden, Reporting und Engagement-Tools fur moderne digitale Bildung.',
+      },
+      manufacturing: {
+        title: 'Fertigung',
+        description:
+          'Operative Plattformen, die Qualitatstrends, Wartungssignale und Produktions-Insights in Echtzeit sichtbar machen.',
+      },
+    },
+  },
   process: {
     title: 'Unser Outsourcing-Prozess',
     subtitle: 'Branchenführende Methoden über alle Entwicklungsphasen hinweg',

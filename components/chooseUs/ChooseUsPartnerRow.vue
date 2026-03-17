@@ -6,7 +6,7 @@
     <BaseTitle
       tag="h3"
       variant="subheader"
-      class-name="text-center justify-center line-clamp-2"
+      className="text-center justify-center line-clamp-2 md:text-[28px] text-[24px] font-semibold"
     >
       {{ title }}
     </BaseTitle>

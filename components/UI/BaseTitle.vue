@@ -30,7 +30,7 @@ const variantClasses: Record<BaseTitleVariant, string> = {
   subheader: 'font-sans font-normal text-[20px] leading-[normal] md:text-[24px] md:leading-[normal] flex items-center',
   subheader18: 'font-sans font-normal text-[18px] leading-[normal] md:text-[24px] md:leading-[normal]',
   serifSubheader:
-    'font-serif font-semibold text-[20px] leading-[normal] md:text-[24px] md:leading-[normal] flex items-center',
+    'font-serif font-semibold text-[26px] leading-[normal] md:text-[32px] md:leading-[normal] flex items-center',
 };
 
 const mergedClasses = computed(() => {

@@ -1,7 +1,7 @@
 <template>
   <p
     :class="[
-      'font-sans m-0 text-text-dark wrap-break-word',
+      'font-sans m-0 text-text-dark wrap-break-word text-ellipsis',
       variantClasses[variant],
       className,
     ]"

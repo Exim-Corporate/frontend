@@ -233,6 +233,56 @@ export default {
       },
     },
   },
+  industryExpertise: {
+    title: 'Experiencia por industria',
+    button: 'Solicitar propuesta',
+    tags: {
+      clinicalDecisionSupport: 'Soporte de decisiones clinicas',
+      patientDataAnalytics: 'Analitica de datos de pacientes',
+      aiSupplyChain: 'Cadena de suministro impulsada por IA',
+      blockchainSaas: 'SaaS basado en blockchain',
+      aiPricing: 'Optimizacion de precios con IA',
+      retailAnalytics: 'Plataformas de analitica retail',
+      fraudDetection: 'Deteccion de fraude',
+      riskAnalytics: 'Analitica de riesgo',
+      adaptiveLearning: 'Aprendizaje adaptativo',
+      learningAnalytics: 'Analitica del aprendizaje',
+      predictiveMaintenance: 'Mantenimiento predictivo',
+      qualityAnalytics: 'Analitica de calidad',
+    },
+    cards: {
+      healthcare: {
+        title: 'Salud',
+        description:
+          'Desarrollamos soluciones sanitarias seguras y conformes que mejoran la atencion al paciente, optimizan las operaciones y convierten los datos medicos en decisiones accionables. Desde plataformas de salud mental hasta soporte de decisiones clinicas y analitica predictiva, ayudamos a las organizaciones de salud a innovar con responsabilidad y escalar con confianza.',
+      },
+      logistics: {
+        title: 'Logistica',
+        description:
+          'Visibilidad de la cadena de suministro, planificacion de rutas y sistemas de almacen disenados para reducir retrasos y mantener operaciones previsibles.',
+      },
+      retail: {
+        title: 'Retail',
+        description:
+          'Plataformas de comercio, precios dinamicos y flujos de analitica que ayudan a los equipos retail a responder mas rapido a la demanda del cliente.',
+      },
+      finance: {
+        title: 'Finanzas y FinTech',
+        description:
+          'Prevencion de fraude, herramientas de riesgo y productos de datos financieros pensados para servicios digitales resilientes y regulados.',
+      },
+      education: {
+        title: 'Educacion y EdTech',
+        description:
+          'Productos de aprendizaje con recorridos adaptativos, reportes y herramientas de engagement para la educacion digital moderna.',
+      },
+      manufacturing: {
+        title: 'Manufactura',
+        description:
+          'Plataformas operativas que muestran tendencias de calidad, senales de mantenimiento e insights de produccion en tiempo real.',
+      },
+    },
+  },
   process: {
     title: 'Nuestro proceso de externalización',
     subtitle: 'Metodologías líderes en la industria en cada etapa del desarrollo',

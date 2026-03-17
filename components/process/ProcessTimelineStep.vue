@@ -17,7 +17,7 @@
       variant="serifSubheader"
       :class-name="[
         'text-center justify-center font-semibold',
-        isInView ? 'text-text-dark' : 'text-light',
+        isInView ? 'text-text-dark' : '',
       ].join(' ')"
     >
       {{ title }}

@@ -43,6 +43,8 @@ useSEO({
 
     <ServicesProvideSection />
 
+    <IndustryExpertiseSection />
+
     <!-- Companies section -->
     <!-- <CompaniesCarousel /> -->
 

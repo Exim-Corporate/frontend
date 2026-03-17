@@ -211,6 +211,56 @@ export default {
       },
     },
   },
+  industryExpertise: {
+    title: 'Expertise sectorielle',
+    button: 'Demander une proposition',
+    tags: {
+      clinicalDecisionSupport: 'Aide a la decision clinique',
+      patientDataAnalytics: 'Analytique des donnees patient',
+      aiSupplyChain: 'Supply chain pilotee par IA',
+      blockchainSaas: 'SaaS base sur la blockchain',
+      aiPricing: 'Optimisation des prix par IA',
+      retailAnalytics: 'Plateformes danalyse retail',
+      fraudDetection: 'Detection de fraude',
+      riskAnalytics: 'Analyse des risques',
+      adaptiveLearning: 'Apprentissage adaptatif',
+      learningAnalytics: 'Analytique de lapprentissage',
+      predictiveMaintenance: 'Maintenance predictive',
+      qualityAnalytics: 'Analytique qualite',
+    },
+    cards: {
+      healthcare: {
+        title: 'Sante',
+        description:
+          'Nous concevons des solutions de sante securisees et conformes qui ameliorent la prise en charge des patients, rationalisent les operations et transforment les donnees medicales en decisions exploitables. Des plateformes de sante mentale au support de decision clinique et a lanalyse predictive, nous aidons les organisations de sante a innover de facon responsable et a passer a lechelle en toute confiance.',
+      },
+      logistics: {
+        title: 'Logistique',
+        description:
+          'Visibilite de la chaine dapprovisionnement, planification des itineraires et systemes dentrepot concus pour reduire les retards et garder des operations previsibles.',
+      },
+      retail: {
+        title: 'Retail',
+        description:
+          'Plateformes e-commerce, tarification dynamique et workflows analytiques qui permettent aux equipes retail de repondre plus vite a la demande client.',
+      },
+      finance: {
+        title: 'Finance et FinTech',
+        description:
+          'Prevention de la fraude, outils de risque et produits de donnees financieres concus pour des services numeriques resilients et reglementes.',
+      },
+      education: {
+        title: 'Education et EdTech',
+        description:
+          'Produits dapprentissage avec parcours adaptatifs, reporting et outils dengagement pour leducation numerique moderne.',
+      },
+      manufacturing: {
+        title: 'Industrie manufacturiere',
+        description:
+          'Plateformes operationnelles qui rendent visibles en temps reel les tendances qualite, les signaux de maintenance et les insights de production.',
+      },
+    },
+  },
   process: {
     title: "Notre processus d'externalisation",
     subtitle: 'Des méthodologies de pointe à chaque étape du développement',
