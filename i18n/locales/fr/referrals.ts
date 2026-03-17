@@ -98,4 +98,6 @@ const referrals = {
   },
 };
 
-export default referrals;
+export default {
+  referrals,
+};

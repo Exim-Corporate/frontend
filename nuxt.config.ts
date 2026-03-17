@@ -201,10 +201,30 @@ export default defineNuxtConfig({
       optimizeTranslationDirective: true,
     },
     locales: [
-      { code: 'en', iso: 'en-US', file: 'en.ts', name: 'English' },
-      { code: 'de', iso: 'de-DE', file: 'de.ts', name: 'Deutsch' },
-      { code: 'fr', iso: 'fr-FR', file: 'fr.ts', name: 'Français' },
-      { code: 'es', iso: 'es-ES', file: 'es.ts', name: 'Español' },
+      {
+        code: 'en',
+        iso: 'en-US',
+        files: ['en.ts', 'en/referrals.ts', 'sections/case-studies-en.ts'],
+        name: 'English',
+      },
+      {
+        code: 'de',
+        iso: 'de-DE',
+        files: ['de.ts', 'de/referrals.ts', 'sections/case-studies-de.ts'],
+        name: 'Deutsch',
+      },
+      {
+        code: 'fr',
+        iso: 'fr-FR',
+        files: ['fr.ts', 'fr/referrals.ts', 'sections/case-studies-fr.ts'],
+        name: 'Français',
+      },
+      {
+        code: 'es',
+        iso: 'es-ES',
+        files: ['es.ts', 'es/referrals.ts', 'sections/case-studies-es.ts'],
+        name: 'Español',
+      },
     ],
     strategy: 'prefix_except_default',
     detectBrowserLanguage: {

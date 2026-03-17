@@ -59,6 +59,7 @@ useSEO({
     <!-- Process Section -->
     <ProcessSection />
     <IndustryExpertiseSection />
+    <CaseStudiesSection />
 
     <!-- Team Section -->
     <!-- <TeamSection /> -->

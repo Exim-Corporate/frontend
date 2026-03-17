@@ -1,4 +1,6 @@
 // import legalTranslations from './legal-en';
+import referralsTranslations from './en/referrals';
+import caseStudiesTranslations from './sections/case-studies-en';
 
 export default {
   heroNew: {
@@ -674,16 +676,6 @@ export default {
       footerText: 'Best regards, The AS Exim Team',
     },
   },
-  referrals: {
-    form: {
-      full_name: 'Full Name',
-      email: 'Email',
-      company: 'Your Company',
-      referred_company: 'Referred Company Name',
-      company_size_label: 'Company Size',
-      contact_name: 'Contact Person',
-      contact_email: 'Contact Email',
-      message: 'Additional Information',
-    },
-  },
+  referrals: referralsTranslations.referrals,
+  caseStudies: caseStudiesTranslations.caseStudies,
 };

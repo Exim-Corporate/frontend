@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-20 grow-1 min-h-[80vh] container">
+  <div class="pt-20 grow min-h-[80vh] container">
     <div class="container mx-auto px-4 py-12">
       <BlogButton
         :label="'Home'"
@@ -102,10 +102,10 @@ const { pending, error } = useLazyAsyncData(
     totalPages.value = response?.meta?.pagination?.pageCount ?? 0;
     articles.value = response?.data || [];
     isLoading.value = false;
-    return null;
+    return response?.data ?? [];
   },
   {
-    default: () => null,
+    default: () => [],
     watch: [locale, currentPage, pageSize],
   },
 );
