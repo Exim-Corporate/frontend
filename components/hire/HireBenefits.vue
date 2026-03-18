@@ -3,7 +3,7 @@
     <div class="container mx-auto px-4">
       <div
         data-aos="fade-up"
-        data-aos-duration="500"
+        data-aos-duration="350"
         class="text-center mb-12"
       >
         <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
@@ -19,7 +19,7 @@
           v-for="(benefit, index) in benefits"
           :key="benefit.id"
           data-aos="fade-up"
-          data-aos-duration="500"
+          data-aos-duration="350"
           :data-aos-delay="index * 100"
           class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1"
         >

@@ -3,7 +3,7 @@
     <div class="container">
       <div
         data-aos="fade-up"
-        data-aos-duration="500"
+        data-aos-duration="350"
         class="text-center mb-12 md:mb-16"
       >
         <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
@@ -14,7 +14,7 @@
 
       <div
         data-aos="fade-up"
-        data-aos-duration="500"
+        data-aos-duration="350"
         data-aos-delay="100"
         class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8"
       >

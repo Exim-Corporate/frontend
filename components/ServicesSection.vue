@@ -14,7 +14,7 @@
       <!-- Section Header -->
       <div
         data-aos="fade-up"
-        data-aos-duration="500"
+        data-aos-duration="350"
         class="text-center mb-16"
       >
         <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">
@@ -40,7 +40,7 @@
         <!-- Additional Expertise Block -->
         <div
           data-aos="fade-up"
-          data-aos-duration="1000"
+          data-aos-duration="850"
           class="flex flex-col items-center justify-center py-6 sm:py-8 px-4 bg-background-gray/20 dark:bg-gray-900/30 backdrop-blur-md rounded-2xl"
         >
           <h3 class="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">{{

@@ -4,7 +4,7 @@
     <div
       ref="counterSection"
       data-aos="fade-up"
-      data-aos-duration="500"
+      data-aos-duration="350"
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center"
     >
       <div

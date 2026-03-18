@@ -14,7 +14,7 @@
     <div class="container relative z-10 mx-auto py-16 md:py-20 px-4">
       <div
         data-aos="fade-up"
-        data-aos-duration="500"
+        data-aos-duration="350"
         class="text-center max-w-4xl mx-auto"
       >
         <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-text-light">

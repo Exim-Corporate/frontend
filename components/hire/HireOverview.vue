@@ -4,7 +4,7 @@
       <div class="max-w-4xl mx-auto">
         <h2
           data-aos="fade-up"
-          data-aos-duration="500"
+          data-aos-duration="350"
           class="text-2xl md:text-3xl font-bold mb-8 text-gray-900 dark:text-white"
         >
           {{ $t('hire.overview.title') }}
@@ -13,7 +13,7 @@
         <div
           v-if="renderedContent"
           data-aos="fade-up"
-          data-aos-duration="500"
+          data-aos-duration="350"
           data-aos-delay="100"
           class="prose prose-lg dark:prose-invert max-w-none"
           v-html="renderedContent"
@@ -22,7 +22,7 @@
         <div
           v-if="techHubsImage"
           data-aos="fade-up"
-          data-aos-duration="500"
+          data-aos-duration="350"
           data-aos-delay="200"
           class="mt-12"
         >

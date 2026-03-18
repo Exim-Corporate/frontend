@@ -1,7 +1,7 @@
 <template>
   <div
     data-aos="zoom-in"
-    data-aos-duration="500"
+    data-aos-duration="350"
     class="feature-card group shadow-2xl dark:bg-navy-blue shadow-background/30 dark:shadow-accent relative flex flex-col items-center md:items-baseline p-8 rounded-2xl overflow-hidden"
     :class="[orientation === 'vertical' ? 'h-full' : '', shadowColor]"
   >

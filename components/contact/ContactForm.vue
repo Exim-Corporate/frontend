@@ -1,7 +1,7 @@
 <template>
   <div
     data-aos="zoom-in"
-    data-aos-duration="500"
+    data-aos-duration="350"
     class="max-w-4xl relative mx-auto bg-white dark:bg-navy-blue/80 shadow-xl rounded-2xl p-6 md:p-10 backdrop-blur-sm"
   >
     <form @submit.prevent="submitForm">

@@ -1,7 +1,7 @@
 <template>
   <div
     data-aos="zoom-in"
-    data-aos-duration="500"
+    data-aos-duration="350"
     class="testimonial-card bg-white dark:bg-navy-blue/90 rounded-2xl p-4 sm:p-5 md:p-6 transition-all duration-300 flex flex-col border border-gray-200 dark:border-gray-700 shadow-inner shadow-gray-200 dark:shadow-accent/10 h-auto"
   >
     <!-- Company info -->

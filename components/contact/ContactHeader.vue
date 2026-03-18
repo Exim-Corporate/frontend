@@ -1,7 +1,7 @@
 <template>
   <div
     data-aos="fade-up"
-    data-aos-duration="500"
+    data-aos-duration="350"
     class="text-center mb-16"
   >
     <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white">

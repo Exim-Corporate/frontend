@@ -16,10 +16,11 @@
       </AnimatedElement>
     </div>
 
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:gap-6">
+    <div class="flex flex-wrap items-stretch gap-4 lg:gap-6">
       <AnimatedElement
         v-for="(card, index) in cards"
         :key="card.key"
+        class="w-full min-w-0 md:flex-[1_1_calc(50%-0.5rem)] lg:flex-[1_1_calc(33.333%-1rem)]"
         direction="bottom"
         :delay="180 + index * 50"
       >

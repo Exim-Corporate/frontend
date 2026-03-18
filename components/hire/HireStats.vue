@@ -3,7 +3,7 @@
     <div class="container">
       <h2
         data-aos="fade-up"
-        data-aos-duration="500"
+        data-aos-duration="350"
         class="text-2xl md:text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white"
       >
         {{ $t('hire.stats.title') }}
@@ -11,7 +11,7 @@
 
       <div
         data-aos="fade-up"
-        data-aos-duration="500"
+        data-aos-duration="350"
         data-aos-delay="100"
         class="grid grid-cols-2 md:grid-cols-4 gap-6"
       >

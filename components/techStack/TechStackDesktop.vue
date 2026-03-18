@@ -3,7 +3,7 @@
     <div
       class="flex flex-col"
       data-aos="fade-right"
-      data-aos-duration="250"
+      data-aos-duration="100"
     >
       <button
         v-for="role in section.roles"
@@ -31,7 +31,7 @@
       :key="selectedRole.id"
       class="grid grid-cols-2 xl:grid-cols-4 gap-4 justify-items-start"
       data-aos="fade-left"
-      data-aos-duration="500"
+      data-aos-duration="350"
     >
       <TechStackCard
         v-for="technology in selectedRole.technologies"

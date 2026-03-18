@@ -184,7 +184,7 @@ export default defineNuxtConfig({
   },
 
   aos: {
-    duration: 1000,
+    duration: 850,
     easing: 'ease-in-out',
     offset: 60,
     anchorPlacement: 'top-bottom',

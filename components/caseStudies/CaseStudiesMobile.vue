@@ -1,8 +1,8 @@
 <template>
   <div
-    class="md:hidden mt-8"
+    class="lg:hidden mt-8"
     data-aos="fade-up"
-    data-aos-duration="500"
+    data-aos-duration="350"
   >
     <Accordion :multiple="false" :active-index="activeIndex" class="case-studies-accordion" @tab-open="onTabOpen">
       <template #expandicon>

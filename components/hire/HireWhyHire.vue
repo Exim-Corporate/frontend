@@ -8,7 +8,7 @@
       <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
         <div
           data-aos="fade-right"
-          data-aos-duration="500"
+          data-aos-duration="350"
           class="w-full lg:w-1/2 text-center lg:text-left"
         >
           <div
@@ -26,7 +26,7 @@
 
         <div
           data-aos="fade-left"
-          data-aos-duration="500"
+          data-aos-duration="350"
           data-aos-delay="100"
           class="w-full lg:w-1/2"
         >

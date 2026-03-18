@@ -2,7 +2,7 @@
   <div
     class="service-item"
     :data-aos="reversed ? 'fade-left' : 'fade-right'"
-    data-aos-duration="500"
+    data-aos-duration="350"
   >
     <!-- Мобильный заголовок (виден только на мобильных) -->
     <h3 class="text-2xl font-bold text-white mb-6 block md:hidden">{{ $t(service.title) }}</h3>

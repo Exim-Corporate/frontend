@@ -1,7 +1,7 @@
 <template>
   <div
     data-aos="zoom-in"
-    data-aos-duration="600"
+    data-aos-duration="450"
     class="team-member group"
   >
     <div class="card-container pt-16 pb-6 px-4">

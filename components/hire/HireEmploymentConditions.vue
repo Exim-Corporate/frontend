@@ -2,7 +2,7 @@
   <section class="container py-16 md:py-20 overflow-hidden">
     <div
       data-aos="fade-up"
-      data-aos-duration="500"
+      data-aos-duration="350"
       class="text-center mb-16"
     >
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
@@ -31,7 +31,7 @@
 
     <div
       data-aos="fade-up"
-      data-aos-duration="500"
+      data-aos-duration="350"
       class="w-full min-h-[400px]"
     >
       <TransitionGroup

@@ -4,7 +4,7 @@
       <!-- Section Header -->
       <div
         data-aos="fade-up"
-        data-aos-duration="500"
+        data-aos-duration="350"
         class="text-center mb-16"
       >
         <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -18,7 +18,7 @@
       <!-- Testimonial Carousel -->
       <div
         data-aos="fade-in"
-        data-aos-duration="500"
+        data-aos-duration="350"
         class="px-0 md:px-6"
       >
         <ClientOnly>

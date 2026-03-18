@@ -2,7 +2,7 @@
   <div
     class="md:hidden mt-10 text-center"
     data-aos="fade-up"
-    data-aos-duration="500"
+    data-aos-duration="350"
   >
     <Accordion :multiple="false" :active-index="0" class="tech-accordion">
       <template #expandicon>

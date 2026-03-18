@@ -1,9 +1,9 @@
 <template>
-  <div class="hidden md:flex md:items-start gap-10 mt-12">
+  <div class="hidden lg:flex md:items-start gap-10 mt-12">
     <div
       class="flex w-60 shrink-0 flex-col"
       data-aos="fade-right"
-      data-aos-duration="150"
+      data-aos-duration="0"
     >
       <button
         v-for="study in studies"
@@ -31,7 +31,7 @@
       :key="selectedStudyId"
       class="flex-1 min-w-0 overflow-x-hidden"
       data-aos="fade-left"
-      data-aos-duration="500"
+      data-aos-duration="350"
     >
       <div class="flex items-start gap-6 lg:gap-15 min-h-125 ">
         <div class="md:pl-10 flex-1 max-w-130">

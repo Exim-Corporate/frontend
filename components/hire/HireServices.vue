@@ -3,7 +3,7 @@
     <div class="container mx-auto px-4">
       <div
         data-aos="fade-up"
-        data-aos-duration="500"
+        data-aos-duration="350"
         class="text-center mb-12"
       >
         <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
@@ -13,7 +13,7 @@
 
       <div
         data-aos="fade-up"
-        data-aos-duration="500"
+        data-aos-duration="350"
         data-aos-delay="100"
         class="max-w-4xl mx-auto"
       >

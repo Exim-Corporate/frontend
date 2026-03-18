@@ -32,7 +32,7 @@
           :key="item.titleKey"
           :ref="(el) => setItemRef(el, index)"
           data-aos="fade-up"
-          data-aos-duration="600"
+          data-aos-duration="450"
           :data-aos-delay="220 + index * 80"
         >
           <ChooseUsPartnerRow

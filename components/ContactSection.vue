@@ -14,13 +14,13 @@
       <!-- Header Component -->
       <ContactHeader
         data-aos="fade-up"
-        data-aos-duration="600"
+        data-aos-duration="450"
       />
 
       <!-- Form Component -->
       <ContactForm
         data-aos="fade-up"
-        data-aos-duration="600"
+        data-aos-duration="450"
         data-aos-delay="120"
       />
     </div>

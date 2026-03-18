@@ -11,7 +11,7 @@
     <section class="px-6 py-16 container">
       <div
         data-aos="fade-up"
-        data-aos-duration="300"
+        data-aos-duration="150"
         class="text-center mb-16"
       >
         <h2 class="text-5xl font-bold mb-4">
@@ -23,7 +23,7 @@
       </div>
       <div
         data-aos="zoom-in"
-        data-aos-duration="500"
+        data-aos-duration="350"
         class="max-w-4xl mx-auto bg-white dark:bg-navy-blue/80 shadow-xl rounded-2xl p-6 md:p-10 backdrop-blur-sm"
       >
         <form @submit.prevent="submitForm">

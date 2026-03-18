@@ -4,7 +4,7 @@
     :class="[type, colorClass]"
     :style="{ '--connector-color': getConnectorColor() }"
     :data-aos="'zoome-in'"
-    :data-aos-duration="500"
+    :data-aos-duration="350"
   >
     <div
       v-if="type === 'horizontal'"

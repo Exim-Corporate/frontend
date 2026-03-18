@@ -4,7 +4,7 @@
       class="step-card"
       :class="gradientClass"
       :data-aos="isLeftArrow ? 'fade-left' : 'fade-right'"
-      data-aos-duration="500"
+      data-aos-duration="350"
     >
       <!-- Step Number -->
       <div

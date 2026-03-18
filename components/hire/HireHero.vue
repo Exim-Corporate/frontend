@@ -16,7 +16,7 @@
         <div
           v-if="flagIcon"
           data-aos="fade-right"
-          data-aos-duration="500"
+          data-aos-duration="350"
           class="flex items-center gap-3 mb-6 justify-center md:justify-start"
         >
           <NuxtImg
@@ -29,7 +29,7 @@
 
         <h1
           data-aos="fade-right"
-          data-aos-duration="500"
+          data-aos-duration="350"
           data-aos-delay="100"
           class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
         >
@@ -39,7 +39,7 @@
         <p
           v-if="subtitle"
           data-aos="fade-right"
-          data-aos-duration="500"
+          data-aos-duration="350"
           data-aos-delay="200"
           class="text-base md:text-lg lg:text-xl text-gray-200 mb-10 max-w-2xl mx-auto md:mx-0"
         >
@@ -48,7 +48,7 @@
 
         <div
           data-aos="fade-right"
-          data-aos-duration="500"
+          data-aos-duration="350"
           data-aos-delay="300"
         >
           <AppButton
