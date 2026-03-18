@@ -1,4 +1,5 @@
-const referrals = {
+export default {
+  referrals: {
   meta: {
     title: 'Programa de Referidos – Gana recompensas por presentar empresas',
     description:
@@ -94,8 +95,5 @@ const referrals = {
     subtitle: 'Conviértete en socio y genera ingresos adicionales.',
     button: 'Enviar un referido ahora',
   },
-};
-
-export default {
-  referrals,
+  },
 };

@@ -1,4 +1,5 @@
-const referrals = {
+export default {
+  referrals: {
   meta: {
     title: 'Programme de parrainage – Gagnez des récompenses',
     description:
@@ -96,8 +97,5 @@ const referrals = {
     subtitle: 'Devenez partenaire et générez un revenu additionnel.',
     button: 'Soumettre un parrainage',
   },
-};
-
-export default {
-  referrals,
+  },
 };

@@ -1,4 +1,5 @@
-const referrals = {
+export default {
+  referrals: {
   meta: {
     title: 'Referral-Programm – Verdienen Sie Prämien für Empfehlungen',
     description:
@@ -98,8 +99,5 @@ const referrals = {
     subtitle: 'Werden Sie Partner und schaffen Sie sich eine Zusatz-Einnahmequelle.',
     button: 'Jetzt Empfehlung senden',
   },
-};
-
-export default {
-  referrals,
+  },
 };
