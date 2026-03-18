@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useSEO } from '@/composables/useSEO';
+
 // Centralized SEO for the homepage using useSEO
 useSEO({
   title: 'AS Exim - Expert IT Staffing & Remote Developers',
@@ -60,6 +62,7 @@ useSEO({
     <ProcessSection />
     <IndustryExpertiseSection />
     <CaseStudiesSection />
+    <StandApartStatsSection />
 
     <!-- Team Section -->
     <!-- <TeamSection /> -->
@@ -75,5 +78,6 @@ useSEO({
 
     <!-- Contact Section -->
     <ContactSection />
+
   </main>
 </template>

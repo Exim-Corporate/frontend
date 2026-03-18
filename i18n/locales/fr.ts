@@ -146,6 +146,15 @@ export default {
     feat6_desc:
       'De l’idée à la livraison, nous vous aidons à livrer plus vite sans compromettre la qualité.',
   },
+  standApart: {
+    title: 'Ce qui nous distingue',
+    items: {
+      engineers: 'Ingenieurs dans le reseau',
+      knowHow: 'Savoir-faire et brevets securises',
+      clients: 'Clients servis',
+      remote: 'Experts a distance',
+    },
+  },
   services: {
     title1: "Quel type d'",
     title_span: 'experts',

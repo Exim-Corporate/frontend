@@ -122,6 +122,15 @@ export default {
     feat6_desc:
       'Von der Idee bis zur Auslieferung helfen wir Ihnen, schneller zu liefern, ohne Kompromisse bei der Qualität.',
   },
+  standApart: {
+    title: 'Was macht uns besonders?',
+    items: {
+      engineers: 'Ingenieure im Netzwerk',
+      knowHow: 'Know-how und gesicherte Patente',
+      clients: 'Betreute Kunden',
+      remote: 'Remote-Experten',
+    },
+  },
   services: {
     title1: 'Welche Art von',
     title_span: 'Experten',

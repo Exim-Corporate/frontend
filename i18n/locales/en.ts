@@ -151,6 +151,15 @@ export default {
     feat6_desc:
       'From idea to delivery, we help you ship faster without compromising quality.',
   },
+  standApart: {
+    title: 'What Makes Us Stand Apart?',
+    items: {
+      engineers: 'Engineers in network',
+      knowHow: 'Know-how and patents secured',
+      clients: 'Clients served',
+      remote: 'Remote experts',
+    },
+  },
   services: {
     title1: 'What Kind of',
     title_span: 'Experts',

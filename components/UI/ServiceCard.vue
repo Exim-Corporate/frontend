@@ -1,5 +1,5 @@
 <template>
-  <div class="group relative w-full aspect-square rounded-4xl overflow-hidden cursor-pointer bg-card-bg max-h-80 lg:h-auto">
+  <div class="group relative w-full aspect-square rounded-4xl overflow-hidden cursor-pointer bg-card-bg max-h-80 lg:max-h-full">
     <img
       :src="image"
       :alt="title"

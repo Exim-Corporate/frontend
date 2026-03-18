@@ -151,6 +151,15 @@ export default {
     feat6_desc:
       'Desde la idea hasta la entrega, le ayudamos a avanzar más rápido sin comprometer la calidad.',
   },
+  standApart: {
+    title: 'Que nos hace destacar?',
+    items: {
+      engineers: 'Ingenieros en la red',
+      knowHow: 'Know-how y patentes aseguradas',
+      clients: 'Clientes atendidos',
+      remote: 'Expertos remotos',
+    },
+  },
   services: {
     title1: '¿Qué tipo de',
     title_span: 'expertos',
