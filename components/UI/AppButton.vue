@@ -1,7 +1,7 @@
 <template>
   <Button
     v-bind="$attrs"
-    class="w-full md:w-auto max-md:px-0! max-md:py-[14.5px]! hover:scale-105 transition-transform duration-300"
+    :class="buttonClasses"
     @click="onClick"
   >
     <AppIcon
@@ -13,13 +13,13 @@
 
     <span
       v-if="$slots.default"
-      class="bg-btn-gradient bg-clip-text text-transparent font-sans font-normal text-[16px] md:text-[18px] leading-[100%] tracking-normal align-middle w-full text-center block"
+      :class="labelClasses"
     >
       <slot />
     </span>
     <span
       v-else-if="label"
-      class="bg-btn-gradient bg-clip-text text-transparent font-sans font-normal text-[16px] md:text-[18px] leading-[100%] tracking-normal align-middle w-full text-center block"
+      :class="labelClasses"
     >
       {{ label }}
     </span>
@@ -34,6 +34,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import Button from 'primevue/button';
 import AppIcon from '@/components/UI/AppIcon.vue';
 
@@ -54,10 +55,36 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  variant: {
+    type: String as () => 'default' | 'gray',
+    default: 'default',
+  },
   scrollToContact: {
     type: Boolean,
     default: false,
   },
+});
+
+const buttonClasses = computed(() => {
+  if (props.variant === 'gray') {
+    return [
+      '!w-auto !border-0 !bg-card-bg !px-[20px] !py-[10px]',
+      'hover:!bg-background-gray transition-colors duration-300',
+    ];
+  }
+
+  return [
+    'w-full md:w-auto max-md:px-0! max-md:py-[14.5px]!',
+    'hover:scale-105 transition-transform duration-300',
+  ];
+});
+
+const labelClasses = computed(() => {
+  if (props.variant === 'gray') {
+    return 'block w-full text-center align-middle font-sans text-[16px] leading-[100%] font-normal tracking-normal text-text-dark';
+  }
+
+  return 'block w-full bg-btn-gradient bg-clip-text text-center align-middle font-sans text-[16px] leading-[100%] font-normal tracking-normal text-transparent md:text-[18px]';
 });
 
 const onClick = () => {

@@ -320,10 +320,6 @@ export default {
       },
     },
   },
-  testimonials: {
-    title: 'Ce que nos clients disent de nos talents',
-    subtitle: "Vrais témoignages d'entreprises qui ont collaboré avec nous.",
-  },
   whyChooseUs: {
     title: 'Pourquoi nous choisir',
     subtitle: 'Nos avantages',

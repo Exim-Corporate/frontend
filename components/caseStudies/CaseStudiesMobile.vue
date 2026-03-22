@@ -4,7 +4,12 @@
     data-aos="fade-up"
     data-aos-duration="350"
   >
-    <Accordion :multiple="false" :active-index="activeIndex" class="case-studies-accordion" @tab-open="onTabOpen">
+    <Accordion
+      v-model:active-index="activeIndex"
+      :multiple="false"
+      class="case-studies-accordion"
+      @tab-open="onTabOpen"
+    >
       <template #expandicon>
         <Icon icon="ri:add-line" class="text-[18px]" />
       </template>
@@ -18,14 +23,19 @@
         :header="$t(study.labelKey)"
       >
         <div class="pb-3">
-          <NuxtImg
-            :src="study.image"
-            :alt="$t(study.titleKey)"
-            width="385"
-            height="240"
-            class="h-60 w-full rounded-[14px] object-cover"
-            sizes="100vw"
-          />
+          <div class="relative h-60 w-full overflow-hidden rounded-[14px]">
+            <NuxtImg
+              :src="study.image"
+              :alt="$t(study.titleKey)"
+              width="385"
+              height="240"
+              class="absolute inset-0 h-full w-full object-cover"
+              sizes="(max-width: 1024px) 100vw, 385px"
+              loading="lazy"
+              quality="85"
+              format="webp"
+            />
+          </div>
 
           <BaseTitle tag="h3" variant="subheader" class-name="mt-4 text-left text-text-dark">
             {{ $t(study.titleKey) }}
@@ -62,6 +72,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
@@ -74,7 +85,7 @@ defineProps<{
   studies: CaseStudyItem[];
 }>();
 
-const activeIndex = 0;
+const activeIndex = ref<number>(0);
 
 const onTabOpen = (_event: unknown) => {
   // Keep explicit handler for parity with other accordion sections and future analytics hooks.

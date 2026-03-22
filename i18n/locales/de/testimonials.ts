@@ -1,7 +1,9 @@
-const testimonials = {
-  title: 'Was unsere Kunden über unsere Talente sagen',
-  subtitle:
-    'Echte Rückmeldungen von Unternehmen, die mit uns zusammengearbeitet haben, um außergewöhnliche Tech-Talente für ihre Teams zu finden.',
+export default {
+  testimonials: {
+    title: 'Was unsere Kunden sagen',
+    subtitle: 'Echte Rückmeldungen von Partnern, die die perfekten Talente für ihre Teams gefunden haben',
+    viewMore: 'Mehr anzeigen',
+    viewLess: 'Weniger anzeigen',
+    at: 'bei',
+  },
 };
-
-export default testimonials;

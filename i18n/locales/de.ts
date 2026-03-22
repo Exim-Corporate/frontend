@@ -316,11 +316,6 @@ export default {
       },
     },
   },
-  testimonials: {
-    title: 'Was unsere Kunden über unsere Talente sagen',
-    subtitle:
-      'Echte Rückmeldungen von Unternehmen, die mit uns zusammengearbeitet haben, um außergewöhnliche Tech-Talente für ihre Teams zu finden.',
-  },
   whyChooseUs: {
     title: 'Warum uns wählen',
     subtitle: 'Unsere Vorteile',

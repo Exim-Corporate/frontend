@@ -1,6 +1,9 @@
-const testimonials = {
-  title: 'Ce que nos clients disent de nos talents',
-  subtitle: "Vrais témoignages d'entreprises qui ont collaboré avec nous.",
+export default {
+  testimonials: {
+    title: 'Ce que disent nos clients',
+    subtitle: 'Retours réels de partenaires qui ont trouvé les talents parfaits pour leurs équipes',
+    viewMore: 'Voir plus',
+    viewLess: 'Voir moins',
+    at: 'chez',
+  },
 };
-
-export default testimonials;

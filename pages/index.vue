@@ -45,14 +45,6 @@ useSEO({
 
     <ServicesProvideSection />
 
-    
-    <!-- Companies section -->
-    <!-- <CompaniesCarousel /> -->
-    
-    <!-- Services Section -->
-    <!-- <ServicesSection /> -->
-    
-    <!-- Tech Stack Section -->
     <TechStackSection />
     
     <!-- Why Choose Us section -->
@@ -63,12 +55,10 @@ useSEO({
     <IndustryExpertiseSection />
     <CaseStudiesSection />
     <StandApartStatsSection />
+    <TestimonialsSection />
 
     <!-- Team Section -->
     <!-- <TeamSection /> -->
-
-    <!-- Testimonials Section -->
-    <!-- <TestimonialsSection /> -->
 
     <!-- CTA Banner Section -->
     <!-- <CTABanner /> -->

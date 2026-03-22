@@ -27,13 +27,8 @@
       </button>
     </div>
 
-    <div
-      :key="selectedStudyId"
-      class="flex-1 min-w-0 overflow-x-hidden"
-      data-aos="fade-left"
-      data-aos-duration="350"
-    >
-      <div class="flex items-start gap-6 lg:gap-15 min-h-125 ">
+    <div class="flex-1 min-w-0 overflow-x-hidden" data-aos="fade-left" data-aos-duration="350">
+      <div class="flex items-start gap-6 lg:gap-15 min-h-125">
         <div class="md:pl-10 flex-1 max-w-130">
           <BaseTitle tag="h3" variant="subheader" class-name="text-left text-text-dark">
             {{ $t(selectedStudy.titleKey) }}
@@ -65,23 +60,28 @@
           </AppButton>
         </div>
 
-        <!-- <div class="h-105 w-90 shrink-0 -mr-10 lg:mr-0"> -->
+        <div class="relative h-105 w-90 shrink-0 overflow-hidden rounded-[20px]">
           <NuxtImg
-            :src="selectedStudy.image"
-            :alt="$t(selectedStudy.titleKey)"
-            loading='lazy'
+            v-for="study in studies"
+            :key="study.id"
+            :src="study.image"
+            :alt="$t(study.titleKey)"
+            :loading="study.id === selectedStudyId ? 'eager' : 'lazy'"
             width="360"
             height="420"
-            class="h-105 w-90 absolute top-0 right-0 rounded-[20px] object-cover"
+            class="absolute inset-0 h-full w-full object-cover transition-all duration-350 ease-out"
+            :class="getImageStateClass(study.id)"
+            quality="90"
+            format="webp"
           />
-        <!-- </div> -->
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import AppButton from '@/components/UI/AppButton.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
@@ -100,4 +100,31 @@ defineEmits<{
 const selectedStudy = computed<CaseStudyItem>(() => {
   return props.studies.find((study) => study.id === props.selectedStudyId) ?? props.studies[0];
 });
+
+const previousStudyId = ref<string>('');
+
+watch(
+  () => props.selectedStudyId,
+  (_newId, oldId) => {
+    previousStudyId.value = oldId;
+
+    window.setTimeout(() => {
+      if (previousStudyId.value === oldId) {
+        previousStudyId.value = '';
+      }
+    }, 360);
+  },
+);
+
+const getImageStateClass = (studyId: string): string => {
+  if (studyId === props.selectedStudyId) {
+    return 'z-20 translate-x-0 opacity-100';
+  }
+
+  if (studyId === previousStudyId.value) {
+    return 'z-10 -translate-x-8 opacity-0';
+  }
+
+  return 'z-0 translate-x-8 opacity-0';
+};
 </script>
