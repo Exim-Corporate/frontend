@@ -1,5 +1,5 @@
 <template>
-  <section class="w-full bg-white container pb-0">
+  <section class="w-full bg-white container pb-0 pt-8">
       <div class="flex flex-wrap items-stretch gap-6">
         <AnimatedElement
           v-for="(card, index) in cards"

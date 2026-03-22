@@ -1,14 +1,14 @@
 <template>
   <section class="w-full bg-white container">
-      <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-12 md:mb-16">
+      <div class="flex flex-col items-center md:flex-row md:items-start md:justify-between gap-6 mb-12 md:mb-16">
         <div class="flex flex-col gap-4">
           <AnimatedElement direction="bottom" :delay="100">
-            <BaseTitle tag="h2" variant="main" class-name="text-left">
+            <BaseTitle tag="h2" variant="main" class-name="text-center md:text-left">
               {{ $t('servicesProvide.title') }}
             </BaseTitle>
           </AnimatedElement>
           <AnimatedElement direction="bottom" :delay="200">
-            <BaseText variant="section" class-name="text-left max-w-md">
+            <BaseText variant="section" class-name="text-center md:text-left max-w-md">
               {{ $t('servicesProvide.subtitle') }}
             </BaseText>
           </AnimatedElement>

@@ -24,12 +24,14 @@
     </div>
 
     <div class="absolute inset-5 rounded-[28px] bg-card-overlay p-6 md:p-10 flex flex-col gap-4 md:gap-6 scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 origin-center overflow-hidden">
-      <BaseTitle variant="subheader" class-name="text-text-dark text-left">
+      <BaseTitle variant="subheader" class-name="text-text-dark text-left shrink-0">
         {{ title }}
       </BaseTitle>
-      <BaseText variant="card" class-name="text-text-dark">
-        {{ description }}
-      </BaseText>
+      <div class="flex-1 min-h-0 overflow-hidden">
+        <BaseText variant="card" className="text-text-dark line-clamp-7">
+          {{ description }}
+        </BaseText>
+      </div>
 <!-- 
       <div v-if="tags.length" class="mt-auto flex flex-wrap gap-2">
         <ExpertiseTag

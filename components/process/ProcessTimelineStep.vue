@@ -16,8 +16,8 @@
       tag="h3"
       variant="serifSubheader"
       :class-name="[
-        'text-center justify-center font-semibold',
-        isInView ? 'text-text-dark' : '',
+        'text-center justify-center font-semibold transition-all duration-500 ease-out',
+        isInView ? 'translate-y-0 opacity-100 text-text-dark' : 'translate-y-4 opacity-0',
       ].join(' ')"
     >
       {{ title }}
@@ -26,8 +26,8 @@
     <BaseText
       variant="section"
       :class-name="[
-        'mt-3 text-center max-w-md mx-auto',
-        isInView ? 'text-text-dark' : 'text-light',
+        'mt-3 max-w-md mx-auto text-center transition-all duration-500 delay-100 ease-out',
+        isInView ? 'translate-y-0 opacity-100 text-text-dark' : 'translate-y-4 opacity-0 text-light',
       ].join(' ')"
     >
       {{ description }}

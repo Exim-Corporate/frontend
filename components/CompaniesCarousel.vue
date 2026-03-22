@@ -1,5 +1,5 @@
 <template>
-  <section class="container py-20 text-center test">
+  <section class="container pt-20 text-center">
     <AppLogoMarquee />
   </section>
 </template>

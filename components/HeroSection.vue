@@ -1,6 +1,6 @@
 <template>
   <section class="relative w-full overflow-hidden bg-white pb-0">
-    <div class="container mx-auto flex flex-col items-center justify-center min-h-[80vh]">
+    <div class="container mx-auto flex flex-col items-center justify-center min-h-[80vh] top-20">
       
       <AnimatedElement direction="bottom" :delay="100">
         <BaseChip variant="light" size="normal" class="mb-6 md:mb-8">
@@ -8,33 +8,37 @@
         </BaseChip>
       </AnimatedElement>
 
-      <AnimatedElement direction="bottom" :delay="200" class="max-w-3xl">
-        <BaseTitle variant="main" class-name="mb-6 whitespace-pre-line text-center">
+      <AnimatedElement direction="bottom" :delay="200" class="">
+        <BaseTitle variant="main" class-name="mb-8 whitespace-pre-line text-center max-w-2xl font-semibold text-[28px] md:text-[56px] leading-[1.1]">
           {{ $t('heroNew.title') }}
         </BaseTitle>
       </AnimatedElement>
 
       <AnimatedElement direction="bottom" :delay="300">
-        <BaseText variant="main" class-name="mb-12 whitespace-pre-line max-w-lg text-center">
+        <BaseText variant="main" className="mb-12 max-w-2xl text-center">
           {{ $t('heroNew.subtitle') }}
         </BaseText>
       </AnimatedElement>
 
       <AnimatedElement direction="bottom" :delay="400" class="w-full max-w-xl">
         <form
-          class="flex flex-col md:flex-row items-center w-full rounded-4xl md:rounded-full border border-form-border p-2.5 transition-colors hover:border-form-border-hover mb-12 gap-3 md:gap-0"
+          class="mb-12 w-full"
           @submit.prevent="submitForm"
         >
-          <InputText
-            type="email"
-            :placeholder="$t('heroNew.inputPlaceholder')"
-            class="w-full md:flex-1 text-base"
-            required
-          />
+          <div class="flex w-full flex-col gap-3 md:flex-row md:items-center md:rounded-full border-0 md:border md:border-form-border p-0 md:p-2.5 md:transition-colors md:hover:border-form-border-hover">
+            <div class="w-full rounded-4xl border border-form-border p-0 transition-colors hover:border-form-border-hover md:flex-1 md:rounded-none md:border-0 md:p-0 md:hover:border-transparent">
+              <InputText
+                type="email"
+                :placeholder="$t('heroNew.inputPlaceholder')"
+                class="w-full text-base"
+                required
+              />
+            </div>
 
-          <AppButton type="submit">
-            {{ $t('heroNew.scheduleButton') }}
-          </AppButton>
+            <AppButton type="submit" class="w-full md:w-auto">
+              {{ $t('heroNew.scheduleButton') }}
+            </AppButton>
+          </div>
         </form>
       </AnimatedElement>
 

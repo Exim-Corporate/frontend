@@ -48,7 +48,7 @@ useSEO({
     <TechStackSection />
     
     <!-- Why Choose Us section -->
-    <WhyChooseUsSection />
+    <!-- <WhyChooseUsSection /> -->
     
     <!-- Process Section -->
     <ProcessSection />
@@ -58,15 +58,15 @@ useSEO({
     <TestimonialsSection />
     <TeamSection />
     <HeroBlogSection />
-
+<!--  -->
     <!-- CTA Banner Section -->
     <!-- <CTABanner /> -->
 
     <!-- FAQ Section -->
     <FAQSection />
-
+<!--  -->
     <!-- Contact Section -->
-    <ContactSection />
+    <!-- <ContactSection /> -->
 
   </main>
 </template>
