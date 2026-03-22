@@ -74,7 +74,7 @@ const buttonClasses = computed(() => {
   }
 
   return [
-    'w-full md:w-auto max-md:px-0! max-md:py-[14.5px]!',
+    'w-auto md:w-auto px-[16px] lg:px-[28px] py-[13.5px] lg:py-[16px]!',
     'hover:scale-105 transition-transform duration-300',
   ];
 });
