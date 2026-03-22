@@ -4,58 +4,74 @@
     data-aos="fade-up"
     data-aos-duration="350"
   >
-    <Accordion :multiple="false" :active-index="0" class="tech-accordion">
+    <AppAccordion
+      :items="accordionItems"
+      :multiple="false"
+      :initial-value="initialValue"
+      root-class="tech-accordion"
+      header-class="!bg-transparent !border-none !px-0"
+      content-class="!bg-transparent !border-none !px-0"
+    >
       <template #expandicon>
         <Icon icon="ri:arrow-down-s-line" class="text-base transition-transform duration-300" />
       </template>
       <template #collapseicon>
         <Icon icon="ri:arrow-down-s-line" class="text-base transition-transform duration-300 rotate-180" />
       </template>
-      <AccordionTab
-        v-for="role in section.roles"
-        :key="`accordion-${section.id}-${role.id}`"
-        :header="$t(role.roleKey)"
-      >
+
+      <template #header="{ item }">
+        <span class="w-full text-center font-sans text-[20px] text-text-dark">{{ $t(getRole(item).roleKey) }}</span>
+      </template>
+
+      <template #content="{ item }">
         <div class="grid grid-cols-2 gap-3 justify-items-center">
           <TechStackCard
-            v-for="technology in role.technologies"
-            :key="`mobile-${section.id}-${role.id}-${technology.name}`"
+            v-for="technology in getRole(item).technologies"
+            :key="`mobile-${section.id}-${getRole(item).id}-${technology.name}`"
             :technology="technology"
           />
         </div>
-      </AccordionTab>
-    </Accordion>
+      </template>
+    </AppAccordion>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { Icon } from '@iconify/vue/dist/iconify.js';
-import Accordion from 'primevue/accordion';
-import AccordionTab from 'primevue/accordiontab';
+import AppAccordion from '@/components/UI/AppAccordion.vue';
+import type { AppAccordionItem } from '@/components/UI/AppAccordion.vue';
 import TechStackCard from '@/components/techStack/TechStackCard.vue';
 import type { TechStackSectionItem } from '@/types/tech-stack';
 
-defineProps<{
+const props = defineProps<{
   section: TechStackSectionItem;
 }>();
+
+interface TechStackAccordionItem extends AppAccordionItem {
+  role: TechStackSectionItem['roles'][number];
+}
+
+const accordionItems = computed<TechStackAccordionItem[]>(() => {
+  return props.section.roles.map((role, index) => ({
+    value: String(role.id ?? index),
+    role,
+  }));
+});
+
+const initialValue = computed<string | null>(() => accordionItems.value[0]?.value ?? null);
+
+const getRole = (item: AppAccordionItem): TechStackSectionItem['roles'][number] => {
+  return item.role as TechStackSectionItem['roles'][number];
+};
 </script>
 
 <style scoped>
-:deep(.tech-accordion .p-accordion-header-link) {
-  background: transparent;
-  border: none;
-  padding-left: 0;
-  padding-right: 0;
+:deep(.tech-accordion .p-accordionpanel) {
+  border-bottom: 1px solid rgb(0 0 0 / 10%);
 }
 
-:deep(.tech-accordion .p-accordion-header-text) {
-  text-align: center;
-}
-
-:deep(.tech-accordion .p-accordion-content) {
-  background: transparent;
-  border: none;
-  padding-left: 0;
-  padding-right: 0;
+:deep(.tech-accordion .p-accordionpanel:last-child) {
+  border-bottom: 0;
 }
 </style>

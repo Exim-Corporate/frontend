@@ -1,134 +1,91 @@
 <template>
-  <section
-    id="faq"
-    class="py-20 overflow-hidden section-header"
-  >
+  <section id="faq" class="w-full py-16 md:py-24">
     <div class="container">
-      <!-- Section Header -->
-      <div
-        data-aos="fade-up"
-        data-aos-duration="350"
-        class="text-center mb-16"
-      >
-        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-          {{ $t('faq.title_part1') }}<span class="text-gradient">{{ $t('faq.title_span') }}</span
-          >{{ $t('faq.title_part2') }}
-        </h2>
-        <p class="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-          {{ $t('faq.subtitle') }}
-        </p>
-      </div>
+      <AnimatedElement direction="bottom" :delay="100">
+        <div class="mb-10 flex flex-row items-start justify-between gap-8 md:mb-12">
+          <BaseTitle tag="h2" variant="main" class-name="text-left">
+            {{ $t('faq.title_span') }}
+          </BaseTitle>
+          <BaseText variant="main" class-name="max-w-[640px] text-left md:text-right">
+            {{ $t('faq.subtitle') }}
+          </BaseText>
+        </div>
+      </AnimatedElement>
 
-      <!-- FAQ Content - Centered Accordion -->
-      <div
-        data-aos="fade-up"
-        data-aos-duration="350"
-        data-aos-delay="200"
-        class="max-w-4xl mx-auto"
-      >
-        <Accordion
+      <AnimatedElement direction="bottom" :delay="180">
+        <AppAccordion
+          :items="faqItems"
           :multiple="false"
-          expandIcon="pi pi-plus"
-          collapseIcon="pi pi-minus"
-          class="faq-accordion"
+          :initial-value="initialValue"
+          root-class="faq-accordion"
+          panel-class="border-b border-black/10"
+          header-class="!bg-transparent !border-none !px-0 !py-5 md:!py-6"
+          content-class="!bg-transparent !border-none !px-0 !pb-5 !pt-0 md:!pb-6"
         >
-          <template #collapseicon>
-            <Icon icon="ri:arrow-down-s-line" />
-          </template>
           <template #expandicon>
-            <Icon icon="ri:arrow-up-s-line" />
+            <Icon icon="ri:add-line" class="text-[24px] text-text-dark" />
           </template>
-          <AccordionTab
-            v-for="index in faqItems"
-            :key="index"
-            :header="$t(`faq.items[${index}].question`)"
-          >
-            <p class="text-gray-600 dark:text-gray-300">{{ $t(`faq.items[${index}].answer`) }}</p>
-          </AccordionTab>
-        </Accordion>
+          <template #collapseicon>
+            <Icon icon="ri:subtract-line" class="text-[24px] text-text-dark" />
+          </template>
+
+          <template #header="{ item }">
+            <div class="flex w-full items-start gap-4 md:gap-6">
+              <BaseTitle tag="span" variant="subheader18" class-name="w-5 shrink-0 text-left md:w-7">
+                {{ getFaqItem(item).index }}
+              </BaseTitle>
+              <BaseTitle tag="h3" variant="subheader" class-name="text-left !leading-[120%]">
+                {{ $t(getFaqItem(item).questionKey) }}
+              </BaseTitle>
+            </div>
+          </template>
+
+          <template #content="{ item }">
+            <div class="pl-9 md:pl-13">
+              <BaseText variant="main" class-name="max-w-[920px] text-left text-text-secondary">
+                {{ $t(getFaqItem(item).answerKey) }}
+              </BaseText>
+            </div>
+          </template>
+        </AppAccordion>
+      </AnimatedElement>
       </div>
-    </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { Icon } from '@iconify/vue/dist/iconify.js';
-import Accordion from 'primevue/accordion';
-import AccordionTab from 'primevue/accordiontab';
+import AnimatedElement from '@/components/UI/AnimatedElement.vue';
+import AppAccordion from '@/components/UI/AppAccordion.vue';
+import type { AppAccordionItem } from '@/components/UI/AppAccordion.vue';
+import BaseText from '@/components/UI/BaseText.vue';
+import BaseTitle from '@/components/UI/BaseTitle.vue';
 
-// Вместо хардкода текстов, используем только количество элементов FAQ
-// для динамического получения из переводов
-const faqItems = Array.from({ length: 5 }, (_, i) => i);
+const FAQ_COUNT = 5;
+
+interface FaqAccordionItem extends AppAccordionItem {
+  index: number;
+  questionKey: string;
+  answerKey: string;
+}
+
+const faqItems = computed<FaqAccordionItem[]>(() =>
+  Array.from({ length: FAQ_COUNT }, (_, i) => ({
+    value: String(i),
+    index: i + 1,
+    questionKey: `faq.items.${i}.question`,
+    answerKey: `faq.items.${i}.answer`,
+  }))
+);
+
+const initialValue = computed<string | null>(() => faqItems.value[0]?.value ?? null);
+
+const getFaqItem = (item: AppAccordionItem): FaqAccordionItem => item as FaqAccordionItem;
 </script>
 
 <style scoped>
-.text-gradient {
-  background: linear-gradient(90deg, #4ca1ff 0%, #af55ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Custom styling for Accordion */
-:deep(.faq-accordion) {
-  border-radius: 0.75rem;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-}
-
-:deep(.p-accordion-header) {
-  border: none;
-}
-
-:deep(.p-accordion-header-link) {
-  padding: 1.25rem;
-  border-radius: 0;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Hide default toggle icon */
-:deep(.p-accordion-toggle-icon) {
-  display: none;
-}
-
-/* Custom toggle icon */
-:deep(.p-accordion-header-link::after) {
-  content: '▼';
-  font-size: 0.8rem;
-  margin-left: auto;
-  transition: transform 0.3s ease;
-  order: 2;
-}
-
-/* Rotate arrow when tab is not active */
-:deep(.p-accordion-header:not(.p-highlight) .p-accordion-header-link::after) {
-  transform: rotate(-90deg);
-}
-
-:deep(.p-accordion-content) {
-  padding: 1rem 1.25rem 1.5rem;
-  line-height: 1.6;
-}
-
-:deep(.p-accordion-tab) {
-  margin-bottom: 0.5rem;
-  border-radius: 0.5rem;
-  overflow: hidden;
-}
-
-:deep(.p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link) {
-  background: rgba(76, 161, 255, 0.1);
-  border-color: rgba(76, 161, 255, 0.2);
-}
-
-.dark
-  :deep(.p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link) {
-  background: rgba(76, 161, 255, 0.2);
-  border-color: rgba(76, 161, 255, 0.3);
+:deep(.faq-accordion .p-accordionpanel:last-child) {
+  border-bottom: 1px solid rgb(0 0 0 / 10%);
 }
 </style>

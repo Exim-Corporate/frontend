@@ -4,11 +4,13 @@
     data-aos="fade-up"
     data-aos-duration="350"
   >
-    <Accordion
-      v-model:active-index="activeIndex"
+    <AppAccordion
+      :items="accordionItems"
       :multiple="false"
-      class="case-studies-accordion"
-      @tab-open="onTabOpen"
+      :initial-value="activeValue"
+      root-class="case-studies-accordion"
+      header-class="!bg-transparent !border-none !rounded-none !px-0"
+      content-class="!bg-transparent !border-none !px-0"
     >
       <template #expandicon>
         <Icon icon="ri:add-line" class="text-[18px]" />
@@ -17,16 +19,16 @@
         <Icon icon="ri:subtract-line" class="text-[18px]" />
       </template>
 
-      <AccordionTab
-        v-for="study in studies"
-        :key="study.id"
-        :header="$t(study.labelKey)"
-      >
+      <template #header="{ item }">
+        <span class="w-full text-left font-sans text-[20px] text-text-dark">{{ $t(item.study.labelKey) }}</span>
+      </template>
+
+      <template #content="{ item }">
         <div class="pb-3">
           <div class="relative h-60 w-full overflow-hidden rounded-[14px]">
             <NuxtImg
-              :src="study.image"
-              :alt="$t(study.titleKey)"
+              :src="item.study.image"
+              :alt="$t(item.study.titleKey)"
               width="385"
               height="240"
               class="absolute inset-0 h-full w-full object-cover"
@@ -38,11 +40,11 @@
           </div>
 
           <BaseTitle tag="h3" variant="subheader" class-name="mt-4 text-left text-text-dark">
-            {{ $t(study.titleKey) }}
+            {{ $t(item.study.titleKey) }}
           </BaseTitle>
 
           <BaseText variant="card" class-name="mt-2 text-left text-text-secondary">
-            {{ $t(study.descriptionKey) }}
+            {{ $t(item.study.descriptionKey) }}
           </BaseText>
 
           <div class="mt-5">
@@ -51,7 +53,7 @@
             </BaseTitle>
 
             <div class="mt-3 grid grid-cols-2 gap-5">
-              <div v-for="impact in study.impacts" :key="impact.labelKey">
+              <div v-for="impact in item.study.impacts" :key="impact.labelKey">
                 <BaseTitle tag="p" variant="subheader" class-name="text-left text-text-dark">
                   {{ impact.value }}
                 </BaseTitle>
@@ -66,50 +68,45 @@
             {{ $t('caseStudies.cta') }}
           </AppButton>
         </div>
-      </AccordionTab>
-    </Accordion>
+      </template>
+    </AppAccordion>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed } from 'vue';
 import { Icon } from '@iconify/vue/dist/iconify.js';
-import Accordion from 'primevue/accordion';
-import AccordionTab from 'primevue/accordiontab';
+import AppAccordion from '@/components/UI/AppAccordion.vue';
+import type { AppAccordionItem } from '@/components/UI/AppAccordion.vue';
 import AppButton from '@/components/UI/AppButton.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import type { CaseStudyItem } from '@/types/case-studies';
 
-defineProps<{
+const props = defineProps<{
   studies: CaseStudyItem[];
 }>();
 
-const activeIndex = ref<number>(0);
+interface CaseStudiesAccordionItem extends AppAccordionItem {
+  study: CaseStudyItem;
+}
 
-const onTabOpen = (_event: unknown) => {
-  // Keep explicit handler for parity with other accordion sections and future analytics hooks.
-};
+const accordionItems = computed<CaseStudiesAccordionItem[]>(() => {
+  return props.studies.map((study, index) => ({
+    value: String(study.id ?? index),
+    study,
+  }));
+});
+
+const activeValue = computed<string | null>(() => accordionItems.value[0]?.value ?? null);
 </script>
 
 <style scoped>
-:deep(.case-studies-accordion .p-accordion-header-link) {
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  padding-left: 0;
-  padding-right: 0;
+:deep(.case-studies-accordion .p-accordionpanel) {
   border-bottom: 1px solid color-mix(in oklab, currentColor 14%, transparent);
 }
 
-:deep(.case-studies-accordion .p-accordion-header-text) {
-  text-align: left;
-}
-
-:deep(.case-studies-accordion .p-accordion-content) {
-  background: transparent;
-  border: none;
-  padding-left: 0;
-  padding-right: 0;
+:deep(.case-studies-accordion .p-accordionpanel:last-child) {
+  border-bottom: 0;
 }
 </style>
