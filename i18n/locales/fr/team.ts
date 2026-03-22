@@ -1,25 +1,19 @@
-const team = {
-  title1: 'Rencontrez notre équipe',
-  title_span: 'de direction',
-  title2: '',
-  subtitle: 'Les visionnaires derrière notre mission.',
-  members: {
-    john: {
-      name: 'Artem Shapovalov',
-      role: 'PDG & Co-fondateur',
-      bio: "Leader visionnaire avec plus de 10 ans d'expérience.",
-    },
-    sarah: {
-      name: 'Dmytro Lukianenko',
-      role: 'Directeur technique',
-      bio: 'Innovateur technique avec une expertise approfondie.',
-    },
-    michael: {
-      name: 'Oleksandr Shapovalov',
-      role: 'Co-fondateur & Directeur financier',
-      bio: 'Leader financier stratégique.',
+export default {
+  team: {
+    title: 'Rencontrez notre équipe de direction',
+    subtitle:
+      'Les visionnaires et experts derrière notre mission de connecter les meilleurs talents techniques aux entreprises innovantes',
+    members: {
+      artem: {
+        name: 'Artem Shapovalov',
+        role: 'PDG & Co-fondateur',
+        bio: "Leader visionnaire avec plus de 10 ans d'expérience dans l'optimisation des talents tech et le développement commercial.",
+      },
+      dmytro: {
+        name: 'Dmytro Lukianenko',
+        role: 'Directeur technique',
+        bio: 'Innovateur technique avec une expertise approfondie en architecture logicielle et en technologies émergentes.',
+      },
     },
   },
 };
-
-export default team;
