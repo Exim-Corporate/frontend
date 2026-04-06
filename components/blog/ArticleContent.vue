@@ -21,7 +21,6 @@ import type { StrapiArticle } from '@/types/strapi';
 const props = defineProps<{
   content: StrapiArticle['content'] | null;
 }>();
-console.log('ArticleContent props:', props.content);
 const md = new MarkdownIt({
   html: true,
   linkify: true,

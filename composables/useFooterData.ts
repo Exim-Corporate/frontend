@@ -13,7 +13,7 @@ import type {
 } from '@/types/footer';
 
 const industryFallbackItems: FooterFallbackItem[] = [
-  { labelKey: 'footer.navigation.industry.items.healthcare1', slug: 'healthcare', footerOrder: 1 },
+  { labelKey: 'footer.navigation.industry.items.healthcare', slug: 'healthcare', footerOrder: 1 },
   { labelKey: 'footer.navigation.industry.items.logistics', slug: 'logistics', footerOrder: 2 },
   { labelKey: 'footer.navigation.industry.items.retail', slug: 'retail', footerOrder: 3 },
   {
@@ -195,7 +195,7 @@ export const useFooterData = () => {
             },
           },
           sort: ['footerOrder:asc', 'title:asc'],
-          pageSize: 50,
+          pageSize: 6,
           populate: ['seo'],
         },
         { silent404: true },
@@ -210,7 +210,7 @@ export const useFooterData = () => {
             },
           },
           sort: ['footerOrder:asc', 'title:asc'],
-          pageSize: 50,
+          pageSize: 9,
           populate: ['seo'],
         },
         { silent404: true },
@@ -233,7 +233,7 @@ export const useFooterData = () => {
               },
             },
             sort: ['footerOrder:asc', 'title:asc'],
-            pageSize: 50,
+            pageSize: 6,
             populate: ['seo'],
           },
           { silent404: true },
@@ -248,7 +248,7 @@ export const useFooterData = () => {
               },
             },
             sort: ['footerOrder:asc', 'title:asc'],
-            pageSize: 50,
+            pageSize: 9,
             populate: ['seo'],
           },
           { silent404: true },

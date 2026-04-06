@@ -16,6 +16,7 @@
   // TypeScript — use workspace TS, limit memory
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.tsserver.maxTsServerMemory": 4096,
+  "typescript.tsc.autoDetect": "off",
 
   // Volar — disable unused project types
   "vue.server.vitePress.support": false,

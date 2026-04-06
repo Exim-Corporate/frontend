@@ -66,7 +66,7 @@ import TestimonialCard from '@/components/testimonials/TestimonialCard.vue';
 import { defaultTestimonials } from '@/components/testimonials/testimonialData';
 
 const INITIAL_TESTIMONIALS_COUNT = 3;
-const TESTIMONIALS_STEP = 3;
+const TESTIMONIALS_STEP = 3; 
 
 const sectionRef = ref<HTMLElement | null>(null);
 const visibleCount = ref(INITIAL_TESTIMONIALS_COUNT);

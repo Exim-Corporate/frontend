@@ -327,15 +327,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useAsyncData } from '#imports';
+import { callOnce, useState } from '#imports';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import AppIcon from '@/components/UI/AppIcon.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import { useFooterData } from '@/composables/useFooterData';
 import { useNavigateHome } from '@/composables/useNavigateHome';
+import type { FooterNavigationData } from '@/types/footer';
 
 const { locale } = useI18n();
 const { navigateToHome } = useNavigateHome();
@@ -350,10 +351,29 @@ const {
   socialLinks,
 } = useFooterData();
 
-const { data: navigationData } = useAsyncData('footer-navigation', loadNavigation, {
-  default: getFallbackNavigation,
-  watch: [locale],
-});
+// Shared cache persists SSR→client and across all route changes
+const footerCache = useState<Record<string, FooterNavigationData>>('footer-nav-cache', () => ({}));
+
+const navigationData = useState<FooterNavigationData>(
+  `footer-nav-${locale.value}`,
+  getFallbackNavigation,
+);
+
+const loadForLocale = async (loc: string) => {
+  if (footerCache.value[loc]) {
+    navigationData.value = footerCache.value[loc];
+    return;
+  }
+  const data = await loadNavigation();
+  footerCache.value[loc] = data;
+  navigationData.value = data;
+};
+
+// callOnce: runs SSR once, skipped on every subsequent client navigation
+await callOnce(`footer-nav-init-${locale.value}`, () => loadForLocale(locale.value));
+
+// Only re-fetch when locale actually changes
+watch(locale, newLocale => { loadForLocale(newLocale); });
 
 const industryLinks = computed(() => navigationData.value?.industry ?? getFallbackNavigation().industry);
 const serviceLinks = computed(() => navigationData.value?.services ?? getFallbackNavigation().services);

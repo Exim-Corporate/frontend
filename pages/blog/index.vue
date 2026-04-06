@@ -22,45 +22,48 @@
 
       <!-- Error State -->
       <div
-        v-if="error"
+        v-else-if="error"
         class="text-center text-red-500"
       >
         <p>{{ $t('blog.error_loading') }}</p>
       </div>
 
-      <!-- Articles Grid -->
-      <div
-        v-else-if="articles && articles.length > 0"
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
-      >
-        <ArticleCard
-          v-for="article in articles"
-          :key="article.id"
-          :article="article"
+      <template v-else>
+        <!-- Articles Grid -->
+        <div
+          v-if="articles.length > 0"
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+        >
+          <ArticleCard
+            v-for="article in articles"
+            :key="article.id"
+            :article="article"
+          />
+        </div>
+        <ArticlePagination
+          v-if="articles.length > 0"
+          :current-page="currentPage"
+          :total-items="totalItems"
+          :page-size="pageSize"
+          :page-count="totalPages"
+          @page-change="currentPage = $event"
         />
-      </div>
-      <ArticlePagination
-        v-if="articles && articles.length > 0"
-        :current-page="currentPage"
-        :total-items="totalItems"
-        :page-size="pageSize"
-        :page-count="totalPages"
-        @page-change="currentPage = $event"
-      />
 
-      <!-- No Articles State -->
-      <div
-        v-else
-        class="text-center"
-      >
-        <p>{{ $t('blog.no_articles') }}</p>
-      </div>
+        <!-- No Articles State -->
+        <div
+          v-else
+          class="text-center"
+        >
+          <p>{{ $t('blog.no_articles') }}</p>
+        </div>
+      </template>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useRouter } from 'nuxt/app';
+import { useLazyAsyncData, useSeoMeta } from '#imports';
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStrapiData } from '@/composables/useStrapiData';
@@ -79,22 +82,16 @@ function goHome(): void {
 // Composables
 const { fetchArticles } = useStrapiData();
 const { locale, t } = useI18n();
-
 // Pagination state
 const currentPage = ref(1);
 const pageSize = ref(12);
 const totalItems = ref(0);
 const totalPages = ref(0);
 
-// Используем computed для ключа, чтобы он был динамическим
-const key = computed(() => `blog-articles-${locale.value}-page-${currentPage.value}`);
-const articles = ref<Array<StrapiArticle>>([]);
-const isLoading = ref(false);
-const { pending, error } = useLazyAsyncData(
-  key,
+const { data: articleData, pending, error } = useLazyAsyncData(
+  () => `blog-articles-${locale.value}-page-${currentPage.value}`,
   async () => {
-    isLoading.value = true;
-    const response = await fetchArticles({
+    let response = await fetchArticles({
       locale: locale.value,
       page: currentPage.value,
       pageSize: pageSize.value,
@@ -104,17 +101,33 @@ const { pending, error } = useLazyAsyncData(
         },
       },
     });
+
+    if (locale.value !== 'en' && (response?.data?.length ?? 0) === 0) {
+      response = await fetchArticles({
+        locale: 'en',
+        page: currentPage.value,
+        pageSize: pageSize.value,
+        populate: {
+          cover: {
+            fields: ['url', 'alternativeText', 'formats'],
+          },
+        },
+      });
+    }
+
     totalItems.value = response?.meta?.pagination?.total ?? 0;
     totalPages.value = response?.meta?.pagination?.pageCount ?? 0;
-    articles.value = response?.data || [];
-    isLoading.value = false;
-    return response?.data ?? [];
+    return response?.data ?? ([] as StrapiArticle[]);
   },
   {
-    default: () => [],
+    default: () => [] as StrapiArticle[],
+    server: false,
+    immediate: true,
     watch: [locale, currentPage, pageSize],
   },
 );
+
+const articles = computed<Array<StrapiArticle>>(() => articleData.value ?? []);
 
 // Basic SEO Meta
 useSeoMeta({

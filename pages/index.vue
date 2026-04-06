@@ -57,7 +57,7 @@ useSEO({
     <StandApartStatsSection />
     <TestimonialsSection />
     <TeamSection />
-    <!-- <HeroBlogSection /> -->
+    <HeroBlogSection />
 <!--  -->
     <!-- CTA Banner Section -->
     <!-- <CTABanner /> -->

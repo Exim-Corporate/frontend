@@ -1,5 +1,6 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
+  "compileOnSave": false,
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "strict": true,
