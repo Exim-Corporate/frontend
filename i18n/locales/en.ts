@@ -370,13 +370,46 @@ export default {
     },
   },
   footer: {
-    rights: 'All rights reserved',
     company: 'AS Exim LTD',
-    connect: 'Connect with Us',
-    legal: 'Legal',
-    hire: 'Hire Developers',
+    rights: 'All rights reserved',
     loading: 'Loading...',
-    trusted_partner: 'Your trusted partner for custom software development solutions.',
+    scrollToTop: 'Scroll to top',
+    navigation: {
+      industry: {
+        title: 'Industry Expertise',
+        items: {
+          healthcare: 'Healthcare',
+          logistics: 'Logistics',
+          retail: 'Retail',
+          financeAndFinTech: 'Finance & FinTech',
+          educationAndEdTech: 'Education & EdTech',
+          manufacturing: 'Manufacturing',
+        },
+      },
+      services: {
+        title: 'Services',
+        items: {
+          artificialIntelligence: 'Artificial Intelligence',
+          customSoftwareDevelopment: 'Custom Software Development',
+          webApplicationDevelopment: 'Web Application Development',
+          mobileDevelopment: 'Mobile Development',
+          aiChatbots: 'AI Chatbots',
+          dataEngineering: 'Data Engineering',
+          cloudServices: 'Cloud Services',
+          vcto: 'VCTO',
+          enterpriseSearch: 'Enterprise Search',
+        },
+      },
+      legal: {
+        title: 'Legal',
+        items: {
+          privacyPolicy: 'Privacy Policy',
+          termsOfService: 'Terms of Service',
+          cookiePolicy: 'Cookie Policy',
+          referralProgram: 'Referral Program',
+        },
+      },
+    },
   },
   techStack: {
     title: 'Our Tech Stack',

@@ -1,47 +1,71 @@
-/**
- * API endpoint for dynamic sitemap URLs
- * Provides blog article URLs for sitemap generation
- */
+interface StrapiListItem {
+  slug: string;
+  updatedAt?: string;
+}
+
+interface StrapiListResponse {
+  data: StrapiListItem[];
+}
+
+type SitemapEntry = {
+  loc: string;
+  lastmod?: string;
+  changefreq?: string;
+  priority?: number;
+};
+
+const locales = ['en', 'de', 'fr', 'es'];
+
+const withLocalePrefixes = (
+  basePath: string,
+  items: StrapiListItem[],
+  changefreq: string,
+  priority: number,
+): SitemapEntry[] => {
+  return items.flatMap(item => {
+    return locales.map(locale => {
+      const localePrefix = locale === 'en' ? '' : `/${locale}`;
+      return {
+        loc: `${localePrefix}${basePath}/${item.slug}`,
+        lastmod: item.updatedAt,
+        changefreq,
+        priority,
+      };
+    });
+  });
+};
+
+const fetchCollectionItems = async (
+  strapiUrl: string,
+  endpoint: string,
+): Promise<StrapiListItem[]> => {
+  const url = `${strapiUrl}/api/${endpoint}?pagination[pageSize]=1000&publicationState=live&fields[0]=slug&fields[1]=updatedAt`;
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${endpoint}: ${response.statusText}`);
+  }
+
+  const payload = (await response.json()) as StrapiListResponse;
+  return payload.data || [];
+};
+
 export default defineEventHandler(async () => {
   const config = useRuntimeConfig();
-  const strapiUrl = config.public.strapiUrl;
+  const strapiUrl = String(config.public.strapiUrl || '');
 
   try {
-    // Fetch all published articles from Strapi
-    const response = await fetch(
-      `${strapiUrl}/api/articles?pagination[pageSize]=1000&publicationState=live`,
-    );
+    const [articles, industries, services] = await Promise.all([
+      fetchCollectionItems(strapiUrl, 'articles'),
+      fetchCollectionItems(strapiUrl, 'industry-pages'),
+      fetchCollectionItems(strapiUrl, 'service-pages'),
+    ]);
 
-    if (!response.ok) {
-      console.error('Failed to fetch articles from Strapi:', response.statusText);
-      return [];
-    }
-
-    const data = await response.json();
-    const articles = data.data || [];
-
-    // Generate URLs for all articles across all locales
-    const locales = ['en', 'de', 'fr', 'es'];
-    const urls: Array<{
-      loc: string;
-      lastmod?: string;
-      changefreq?: string;
-      priority?: number;
-    }> = [];
-
-    articles.forEach((article: { slug: string; updatedAt?: string }) => {
-      locales.forEach(locale => {
-        const localePrefix = locale === 'en' ? '' : `/${locale}`;
-        urls.push({
-          loc: `${localePrefix}/blog/${article.slug}`,
-          lastmod: article.updatedAt,
-          changefreq: 'weekly',
-          priority: 0.8,
-        });
-      });
-    });
-
-    return urls;
+    return [
+      ...withLocalePrefixes('/blog', articles, 'weekly', 0.8),
+      ...withLocalePrefixes('/industry', industries, 'weekly', 0.7),
+      ...withLocalePrefixes('/services', services, 'weekly', 0.7),
+    ];
   } catch (error) {
     console.error('Error generating sitemap URLs:', error);
     return [];

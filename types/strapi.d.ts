@@ -84,3 +84,33 @@ export interface StrapiTag {
   slug?: string;
   articles?: StrapiArticle[];
 }
+
+export interface StrapiPageSeo {
+  metaTitle?: string;
+  metaDescription?: string;
+  keywords?: string;
+}
+
+export interface StrapiIndustryPage {
+  id: number;
+  documentId: string;
+  title: string;
+  slug: string;
+  description?: string;
+  footerLabel?: string;
+  footerOrder?: number;
+  showInFooter?: boolean;
+  seo?: StrapiPageSeo;
+}
+
+export interface StrapiServicePage {
+  id: number;
+  documentId: string;
+  title: string;
+  slug: string;
+  description?: string;
+  footerLabel?: string;
+  footerOrder?: number;
+  showInFooter?: boolean;
+  seo?: StrapiPageSeo;
+}

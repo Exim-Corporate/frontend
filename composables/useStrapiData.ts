@@ -2,7 +2,6 @@ import { useRuntimeConfig } from 'nuxt/app';
 import type { StrapiResponse, StrapiArticle } from '../types/strapi';
 import { stringify } from 'qs';
 
-// Определяем интерфейс для параметров запроса
 interface QueryParams {
   locale?: string;
   populate?: string[] | object | string;
@@ -10,12 +9,45 @@ interface QueryParams {
   filters?: object;
   page?: number;
   pageSize?: number;
-  [key: string]: unknown; // Для других возможных параметров
+  [key: string]: unknown;
 }
+
+interface FetchOptions {
+  silent404?: boolean;
+  baseUrl?: string;
+}
+
+const getErrorStatus = (error: unknown): number | undefined => {
+  if (typeof error !== 'object' || !error) {
+    return undefined;
+  }
+
+  if ('status' in error && typeof error.status === 'number') {
+    return error.status;
+  }
+
+  if ('statusCode' in error && typeof error.statusCode === 'number') {
+    return error.statusCode;
+  }
+
+  return undefined;
+};
+
+const createEmptyCollectionResponse = <T>(page = 1, pageSize = 10): StrapiResponse<T[]> => ({
+  data: [],
+  meta: {
+    pagination: {
+      page,
+      pageSize,
+      pageCount: 0,
+      total: 0,
+    },
+  },
+});
 
 export const useStrapiData = () => {
   const config = useRuntimeConfig();
-  const strapiUrl = config.public.strapiUrl;
+  const strapiUrl = String(config.public.strapiUrl || '');
   const strapiToken = config.public.strapiToken;
 
   const getHeaders = () => {
@@ -28,56 +60,132 @@ export const useStrapiData = () => {
     return headers;
   };
 
-  const fetchFromStrapi = async <T>(endpoint: string, params: QueryParams = {}): Promise<T> => {
-    // Устанавливаем значения по умолчанию для populate, sort, page и pageSize
-    const defaultParams = {
-      populate: params.populate || '*',
-      sort: params.sort || ['publishedAt:desc'],
-      pagination: {
-        page: params.page ?? 1,
-        pageSize: params.pageSize ?? 10,
-        ...params,
+  const fetchFromStrapi = async <T>(
+    endpoint: string,
+    params: QueryParams = {},
+    fallbackValue: T,
+  ): Promise<T> => {
+    const query = stringify(
+      {
+        populate: params.populate || '*',
+        sort: params.sort || ['publishedAt:desc'],
+        locale: params.locale,
+        filters: params.filters,
+        pagination: {
+          page: params.page ?? 1,
+          pageSize: params.pageSize ?? 10,
+        },
       },
-    };
-
-    const query = stringify(defaultParams, {
-      encodeValuesOnly: true, // encode only values in string
-    });
+      {
+        encodeValuesOnly: true,
+      },
+    );
     const url = `${strapiUrl}/api/${endpoint}?${query}`;
 
-    console.log(`Fetching from URL: ${url}`);
-
     try {
-      const response = await $fetch<{ data: T }>(url, {
+      const response = await $fetch<T>(url, {
         headers: getHeaders(),
       });
-      return response as T;
-    } catch (error) {
-      console.error(`Error fetching from ${url}:`, error);
-      return null as T;
+      return response;
+    } catch {
+      return fallbackValue;
     }
   };
 
   const fetchArticles = (params: QueryParams = {}) => {
-    return fetchFromStrapi<StrapiResponse<StrapiArticle[]>>('articles', params);
+    return fetchFromStrapi<StrapiResponse<StrapiArticle[]>>(
+      'articles',
+      params,
+      createEmptyCollectionResponse<StrapiArticle>(params.page ?? 1, params.pageSize ?? 10),
+    );
+  };
+
+  const fetchCollection = async <T>(
+    endpoint: string,
+    params: QueryParams = {},
+    options: FetchOptions = {},
+  ): Promise<StrapiResponse<T[]> | null> => {
+    const query = stringify(
+      {
+        populate: params.populate || '*',
+        sort: params.sort || ['publishedAt:desc'],
+        locale: params.locale,
+        filters: params.filters,
+        pagination: {
+          page: params.page ?? 1,
+          pageSize: params.pageSize ?? 10,
+        },
+      },
+      {
+        encodeValuesOnly: true,
+      },
+    );
+    const baseUrl = options.baseUrl || strapiUrl;
+    const url = `${baseUrl}/api/${endpoint}?${query}`;
+
+    try {
+      return await $fetch<StrapiResponse<T[]>>(url, {
+        headers: getHeaders(),
+      });
+    } catch (error) {
+      if (options.silent404 && getErrorStatus(error) === 404) {
+        return null;
+      }
+
+      return null;
+    }
+  };
+
+  const fetchSingleBySlug = async <T>(
+    endpoint: string,
+    slug: string,
+    locale?: string,
+    populate: QueryParams['populate'] = '*',
+  ): Promise<T | null> => {
+    const query = stringify(
+      {
+        filters: {
+          slug: { $eq: slug },
+        },
+        populate,
+        locale,
+        pagination: {
+          page: 1,
+          pageSize: 1,
+        },
+      },
+      {
+        encodeValuesOnly: true,
+      },
+    );
+    const url = `${strapiUrl}/api/${endpoint}?${query}`;
+
+    try {
+      const response = await $fetch<StrapiResponse<T[]>>(url, {
+        headers: getHeaders(),
+      });
+      return response?.data?.[0] || null;
+    } catch {
+      return null;
+    }
   };
 
   const fetchArticleBySlug = async (
     slug: string,
     locale?: string,
   ): Promise<StrapiArticle | null> => {
-    const params: QueryParams = {
-      filters: {
-        slug: { $eq: slug },
+    const query = stringify(
+      {
+        filters: {
+          slug: { $eq: slug },
+        },
+        populate: '*',
+        locale,
       },
-      populate: '*',
-      locale,
-    };
-
-    const query = stringify(params, {
-      encodeValuesOnly: true,
-    });
-
+      {
+        encodeValuesOnly: true,
+      },
+    );
     const url = `${strapiUrl}/api/articles?${query}`;
 
     try {
@@ -85,8 +193,7 @@ export const useStrapiData = () => {
         headers: getHeaders(),
       });
       return response?.data?.[0] || null;
-    } catch (error) {
-      console.error('Error fetching article by slug:', error);
+    } catch {
       return null;
     }
   };
@@ -95,44 +202,41 @@ export const useStrapiData = () => {
     documentId: string,
     locale?: string,
   ): Promise<StrapiArticle | null> => {
-    const params: QueryParams = {
-      populate: {
-        categories: {
-          fields: ['id', 'name'],
-        },
-        cover: {
-          fields: ['url', 'alternativeText', 'caption'],
-        },
-        authors: {
-          fields: ['name', 'position', 'bio'],
-          populate: {
-            avatar: {
-              fields: ['url', 'alternativeText'],
+    const query = stringify(
+      {
+        populate: {
+          categories: { fields: ['id', 'name'] },
+          cover: { fields: ['url', 'alternativeText', 'caption'] },
+          authors: {
+            fields: ['name', 'position', 'bio'],
+            populate: {
+              avatar: {
+                fields: ['url', 'alternativeText'],
+              },
             },
           },
         },
+        locale,
       },
-      locale,
-    };
-
-    const query = stringify(params, { encodeValuesOnly: true });
-
+      {
+        encodeValuesOnly: true,
+      },
+    );
     const url = `${strapiUrl}/api/articles/${documentId}?${query}`;
-    console.log('fetchArticleById URL:', url);
 
     try {
       const response = await $fetch<{ data: StrapiArticle }>(url, {
         headers: getHeaders(),
       });
-      console.log('fetchArticleById response:', response);
       return response?.data || null;
-    } catch (error) {
-      console.error('Error fetching article by id:', error);
+    } catch {
       return null;
     }
   };
 
   return {
+    fetchCollection,
+    fetchSingleBySlug,
     fetchArticles,
     fetchArticleBySlug,
     fetchArticleById,
@@ -141,7 +245,7 @@ export const useStrapiData = () => {
 
 export const useHireData = () => {
   const config = useRuntimeConfig();
-  const strapiUrl = config.public.strapiUrl;
+  const strapiUrl = String(config.public.strapiUrl || '');
   const strapiToken = config.public.strapiToken;
 
   const getHeaders = () => {
@@ -167,12 +271,11 @@ export const useHireData = () => {
     const url = `${strapiUrl}/api/hire-pages/${slug}?${query}`;
 
     try {
-      const response = await $fetch(url, {
+      const response = await $fetch<{ data: unknown }>(url, {
         headers: getHeaders(),
       });
       return response?.data || null;
-    } catch (error) {
-      console.error('Error fetching hire page by slug:', error);
+    } catch {
       return null;
     }
   };

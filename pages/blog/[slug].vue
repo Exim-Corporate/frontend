@@ -4,28 +4,28 @@
     <ArticleState
       :pending="pending"
       :error="error"
-      :article="article"
+      :article="resolvedArticle"
     />
 
     <!-- Article Content -->
     <article
-      v-if="!pending && !error && article"
+      v-if="!pending && !error && resolvedArticle"
       class="max-w-4xl mx-auto px-4 pt-8 pb-20"
     >
       <!-- Header -->
-      <ArticleHeader :article="article" />
+      <ArticleHeader :article="resolvedArticle" />
 
       <!-- Cover -->
-      <ArticleCover :cover="article.cover" />
+      <ArticleCover :cover="resolvedArticle.cover" />
 
       <!-- Author -->
-      <ArticleAuthor :authors="article.authors ?? null" />
+      <ArticleAuthor :authors="resolvedArticle.authors ?? null" />
 
       <!-- Tags -->
       <!-- <ArticleTags :tags="article.tags" /> -->
 
       <!-- Content -->
-      <ArticleContent :content="article.content" />
+      <ArticleContent :content="resolvedArticle.content" />
 
       <!-- Footer -->
       <ArticleFooter />
@@ -51,25 +51,26 @@ const { locale } = useI18n();
 
 // Get slug from route params
 const slug = computed(() => route.params.slug as string);
-console.log('slug', slug);
 
 // Fetch article data on the server (useAsyncData so meta can be set during SSR)
 const {
   data: article,
   pending,
   error,
-} = await useAsyncData(
+} = await useAsyncData<import('@/types/strapi').StrapiArticle | false>(
   `article-${slug.value}-${locale.value}`,
-  () => fetchArticleBySlug(slug.value, locale.value),
-  { default: () => null },
+  async () => (await fetchArticleBySlug(slug.value, locale.value)) ?? false,
+  { default: () => false },
 );
+
+const resolvedArticle = computed(() => (article.value === false ? null : article.value));
 
 // Build SEO meta when article is available (this runs during SSR because useAsyncData resolved)
 const config = useRuntimeConfig();
 const siteBase = config.public.siteUrl || config.public.strapiUrl || 'https://www.exim.eu.com';
 
-if (article && article.value) {
-  const newArticle = article.value;
+if (resolvedArticle.value) {
+  const newArticle = resolvedArticle.value;
   // Ensure ogImage is an absolute URL; fall back to a site-level og-image
   const rawImage = (newArticle.cover?.url as unknown as string) || '/images/og-image.jpg';
   const ogImage =

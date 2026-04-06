@@ -1,170 +1,374 @@
 <template>
-  <ClientOnly>
-    <footer class="bg-gray-800 text-white px-4 sm:px-6 py-12 mt-auto">
-      <div class="container mx-auto">
-        <!-- Main Footer Content -->
-        <div class="grid grid-cols-1 md:grid-cols-3 justify-items-center gap-8">
-          <!-- Column 1: Logo -->
-          <div class="flex flex-col items-center text-center md:items-start md:text-left">
-            <div
-              class="flex items-center justify-center md:justify-start mb-6 cursor-pointer"
+  <footer class="mt-auto bg-text-dark text-text-light">
+    <section class="container relative mx-auto px-4 pb-8 pt-8 sm:px-6 md:pb-6 md:pt-10">
+      <button
+        type="button"
+        :aria-label="$t('footer.scrollToTop')"
+        class="absolute right-4 top-6 flex h-13 w-13 items-center justify-center rounded-full border border-text-light/20 text-text-light transition-colors duration-300 hover:border-text-light/50 hover:text-text-light sm:right-6 md:top-8"
+        @click="scrollToTop"
+      >
+        <AppIcon
+          icon="material-symbols:arrow-upward-alt-rounded"
+          :size="22"
+          class-name="text-current"
+        />
+      </button>
+
+      <div class="md:hidden">
+        <AnimatedElement direction="bottom" :delay="60">
+          <div class="flex justify-start pr-16">
+            <button
+              type="button"
+              class="flex items-center gap-3 bg-transparent p-0 text-left"
+              aria-label="Homepage"
               @click="navigateToHome"
             >
-              <img
+              <NuxtImg
                 src="/images/logoPic.webp"
-                alt="Logo"
-                class="h-auto w-16 brightness-100"
-              >
-              <img
+                alt="AS Exim logo mark"
+                class="h-auto w-10"
+                draggable="false"
+              />
+              <NuxtImg
                 src="/images/logoText.webp"
-                alt="Logo text"
-                class="h-10 ml-4 brightness-100"
-              >
-            </div>
-            <p class="text-gray-300 mt-4 max-w-xs mx-auto md:mx-0">
-              {{ $t('footer.trusted_partner') }}
-            </p>
+                alt="AS Exim"
+                class="h-7 w-auto"
+                draggable="false"
+              />
+            </button>
           </div>
+        </AnimatedElement>
 
-          <!-- Column 2: Social Media Icons and Address -->
-          <FooterColumn :title="$t('footer.connect')">
-            <div class="flex space-x-6 mb-8 justify-center md:justify-start">
+        <AnimatedElement direction="bottom" :delay="120">
+          <div class="mt-14 flex flex-col items-center text-center">
+            <BaseTitle tag="h2" variant="subheader18" class-name="text-text-light">
+              {{ $t('footer.company') }}
+            </BaseTitle>
+
+            <address class="mt-6 not-italic">
+              <BaseText
+                v-for="line in addressLines"
+                :key="line"
+                variant="section"
+                class-name="mb-4 text-text-light/85 last:mb-0"
+              >
+                {{ line }}
+              </BaseText>
+            </address>
+
+            <div class="mt-10 flex items-center justify-center gap-6">
               <a
-                v-for="social in socialMedia"
+                v-for="social in socialLinks"
                 :key="social.name"
                 :href="social.url"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="bg-gray-700 hover:bg-accent p-2 rounded-full transition-colors"
                 :aria-label="social.name"
+                class="text-text-light/90 transition-colors duration-300 hover:text-text-light"
               >
                 <AppIcon
                   :icon="social.icon"
                   :size="24"
-                  className="text-white"
+                  class-name="text-current h-6 w-6"
                 />
               </a>
             </div>
+          </div>
+        </AnimatedElement>
 
-            <!-- Address -->
-            <address class="text-gray-300 not-italic text-center md:text-left mt-4">
-              <p class="mb-2 font-bold">{{ $t('footer.company') }}</p>
-              <p
-                v-for="(line, index) in addressLines"
-                :key="index"
-                :class="{ 'mb-1': index < addressLines.length - 1 }"
+        <AnimatedElement direction="bottom" :delay="180">
+          <div class="mt-16 flex flex-col items-center text-center">
+            <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
+              {{ $t('footer.navigation.industry.title') }}
+            </BaseTitle>
+
+            <div class="mt-6 flex flex-col gap-5">
+              <NuxtLinkLocale
+                v-for="item in industryLinks"
+                :key="item.id"
+                :to="resolveNavigationTarget(item)"
+                class="transition-colors duration-300 hover:text-text-light"
               >
-                {{ line }}
-              </p>
-            </address>
-          </FooterColumn>
+                <BaseText variant="section" class-name="text-text-light/82">
+                  {{ item.label }}
+                </BaseText>
+              </NuxtLinkLocale>
+            </div>
+          </div>
+        </AnimatedElement>
 
-          <!-- Column 3: Policies -->
-          <FooterColumn :title="$t('footer.legal')">
-            <ul class="space-y-3">
-              <li
-                v-for="link in legalLinks"
+        <AnimatedElement direction="bottom" :delay="240">
+          <div class="mt-16 flex flex-col items-center text-center">
+            <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
+              {{ $t('footer.navigation.services.title') }}
+            </BaseTitle>
+
+            <div class="mt-6 flex flex-col gap-5">
+              <NuxtLinkLocale
+                v-for="item in serviceLinks"
+                :key="item.id"
+                :to="resolveNavigationTarget(item)"
+                class="transition-colors duration-300 hover:text-text-light"
+              >
+                <BaseText variant="section" class-name="text-text-light/82">
+                  {{ item.label }}
+                </BaseText>
+              </NuxtLinkLocale>
+            </div>
+          </div>
+        </AnimatedElement>
+
+        <AnimatedElement direction="bottom" :delay="300">
+          <div class="mt-16 flex flex-col items-center text-center">
+            <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
+              {{ $t('footer.navigation.legal.title') }}
+            </BaseTitle>
+
+            <div class="mt-6 flex flex-col gap-5">
+              <NuxtLinkLocale
+                v-for="link in legalPrimaryLinks"
                 :key="link.to"
+                :to="link.to"
+                class="transition-colors duration-300 hover:text-text-light"
               >
-                <FooterLink
-                  :to="link.to"
-                  class="text-gray-300 hover:text-accent transition-colors"
-                  >{{ link.label }}</FooterLink
-                >
-              </li>
-            </ul>
-          </FooterColumn>
-        </div>
+                <BaseText variant="section" class-name="text-text-light/82">
+                  {{ link.label }}
+                </BaseText>
+              </NuxtLinkLocale>
+            </div>
 
-        <!-- Footer Bottom -->
-        <div class="border-t border-gray-700 mt-8 pt-5 text-center">
-          <p class="text-gray-400 text-sm">
-            &copy; {{ new Date().getFullYear() }} {{ $t('footer.company') }}.
-            {{ $t('footer.rights') }}.
-          </p>
-        </div>
+            <NuxtLinkLocale
+              :to="legalSecondaryLink.to"
+              class="mt-12 transition-colors duration-300 hover:text-text-light"
+            >
+              <BaseText variant="section" class-name="text-text-light/82">
+                {{ legalSecondaryLink.label }}
+              </BaseText>
+            </NuxtLinkLocale>
+          </div>
+        </AnimatedElement>
+
+        <AnimatedElement direction="bottom" :delay="360">
+          <div class="mt-16 flex justify-center">
+            <div class="footer-badge-shell flex h-32.5 w-27 items-center justify-center border border-text-light/35 bg-text-light/8 p-1.5">
+              <div class="footer-badge-core flex h-full w-full flex-col items-center justify-center gap-1 border border-text-light/25 bg-text-light px-2 text-center text-text-dark">
+                <span class="font-sans text-[9px] font-semibold uppercase tracking-[0.18em] text-text-secondary">
+                  Top
+                </span>
+                <span class="font-sans text-[10px] font-semibold uppercase tracking-widest text-text-secondary">
+                  SEO Company
+                </span>
+                <span class="font-sans text-[27px] font-semibold leading-none">Clutch</span>
+                <span class="font-sans text-[11px] font-semibold tracking-[0.18em] text-text-secondary">
+                  2025
+                </span>
+              </div>
+            </div>
+          </div>
+        </AnimatedElement>
       </div>
-    </footer>
-  </ClientOnly>
+
+      <div class="hidden md:grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_minmax(0,1.15fr)_minmax(0,0.82fr)] md:gap-x-10 lg:gap-x-16">
+        <AnimatedElement direction="bottom" :delay="80">
+          <div class="flex flex-col items-start text-left">
+            <button
+              type="button"
+              class="flex items-center gap-3 bg-transparent p-0 text-left"
+              aria-label="Homepage"
+              @click="navigateToHome"
+            >
+              <NuxtImg
+                src="/images/logoPic.webp"
+                alt="AS Exim logo mark"
+                class="h-auto w-11"
+                draggable="false"
+              />
+              <NuxtImg
+                src="/images/logoText.webp"
+                alt="AS Exim"
+                class="h-7 w-auto"
+                draggable="false"
+              />
+            </button>
+
+            <div class="mt-16">
+              <BaseTitle tag="h2" variant="subheader18" class-name="text-text-light">
+                {{ $t('footer.company') }}
+              </BaseTitle>
+
+              <address class="mt-8 not-italic">
+                <BaseText
+                  v-for="line in addressLines"
+                  :key="line"
+                  variant="section"
+                  class-name="mb-5 text-text-light/85 last:mb-0"
+                >
+                  {{ line }}
+                </BaseText>
+              </address>
+
+              <div class="mt-10 flex items-center gap-5">
+                <a
+                  v-for="social in socialLinks"
+                  :key="social.name"
+                  :href="social.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  :aria-label="social.name"
+                  className="text-text-light/90 transition-all duration-300 hover:text-text-light hover:scale-115 h-6 w-6"
+                >
+                  <AppIcon
+                    :icon="social.icon"
+                    :size="24"
+                    class-name="text-current"
+                  />
+                </a>
+              </div>
+
+              <div class="mt-24">
+                <div class="footer-badge-shell flex h-31.5 w-25.5 items-center justify-center border border-text-light/35 bg-text-light/8 p-1.5">
+                  <div class="footer-badge-core flex h-full w-full flex-col items-center justify-center gap-1 border border-text-light/25 bg-text-light px-2 text-center text-text-dark">
+                    <span class="font-sans text-[8px] font-semibold uppercase tracking-[0.18em] text-text-secondary">
+                      Top
+                    </span>
+                    <span class="font-sans text-[10px] font-semibold uppercase tracking-widest text-text-secondary">
+                      SEO Company
+                    </span>
+                    <span class="font-sans text-[26px] font-semibold leading-none">Clutch</span>
+                    <span class="font-sans text-[11px] font-semibold tracking-[0.18em] text-text-secondary">
+                      2025
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </AnimatedElement>
+
+        <AnimatedElement direction="bottom" :delay="140">
+          <div class="flex flex-col items-start text-left pt-20">
+            <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
+              {{ $t('footer.navigation.industry.title') }}
+            </BaseTitle>
+
+            <div class="mt-8 flex flex-col gap-5">
+              <NuxtLinkLocale
+                v-for="item in industryLinks"
+                :key="item.id"
+                :to="resolveNavigationTarget(item)"
+              >
+                <BaseText variant="section" class-name="text-text-light/82 transition-all duration-300 hover:font-bold hover:text-text-light">
+                  {{ item.label }}
+                </BaseText>
+              </NuxtLinkLocale>
+            </div>
+          </div>
+        </AnimatedElement>
+
+        <AnimatedElement direction="bottom" :delay="200">
+          <div class="flex flex-col items-start text-left pt-20">
+            <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
+              {{ $t('footer.navigation.services.title') }}
+            </BaseTitle>
+
+            <div class="mt-8 flex flex-col gap-5">
+              <NuxtLinkLocale
+                v-for="item in serviceLinks"
+                :key="item.id"
+                :to="resolveNavigationTarget(item)"
+              >
+                <BaseText variant="section" class-name="text-text-light/82 transition-all duration-300 hover:font-bold hover:text-text-light">
+                  {{ item.label }}
+                </BaseText>
+              </NuxtLinkLocale>
+            </div>
+          </div>
+        </AnimatedElement>
+
+        <AnimatedElement direction="bottom" :delay="260">
+          <div class="flex flex-col items-start text-left pt-20">
+            <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
+              {{ $t('footer.navigation.legal.title') }}
+            </BaseTitle>
+
+            <div class="mt-8 flex flex-col gap-5">
+              <NuxtLinkLocale
+                v-for="link in legalPrimaryLinks"
+                :key="link.to"
+                :to="link.to"
+                class=""
+              >
+                <BaseText variant="section" className="text-text-light transition-all duration-300 hover:font-bold ">
+                  {{ link.label }}
+                </BaseText>
+              </NuxtLinkLocale>
+            </div>
+
+            <NuxtLinkLocale
+              :to="legalSecondaryLink.to"
+              class="mt-16 transition-colors duration-300 hover:text-text-light"
+            >
+              <BaseText variant="section" class-name="text-text-light/82">
+                {{ legalSecondaryLink.label }}
+              </BaseText>
+            </NuxtLinkLocale>
+          </div>
+        </AnimatedElement>
+      </div>
+      <AnimatedElement direction="bottom" :delay="320">
+        <div class="mt-16 flex justify-center border-t border-text-light/12 pt-6 md:mt-12 md:justify-end md:border-t-0 md:pt-0">
+          <BaseText variant="section" class-name="text-center text-text-light/45 md:text-right">
+            &copy; {{ currentYear }} {{ $t('footer.company') }}. {{ $t('footer.rights') }}.
+          </BaseText>
+        </div>
+      </AnimatedElement>
+    </section>
+  </footer>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useAsyncData } from '#imports';
+import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import AppIcon from '@/components/UI/AppIcon.vue';
-import FooterLink from '@/components/UI/FooterLink.vue';
-import { useRuntimeConfig } from 'nuxt/app';
+import BaseText from '@/components/UI/BaseText.vue';
+import BaseTitle from '@/components/UI/BaseTitle.vue';
+import { useFooterData } from '@/composables/useFooterData';
 import { useNavigateHome } from '@/composables/useNavigateHome';
-// import { navigateTo } from 'nuxt';
-import { defineComponent, h } from 'vue';
 
-// Импортируем useRuntimeConfig
-const runtimeConfig = useRuntimeConfig();
+const { locale } = useI18n();
+const { navigateToHome } = useNavigateHome();
+const {
+  addressLines,
+  currentYear,
+  getFallbackNavigation,
+  legalPrimaryLinks,
+  legalSecondaryLink,
+  loadNavigation,
+  resolveNavigationTarget,
+  socialLinks,
+} = useFooterData();
 
-// FooterColumn component for all footer columns with headings
-const FooterColumn = defineComponent({
-  props: {
-    title: { type: String, required: true },
-  },
-  setup(props, { slots }) {
-    return () =>
-      h(
-        'div',
-        {
-          class: 'flex flex-col items-center text-center md:items-start md:text-left',
-        },
-        [
-          h('h3', { class: 'text-xl font-semibold mb-6 relative inline-block' }, [
-            props.title,
-            h('span', {
-              class:
-                'absolute bottom-0 left-0 right-0 md:right-auto w-12 h-0.5 bg-accent mx-auto md:mx-0',
-            }),
-          ]),
-          slots?.default?.(),
-        ],
-      );
-  },
+const { data: navigationData } = useAsyncData('footer-navigation', loadNavigation, {
+  default: getFallbackNavigation,
+  watch: [locale],
 });
 
-// Social media data with icon mapping
-const socialMedia = [
-  {
-    name: 'LinkedIn',
-    icon: 'mdi:linkedin',
-    url: 'https://linkedin.com/company/as-exim-ltd',
-  },
-  {
-    name: 'Telegram',
-    icon: 'mdi:telegram',
-    url: 'https://t.me/ASEximsupport',
-  },
-  {
-    name: 'Gmail',
-    icon: 'mdi:gmail',
-    url: `mailto:${runtimeConfig.public.supportEmail}`,
-  },
-  {
-    name: 'X',
-    icon: 'bi:twitter-x',
-    url: `https://x.com/eximltdcy`,
-  },
-];
+const industryLinks = computed(() => navigationData.value?.industry ?? getFallbackNavigation().industry);
+const serviceLinks = computed(() => navigationData.value?.services ?? getFallbackNavigation().services);
 
-// Company address lines
-const addressLines = [
-  'Griva Digeni 49',
-  'CHRYSTALLA COURT',
-  '5th floor, Flat/Office 51',
-  '6036 Larnaca, Cyprus',
-];
-
-// Legal links with i18n support
-const legalLinks = [
-  // { to: '/blog', label: 'Blog' },
-  { to: '/privacy', label: 'Privacy Policy' },
-  { to: '/terms', label: 'Terms of Service' },
-  { to: '/cookie-policy', label: 'Cookie Policy' },
-];
-
-// Use shared navigation composable
-const { navigateToHome } = useNavigateHome();
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 </script>
+
+<style scoped>
+.footer-badge-shell {
+  clip-path: polygon(50% 0%, 100% 18%, 100% 78%, 50% 100%, 0% 78%, 0% 18%);
+}
+
+.footer-badge-core {
+  clip-path: polygon(50% 0%, 100% 18%, 100% 78%, 50% 100%, 0% 78%, 0% 18%);
+}
+</style>

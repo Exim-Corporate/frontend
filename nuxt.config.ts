@@ -64,6 +64,8 @@ export default defineNuxtConfig({
       '/blog': { isr: 300 },
       '/referrals': { isr: true },
       '/blog/**': { isr: 300 },
+      '/industry/**': { isr: 3600 },
+      '/services/**': { isr: 3600 },
 
       // // Hire pages (30 days)
       // '/hire': { isr: 2592000 },
@@ -161,7 +163,8 @@ export default defineNuxtConfig({
     public: {
       // Public site URL for constructing absolute OG links (used by useSEO)
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://www.exim.eu.com',
-      strapiUrl: process.env.STRAPI_URL || 'https://strapi-production-3c8f.up.railway.app',
+      strapiUrl: process.env.STRAPI_URL || 'http://localhost:1337',
+      // Dedicated footer source; defaults to local Strapi for navigation collections
       strapiToken: process.env.STRAPI_TOKEN, // Exposed to client for read-only fetching
       privacyEmail: process.env.NUXT_PUBLIC_PRIVACY_EMAIL,
       contactEmail: process.env.NUXT_PUBLIC_CONTACT_EMAIL,
@@ -173,10 +176,8 @@ export default defineNuxtConfig({
   sitemap: {
     // Автоматическая генерация для всех языков
     autoI18n: true,
-    // Динамические маршруты из Strapi
-    sources: [
-      '/api/__sitemap__/urls', // API endpoint для динамических URL из блога
-    ],
+    // Dynamic URLs from Strapi
+    sources: ['/api/__sitemap__/urls'],
   },
 
   experimental: {

@@ -90,3 +90,4 @@ When user provides 2 screenshots (mobile + desktop), implement one modular secti
 ## Additional Docs
 - `.github/copilot-architecture.md`
 - `.github/copilot-refactoring.md`
+- `.github/strapi-mcp-rules.md`

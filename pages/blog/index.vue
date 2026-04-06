@@ -62,6 +62,7 @@
 <script setup lang="ts">
 import { useRouter } from 'nuxt/app';
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useStrapiData } from '@/composables/useStrapiData';
 // import type { StrapiResponse, StrapiArticle } from '../../types/strapi';
 import ArticleCard from '@/components/blog/ArticleCard.vue';
@@ -97,6 +98,11 @@ const { pending, error } = useLazyAsyncData(
       locale: locale.value,
       page: currentPage.value,
       pageSize: pageSize.value,
+      populate: {
+        cover: {
+          fields: ['url', 'alternativeText', 'formats'],
+        },
+      },
     });
     totalItems.value = response?.meta?.pagination?.total ?? 0;
     totalPages.value = response?.meta?.pagination?.pageCount ?? 0;
