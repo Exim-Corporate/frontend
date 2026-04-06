@@ -315,13 +315,11 @@
           </div>
         </AnimatedElement>
       </div>
-      <AnimatedElement direction="bottom" :delay="320">
         <div class="mt-16 flex justify-center border-t border-text-light/12 pt-6 md:mt-12 md:justify-end md:border-t-0 md:pt-0">
           <BaseText variant="section" class-name="text-center text-text-light/45 md:text-right">
             &copy; {{ currentYear }} {{ $t('footer.company') }}. {{ $t('footer.rights') }}.
           </BaseText>
         </div>
-      </AnimatedElement>
     </section>
   </footer>
 </template>

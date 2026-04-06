@@ -1,5 +1,5 @@
 <template>
-  <article class="team-member-card relative isolate overflow-hidden rounded-3xl border border-form-border/80">
+  <article class="team-member-card relative isolate overflow-hidden max-h-[70vh] w-auto rounded-3xl border border-form-border/80">
     <NuxtImg
       :src="member.imageSrc"
       :alt="member.name"
@@ -9,7 +9,6 @@
       loading="lazy"
       format="webp"
       quality="90"
-      sizes="(max-width: 768px) calc(100vw - 2rem), (max-width: 1024px) 50vw, 560px"
     />
 
     <div class="absolute inset-0 bg-linear-to-t from-text-dark/20 via-text-dark/20 to-text-dark/20" />

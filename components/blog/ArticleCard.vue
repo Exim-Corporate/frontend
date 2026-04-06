@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import type { StrapiArticle } from '../../types/strapi';
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useLocalePath } from '#imports';
+import BaseTitle from '@/components/UI/BaseTitle.vue';
+import BaseText from '@/components/UI/BaseText.vue';
+import { normalizeImageUrl } from '@/utils/normalizeImageUrl';
 
 // Используем defineProps для строгой типизации входных данных
 interface Props {
@@ -11,32 +15,21 @@ const props = defineProps<Props>();
 
 // Получаем composables для создания ссылок и форматирования
 const config = useRuntimeConfig();
-const { locale, t } = useI18n();
+const { locale } = useI18n();
+const localePath = useLocalePath();
 
-// Вычисляемое свойство для полного URL изображения
 const coverUrl = computed(() => {
-  // Попытка взять thumbnail, иначе общий url
-  const raw = props.article.cover?.formats?.thumbnail?.url ?? props.article.cover?.url ?? '';
-  const url = raw ? String(raw).trim() : '';
-  if (!url) return '';
-
-  // Если абсолютный URL (http(s) или protocol-relative), просто закодируем пробелы
-  if (/^https?:\/\//i.test(url) || url.startsWith('//')) {
-    return encodeURI(url);
-  }
-
-  // Относительный путь — убедимся, что он начинается с "/"
-  const path = url.startsWith('/') ? url : `/${url}`;
-  return encodeURI(`${config.public.strapiUrl}${path}`);
+  return normalizeImageUrl(
+    props.article.cover?.formats?.small?.url ??
+      props.article.cover?.formats?.thumbnail?.url ??
+      props.article.cover?.url ??
+      '',
+    String(config.public.strapiUrl ?? ''),
+  );
 });
 
 // Вычисляемое свойство для создания ссылки на статью (используем только slug)
-const articleLink = computed(() => {
-  return {
-    name: 'blog-slug___' + locale.value,
-    params: { slug: props.article.slug },
-  };
-});
+const articleLink = computed(() => localePath(`/blog/${props.article.slug}`));
 
 const formattedDate = computed(() => {
   return new Date(props.article.publishedAt).toLocaleDateString(locale.value, {
@@ -45,88 +38,73 @@ const formattedDate = computed(() => {
     day: 'numeric',
   });
 });
-// Image load state for smooth blur-up transition
-const imgLoaded = ref(false);
-function onImgLoad() {
-  imgLoaded.value = true;
-}
+
+const getExcerpt = (description: string): string => {
+  const normalized = description?.trim() ?? '';
+  if (normalized.length <= 170) {
+    return normalized;
+  }
+
+  return `${normalized.slice(0, 167).trimEnd()}...`;
+};
 </script>
 
 <template>
   <NuxtLink
     :to="articleLink"
-    class="group flex bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 flex-col border border-gray-200 dark:border-gray-700 overflow-hidden animate-zoomin hover:scale-105"
+    class="group relative block py-8 last:border-b-0 lg:py-10"
   >
-    <div class="w-full h-48 relative overflow-hidden">
-      <div
-        v-if="!imgLoaded"
-        class="absolute inset-0 bg-gray-200 dark:bg-gray-700 animate-pulse"
-      />
-
-      <!-- wrapper that scales on hover (5s) -->
-      <div
-        class="absolute inset-0 w-full h-full transform transition-transform duration-[5000ms] ease-out group-hover:scale-[1.15]"
-      >
+    <div class="flex flex-col gap-4 lg:grid lg:grid-cols-[180px_minmax(0,1fr)_160px_40px] lg:items-center lg:gap-5">
+      <div class="relative aspect-18/10 w-full overflow-hidden rounded-[18px] lg:h-25 lg:w-45 lg:rounded-2xl lg:aspect-auto">
         <NuxtImg
           v-if="coverUrl"
           :src="coverUrl"
           :alt="article.cover?.alternativeText || article.title"
+          width="360"
+          height="200"
           loading="lazy"
-          class="absolute inset-0 w-full h-full object-cover transition-[opacity,filter] duration-[200ms] ease-out"
-          :class="imgLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-2xl'"
-          @load="onImgLoad"
-        />
-      </div>
-    </div>
-
-    <div class="p-4 flex flex-col flex-grow">
-      <h2 class="text-xl mt-0 font-bold mb-2 line-clamp-2">
-        {{ article.title }}
-      </h2>
-      <div
-        v-if="article?.categories?.length"
-        class="mb-2"
-      >
-        <Badge
-          v-for="category in article.categories"
-          :key="category.id"
-          :value="category.name"
-          severity="info"
-          class="text-xs mr-2"
+          quality="85"
+          format="webp"
+          sizes="(max-width: 1023px) 100vw, 180px"
+          class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
       </div>
 
-      <p
-        v-if="article.description"
-        class="text-base text-gray-600 dark:text-gray-300 mb-4 line-clamp-3 flex-grow"
-      >
-        {{ article.description }}
-      </p>
-
-      <div
-        class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center"
-      >
-        <div>
-          <!-- <p
-            v-if="(article.authors?.length ?? 0) > 0"
-            class="text-sm font-medium text-gray-900 dark:text-white"
-          >
-            {{ article.authors?.[0].name }}
-          </p> -->
-          <time
-            :datetime="article.publishedAt"
-            class="text-sm text-gray-500 dark:text-gray-400"
-          >
-            {{ formattedDate }}
-          </time>
-        </div>
-        <span
-          class="text-sm font-semibold text-accent hover:underline"
-          :aria-label="`${t('blog.read_more_aria')} ${article.title}`"
+      <div class="min-w-0">
+        <BaseTitle
+          tag="h3"
+          variant="subheader"
+          class-name="text-left text-text-dark"
         >
-          {{ t('blog.read_more') }}
-        </span>
+          {{ article.title }}
+        </BaseTitle>
+        <BaseText
+          variant="section"
+          class-name="mt-2 max-w-3xl text-left text-text-secondary line-clamp-2"
+        >
+          {{ getExcerpt(article.description) }}
+        </BaseText>
+        <BaseText
+          variant="card"
+          class-name="mt-3 text-left text-text-secondary lg:hidden !leading-5"
+        >
+          {{ formattedDate }}
+        </BaseText>
+      </div>
+
+      <BaseText
+        variant="card"
+        class-name="hidden text-right text-text-secondary transition-opacity duration-200 lg:block lg:group-hover:opacity-0"
+      >
+        {{ formattedDate }}
+      </BaseText>
+
+      <div class="hidden items-center justify-end opacity-0 transition-all duration-300 ease-out lg:flex lg:-translate-x-2 lg:group-hover:translate-x-0 lg:group-hover:opacity-100">
+        <i class="pi pi-arrow-right text-2xl text-text-dark" />
       </div>
     </div>
+
+    <span class="absolute bottom-0 left-0 h-px w-full bg-black/10" />
+    <span class="absolute bottom-0 left-0 hidden h-0.5 w-0 bg-text-dark transition-all duration-500 ease-out lg:block lg:group-hover:w-full" />
   </NuxtLink>
 </template>

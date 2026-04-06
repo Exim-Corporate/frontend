@@ -11,7 +11,7 @@
 
       <!-- Loading State -->
       <div
-        v-if="pending"
+        v-if="isInitialLoading"
         class="py-14 text-center"
       >
         <AppLoader />
@@ -28,24 +28,31 @@
       <template v-else>
         <BlogHeroSection :article="heroArticle" />
 
-        <!-- Articles Grid -->
-        <div
+        <div ref="articlesTopAnchor" />
+
+        <!-- Articles List -->
+        <TransitionGroup
           v-if="articles.length > 0"
-          class="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 md:mt-14 md:grid-cols-3 lg:grid-cols-4"
+          name="blog-card"
+          tag="div"
+          class="mt-8 md:mt-12"
         >
-          <ArticleCard
-            v-for="article in articles"
+          <div
+            v-for="(article, index) in articles"
             :key="article.id"
-            :article="article"
-          />
-        </div>
+            class="blog-card-item"
+            :style="{ '--enter-delay': `${Math.min(index, 6) * 30}ms` }"
+          >
+            <ArticleCard :article="article" />
+          </div>
+        </TransitionGroup>
         <ArticlePagination
           v-if="articles.length > 0"
           :current-page="currentPage"
           :total-items="totalItems"
           :page-size="pageSize"
           :page-count="totalPages"
-          @page-change="currentPage = $event"
+          @page-change="onPageChange"
         />
 
         <!-- No Articles State -->
@@ -63,7 +70,7 @@
 <script setup lang="ts">
 import { useRouter } from 'nuxt/app';
 import { useLazyAsyncData } from '#imports';
-import { ref, computed } from 'vue';
+import { ref, computed, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStrapiData } from '@/composables/useStrapiData';
 import { useSEO } from '@/composables/useSEO';
@@ -88,6 +95,8 @@ const currentPage = ref(1);
 const pageSize = ref(12);
 const totalItems = ref(0);
 const totalPages = ref(0);
+const articlesTopAnchor = ref<HTMLElement | null>(null);
+const shouldScrollToListTop = ref(false);
 
 const { data: articleData, pending, error } = useLazyAsyncData(
   () => `blog-articles-${locale.value}-page-${currentPage.value}`,
@@ -132,6 +141,37 @@ const { data: articleData, pending, error } = useLazyAsyncData(
 
 const articles = computed<Array<StrapiArticle>>(() => articleData.value ?? []);
 const heroArticle = computed<StrapiArticle | null>(() => articles.value[0] ?? null);
+const isInitialLoading = computed<boolean>(() => pending.value && articles.value.length === 0);
+
+const onPageChange = (page: number): void => {
+  if (page === currentPage.value) {
+    return;
+  }
+
+  shouldScrollToListTop.value = true;
+  currentPage.value = page;
+};
+
+watch(pending, async (isPending) => {
+  if (isPending || !shouldScrollToListTop.value) {
+    return;
+  }
+
+  await nextTick();
+  const anchor = articlesTopAnchor.value;
+  if (anchor) {
+    const headerOffset = 96;
+    const targetTop = Math.max(0, window.scrollY + anchor.getBoundingClientRect().top - headerOffset);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    window.scrollTo({
+      top: targetTop,
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    });
+  }
+
+  shouldScrollToListTop.value = false;
+});
 
 // Basic SEO Meta
 useSEO({
@@ -139,3 +179,39 @@ useSEO({
   description: t('blog.description'),
 });
 </script>
+
+<style scoped>
+.blog-card-enter-active,
+.blog-card-leave-active,
+.blog-card-move {
+  transition: transform 360ms ease, opacity 360ms ease;
+}
+
+.blog-card-enter-active {
+  transition-delay: var(--enter-delay, 0ms);
+}
+
+.blog-card-leave-active {
+  transition-delay: 0ms;
+}
+
+.blog-card-enter-from {
+  opacity: 0;
+  transform: translateX(24px);
+}
+
+.blog-card-enter-to {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.blog-card-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.blog-card-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+</style>
