@@ -1,6 +1,6 @@
 <template>
-  <div class="pt-20 grow min-h-[80vh] container">
-    <div class="container mx-auto px-4 py-12">
+  <div class="pt-20 grow min-h-[80vh]">
+    <div class="container mx-auto max-w-350 px-4 py-12">
       <BlogButton
         :label="'Home'"
         :variant="'text'"
@@ -8,14 +8,11 @@
         :icon="'pi pi-arrow-left'"
         @click="goHome"
       />
-      <h1 class="text-4xl font-bold text-center mb-10">
-        {{ $t('navigation.blog') }}
-      </h1>
 
       <!-- Loading State -->
       <div
         v-if="pending"
-        class="text-center"
+        class="py-14 text-center"
       >
         <AppLoader />
       </div>
@@ -23,16 +20,18 @@
       <!-- Error State -->
       <div
         v-else-if="error"
-        class="text-center text-red-500"
+        class="py-14 text-center text-red-500"
       >
         <p>{{ $t('blog.error_loading') }}</p>
       </div>
 
       <template v-else>
+        <BlogHeroSection :article="heroArticle" />
+
         <!-- Articles Grid -->
         <div
           v-if="articles.length > 0"
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+          class="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 md:mt-14 md:grid-cols-3 lg:grid-cols-4"
         >
           <ArticleCard
             v-for="article in articles"
@@ -63,12 +62,14 @@
 
 <script setup lang="ts">
 import { useRouter } from 'nuxt/app';
-import { useLazyAsyncData, useSeoMeta } from '#imports';
+import { useLazyAsyncData } from '#imports';
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStrapiData } from '@/composables/useStrapiData';
+import { useSEO } from '@/composables/useSEO';
 // import type { StrapiResponse, StrapiArticle } from '../../types/strapi';
 import ArticleCard from '@/components/blog/ArticleCard.vue';
+import BlogHeroSection from '@/components/blog/BlogHeroSection.vue';
 import BlogButton from '@/components/UI/blog/BlogButton.vue';
 import ArticlePagination from '@/components/blog/ArticlePagination.vue';
 import AppLoader from '@/components/UI/AppLoader.vue';
@@ -100,6 +101,7 @@ const { data: articleData, pending, error } = useLazyAsyncData(
           fields: ['url', 'alternativeText', 'formats'],
         },
       },
+      sort: ['publishedAt:desc'],
     });
 
     if (locale.value !== 'en' && (response?.data?.length ?? 0) === 0) {
@@ -112,6 +114,7 @@ const { data: articleData, pending, error } = useLazyAsyncData(
             fields: ['url', 'alternativeText', 'formats'],
           },
         },
+        sort: ['publishedAt:desc'],
       });
     }
 
@@ -128,9 +131,10 @@ const { data: articleData, pending, error } = useLazyAsyncData(
 );
 
 const articles = computed<Array<StrapiArticle>>(() => articleData.value ?? []);
+const heroArticle = computed<StrapiArticle | null>(() => articles.value[0] ?? null);
 
 // Basic SEO Meta
-useSeoMeta({
+useSEO({
   title: t('blog.title'),
   description: t('blog.description'),
 });

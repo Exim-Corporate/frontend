@@ -75,6 +75,9 @@ export default {
   blog: {
     title: 'Notre Blog',
     description: 'Dernières nouvelles et articles de notre équipe.',
+    hero_label: 'Blog',
+    hero_subtitle: "Insights, guides et retours d'expérience concrets de notre équipe d'ingénierie",
+    hero_new_post: 'Nouveau post',
     loading: 'Chargement des articles...',
     loading_article: "Chargement de l'article...",
     no_articles: 'Aucun article trouvé.',
