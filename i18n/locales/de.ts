@@ -462,6 +462,7 @@ export default {
     add_to_favorites: 'Zu Favoriten hinzufügen',
     remove_from_favorites: 'Aus Favoriten entfernen',
     share: 'Teilen',
+    related_by_category: 'Mehr aus dieser Kategorie',
     link_copied: 'Link in die Zwischenablage kopiert',
     added_to_favorites: 'Artikel zu Favoriten hinzugefügt',
     removed_from_favorites: 'Artikel aus Favoriten entfernt',

@@ -93,6 +93,7 @@ export default {
     add_to_favorites: 'Add to Favorites',
     remove_from_favorites: 'Remove from Favorites',
     share: 'Share',
+    related_by_category: 'More in this category',
     link_copied: 'Link copied to clipboard',
     added_to_favorites: 'Article added to favorites',
     removed_from_favorites: 'Article removed from favorites',

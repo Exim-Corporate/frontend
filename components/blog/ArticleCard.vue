@@ -54,8 +54,8 @@ const getExcerpt = (description: string): string => {
     :to="articleLink"
     class="group relative block py-8 last:border-b-0 lg:py-10"
   >
-    <div class="flex flex-col gap-4 lg:grid lg:grid-cols-[180px_minmax(0,1fr)_160px_40px] lg:items-center lg:gap-5">
-      <div class="relative aspect-18/10 w-full overflow-hidden rounded-[18px] lg:h-25 lg:w-45 lg:rounded-2xl lg:aspect-auto">
+    <div class="flex flex-col gap-3 lg:grid lg:grid-cols-[180px_minmax(0,1fr)_132px_32px] lg:items-center lg:gap-8">
+      <div class="relative aspect-18/10 w-full overflow-hidden rounded-xl lg:h-25 lg:w-45 lg:rounded-xl lg:aspect-auto">
         <NuxtImg
           v-if="coverUrl"
           :src="coverUrl"
@@ -73,20 +73,20 @@ const getExcerpt = (description: string): string => {
       <div class="min-w-0">
         <BaseTitle
           tag="h3"
-          variant="subheader"
-          class-name="text-left text-text-dark"
+          variant="subheader18"
+          class-name="text-left text-text-dark leading-6 md:leading-8"
         >
           {{ article.title }}
         </BaseTitle>
         <BaseText
           variant="section"
-          class-name="mt-2 max-w-3xl text-left text-text-secondary line-clamp-2"
+          class-name="mt-1 text-left text-text-dark line-clamp-2 md:mt-2 md:max-w-[800px] md:text-[18px] md:leading-7"
         >
           {{ getExcerpt(article.description) }}
         </BaseText>
         <BaseText
           variant="card"
-          class-name="mt-3 text-left text-text-secondary lg:hidden !leading-5"
+          class-name="mt-3 text-left !text-[14px] !font-normal !leading-7 text-text-dark/50 lg:hidden"
         >
           {{ formattedDate }}
         </BaseText>
@@ -94,17 +94,17 @@ const getExcerpt = (description: string): string => {
 
       <BaseText
         variant="card"
-        class-name="hidden text-right text-text-secondary transition-opacity duration-200 lg:block lg:group-hover:opacity-0"
+        class-name="hidden text-right !text-[14px] !font-normal !leading-7 text-text-dark/50 transition-opacity duration-200 lg:block lg:group-hover:opacity-0"
       >
         {{ formattedDate }}
       </BaseText>
 
       <div class="hidden items-center justify-end opacity-0 transition-all duration-300 ease-out lg:flex lg:-translate-x-2 lg:group-hover:translate-x-0 lg:group-hover:opacity-100">
-        <i class="pi pi-arrow-right text-2xl text-text-dark" />
+        <i class="pi pi-arrow-right text-[32px] text-text-dark" />
       </div>
     </div>
 
-    <span class="absolute bottom-0 left-0 h-px w-full bg-black/10" />
+    <span class="absolute bottom-0 left-0 h-px w-full bg-form-border" />
     <span class="absolute bottom-0 left-0 hidden h-0.5 w-0 bg-text-dark transition-all duration-500 ease-out lg:block lg:group-hover:w-full" />
   </NuxtLink>
 </template>

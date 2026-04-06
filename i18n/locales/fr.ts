@@ -89,6 +89,7 @@ export default {
     add_to_favorites: 'Ajouter aux favoris',
     remove_from_favorites: 'Retirer des favoris',
     share: 'Partager',
+    related_by_category: 'Plus dans cette categorie',
     link_copied: 'Lien copié dans le presse-papiers',
     added_to_favorites: 'Article ajouté aux favoris',
     removed_from_favorites: 'Article retiré des favoris',

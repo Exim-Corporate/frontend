@@ -41,7 +41,7 @@
             v-for="(article, index) in articles"
             :key="article.id"
             class="blog-card-item"
-            :style="{ '--enter-delay': `${Math.min(index, 6) * 30}ms` }"
+            :style="{ transitionDelay: `${Math.min(index, 6) * 45}ms` }"
           >
             <ArticleCard :article="article" />
           </div>
@@ -187,14 +187,6 @@ useSEO({
   transition: transform 360ms ease, opacity 360ms ease;
 }
 
-.blog-card-enter-active {
-  transition-delay: var(--enter-delay, 0ms);
-}
-
-.blog-card-leave-active {
-  transition-delay: 0ms;
-}
-
 .blog-card-enter-from {
   opacity: 0;
   transform: translateX(24px);
@@ -212,6 +204,11 @@ useSEO({
 
 .blog-card-leave-to {
   opacity: 0;
-  transform: translateX(20px);
+  transform: translateX(28px);
+}
+
+.blog-card-leave-active {
+  position: absolute;
+  width: calc(100% - 2rem);
 }
 </style>

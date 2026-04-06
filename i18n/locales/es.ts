@@ -91,6 +91,7 @@ export default {
     add_to_favorites: 'Añadir a favoritos',
     remove_from_favorites: 'Quitar de favoritos',
     share: 'Compartir',
+    related_by_category: 'Mas de esta categoria',
     link_copied: 'Enlace copiado al portapapeles',
     added_to_favorites: 'Artículo añadido a favoritos',
     removed_from_favorites: 'Artículo eliminado de favoritos',
