@@ -2,9 +2,9 @@
   <div class="mb-8">
     <NuxtImg
       v-if="cover?.url"
-      :src="normalizeImageUrl(cover.url)"
+      :src="cover.url"
       :alt="cover?.alternativeText || cover?.caption || 'Article cover'"
-      class="w-full h-auto"
+      className="w-full h-auto aspect-7/3 object-cover rounded-lg"
       loading="lazy"
     />
     <div
