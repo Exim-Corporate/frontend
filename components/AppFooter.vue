@@ -1,19 +1,6 @@
 <template>
   <footer class="mt-auto bg-text-dark text-text-light">
     <section class="container relative mx-auto px-4 pb-8 pt-8 sm:px-6 md:pb-6 md:pt-10">
-      <button
-        type="button"
-        :aria-label="$t('footer.scrollToTop')"
-        class="absolute right-4 top-6 flex h-13 w-13 items-center justify-center rounded-full border border-text-light/20 text-text-light transition-colors duration-300 hover:border-text-light/50 hover:text-text-light sm:right-6 md:top-8"
-        @click="scrollToTop"
-      >
-        <AppIcon
-          icon="material-symbols:arrow-upward-alt-rounded"
-          :size="22"
-          class-name="text-current"
-        />
-      </button>
-
       <div class="md:hidden">
         <AnimatedElement direction="bottom" :delay="60">
           <div class="flex justify-start pr-16">
@@ -376,9 +363,6 @@ watch(locale, newLocale => { loadForLocale(newLocale); });
 const industryLinks = computed(() => navigationData.value?.industry ?? getFallbackNavigation().industry);
 const serviceLinks = computed(() => navigationData.value?.services ?? getFallbackNavigation().services);
 
-const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};
 </script>
 
 <style scoped>

@@ -1,46 +1,39 @@
 <template>
   <button
     v-show="visible"
-    aria-label="Scroll to top"
-    class="fixed bottom-6 right-6 z-[9999] flex items-center justify-center w-10 h-10 rounded-lg bg-white/30 dark:bg-navy-blue/40 border border-navy-blue/20 dark:border-white/10 backdrop-blur-md shadow-[0_0_24px_4px_theme('colors.accent')] dark:shadow-[0_0_24px_4px_theme('colors.accent')] drop-shadow-[0_0_16px_theme('colors.accent')] cursor-pointer transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-110 hover:ring-4 hover:ring-accent/40 focus:outline-none"
+    type="button"
+    :aria-label="$t('footer.scrollToTop')"
+    class="fixed right-4 bottom-6 z-9999 flex h-13 w-13 items-center justify-center rounded-full border border-text-light/20 bg-text-dark/92 text-text-light transition-opacity duration-300 hover:scale-105 hover:border-text-light/50 hover:text-text-light sm:right-6"
     @click="scrollToTop"
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="w-6 h-6 text-accent drop-shadow-[0_0_8px_theme('colors.accent')]"
-    >
-      <polyline points="6 15 12 9 18 15" />
-    </svg>
+    <AppIcon
+      icon="material-symbols:arrow-upward-alt-rounded"
+      :size="22"
+      class-name="text-current"
+    />
   </button>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
+import AppIcon from '@/components/UI/AppIcon.vue';
 
 const visible = ref(false);
 
-const onScroll = () => {
+const updateVisibility = (): void => {
   visible.value = window.scrollY > 200;
 };
 
-const scrollToTop = () => {
+const scrollToTop = (): void => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 onMounted(() => {
-  window.addEventListener('scroll', onScroll);
+  updateVisibility();
+  window.addEventListener('scroll', updateVisibility, { passive: true });
 });
+
 onUnmounted(() => {
-  window.removeEventListener('scroll', onScroll);
+  window.removeEventListener('scroll', updateVisibility);
 });
 </script>
-
-<style scoped>
-/* Glass effect and shadow handled by Tailwind classes */
-</style>
