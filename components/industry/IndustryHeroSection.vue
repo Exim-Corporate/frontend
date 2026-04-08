@@ -20,7 +20,7 @@
     <BaseTitle
       tag="h1"
       variant="main"
-      class-name="text-center leading-[1.1] md:text-left text-[48px] md:text-[56px]"
+      class-name="text-center leading-[1.1] md:text-left font-semibold md:font-normal text-[48px] md:text-[56px]"
     >
       {{ hero.title }}
     </BaseTitle>
