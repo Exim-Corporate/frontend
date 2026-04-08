@@ -1,41 +1,48 @@
 <template>
-  <section class="container mx-auto px-4 pb-16 pt-32 sm:px-6">
-    <div v-if="pending" class="text-center">
+  <main class="min-h-screen">
+    <section v-if="pending" class="container pt-32 pb-16 text-center">
       <BaseText variant="section" class-name="text-text-secondary">
         {{ $t('footer.loading') }}
       </BaseText>
-    </div>
+    </section>
 
-    <div v-else-if="error || !resolvedPage" class="text-center">
+    <section v-else-if="error || !resolvedPage" class="container pt-32 pb-16 text-center">
       <BaseTitle tag="h1" variant="main" class-name="text-text-dark dark:text-text-light">
         {{ $t('error.404.title') }}
       </BaseTitle>
       <BaseText variant="section" class-name="mt-4 text-text-secondary dark:text-text-light/70">
         {{ $t('error.404.description') }}
       </BaseText>
-    </div>
+    </section>
 
-    <div v-else class="mx-auto max-w-3xl text-left">
-      <BaseTitle tag="h1" variant="main" class-name="text-text-dark dark:text-text-light">
-        {{ resolvedPage.title }}
-      </BaseTitle>
-      <BaseText
-        v-if="resolvedPage.description"
-        variant="section"
-        class-name="mt-6 text-text-secondary dark:text-text-light/80"
-      >
-        {{ resolvedPage.description }}
-      </BaseText>
-    </div>
-  </section>
+    <template v-else>
+      <IndustryHeroSection
+        v-if="resolvedPage.hero"
+        :hero="resolvedPage.hero"
+      />
+      <section v-else class="container pb-16 pt-32">
+        <BaseTitle tag="h1" variant="main" class-name="text-text-dark dark:text-text-light">
+          {{ resolvedPage.title }}
+        </BaseTitle>
+        <BaseText
+          v-if="resolvedPage.description"
+          variant="section"
+          class-name="mt-6 text-text-secondary dark:text-text-light/80"
+        >
+          {{ resolvedPage.description }}
+        </BaseText>
+      </section>
+    </template>
+  </main>
 </template>
 
 <script setup lang="ts">
-import { useAsyncData, useRoute, useRuntimeConfig } from 'nuxt/app';
 import { computed } from 'vue';
+import { useLazyAsyncData, useRoute, useRuntimeConfig } from 'nuxt/app';
 import { useI18n } from 'vue-i18n';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
+import IndustryHeroSection from '@/components/industry/IndustryHeroSection.vue';
 import { useSEO } from '@/composables/useSEO';
 import { useStrapiData } from '@/composables/useStrapiData';
 import type { StrapiIndustryPage } from '@/types/strapi';
@@ -46,14 +53,19 @@ const { fetchSingleBySlug } = useStrapiData();
 
 const slug = computed(() => String(route.params.slug || ''));
 
-const { data: page, pending, error } = await useAsyncData<StrapiIndustryPage | false>(
+const { data: page, pending, error } = useLazyAsyncData<StrapiIndustryPage | null>(
   `industry-page-${slug.value}-${locale.value}`,
-  async () => (await fetchSingleBySlug<StrapiIndustryPage>('industry-pages', slug.value, locale.value, ['seo'])) ?? false,
+  async () =>
+    (await fetchSingleBySlug<StrapiIndustryPage>(
+      'industry-pages',
+      slug.value,
+      locale.value,
+      { seo: true, hero: { populate: { image: true, categories: true } } },
+    )) ?? null,
+  { default: () => null, server: false, watch: [slug, locale] },
 );
 
-const resolvedPage = computed<StrapiIndustryPage | null>(() => {
-  return page.value === false ? null : (page.value ?? null);
-});
+const resolvedPage = computed<StrapiIndustryPage | null>(() => page.value ?? null);
 
 const config = useRuntimeConfig();
 const siteBase = config.public.siteUrl || 'https://www.exim.eu.com';

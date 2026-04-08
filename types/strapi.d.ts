@@ -92,6 +92,20 @@ export interface StrapiPageSeo {
   keywords?: string;
 }
 
+export interface StrapiIndustryCategory {
+  id: number;
+  documentId: string;
+  name: string;
+  slug: string;
+}
+
+export interface StrapiIndustryHero {
+  title: string;
+  description?: string;
+  image?: StrapiUploadFile | null;
+  categories?: StrapiIndustryCategory[];
+}
+
 export interface StrapiIndustryPage {
   id: number;
   documentId: string;
@@ -101,6 +115,7 @@ export interface StrapiIndustryPage {
   footerLabel?: string;
   footerOrder?: number;
   showInFooter?: boolean;
+  hero?: StrapiIndustryHero | null;
   seo?: StrapiPageSeo;
 }
 

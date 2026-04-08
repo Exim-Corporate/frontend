@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white dark:bg-gray-900">
+  <div class="min-h-screen mt-20 bg-white dark:bg-gray-900">
     <!-- Loading, Error, Not Found States -->
     <ArticleState
       :pending="pending"
