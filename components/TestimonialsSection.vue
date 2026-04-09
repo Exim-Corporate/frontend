@@ -46,7 +46,7 @@
         <div class="mt-10 flex justify-center md:mt-12">
           <AppButton
             variant="gray"
-            class="w-auto! rounded-full"
+            class="w-auto! rounded-full test"
             :label="$t(toggleLabelKey)"
             @click="handleToggle"
           />

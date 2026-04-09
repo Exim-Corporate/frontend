@@ -39,6 +39,7 @@ export interface AppAccordionItem {
 interface AppAccordionProps {
   items: AppAccordionItem[];
   multiple?: boolean;
+  modelValue?: string | string[] | null;
   initialValue?: string | string[] | null;
   rootClass?: string;
   panelClass?: string;
@@ -46,8 +47,13 @@ interface AppAccordionProps {
   contentClass?: string;
 }
 
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: string | string[] | null): void;
+}>();
+
 const props = withDefaults(defineProps<AppAccordionProps>(), {
   multiple: false,
+  modelValue: undefined,
   initialValue: undefined,
   rootClass: '',
   panelClass: '',
@@ -56,6 +62,10 @@ const props = withDefaults(defineProps<AppAccordionProps>(), {
 });
 
 const getDefaultValue = (): string | string[] | null => {
+  if (props.modelValue !== undefined) {
+    return props.modelValue;
+  }
+
   if (props.initialValue !== undefined) {
     return props.initialValue;
   }
@@ -70,11 +80,27 @@ const getDefaultValue = (): string | string[] | null => {
 const activeValue = ref<string | string[] | null>(getDefaultValue());
 
 watch(
-  () => props.initialValue,
+  () => props.modelValue,
   (newValue) => {
     if (newValue !== undefined) {
       activeValue.value = newValue;
     }
+  },
+);
+
+watch(
+  () => props.initialValue,
+  (newValue) => {
+    if (newValue !== undefined && props.modelValue === undefined) {
+      activeValue.value = newValue;
+    }
+  },
+);
+
+watch(
+  activeValue,
+  (newValue) => {
+    emit('update:modelValue', newValue);
   },
 );
 

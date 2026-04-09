@@ -91,3 +91,45 @@ When user provides 2 screenshots (mobile + desktop), implement one modular secti
 - `.github/copilot-architecture.md`
 - `.github/copilot-refactoring.md`
 - `.github/strapi-mcp-rules.md`
+
+## 11) Strapi Content Ops Reference (REST Only)
+Use this checklist whenever adding/updating content models or content in Strapi.
+
+### A. Verify API Access First
+1. Confirm Strapi is reachable:
+  - `GET /api/<collection>` should return `200/403` (403 means auth required, service is up).
+2. Confirm token-based read works:
+  - `GET /api/<collection>?pagination[limit]=1`
+3. Confirm token-based write works safely (no-op update):
+  - `PUT /api/<collection>/<documentId>` with body `{ "data": {} }`
+  - Expect `200` and unchanged entity.
+
+### B. Check Existing Content and Fields
+1. Inspect available entries:
+  - `GET /api/<collection>?pagination[limit]=100`
+2. Inspect nested fields/components/media/relations:
+  - `GET /api/<collection>?populate=*`
+  - For deeper structures use nested populate:
+    - `populate[field][populate][nested]=true`
+3. Validate actual response shape before typing frontend models.
+
+### C. Add/Update Content Model (Schema)
+1. Create new component JSON in `strapi/src/components/<category>/<name>.json`.
+2. If needed, create nested components first, then reference them from parent component.
+3. Attach the new component field to the target content-type schema in:
+  - `strapi/src/api/<type>/content-types/<type>/schema.json`
+4. For component fields use:
+  - `"type": "component"`, `"component": "<category>.<name>"`, `"repeatable": true|false`.
+
+### D. Add Content via API
+1. Read target entries first and map by `documentId`.
+2. Create payload in `{ "data": { ... } }` format.
+3. Use:
+  - `POST /api/<collection>` for create
+  - `PUT /api/<collection>/<documentId>` for update
+4. For relations/components, send values in the exact shape expected by Strapi response model.
+
+### E. Validate Completion
+1. Re-read updated entries with nested populate.
+2. Confirm all required pages have content (no missing items).
+3. Only after API validation is complete, implement/update frontend rendering.

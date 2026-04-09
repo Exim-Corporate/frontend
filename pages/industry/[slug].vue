@@ -32,6 +32,11 @@
           {{ resolvedPage.description }}
         </BaseText>
       </section>
+
+      <IndustryDescriptionSection
+        v-if="resolvedPage.industryDescription"
+        :section-data="resolvedPage.industryDescription"
+      />
     </template>
   </main>
 </template>
@@ -43,6 +48,7 @@ import { useI18n } from 'vue-i18n';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import IndustryHeroSection from '@/components/industry/IndustryHeroSection.vue';
+import IndustryDescriptionSection from '@/components/industry/IndustryDescriptionSection.vue';
 import { useSEO } from '@/composables/useSEO';
 import { useStrapiData } from '@/composables/useStrapiData';
 import type { StrapiIndustryPage } from '@/types/strapi';
@@ -60,7 +66,21 @@ const { data: page, pending, error } = useLazyAsyncData<StrapiIndustryPage | nul
       'industry-pages',
       slug.value,
       locale.value,
-      { seo: true, hero: { populate: { image: true, categories: true } } },
+      {
+        seo: true,
+        hero: { populate: { image: true, categories: true } },
+        industryDescription: {
+          populate: {
+            accordions: {
+              populate: {
+                card: {
+                  populate: { image: true },
+                },
+              },
+            },
+          },
+        },
+      },
     )) ?? null,
   { default: () => null, server: false, watch: [slug, locale] },
 );

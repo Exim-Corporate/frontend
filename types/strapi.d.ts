@@ -106,6 +106,26 @@ export interface StrapiIndustryHero {
   categories?: StrapiIndustryCategory[];
 }
 
+export interface StrapiIndustryDescriptionCard {
+  image?: StrapiUploadFile | null;
+  title: string;
+  description?: string;
+}
+
+export interface StrapiIndustryDescriptionAccordion {
+  title: string;
+  description?: string;
+  card?: StrapiIndustryDescriptionCard | null;
+}
+
+export interface StrapiIndustryDescription {
+  eyebrowPrefix?: string;
+  eyebrowCurrent?: string;
+  title: string;
+  description?: string;
+  accordions: StrapiIndustryDescriptionAccordion[];
+}
+
 export interface StrapiIndustryPage {
   id: number;
   documentId: string;
@@ -116,6 +136,7 @@ export interface StrapiIndustryPage {
   footerOrder?: number;
   showInFooter?: boolean;
   hero?: StrapiIndustryHero | null;
+  industryDescription?: StrapiIndustryDescription | null;
   seo?: StrapiPageSeo;
 }
 
