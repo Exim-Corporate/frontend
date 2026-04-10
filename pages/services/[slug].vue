@@ -21,18 +21,12 @@
         :hero="resolvedPage.hero"
       />
 
-      <section v-else class="container pb-16 pt-32">
-        <BaseTitle tag="h1" variant="main" class-name="text-text-dark dark:text-text-light">
-          {{ resolvedPage.title }}
-        </BaseTitle>
-        <BaseText
-          v-if="resolvedPage.description"
-          variant="section"
-          class-name="mt-6 text-text-secondary dark:text-text-light/80"
-        >
-          {{ resolvedPage.description }}
-        </BaseText>
-      </section>
+      <ServicesCardsSection
+        v-if="resolvedPage.serviceCardsSection"
+        mode="service"
+        :page-title="resolvedPage.title"
+        :section-data="resolvedPage.serviceCardsSection"
+      />
     </template>
   </main>
 </template>
@@ -44,6 +38,7 @@ import { useI18n } from 'vue-i18n';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import ServiceHeroSection from '@/components/services/ServiceHeroSection.vue';
+import ServicesCardsSection from '@/components/ServicesCardsSection.vue';
 import { useSEO } from '@/composables/useSEO';
 import { useStrapiData } from '@/composables/useStrapiData';
 import type { StrapiServicePage } from '@/types/strapi';
@@ -64,6 +59,11 @@ const { data: page, pending, error } = useLazyAsyncData<StrapiServicePage | null
       {
         seo: true,
         hero: { populate: { imagePrimary: true, imageSecondary: true, categories: true } },
+        serviceCardsSection: {
+          populate: {
+            cards: { populate: { image: true } },
+          },
+        },
       },
     )) ?? null,
   { default: () => null, server: false, watch: [slug, locale] },

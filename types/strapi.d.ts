@@ -161,7 +161,24 @@ export interface StrapiServicePage {
   footerOrder?: number;
   showInFooter?: boolean;
   hero?: StrapiServiceHero | null;
+  serviceCardsSection?: StrapiServiceCardsSection | null;
   seo?: StrapiPageSeo;
+}
+
+export type StrapiCardDisplayType = 'static' | 'withBackground' | 'withPicture';
+
+export interface StrapiCard {
+  title: string;
+  description?: string;
+  displayType?: StrapiCardDisplayType;
+  image?: StrapiUploadFile | null;
+}
+
+export interface StrapiServiceCardsSection {
+  title: string;
+  description?: string;
+  buttonLabel?: string;
+  cards: StrapiCard[];
 }
 
 export interface StrapiServiceCategory {
