@@ -37,6 +37,13 @@
         v-if="resolvedPage.industryDescription"
         :section-data="resolvedPage.industryDescription"
       />
+
+      <TechStackSection />
+
+      <IndustryStatsSection
+        v-if="resolvedPage.industryStats"
+        :section-data="resolvedPage.industryStats"
+      />
     </template>
   </main>
 </template>
@@ -49,6 +56,7 @@ import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import IndustryHeroSection from '@/components/industry/IndustryHeroSection.vue';
 import IndustryDescriptionSection from '@/components/industry/IndustryDescriptionSection.vue';
+import IndustryStatsSection from '@/components/industry/IndustryStatsSection.vue';
 import { useSEO } from '@/composables/useSEO';
 import { useStrapiData } from '@/composables/useStrapiData';
 import type { StrapiIndustryPage } from '@/types/strapi';
@@ -78,6 +86,11 @@ const { data: page, pending, error } = useLazyAsyncData<StrapiIndustryPage | nul
                 },
               },
             },
+          },
+        },
+        industryStats: {
+          populate: {
+            accordions: true,
           },
         },
       },

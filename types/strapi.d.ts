@@ -126,6 +126,16 @@ export interface StrapiIndustryDescription {
   accordions: StrapiIndustryDescriptionAccordion[];
 }
 
+export interface StrapiIndustryStatsAccordion {
+  title: string;
+  description?: string;
+}
+
+export interface StrapiIndustryStats {
+  title: string;
+  accordions: StrapiIndustryStatsAccordion[];
+}
+
 export interface StrapiIndustryPage {
   id: number;
   documentId: string;
@@ -137,6 +147,7 @@ export interface StrapiIndustryPage {
   showInFooter?: boolean;
   hero?: StrapiIndustryHero | null;
   industryDescription?: StrapiIndustryDescription | null;
+  industryStats?: StrapiIndustryStats | null;
   seo?: StrapiPageSeo;
 }
 
