@@ -160,5 +160,21 @@ export interface StrapiServicePage {
   footerLabel?: string;
   footerOrder?: number;
   showInFooter?: boolean;
+  hero?: StrapiServiceHero | null;
   seo?: StrapiPageSeo;
+}
+
+export interface StrapiServiceCategory {
+  id: number;
+  documentId: string;
+  name: string;
+  slug: string;
+}
+
+export interface StrapiServiceHero {
+  title: string;
+  description?: string;
+  imagePrimary?: StrapiUploadFile | null;
+  imageSecondary?: StrapiUploadFile | null;
+  categories?: StrapiServiceCategory[];
 }

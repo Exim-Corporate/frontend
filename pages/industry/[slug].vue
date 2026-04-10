@@ -44,6 +44,10 @@
         v-if="resolvedPage.industryStats"
         :section-data="resolvedPage.industryStats"
       />
+
+      <TestimonialsSection />
+
+      <FAQSection />
     </template>
   </main>
 </template>
@@ -60,6 +64,7 @@ import IndustryStatsSection from '@/components/industry/IndustryStatsSection.vue
 import { useSEO } from '@/composables/useSEO';
 import { useStrapiData } from '@/composables/useStrapiData';
 import type { StrapiIndustryPage } from '@/types/strapi';
+import { FAQSection, TestimonialsSection } from '#components';
 
 const route = useRoute();
 const { locale, t } = useI18n();
