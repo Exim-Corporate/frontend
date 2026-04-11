@@ -38,8 +38,8 @@ import { ref } from 'vue';
 import { Carousel3d, Slide } from 'vue3-carousel-3d';
 import 'vue3-carousel-3d/dist/index.css';
 import TestimonialCard from './TestimonialCard.vue';
-import type { Testimonial } from './testimonialData';
-import { defaultTestimonials } from './testimonialData';
+import type { Testimonial } from './testimonialData.ts';
+import { defaultTestimonials } from './testimonialData.ts';
 
 // Props with defaults
 defineProps({

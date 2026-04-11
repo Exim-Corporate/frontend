@@ -1,5 +1,5 @@
 <template>
-  <section class="container pt-20 md:pt-24">
+  <section class="container pt-0">
     <AnimatedElement direction="bottom" :delay="100">
       <div class="mx-auto flex max-w-2xl flex-col items-center text-center">
         <BaseTitle
@@ -30,12 +30,12 @@
       >
         <article
           class="h-full rounded-4xl border border-text-dark/8 p-6 md:p-8"
-          :class="card.styleVariant === 'pattern' ? 'bg-text-light/92' : 'bg-text-light/84'"
+          :class="card.styleVariant === 'pattern' ? 'bg-background-gray' : 'bg-background-gray'"
         >
           <BaseTitle
             tag="h3"
             variant="subheader"
-            class-name="text-left text-text-dark"
+            class-name="text-left"
           >
             {{ card.title }}
           </BaseTitle>
@@ -43,12 +43,12 @@
           <BaseText
             v-if="card.description"
             variant="section"
-            class-name="mt-4 text-left text-text-secondary"
+            class-name="mt-4 text-left"
           >
             {{ card.description }}
           </BaseText>
 
-          <div v-if="card.points.length" class="mt-6 flex flex-col gap-3">
+          <div v-if="card.points.length" class="mt-15 flex flex-col gap-4">
             <div
               v-for="(point, pointIndex) in card.points"
               :key="`${card.title}-point-${pointIndex}`"
@@ -56,12 +56,12 @@
             >
               <AppIcon
                 icon="mdi:check-circle-outline"
-                class-name="mt-0.5 h-5 w-5 shrink-0 text-text-dark"
+                class-name="mt-0.5 h-5 w-5 shrink-0 "
               />
 
               <BaseText
                 variant="section"
-                class-name="text-left text-text-dark"
+                class-name="text-left "
               >
                 {{ point.text }}
               </BaseText>
@@ -70,18 +70,18 @@
 
           <div
             v-if="card.exampleText"
-            class="mt-6 rounded-3xl border border-text-dark/10 bg-text-light px-5 py-4"
+            class="mt-6 rounded-3xl border border-text-dark/10 bg-white px-5 py-4"
           >
             <BaseText
               variant="section"
-              class-name="text-left font-semibold uppercase tracking-widest text-text-dark"
+              class-name="text-left font-semibold uppercase tracking-widest "
             >
               {{ card.exampleLabel || 'EXAMPLE' }}
             </BaseText>
 
             <BaseText
               variant="section"
-              class-name="mt-2 text-left text-text-secondary"
+              class-name="mt-2 text-left "
             >
               {{ card.exampleText }}
             </BaseText>

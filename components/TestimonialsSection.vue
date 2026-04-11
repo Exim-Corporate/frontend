@@ -63,7 +63,7 @@ import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import AppButton from '@/components/UI/AppButton.vue';
 import TestimonialCard from '@/components/testimonials/TestimonialCard.vue';
-import { defaultTestimonials } from '@/components/testimonials/testimonialData';
+import { defaultTestimonials } from '@/components/testimonials/testimonialData.ts';
 
 const INITIAL_TESTIMONIALS_COUNT = 3;
 const TESTIMONIALS_STEP = 3; 

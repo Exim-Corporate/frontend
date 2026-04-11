@@ -290,7 +290,10 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   components: {
-    dirs: ['~/components', '~/components/UI'],
+    dirs: [
+      { path: '~/components', extensions: ['vue'] },
+      { path: '~/components/UI', extensions: ['vue'] },
+    ],
   },
   app: {
     head: {
