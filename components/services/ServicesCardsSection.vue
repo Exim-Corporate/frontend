@@ -1,21 +1,21 @@
 <template>
   <section
     v-if="isServiceMode"
-    class="w-full bg-black pb-8 pt-8 md:bg-white md:pb-16 md:pt-14"
+    class="w-full bg-white pb-8 pt-8 md:pb-16 md:pt-14"
   >
     <div class="container">
-      <div class="hidden md:grid md:grid-cols-[minmax(0,840px)_auto] md:items-start md:justify-between md:gap-8">
+      <div class="grid grid-cols-1 justify-items-center gap-8 md:grid-cols-[minmax(0,840px)_auto] md:items-start md:justify-between md:justify-items-stretch">
         <div>
-          <div class="flex items-center gap-1 text-sm leading-4.25 text-text-dark/70">
+          <!-- <div class="flex items-center justify-center gap-1 text-sm leading-4.25 text-text-dark/70 md:justify-start">
             <span>{{ eyebrowPrefix }}</span>
             <span>/</span>
             <span class="font-medium text-text-dark">{{ pageTitle }}</span>
-          </div>
+          </div> -->
 
           <BaseTitle
             tag="h2"
             variant="main"
-            class-name="mt-8 max-w-170 text-left"
+            class-name="mt-8 max-w-170 text-center md:text-left"
           >
             {{ sectionData?.title || '' }}
           </BaseTitle>
@@ -24,27 +24,21 @@
             <BaseText
               v-if="sectionData?.description"
               variant="section"
-              class-name="text-left text-text-dark/85"
+              class-name="text-center text-text-dark/85 md:text-left"
             >
               {{ sectionData.description }}
             </BaseText>
           </div>
         </div>
 
-        <div class="pt-26">
-          <AppButton scroll-to-contact>
+        <div class="md:pt-26">
+          <AppButton 
+                      class="mt-10 w-full md:w-auto"
+          scroll-to-contact 
+          >
             {{ buttonLabel }}
           </AppButton>
         </div>
-      </div>
-
-      <div class="md:hidden">
-        <AppButton
-          scroll-to-contact
-          class="px-0! py-0!"
-        >
-          {{ buttonLabel }}
-        </AppButton>
       </div>
 
       <div class="mt-9 grid grid-cols-1 gap-1.5 md:mt-14 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
@@ -155,7 +149,7 @@ const translateOrFallback = (key: string, fallback: string): string => {
   return translated === key ? fallback : translated;
 };
 
-const eyebrowPrefix = computed(() => translateOrFallback('servicesPage.cards.eyebrowPrefix', 'Service'));
+// const eyebrowPrefix = computed(() => translateOrFallback('servicesPage.cards.eyebrowPrefix', 'Service'));
 
 const buttonLabel = computed(() => {
   const configuredLabel = props.sectionData?.buttonLabel?.trim();

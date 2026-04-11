@@ -1,13 +1,13 @@
 <template>
   <section class="container py-10 md:py-14">
-    <div class="flex flex-col gap-10 md:flex-row md:items-start md:gap-10">
+    <div class="flex flex-col gap-10 md:flex-row items-center md:items-start md:gap-10">
       <div class="md:basis-[35%] md:pr-4">
         <AnimatedElement direction="left" :delay="80">
           <div>
           <BaseTitle
             tag="h2"
             variant="main"
-            class-name="text-left"
+            class-name="text-center md:text-left"
           >
             {{ sectionData.title }}
           </BaseTitle>
@@ -15,13 +15,13 @@
           <BaseText
             v-if="sectionData.subtitle"
             variant="section"
-            class-name="mt-5 text-left text-[#181818]"
+            class-name="mt-5 text-center md:text-left text-text-dark/85"
           >
             {{ sectionData.subtitle }}
           </BaseText>
 
           <AppButton
-            class="mt-10"
+            class="mt-10 w-full md:w-auto"
             scroll-to-contact
           >
             {{ resolvedButtonText }}
@@ -46,7 +46,7 @@
       </div>
     </div>
 
-    <div class="mt-10 grid grid-cols-2 gap-2 md:mt-12 md:grid-cols-4 md:gap-4">
+    <div class="mt-10 grid grid-cols-2 gap-2 md:mt-12 md:grid-cols-5 md:gap-4">
       <AnimatedElement
         v-for="(item, index) in limitedItems"
         :key="`${item.technologyName}-${index}`"
