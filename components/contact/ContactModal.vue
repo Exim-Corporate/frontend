@@ -57,11 +57,13 @@
         <label for="modal-project-info" class="pointer-events-none text-base leading-[1.2] text-text-dark/60">
           {{ $t('contact.projectInformation') }}
         </label>
-        <InputText
+        <Textarea
           id="modal-project-info"
           v-model="formData.projectInformation"
+          rows="3"
+          maxlength="1000"
           :placeholder="$t('contact.placeholders.projectInformation')"
-          class="h-16 w-full rounded-xl border border-form-border px-4 text-lg text-text-dark transition-all duration-300 placeholder:text-text-dark/50  hover:border-black/35  active:border-black/45  focus:border-primary  focus-visible:border-primary focus-visible:outline-none"
+          class="min-h-30 w-full rounded-xl border border-form-border px-4 py-3 text-lg text-text-dark transition-all duration-300 placeholder:text-text-dark/50 hover:border-black/35 active:border-black/45 focus:border-primary focus-visible:border-primary focus-visible:outline-none"
           :invalid="v$.projectInformation.$invalid && isSubmitted"
         />
         <small v-if="v$.projectInformation.$invalid && isSubmitted" class="text-sm text-red-500">
@@ -108,6 +110,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { email, helpers, required } from '@vuelidate/validators';
 import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
+import Textarea from 'primevue/textarea';
 import Checkbox from 'primevue/checkbox';
 import AppButton from '@/components/UI/AppButton.vue';
 import AppIcon from '@/components/UI/AppIcon.vue';

@@ -4,14 +4,13 @@
  * Integrates with nodemailer for sending beautiful emails
  */
 
+import escape from 'escape-html';
+
 export interface ContactData {
   fullName: string;
   email: string;
-  companyName?: string;
-  country: string;
-  services: string[];
-  technologies?: string[];
-  message: string;
+    projectInformation: string;
+    source?: string;
 }
 
 export interface TranslationFunction {
@@ -60,6 +59,9 @@ const emailStyles = {
     'background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 15px; margin: 20px 0; color: #dc2626;',
 };
 
+const esc = (value: string): string => escape(value);
+const nl2br = (value: string): string => esc(value).replace(/\n/g, '<br>');
+
 /**
  * Generates admin contact notification email HTML
  */
@@ -105,34 +107,16 @@ export function renderAdminContactEmail(contactData: ContactData, t: Translation
                         <div style="${emailStyles.infoGrid}">
                             <div style="${emailStyles.infoItem}">
                                 <span style="${emailStyles.infoLabel}">${t('contactMail.admin.name')}:</span>
-                                <span style="${emailStyles.infoValue}">${contactData.fullName}</span>
+                                <span style="${emailStyles.infoValue}">${esc(contactData.fullName)}</span>
                             </div>
                             <div style="${emailStyles.infoItem}">
                                 <span style="${emailStyles.infoLabel}">${t('contactMail.admin.email')}:</span>
-                                <span style="${emailStyles.infoValue}">${contactData.email}</span>
+                                <span style="${emailStyles.infoValue}">${esc(contactData.email)}</span>
                             </div>
                             <div style="${emailStyles.infoItem}">
-                                <span style="${emailStyles.infoLabel}">${t('contactMail.admin.company')}:</span>
-                                <span style="${emailStyles.infoValue}">${contactData.companyName || '-'}</span>
+                                <span style="${emailStyles.infoLabel}">${t('contactMail.admin.message')}:</span>
+                                <span style="${emailStyles.infoValue}">${nl2br(contactData.projectInformation)}</span>
                             </div>
-                            <div style="${emailStyles.infoItem}">
-                                <span style="${emailStyles.infoLabel}">${t('contactMail.admin.country')}:</span>
-                                <span style="${emailStyles.infoValue}">${contactData.country}</span>
-                            </div>
-                            <div style="${emailStyles.infoItem}">
-                                <span style="${emailStyles.infoLabel}">${t('contactMail.admin.services')}:</span>
-                                <span style="${emailStyles.infoValue}">${contactData.services.join(', ')}</span>
-                            </div>
-                            ${
-                              contactData.technologies?.length
-                                ? `
-                            <div style="${emailStyles.infoItem}">
-                                <span style="${emailStyles.infoLabel}">${t('contactMail.admin.technologies')}:</span>
-                                <span style="${emailStyles.infoValue}">${contactData.technologies.join(', ')}</span>
-                            </div>
-                            `
-                                : ''
-                            }
                         </div>
                     </div>
                     
@@ -140,13 +124,13 @@ export function renderAdminContactEmail(contactData: ContactData, t: Translation
                     <div style="${emailStyles.section}">
                         <h2 style="${emailStyles.sectionTitle}">${t('contactMail.admin.message')}</h2>
                         <div style="${emailStyles.messageBox}">
-                            <p style="margin: 0; color: #374151; line-height: 1.6;">${contactData.message.replace(/\n/g, '<br>')}</p>
+                            <p style="margin: 0; color: #374151; line-height: 1.6;">${nl2br(contactData.projectInformation)}</p>
                         </div>
                     </div>
                     
                     <!-- Action Button -->
                     <div style="text-align: center; margin: 30px 0;">
-                        <a href="mailto:${contactData.email}" style="${emailStyles.button}">
+                        <a href="mailto:${esc(contactData.email)}" style="${emailStyles.button}">
                             📧 ${t('contactMail.admin.replyButton')}
                         </a>
                     </div>
@@ -195,7 +179,7 @@ export function renderUserContactEmail(contactData: ContactData, t: TranslationF
                 <!-- Body -->
                 <div style="${emailStyles.body}">
                     <!-- Greeting -->
-                    <p style="${emailStyles.text}"><strong>${t('contactMail.user.greeting')}, ${contactData.fullName}!</strong></p>
+                    <p style="${emailStyles.text}"><strong>${t('contactMail.user.greeting')}, ${esc(contactData.fullName)}!</strong></p>
                     <p style="${emailStyles.text}">${t('contactMail.user.intro')}</p>
                     
                     <!-- What's Next Section -->
@@ -229,19 +213,11 @@ export function renderUserContactEmail(contactData: ContactData, t: TranslationF
                         <div style="${emailStyles.infoGrid}">
                             <div style="${emailStyles.infoItem}">
                                 <span style="${emailStyles.infoLabel}">${t('contactMail.admin.email')}:</span>
-                                <span style="${emailStyles.infoValue}">${contactData.email}</span>
+                                <span style="${emailStyles.infoValue}">${esc(contactData.email)}</span>
                             </div>
                             <div style="${emailStyles.infoItem}">
-                                <span style="${emailStyles.infoLabel}">${t('contactMail.admin.company')}:</span>
-                                <span style="${emailStyles.infoValue}">${contactData.companyName || '-'}</span>
-                            </div>
-                            <div style="${emailStyles.infoItem}">
-                                <span style="${emailStyles.infoLabel}">${t('contactMail.admin.country')}:</span>
-                                <span style="${emailStyles.infoValue}">${contactData.country}</span>
-                            </div>
-                            <div style="${emailStyles.infoItem}">
-                                <span style="${emailStyles.infoLabel}">${t('contactMail.admin.services')}:</span>
-                                <span style="${emailStyles.infoValue}">${contactData.services.join(', ')}</span>
+                                <span style="${emailStyles.infoLabel}">${t('contactMail.admin.message')}:</span>
+                                <span style="${emailStyles.infoValue}">${nl2br(contactData.projectInformation)}</span>
                             </div>
                         </div>
                     </div>
@@ -312,13 +288,8 @@ ${t('contactMail.admin.intro')}
 ${t('contactMail.admin.contactInfo')}:
 ${t('contactMail.admin.name')}: ${contactData.fullName}
 ${t('contactMail.admin.email')}: ${contactData.email}
-${t('contactMail.admin.company')}: ${contactData.companyName || '-'}
-${t('contactMail.admin.country')}: ${contactData.country}
-${t('contactMail.admin.services')}: ${contactData.services.join(', ')}
-${t('contactMail.admin.technologies')}: ${contactData.technologies?.join(', ') || '-'}
-
 ${t('contactMail.admin.message')}:
-${contactData.message}
+${contactData.projectInformation}
 
 ${t('contactMail.admin.regards')}
     `.trim();
@@ -335,13 +306,8 @@ ${t('contactMail.user.whatsNext')}:
 
 ${t('contactMail.user.submission')}:
 ${t('contactMail.admin.email')}: ${contactData.email}
-${t('contactMail.admin.company')}: ${contactData.companyName || '-'}
-${t('contactMail.admin.country')}: ${contactData.country}
-${t('contactMail.admin.services')}: ${contactData.services.join(', ')}
-${t('contactMail.admin.technologies')}: ${contactData.technologies?.join(', ') || '-'}
-
 ${t('contactMail.admin.message')}:
-${contactData.message}
+${contactData.projectInformation}
 
 ${t('contactMail.user.regards')}
     `.trim();

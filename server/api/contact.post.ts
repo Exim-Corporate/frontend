@@ -15,6 +15,7 @@ import fr from '../../i18n/locales/fr';
 import es from '../../i18n/locales/es';
 import { getQuery } from 'h3';
 import {
+  renderContactEmails,
   generatePlainTextEmail,
   // type TranslationFunction,
 } from '../utils/emailRenderer';
@@ -56,6 +57,46 @@ function getLocaleObj(locale: string): Record<string, unknown> {
   }
 }
 
+function sanitizePlainText(value: unknown, maxLength: number, allowLineBreaks = false): string {
+  const input = typeof value === 'string' ? value : '';
+  const withoutTags = input.replace(/<[^>]*>/g, ' ');
+  const withoutControlChars = Array.from(withoutTags)
+    .filter((char) => {
+      const code = char.charCodeAt(0);
+      return code === 9 || code === 10 || code === 13 || (code >= 32 && code !== 127);
+    })
+    .join('');
+
+  if (allowLineBreaks) {
+    return withoutControlChars
+      .replace(/\r\n/g, '\n')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim()
+      .slice(0, maxLength);
+  }
+
+  return withoutControlChars
+    .replace(/[\r\n\t]+/g, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+    .slice(0, maxLength);
+}
+
+function sanitizeEmail(value: unknown): string {
+  return sanitizePlainText(value, 254, false).toLowerCase();
+}
+
+function sanitizeStringList(value: unknown, maxItemLength: number): string[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map(item => sanitizePlainText(item, maxItemLength, false))
+    .filter(Boolean)
+    .slice(0, 20);
+}
+
 /**
  * Generates fallback HTML email for admin when template rendering fails
  */
@@ -70,13 +111,9 @@ function generateFallbackAdminEmail(contactData: ContactData, t: (key: string) =
         <h2>${t('contactMail.admin.contactInfo')}</h2>
         <p><strong>${t('contactMail.admin.name')}:</strong> ${esc(contactData.fullName)}</p>
         <p><strong>${t('contactMail.admin.email')}:</strong> ${esc(contactData.email)}</p>
-        <p><strong>${t('contactMail.admin.company')}:</strong> ${esc(contactData.companyName || '-')}</p>
-        <p><strong>${t('contactMail.admin.country')}:</strong> ${esc(contactData.country)}</p>
-        <p><strong>${t('contactMail.admin.services')}:</strong> ${contactData.services.map(esc).join(', ')}</p>
-        <p><strong>${t('contactMail.admin.technologies')}:</strong> ${contactData.technologies?.map(esc).join(', ') || '-'}</p>
         <div style="margin-top: 20px; padding: 15px; background: white; border-left: 4px solid #4CA1FF;">
           <h3>${t('contactMail.admin.message')}</h3>
-          <p>${esc(contactData.message).replace(/\n/g, '<br>')}</p>
+          <p>${esc(contactData.projectInformation).replace(/\n/g, '<br>')}</p>
         </div>
       </div>
     </div>
@@ -100,10 +137,7 @@ function generateFallbackUserEmail(contactData: ContactData, t: (key: string) =>
         <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
           <h3>${t('contactMail.user.submission')}</h3>
           <p><strong>${t('contactMail.admin.email')}:</strong> ${esc(contactData.email)}</p>
-          <p><strong>${t('contactMail.admin.company')}:</strong> ${esc(contactData.companyName || '-')}</p>
-          <p><strong>${t('contactMail.admin.country')}:</strong> ${esc(contactData.country)}</p>
-          <p><strong>${t('contactMail.admin.services')}:</strong> ${contactData.services.join(', ')}</p>
-          <p><strong>${t('contactMail.admin.technologies')}:</strong> ${contactData.technologies?.join(', ') || '-'}</p>
+          <p><strong>${t('contactMail.admin.message')}:</strong> ${esc(contactData.projectInformation)}</p>
         </div>
         <p>${t('contactMail.user.regards')}</p>
       </div>
@@ -133,9 +167,23 @@ const ContactSchema = z.union([ModalContactSchema, LegacyContactSchema]);
 
 export default defineEventHandler(async event => {
   const config = useRuntimeConfig();
+  const rawBody = await readBody(event);
+
+  const sanitizedBody = {
+    fullName: sanitizePlainText(rawBody?.fullName, 100),
+    email: sanitizeEmail(rawBody?.email),
+    projectInformation: sanitizePlainText(rawBody?.projectInformation, 1000, true),
+    privacyPolicyAccepted: rawBody?.privacyPolicyAccepted === true,
+    source: sanitizePlainText(rawBody?.source, 80),
+    companyName: sanitizePlainText(rawBody?.companyName, 100),
+    country: sanitizePlainText(rawBody?.country, 100),
+    services: sanitizeStringList(rawBody?.services, 100),
+    technologies: sanitizeStringList(rawBody?.technologies, 100),
+    message: sanitizePlainText(rawBody?.message, 1000, true),
+  };
+
   // Получаем и валидируем данные формы
-  const body = await readBody(event);
-  const parsed = ContactSchema.safeParse(body);
+  const parsed = ContactSchema.safeParse(sanitizedBody);
   if (!parsed.success) {
     return sendError(event, createError({ statusCode: 400, statusMessage: 'Invalid form data' }));
   }
@@ -143,15 +191,11 @@ export default defineEventHandler(async event => {
 
   const isModalPayload = 'projectInformation' in safe;
 
-  const services = isModalPayload
-    ? [safe.source || 'Website Contact Modal']
-    : safe.services;
+  const source = isModalPayload
+    ? safe.source || 'Website Contact Modal'
+    : (safe.services[0] || 'Website Contact Form');
 
-  const technologies: string[] = isModalPayload
-    ? []
-    : safe.technologies || [];
-
-  const message = isModalPayload
+  const projectInformation = isModalPayload
     ? safe.projectInformation
     : safe.message;
 
@@ -177,11 +221,8 @@ export default defineEventHandler(async event => {
   const contactData: ContactData = {
     fullName: safe.fullName,
     email: safe.email,
-    companyName: isModalPayload ? '' : safe.companyName,
-    country: isModalPayload ? 'Not provided' : safe.country,
-    services,
-    technologies,
-    message,
+    projectInformation,
+    source,
   };
   // const testData = {
   //   fullName: 'test user',
