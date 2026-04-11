@@ -163,6 +163,7 @@ export interface StrapiServicePage {
   hero?: StrapiServiceHero | null;
   serviceCardsSection?: StrapiServiceCardsSection | null;
   serviceAboutSection?: StrapiServiceAboutSection | null;
+  serviceBenefitsSection?: StrapiServiceBenefitsSection | null;
   seo?: StrapiPageSeo;
 }
 
@@ -196,6 +197,19 @@ export interface StrapiServiceAboutSection {
   description?: string;
   buttonText?: string;
   accordions: StrapiServiceAboutItem[];
+}
+
+export type StrapiServiceBenefitItemType = 'metric' | 'statement';
+
+export interface StrapiServiceBenefitItem {
+  itemType?: StrapiServiceBenefitItemType;
+  headline: string;
+  description?: string;
+}
+
+export interface StrapiServiceBenefitsSection {
+  title: string;
+  items: StrapiServiceBenefitItem[];
 }
 
 export interface StrapiServiceCategory {

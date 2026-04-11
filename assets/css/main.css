@@ -41,7 +41,7 @@
 
   p {
     font-family: theme('fontFamily.sans');
-    @apply font-light text-sm leading-7 tracking-normal md:font-light md:text-xl md:leading-[100%] text-black;
+    /* @apply font-light text-sm leading-7 tracking-normal md:font-light md:text-xl md:leading-[100%] text-black; */
   }
 
   :root.dark h1,

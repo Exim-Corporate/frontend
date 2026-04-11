@@ -134,7 +134,7 @@
             </NuxtLinkLocale>
           </div>
         </AnimatedElement>
-
+<!-- 
         <AnimatedElement direction="bottom" :delay="360">
           <div class="mt-16 flex justify-center">
             <div class="footer-badge-shell flex h-32.5 w-27 items-center justify-center border border-text-light/35 bg-text-light/8 p-1.5">
@@ -143,7 +143,7 @@
                   Top
                 </span>
                 <span class="font-sans text-[10px] font-semibold uppercase tracking-widest text-text-secondary">
-                  SEO Company
+                  AI Company
                 </span>
                 <span class="font-sans text-[27px] font-semibold leading-none">Clutch</span>
                 <span class="font-sans text-[11px] font-semibold tracking-[0.18em] text-text-secondary">
@@ -152,7 +152,7 @@
               </div>
             </div>
           </div>
-        </AnimatedElement>
+        </AnimatedElement> -->
       </div>
 
       <div class="hidden md:grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_minmax(0,1.15fr)_minmax(0,0.82fr)] md:gap-x-10 lg:gap-x-16">
