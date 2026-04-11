@@ -14,7 +14,7 @@
           </AnimatedElement>
         </div>
         <AnimatedElement direction="bottom" :delay="200">
-          <AppButton :label="$t('servicesProvide.button')" />
+          <AppButton :label="$t('servicesProvide.button')" scroll-to-contact />
         </AnimatedElement>
       </div>
 

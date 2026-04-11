@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col min-h-screen">
     <Toast />
+    <ContactModal />
     <AppHeader />
     <main class="grow">
       <slot />

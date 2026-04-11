@@ -40,27 +40,27 @@ const renderedContent = computed(() => {
 
 <style scoped>
 /* Ensure links inside rendered markdown (v-html) look like links - use deep selector */
-.article-content ::v-deep a {
+.article-content :deep(a) {
   color: var(--accent, #2563eb);
   text-decoration: underline;
 }
-.article-content ::v-deep a:hover {
+.article-content :deep(a:hover) {
   opacity: 0.9;
 }
 
 /* Paragraph spacing: ensure paragraphs from markdown keep vertical rhythm even if global reset removed p margins */
-.article-content ::v-deep p {
+.article-content :deep(p) {
   margin: 0 0 1rem;
   line-height: 1.7;
 }
 
 /* Headings spacing */
-.article-content ::v-deep h1,
-.article-content ::v-deep h2,
-.article-content ::v-deep h3,
-.article-content ::v-deep h4,
-.article-content ::v-deep h5,
-.article-content ::v-deep h6 {
+.article-content :deep(h1),
+.article-content :deep(h2),
+.article-content :deep(h3),
+.article-content :deep(h4),
+.article-content :deep(h5),
+.article-content :deep(h6) {
   margin-top: 1.25rem;
   margin-bottom: 0.75rem;
   font-weight: 700;

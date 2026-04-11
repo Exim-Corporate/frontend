@@ -111,7 +111,15 @@ function generateFallbackUserEmail(contactData: ContactData, t: (key: string) =>
   `;
 }
 
-const ContactSchema = z.object({
+const ModalContactSchema = z.object({
+  fullName: z.string().min(1).max(100),
+  email: z.string().email(),
+  projectInformation: z.string().min(1).max(1000),
+  privacyPolicyAccepted: z.boolean().refine(value => value === true),
+  source: z.string().max(80).optional(),
+});
+
+const LegacyContactSchema = z.object({
   fullName: z.string().min(1).max(100),
   companyName: z.string().max(100).optional(),
   email: z.string().email(),
@@ -120,6 +128,8 @@ const ContactSchema = z.object({
   technologies: z.array(z.string().min(1).max(100)).optional(),
   message: z.string().min(1).max(1000),
 });
+
+const ContactSchema = z.union([ModalContactSchema, LegacyContactSchema]);
 
 export default defineEventHandler(async event => {
   const config = useRuntimeConfig();
@@ -130,11 +140,20 @@ export default defineEventHandler(async event => {
     return sendError(event, createError({ statusCode: 400, statusMessage: 'Invalid form data' }));
   }
   const safe = parsed.data;
-  const services = Array.isArray(safe.services) ? safe.services : [safe.services ?? ''];
-  const technologies = Array.isArray(safe.technologies)
-    ? safe.technologies
-    : [safe.technologies ?? ''];
-  const message = Array.isArray(safe.message) ? safe.message.join(', ') : safe.message;
+
+  const isModalPayload = 'projectInformation' in safe;
+
+  const services = isModalPayload
+    ? [safe.source || 'Website Contact Modal']
+    : safe.services;
+
+  const technologies: string[] = isModalPayload
+    ? []
+    : safe.technologies || [];
+
+  const message = isModalPayload
+    ? safe.projectInformation
+    : safe.message;
 
   // Получаем куки и язык из запроса
   const cookieHeader = (event.node?.req?.headers?.['cookie'] as string | undefined) || '';
@@ -158,8 +177,8 @@ export default defineEventHandler(async event => {
   const contactData: ContactData = {
     fullName: safe.fullName,
     email: safe.email,
-    companyName: safe.companyName,
-    country: safe.country,
+    companyName: isModalPayload ? '' : safe.companyName,
+    country: isModalPayload ? 'Not provided' : safe.country,
     services,
     technologies,
     message,
@@ -230,5 +249,8 @@ export default defineEventHandler(async event => {
     // Не возвращаем ошибку пользователю, чтобы не раскрывать детали
   }
 
-  return { ok: true };
+  return {
+    ok: true,
+    message: 'Contact request sent successfully',
+  };
 });

@@ -37,6 +37,7 @@
 import { computed } from 'vue';
 import Button from 'primevue/button';
 import AppIcon from '@/components/UI/AppIcon.vue';
+import { useContactModal } from '@/composables/useContactModal';
 
 const props = defineProps({
   icon: {
@@ -87,9 +88,17 @@ const labelClasses = computed(() => {
   return 'block w-full bg-btn-gradient bg-clip-text text-center align-middle font-sans text-[16px] leading-[100%] font-normal tracking-normal text-transparent md:text-[18px]';
 });
 
+const { open: openContactModal } = useContactModal();
+
 const onClick = () => {
   if (props.scrollToContact) {
-    document.getElementById('contact-us')?.scrollIntoView({ block: 'center' });
+    const contactSection = document.getElementById('contact-us');
+    if (contactSection) {
+      contactSection.scrollIntoView({ block: 'center' });
+      return;
+    }
+
+    openContactModal('cta-button');
   }
 };
 </script>

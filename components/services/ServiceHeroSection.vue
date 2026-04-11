@@ -30,7 +30,7 @@
       >
         {{ hero.description }}
       </BaseText>
-      <AppButton class="my-4 w-full shrink-0 md:mt-0 md:w-auto" @click="navigateToContact">
+      <AppButton class="my-4 w-full shrink-0 md:mt-0 md:w-auto" scroll-to-contact>
         {{ $t('servicesProvide.button') }}
       </AppButton>
     </div>
@@ -56,7 +56,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useRouter } from 'nuxt/app';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseChip from '@/components/UI/BaseChip.vue';
@@ -67,8 +66,6 @@ import type { StrapiServiceHero } from '@/types/strapi';
 const props = defineProps<{
   hero: StrapiServiceHero;
 }>();
-
-const router = useRouter();
 
 const primaryImageUrl = computed(() => {
   const img = props.hero.imagePrimary;
@@ -88,7 +85,4 @@ const secondaryImageUrl = computed(() => {
   return '/images/services/sh2.png';
 });
 
-function navigateToContact() {
-  router.push('/#contact');
-}
 </script>

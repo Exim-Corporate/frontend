@@ -3,6 +3,7 @@ import { definePreset } from '@primeuix/themes';
 import colors from './colors';
 import buttonSchema from './components/button';
 import inputTextSchema from './components/inputtext';
+import dialogSchema from './components/dialog';
 
 const Noir = definePreset(Aura, {
   semantic: {
@@ -21,7 +22,8 @@ const Noir = definePreset(Aura, {
       root: buttonSchema.root,
       colorScheme: buttonSchema.colorScheme,
     },
-    inputtext: inputTextSchema, 
+    inputtext: inputTextSchema,
+    dialog: dialogSchema,
   },
 });
 
