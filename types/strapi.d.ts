@@ -166,6 +166,27 @@ export interface StrapiReferralHero {
   categories?: StrapiReferralCategory[];
 }
 
+export type StrapiReferralProgramStyleVariant = 'pattern' | 'plain';
+
+export interface StrapiReferralProgramPoint {
+  text: string;
+}
+
+export interface StrapiReferralProgramCard {
+  title: string;
+  description?: string;
+  points: StrapiReferralProgramPoint[];
+  exampleLabel?: string;
+  exampleText?: string;
+  styleVariant?: StrapiReferralProgramStyleVariant;
+}
+
+export interface StrapiReferralProgramSection {
+  title: string;
+  description?: string;
+  cards: StrapiReferralProgramCard[];
+}
+
 export interface StrapiReferralPage {
   id: number;
   documentId: string;
@@ -176,6 +197,7 @@ export interface StrapiReferralPage {
   footerOrder?: number;
   showInFooter?: boolean;
   hero?: StrapiReferralHero | null;
+  referralProgramSection?: StrapiReferralProgramSection | null;
   seo?: StrapiPageSeo;
 }
 

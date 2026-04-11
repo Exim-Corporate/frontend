@@ -21,6 +21,11 @@
         :hero="resolvedPage.hero"
       />
 
+      <ReferralProgramSection
+        v-if="resolvedPage.referralProgramSection"
+        :section-data="resolvedPage.referralProgramSection"
+      />
+
       <section v-else class="container pb-16 pt-32">
         <BaseTitle tag="h1" variant="main" class-name="text-text-dark dark:text-text-light">
           {{ resolvedPage.title }}
@@ -47,6 +52,7 @@ import { useSEO } from '@/composables/useSEO';
 import { useStrapiData } from '@/composables/useStrapiData';
 import type { StrapiReferralPage } from '@/types/strapi';
 import ReferralsHero from '@/components/referrals/ReferralsHero.vue';
+import ReferralProgramSection from '@/components/referrals/ReferralProgramSection.vue';
 
 const route = useRoute();
 const { locale, t } = useI18n();
@@ -62,6 +68,15 @@ const { data: page, pending, error } = useLazyAsyncData<StrapiReferralPage | nul
       {
         seo: true,
         hero: { populate: { image: true, categories: true } },
+        referralProgramSection: {
+          populate: {
+            cards: {
+              populate: {
+                points: true,
+              },
+            },
+          },
+        },
       },
     );
 
@@ -76,6 +91,15 @@ const { data: page, pending, error } = useLazyAsyncData<StrapiReferralPage | nul
       {
         seo: true,
         hero: { populate: { image: true, categories: true } },
+        referralProgramSection: {
+          populate: {
+            cards: {
+              populate: {
+                points: true,
+              },
+            },
+          },
+        },
       },
     )) ?? null;
   },
