@@ -1,89 +1,81 @@
 <template>
-  <section
-    class="relative min-h-screen w-full overflow-hidden flex items-top md:items-start justify-center"
-    data-aos="fade-up"
-    data-aos-anchor-placement="top-bottom"
-  >
-    <!-- Background image (same path and settings as HeroSection) -->
-    <NuxtImg
-      :src="'/images/referral/hero.webp'"
-      alt="Hero background"
-      format="webp"
-      quality="80"
-      class="absolute inset-0 w-full h-full object-cover z-0"
-      preload
-    />
-
-    <!-- Overlay matching project gradient -->
-    <div class="absolute inset-0 z-10 bg-tech-gradient mix-blend-color-burn opacity-30" />
-
-    <!-- Content: centered on mobile, slightly above center on md+ -->
-    <div class="relative z-20 px-6 sm:px-10 max-w-3xl text-center pt-[20vh]">
-      <h1
-        class="text-5xl lg:text-6xl font-extrabold mb-4 text-text-light dark:text-text-light"
-        data-aos="fade-up"
-        data-aos-delay="100"
+  <section class="container overflow-hidden">
+    <div
+      v-if="hero.categories && hero.categories.length"
+      class="mb-6 flex flex-wrap justify-center gap-2 md:mb-8 md:justify-start"
+    >
+      <BaseChip
+        v-for="cat in hero.categories"
+        :key="cat.documentId"
+        variant="light"
+        size="small"
       >
-        <div>{{ $t('referrals.hero.title_part1') }}</div>
-        <div>
-          <span class="text-gradient">{{ $t('referrals.hero.title_span') }}</span>
-        </div>
-      </h1>
+        {{ cat.name }}
+      </BaseChip>
+    </div>
 
-      <p
-        class="text-base md:text-lg text-gray-100 mb-6"
-        data-aos="fade-up"
-        data-aos-delay="200"
-      >
-        {{ $t('referrals.hero.subtitle') }}
-      </p>
+    <BaseTitle
+      tag="h1"
+      variant="main"
+      class-name="text-center text-[48px] leading-[1.1] font-semibold md:text-left md:text-[56px] md:font-normal"
+    >
+      {{ hero.title }}
+    </BaseTitle>
 
-      <div
-        class="flex justify-center"
-        data-aos="zoom-in"
-        data-aos-delay="300"
+    <div class="mt-6 flex flex-col items-center gap-6 md:mt-5 md:flex-row md:items-center md:justify-between md:gap-10">
+      <BaseText
+        v-if="hero.description"
+        variant="section"
+        class-name="text-center md:max-w-[60%] md:text-left"
       >
-        <AppButton
-          severity="contrast"
-          size="large"
-          icon-position="right"
-          icon="mingcute:arrow-right-fill"
-          @click="onPrimaryCta"
-        >
-          {{ $t('referrals.hero.primary_button') }}
-        </AppButton>
-      </div>
+        {{ hero.description }}
+      </BaseText>
+
+      <AppButton class="w-full shrink-0 md:w-auto" @click="navigateToContact">
+        {{ hero.buttonLabel || 'Become Referral Partner' }}
+      </AppButton>
+    </div>
+
+    <div class="mt-8 md:mt-10">
+      <NuxtImg
+        :src="imageUrl"
+        :alt="hero.title"
+        class="aspect-square h-auto w-full rounded-2xl object-cover md:aspect-9/3"
+        sizes="sm:100vw md:100vw lg:1200px"
+        format="webp"
+      />
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { defineEmits, onMounted } from 'vue';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import { computed } from 'vue';
+import { useRouter } from 'nuxt/app';
+import BaseTitle from '@/components/UI/BaseTitle.vue';
+import BaseText from '@/components/UI/BaseText.vue';
+import BaseChip from '@/components/UI/BaseChip.vue';
 import AppButton from '@/components/UI/AppButton.vue';
+import { normalizeImageUrl } from '@/utils/normalizeImageUrl';
+import type { StrapiReferralHero } from '@/types/strapi';
 
-const emits = defineEmits<{
-  (e: 'primary-cta'): void;
+const props = defineProps<{
+  hero: StrapiReferralHero;
 }>();
 
-function onPrimaryCta() {
-  emits('primary-cta');
-}
+const router = useRouter();
 
-onMounted(() => {
-  if (typeof window !== 'undefined') {
-    AOS.init({ once: true, duration: 700, easing: 'ease-out' });
+const imageUrl = computed(() => {
+  const img = props.hero.image;
+  if (img) {
+    const url = img.url || img.formats?.large?.url || img.formats?.medium?.url || img.formats?.small?.url;
+    if (url) {
+      return normalizeImageUrl(url);
+    }
   }
+  return '/images/referral/hero1.png';
 });
-</script>
 
-<style scoped>
-.text-gradient {
-  background: linear-gradient(90deg, #4ca1ff 0%, #ca8dff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
+function navigateToContact() {
+  router.push('/#contact');
 }
-</style>
+</script>

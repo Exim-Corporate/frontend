@@ -1,70 +1,99 @@
 <template>
-  <div>
-    <ReferralsHero
-      @primary-cta="scrollToForm"
-      @secondary-cta="scrollToForm"
-    />
-    <ReferralPrograms :programs="programs" />
-    <ReferralSubmission ref="formSection" />
-    <ReferralCTA @cta="scrollToForm" />
-  </div>
+  <main class="min-h-screen">
+    <section v-if="pending" class="container pb-16 pt-32 text-center">
+      <BaseText variant="section" class-name="text-text-secondary">
+        {{ $t('footer.loading') }}
+      </BaseText>
+    </section>
+
+    <section v-else-if="error || !resolvedPage" class="container pb-16 pt-32 text-center">
+      <BaseTitle tag="h1" variant="main" class-name="text-text-dark dark:text-text-light">
+        {{ $t('error.404.title') }}
+      </BaseTitle>
+      <BaseText variant="section" class-name="mt-4 text-text-secondary dark:text-text-light/70">
+        {{ $t('error.404.description') }}
+      </BaseText>
+    </section>
+
+    <template v-else>
+      <ReferralsHero
+        v-if="resolvedPage.hero"
+        :hero="resolvedPage.hero"
+      />
+
+      <section v-else class="container pb-16 pt-32">
+        <BaseTitle tag="h1" variant="main" class-name="text-text-dark dark:text-text-light">
+          {{ resolvedPage.title }}
+        </BaseTitle>
+        <BaseText
+          v-if="resolvedPage.description"
+          variant="section"
+          class-name="mt-6 text-text-secondary dark:text-text-light/80"
+        >
+          {{ resolvedPage.description }}
+        </BaseText>
+      </section>
+    </template>
+  </main>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
+import { useLazyAsyncData, useRoute, useRuntimeConfig } from 'nuxt/app';
 import { useI18n } from 'vue-i18n';
+import BaseText from '@/components/UI/BaseText.vue';
+import BaseTitle from '@/components/UI/BaseTitle.vue';
 import { useSEO } from '@/composables/useSEO';
-import type { ReferralProgram } from '@/types/referrals';
-
+import { useStrapiData } from '@/composables/useStrapiData';
+import type { StrapiReferralPage } from '@/types/strapi';
 import ReferralsHero from '@/components/referrals/ReferralsHero.vue';
-import ReferralPrograms from '@/components/referrals/ReferralPrograms.vue';
-import ReferralSubmission from '@/components/referrals/ReferralSubmission.vue';
-import ReferralCTA from '@/components/referrals/ReferralCTA.vue';
 
-const { t } = useI18n();
-// Keep features simple: use three keys per locale and build an array with `t(...)` directly.
+const route = useRoute();
+const { locale, t } = useI18n();
+const { fetchSingleBySlug } = useStrapiData();
+
+const { data: page, pending, error } = useLazyAsyncData<StrapiReferralPage | null>(
+  `referral-page-referrals-${locale.value}`,
+  async () => {
+    const localizedPage = await fetchSingleBySlug<StrapiReferralPage>(
+      'referral-pages',
+      'referrals',
+      locale.value,
+      {
+        seo: true,
+        hero: { populate: { image: true, categories: true } },
+      },
+    );
+
+    if (localizedPage) {
+      return localizedPage;
+    }
+
+    return (await fetchSingleBySlug<StrapiReferralPage>(
+      'referral-pages',
+      'referrals',
+      undefined,
+      {
+        seo: true,
+        hero: { populate: { image: true, categories: true } },
+      },
+    )) ?? null;
+  },
+  { default: () => null, server: false, watch: [locale] },
+);
+
+const resolvedPage = computed<StrapiReferralPage | null>(() => page.value ?? null);
+
+const config = useRuntimeConfig();
+const siteBase = config.public.siteUrl || 'https://www.exim.eu.com';
 
 useSEO({
-  title: t('referrals.meta.title'),
-  description: t('referrals.meta.description'),
+  title: resolvedPage.value?.seo?.metaTitle || resolvedPage.value?.title || t('error.404.title'),
+  description:
+    resolvedPage.value?.seo?.metaDescription ||
+    resolvedPage.value?.description ||
+    t('meta.description'),
   image: '/images/og-referrals.jpg',
-  url: '/referrals',
+  url: new URL(String(route.fullPath || route.path || '/referrals'), String(siteBase)).href,
 });
-
-const formSection = ref<InstanceType<typeof ReferralSubmission> | null>(null);
-
-// Pass translation keys here; child component will call $t to keep translations reactive
-const programs = computed<ReferralProgram[]>(() => [
-  {
-    id: 'cash',
-    title: 'referrals.programs.items.cash.title',
-    description: 'referrals.programs.items.cash.description',
-    features: [
-      'referrals.programs.items.cash.features1',
-      'referrals.programs.items.cash.features2',
-      'referrals.programs.items.cash.features3',
-    ],
-    example: 'referrals.programs.items.cash.example',
-    icon: 'octicon:people-24',
-  },
-  {
-    id: 'revenue',
-    title: 'referrals.programs.items.revenue.title',
-    description: 'referrals.programs.items.revenue.description',
-    features: [
-      'referrals.programs.items.revenue.features1',
-      'referrals.programs.items.revenue.features2',
-      'referrals.programs.items.revenue.features3',
-    ],
-    example: 'referrals.programs.items.revenue.example',
-    icon: 'mdi:gift-outline',
-  },
-]);
-
-const scrollToForm = () => {
-  const el = document.getElementById('refForm') as HTMLElement | null;
-  if (el) {
-    el.scrollIntoView({ block: 'start' });
-  }
-};
 </script>

@@ -151,6 +151,34 @@ export interface StrapiIndustryPage {
   seo?: StrapiPageSeo;
 }
 
+export interface StrapiReferralCategory {
+  id: number;
+  documentId: string;
+  name: string;
+  slug: string;
+}
+
+export interface StrapiReferralHero {
+  title: string;
+  description?: string;
+  buttonLabel?: string;
+  image?: StrapiUploadFile | null;
+  categories?: StrapiReferralCategory[];
+}
+
+export interface StrapiReferralPage {
+  id: number;
+  documentId: string;
+  title: string;
+  slug: string;
+  description?: string;
+  footerLabel?: string;
+  footerOrder?: number;
+  showInFooter?: boolean;
+  hero?: StrapiReferralHero | null;
+  seo?: StrapiPageSeo;
+}
+
 export interface StrapiServicePage {
   id: number;
   documentId: string;
