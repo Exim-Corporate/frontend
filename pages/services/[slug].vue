@@ -27,6 +27,11 @@
         :page-title="resolvedPage.title"
         :section-data="resolvedPage.serviceCardsSection"
       />
+
+      <ServicesAboutSection
+        v-if="resolvedPage.serviceAboutSection"
+        :section-data="resolvedPage.serviceAboutSection"
+      />
     </template>
   </main>
 </template>
@@ -38,7 +43,8 @@ import { useI18n } from 'vue-i18n';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import ServiceHeroSection from '@/components/services/ServiceHeroSection.vue';
-import ServicesCardsSection from '@/components/ServicesCardsSection.vue';
+import ServicesCardsSection from '@/components/services/ServicesCardsSection.vue';
+import ServicesAboutSection from '@/components/services/ServicesAboutSection.vue';
 import { useSEO } from '@/composables/useSEO';
 import { useStrapiData } from '@/composables/useStrapiData';
 import type { StrapiServicePage } from '@/types/strapi';
@@ -62,6 +68,11 @@ const { data: page, pending, error } = useLazyAsyncData<StrapiServicePage | null
         serviceCardsSection: {
           populate: {
             cards: { populate: { image: true } },
+          },
+        },
+        serviceAboutSection: {
+          populate: {
+            accordions: true,
           },
         },
       },

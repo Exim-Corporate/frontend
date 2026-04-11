@@ -162,6 +162,7 @@ export interface StrapiServicePage {
   showInFooter?: boolean;
   hero?: StrapiServiceHero | null;
   serviceCardsSection?: StrapiServiceCardsSection | null;
+  serviceAboutSection?: StrapiServiceAboutSection | null;
   seo?: StrapiPageSeo;
 }
 
@@ -179,6 +180,22 @@ export interface StrapiServiceCardsSection {
   description?: string;
   buttonLabel?: string;
   cards: StrapiCard[];
+}
+
+export type StrapiServiceAboutIconType = 'withSvg' | 'static';
+
+export interface StrapiServiceAboutItem {
+  iconType?: StrapiServiceAboutIconType;
+  icon: string;
+  technologyName: string;
+}
+
+export interface StrapiServiceAboutSection {
+  title: string;
+  subtitle?: string;
+  description?: string;
+  buttonText?: string;
+  accordions: StrapiServiceAboutItem[];
 }
 
 export interface StrapiServiceCategory {
