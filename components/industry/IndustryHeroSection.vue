@@ -61,16 +61,19 @@ import BaseChip from '@/components/UI/BaseChip.vue';
 import AppButton from '@/components/UI/AppButton.vue';
 import { normalizeImageUrl } from '@/utils/normalizeImageUrl';
 import type { StrapiIndustryHero } from '@/types/strapi';
+import { useRuntimeConfig } from '#app';
 
 const props = defineProps<{
   hero: StrapiIndustryHero;
 }>();
 
+const config = useRuntimeConfig();
+
 const imageUrl = computed(() => {
   const img = props.hero.image;
   if (img) {
     const url = img.url || img.formats?.large?.url || img.formats?.medium?.url || img.formats?.small?.url;
-    if (url) return normalizeImageUrl(url);
+    if (url) return normalizeImageUrl(url, config?.public?.strapiUrl);
   }
   return '/images/expertise/Hero.png';
 });
