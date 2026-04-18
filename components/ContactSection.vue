@@ -11,6 +11,12 @@
     <div class="absolute inset-0 bg-linear-to-l from-navy-blue/95 to-accent/60 z-0" />
 
     <div class="container relative z-10">
+      <CalendlyBookingSection
+        embedded
+        utm-source="contact-section"
+        class="mb-10 md:mb-14"
+      />
+
       <!-- Header Component -->
       <ContactHeader
         data-aos="fade-up"
@@ -28,6 +34,7 @@
 </template>
 
 <script setup lang="ts">
+import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
 import ContactHeader from '@/components/contact/ContactHeader.vue';
 import ContactForm from '@/components/contact/ContactForm.vue';
 </script>

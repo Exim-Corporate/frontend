@@ -8,6 +8,15 @@ export default {
     inputPlaceholder: 'Geben Sie Ihre E-Mail ein',
     scheduleButton: 'Kostenlose Beratung vereinbaren'
   },
+  booking: {
+    title: 'Lassen Sie uns sprechen',
+    description: 'Wählen Sie einen passenden Zeitpunkt und buchen Sie Ihre Beratung direkt auf unserer Website.',
+    loading: 'Buchungskalender wird geladen...',
+    helper: 'Sie können das Gespräch vereinbaren, ohne diese Seite zu verlassen.',
+    unavailable: 'Die Buchung ist derzeit nicht verfügbar. Bitte nutzen Sie das Kontaktformular oder schreiben Sie uns direkt per E-Mail.',
+    failedToLoad: 'Das Buchungs-Widget konnte gerade nicht geladen werden. Bitte versuchen Sie es erneut oder kontaktieren Sie uns per E-Mail.',
+    preferEmail: 'Lieber per E-Mail? Schreiben Sie uns direkt an',
+  },
   servicesCards: {
     aiConsulting: {
       title: 'KI-Beratung',
@@ -462,7 +471,7 @@ export default {
     no_articles: 'Momentan sind keine Artikel verfügbar. Bitte schauen Sie später wieder vorbei.',
     hero_label: 'Blog',
     hero_subtitle: 'Insights, Leitfäden und praxisnahe Learnings aus unserem Engineering-Team',
-    hero_new_post: 'Neuer Beitrag',
+    hero_new_post: 'Latest post',
     error_loading: 'Fehler beim Laden der Artikel. Bitte versuchen Sie es später erneut.',
     read_more: 'Weiterlesen',
     read_more_aria: 'Lesen Sie mehr über {title}',

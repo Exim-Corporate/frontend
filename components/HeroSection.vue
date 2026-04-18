@@ -59,6 +59,9 @@ import InputText from 'primevue/inputtext';
 import CompaniesCarousel from '@/components/CompaniesCarousel.vue';
 
 const submitForm = () => {
-  console.log('Schedule consultation clicked');
+  document.getElementById('contact-us')?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start',
+  });
 };
 </script>

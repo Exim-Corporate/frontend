@@ -10,6 +10,15 @@ export default {
     inputPlaceholder: 'Enter your email',
     scheduleButton: 'Schedule free consultation'
   },
+  booking: {
+    title: "Let's Talk",
+    description: 'Choose a convenient time and book a consultation directly on our site.',
+    loading: 'Loading booking calendar...',
+    helper: 'You can schedule the meeting without leaving this page.',
+    unavailable: 'Booking is temporarily unavailable. Please use the contact form or email us directly.',
+    failedToLoad: 'We could not load the booking widget right now. Please try again or contact us by email.',
+    preferEmail: 'Prefer email? Reach us directly at',
+  },
   servicesCards: {
     aiConsulting: {
       title: 'AI Consulting',
@@ -82,7 +91,7 @@ export default {
     description: 'Latest news and articles from our team.',
     hero_label: 'Blog',
     hero_subtitle: 'Insights, guides, and real-world lessons from our engineering team',
-    hero_new_post: 'New Post',
+    hero_new_post: 'Latest post',
     loading: 'Loading articles...',
     loading_article: 'Loading article...',
     no_articles: 'No articles found.',

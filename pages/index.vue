@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useSEO } from '@/composables/useSEO';
+import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
 
 // Centralized SEO for the homepage using useSEO
 useSEO({
@@ -48,7 +49,7 @@ useSEO({
     <TechStackSection />
     
     <!-- Why Choose Us section -->
-    <!-- <WhyChooseUsSection /> -->
+    <WhyChooseUsSection />
     
     <!-- Process Section -->
     <ProcessSection />
@@ -64,6 +65,11 @@ useSEO({
 
     <!-- FAQ Section -->
     <FAQSection />
+
+    <CalendlyBookingSection
+      section-id="contact-us"
+      utm-source="homepage"
+    />
 <!--  -->
     <!-- Contact Section -->
     <!-- <ContactSection /> -->

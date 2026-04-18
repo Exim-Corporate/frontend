@@ -304,6 +304,12 @@ export interface StrapiHeaderNavigation {
   blogPath?: string;
 }
 
+export interface StrapiMainCalendly {
+  id: number;
+  title: string;
+  link: string;
+}
+
 export interface StrapiSingleResponse<T> {
   data: T;
   meta: Record<string, unknown>;

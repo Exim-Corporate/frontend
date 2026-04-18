@@ -6,6 +6,15 @@ export default {
     inputPlaceholder: 'Entrez votre email',
     scheduleButton: 'Planifier une consultation gratuite'
   },
+  booking: {
+    title: 'Parlons-en',
+    description: 'Choisissez un créneau qui vous convient et réservez une consultation directement sur notre site.',
+    loading: 'Chargement du calendrier de réservation...',
+    helper: 'Vous pouvez planifier la réunion sans quitter cette page.',
+    unavailable: 'La réservation est momentanément indisponible. Veuillez utiliser le formulaire de contact ou nous écrire directement.',
+    failedToLoad: 'Nous n’avons pas pu charger le widget de réservation pour le moment. Veuillez réessayer ou nous contacter par e-mail.',
+    preferEmail: 'Vous préférez l’e-mail ? Contactez-nous directement à',
+  },
   servicesCards: {
     aiConsulting: {
       title: 'Conseil en IA',
@@ -78,7 +87,7 @@ export default {
     description: 'Dernières nouvelles et articles de notre équipe.',
     hero_label: 'Blog',
     hero_subtitle: "Insights, guides et retours d'expérience concrets de notre équipe d'ingénierie",
-    hero_new_post: 'Nouveau post',
+    hero_new_post: 'Latest post',
     loading: 'Chargement des articles...',
     loading_article: "Chargement de l'article...",
     no_articles: 'Aucun article trouvé.',
