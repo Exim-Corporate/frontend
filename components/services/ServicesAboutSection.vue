@@ -15,7 +15,7 @@
           <BaseText
             v-if="sectionData.subtitle"
             variant="section"
-            class-name="mt-5 text-center md:text-left text-text-dark/85"
+            class-name="mt-5 text-center md:text-left font-light"
           >
             {{ sectionData.subtitle }}
           </BaseText>
