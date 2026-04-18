@@ -34,7 +34,7 @@
         <div class="md:pt-26">
           <AppButton 
                       class="mt-10 w-full md:w-auto"
-          scroll-to-contact 
+          @click="openContactModal('cta-button')"
           >
             {{ buttonLabel }}
           </AppButton>
@@ -94,6 +94,7 @@ import BaseTitle from '@/components/UI/BaseTitle.vue';
 import AppButton from '@/components/UI/AppButton.vue';
 import ServiceCard from '@/components/UI/ServiceCard.vue';
 import ServiceCapabilityCard from '@/components/services/ServiceCapabilityCard.vue';
+import { useContactModal } from '@/composables/useContactModal';
 import { normalizeImageUrl } from '@/utils/normalizeImageUrl';
 import type { StrapiCardDisplayType, StrapiServiceCardsSection } from '@/types/strapi';
 
@@ -121,6 +122,7 @@ const props = withDefaults(defineProps<{
 });
 
 const { t } = useI18n();
+const { open: openContactModal } = useContactModal();
 
 const homeCards: HomeCardConfig[] = [
   {

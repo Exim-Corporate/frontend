@@ -2,7 +2,7 @@
   <footer class="mt-auto bg-text-dark text-text-light">
     <section class="container relative mx-auto px-4 pb-8 pt-8 sm:px-6 md:pb-6 md:pt-10">
       <div class="md:hidden">
-        <AnimatedElement direction="bottom" :delay="60">
+        <AnimatedElement direction="bottom">
           <div class="flex justify-start pr-16">
             <button
               type="button"
@@ -26,7 +26,7 @@
           </div>
         </AnimatedElement>
 
-        <AnimatedElement direction="bottom" :delay="120">
+        <AnimatedElement direction="bottom">
           <div class="mt-14 flex flex-col items-center text-center">
             <BaseTitle tag="h2" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.company') }}
@@ -63,7 +63,7 @@
           </div>
         </AnimatedElement>
 
-        <AnimatedElement direction="bottom" :delay="180">
+        <AnimatedElement direction="bottom">
           <div class="mt-16 flex flex-col items-center text-center">
             <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.navigation.industry.title') }}
@@ -84,7 +84,7 @@
           </div>
         </AnimatedElement>
 
-        <AnimatedElement direction="bottom" :delay="240">
+        <AnimatedElement direction="bottom">
           <div class="mt-16 flex flex-col items-center text-center">
             <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.navigation.services.title') }}
@@ -105,7 +105,7 @@
           </div>
         </AnimatedElement>
 
-        <AnimatedElement direction="bottom" :delay="300">
+        <AnimatedElement direction="bottom">
           <div class="mt-16 flex flex-col items-center text-center">
             <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.navigation.legal.title') }}
@@ -134,8 +134,8 @@
             </NuxtLinkLocale>
           </div>
         </AnimatedElement>
-<!-- 
-        <AnimatedElement direction="bottom" :delay="360">
+
+        <AnimatedElement direction="bottom">
           <div class="mt-16 flex justify-center">
             <div class="footer-badge-shell flex h-32.5 w-27 items-center justify-center border border-text-light/35 bg-text-light/8 p-1.5">
               <div class="footer-badge-core flex h-full w-full flex-col items-center justify-center gap-1 border border-text-light/25 bg-text-light px-2 text-center text-text-dark">
@@ -143,7 +143,7 @@
                   Top
                 </span>
                 <span class="font-sans text-[10px] font-semibold uppercase tracking-widest text-text-secondary">
-                  AI Company
+                  Software development Company
                 </span>
                 <span class="font-sans text-[27px] font-semibold leading-none">Clutch</span>
                 <span class="font-sans text-[11px] font-semibold tracking-[0.18em] text-text-secondary">
@@ -152,11 +152,11 @@
               </div>
             </div>
           </div>
-        </AnimatedElement> -->
+        </AnimatedElement> 
       </div>
 
       <div class="hidden md:grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_minmax(0,1.15fr)_minmax(0,0.82fr)] md:gap-x-10 lg:gap-x-16">
-        <AnimatedElement direction="bottom" :delay="80">
+        <AnimatedElement direction="bottom">
           <div class="flex flex-col items-start text-left">
             <button
               type="button"
@@ -232,7 +232,7 @@
           </div>
         </AnimatedElement>
 
-        <AnimatedElement direction="bottom" :delay="140">
+        <AnimatedElement direction="bottom">
           <div class="flex flex-col items-start text-left pt-20">
             <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.navigation.industry.title') }}
@@ -252,7 +252,7 @@
           </div>
         </AnimatedElement>
 
-        <AnimatedElement direction="bottom" :delay="200">
+        <AnimatedElement direction="bottom">
           <div class="flex flex-col items-start text-left pt-20">
             <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.navigation.services.title') }}
@@ -272,7 +272,7 @@
           </div>
         </AnimatedElement>
 
-        <AnimatedElement direction="bottom" :delay="260">
+        <AnimatedElement direction="bottom">
           <div class="flex flex-col items-start text-left pt-20">
             <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.navigation.legal.title') }}

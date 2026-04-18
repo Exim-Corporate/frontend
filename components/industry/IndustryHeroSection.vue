@@ -34,7 +34,7 @@
       >
         {{ hero.description }}
       </BaseText>
-      <AppButton class="w-full md:w-auto shrink-0" scroll-to-contact>
+      <AppButton class="w-full md:w-auto shrink-0" @click="openContactModal('cta-button')">
         {{ $t('servicesProvide.button') }}
       </AppButton>
     </div>
@@ -59,6 +59,7 @@ import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseChip from '@/components/UI/BaseChip.vue';
 import AppButton from '@/components/UI/AppButton.vue';
+import { useContactModal } from '@/composables/useContactModal';
 import { normalizeImageUrl } from '@/utils/normalizeImageUrl';
 import type { StrapiIndustryHero } from '@/types/strapi';
 import { useRuntimeConfig } from '#app';
@@ -68,6 +69,7 @@ const props = defineProps<{
 }>();
 
 const config = useRuntimeConfig();
+const { open: openContactModal } = useContactModal();
 
 const imageUrl = computed(() => {
   const img = props.hero.image;

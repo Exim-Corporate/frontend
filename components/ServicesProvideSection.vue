@@ -14,7 +14,7 @@
           </AnimatedElement>
         </div>
         <AnimatedElement direction="bottom" :delay="200">
-          <AppButton :label="$t('servicesProvide.button')" scroll-to-contact />
+          <AppButton :label="$t('servicesProvide.button')" @click="openContactModal('cta-button')" />
         </AnimatedElement>
       </div>
 
@@ -54,6 +54,9 @@ import BaseText from '@/components/UI/BaseText.vue';
 import AppButton from '@/components/UI/AppButton.vue';
 import ServiceCard from '@/components/UI/ServiceCard.vue';
 import ServiceTextCard from '@/components/UI/ServiceTextCard.vue';
+import { useContactModal } from '@/composables/useContactModal';
+
+const { open: openContactModal } = useContactModal();
 
 interface CardConfig {
   type: 'image' | 'icon' | 'text';

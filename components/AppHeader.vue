@@ -126,7 +126,7 @@
             <AppIcon icon="material-symbols:menu" :size="24" color="currentColor" />
           </button>
 
-          <AppButton class="hidden md:block" severity="primary" scrollToContact>
+          <AppButton class="hidden md:block" severity="primary" @click="openContactModal('header-contact')">
             {{ $t('header.contactUs') }}
           </AppButton>
         </div>
@@ -184,7 +184,7 @@
         </PanelMenu>
 
         <div class="mt-auto pt-6">
-          <AppButton class="w-full" severity="contrast" scrollToContact @click="drawerVisible = false">
+          <AppButton class="w-full" severity="contrast" @click="handleMobileContactClick">
             {{ $t('header.contactUs') }}
           </AppButton>
         </div>
@@ -206,6 +206,7 @@ import AppIcon from '@/components/UI/AppIcon.vue';
 import AppLanguageSwitcher from '@/components/UI/AppLanguageSwitcher.vue';
 import HeaderLogo from '@/components/UI/HeaderLogo.vue';
 import ArticleCard from '@/components/blog/ArticleCard.vue';
+import { useContactModal } from '@/composables/useContactModal';
 import type { StrapiHeaderNavigation, StrapiHeaderNavLink } from '@/types/strapi';
 import { normalizeImageUrl } from '@/utils/normalizeImageUrl';
 
@@ -227,6 +228,7 @@ interface LinkGroup {
 const { t } = useI18n();
 const localePath = useLocalePath();
 const config = useRuntimeConfig();
+const { open: openContactModal } = useContactModal();
 
 const isScrolling = ref(false);
 const drawerVisible = ref(false);
@@ -447,6 +449,11 @@ function handleScroll() {
   if (scrollTop < lastScrollTop) isScrolling.value = false;
   lastScrollTop = scrollTop;
 }
+
+const handleMobileContactClick = () => {
+  drawerVisible.value = false;
+  openContactModal('header-contact');
+};
 
 onMounted(() => {
   isMounted.value = true;

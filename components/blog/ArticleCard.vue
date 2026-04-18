@@ -86,7 +86,7 @@ const getExcerpt = (description?: string): string => {
     :class="sm ? 'py-3' : compact ? 'py-5' : 'py-8 lg:py-10'"
   >
     <div
-      class="flex flex-col gap-3"
+      class="flex flex-col gap-3 cursor-pointer"
       :class="hideImage ? 'lg:grid lg:grid-cols-[minmax(0,1fr)_32px] lg:items-start lg:gap-6' : 'lg:grid lg:grid-cols-[180px_minmax(0,1fr)_132px_32px] lg:items-center lg:gap-8'"
     >
       <div

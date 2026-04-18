@@ -31,7 +31,6 @@
                 type="email"
                 :placeholder="$t('heroNew.inputPlaceholder')"
                 class="w-full text-base"
-                required
               />
             </div>
 

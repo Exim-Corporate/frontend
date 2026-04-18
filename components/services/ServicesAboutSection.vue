@@ -22,7 +22,7 @@
 
           <AppButton
             class="mt-10 w-full md:w-auto"
-            scroll-to-contact
+            @click="openContactModal('cta-button')"
           >
             {{ resolvedButtonText }}
           </AppButton>
@@ -92,6 +92,7 @@ import AppButton from '@/components/UI/AppButton.vue';
 import AppIcon from '@/components/UI/AppIcon.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
+import { useContactModal } from '@/composables/useContactModal';
 import type { StrapiServiceAboutSection } from '@/types/strapi';
 
 const props = defineProps<{
@@ -99,6 +100,7 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
+const { open: openContactModal } = useContactModal();
 
 const resolvedButtonText = computed(() => {
   return props.sectionData.buttonText?.trim() || t('servicesProvide.button');
