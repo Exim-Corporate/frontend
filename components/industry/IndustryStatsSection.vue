@@ -9,9 +9,12 @@
         {{ sectionData.title }}
       </BaseTitle>
 
-      <div class="flex max-w-92.5 flex-col gap-14 md:max-w-137 md:gap-28">
+      <div
+        v-if="statsItems.length"
+        class="flex max-w-92.5 flex-col gap-14 md:max-w-137 md:gap-28"
+      >
         <article
-          v-for="(item, index) in sectionData.accordions"
+          v-for="(item, index) in statsItems"
           :key="item.title + '-' + index"
           class="flex flex-col gap-2 md:gap-4"
         >
@@ -35,11 +38,14 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import type { StrapiIndustryStats } from '@/types/strapi';
 
-defineProps<{
+const props = defineProps<{
   sectionData: StrapiIndustryStats;
 }>();
+
+const statsItems = computed(() => props.sectionData.accordions ?? []);
 </script>

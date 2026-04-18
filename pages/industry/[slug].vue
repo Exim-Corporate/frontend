@@ -1,5 +1,5 @@
 <template>
-  <main class="min-h-screen">
+  <main class="min-h-screen pt-15">
     <section v-if="pending" class="container text-center">
       <BaseText variant="section" class-name="text-text-secondary">
         {{ $t('footer.loading') }}
