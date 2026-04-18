@@ -1,8 +1,6 @@
 <template>
   <section
-    :id="sectionId || undefined"
-    :class="props.embedded ? 'py-0' : 'py-20'"
-  >
+    :id="sectionId || undefined"  >
     <div class="container">
       <div class="mx-auto max-w-5xl text-center">
         <AnimatedElement direction="bottom" :delay="100">
@@ -13,19 +11,9 @@
       </div>
 
       <AnimatedElement direction="bottom" :delay="220">
-        <div class="mt-10 rounded-4xl border border-black/6 bg-white p-4 shadow-[0_30px_80px_rgba(17,24,39,0.08)] md:p-6">
           <div
-            v-if="pending"
-            class="flex min-h-180 items-center justify-center rounded-3xl px-6 text-center"
-          >
-            <BaseText class-name="text-text-secondary">
-              {{ $t('booking.loading') }}
-            </BaseText>
-          </div>
-
-          <div
-            v-else-if="showFallbackState"
-            class="flex min-h-180 flex-col items-center justify-center rounded-3xl border border-dashed border-black/10 px-6 text-center"
+            v-if="showFallbackState"
+            class="flex min-h-180 flex-col items-center justify-center text-center"
           >
             <BaseText class-name="max-w-xl text-text-dark">
               {{ widgetError ? $t('booking.failedToLoad') : $t('booking.unavailable') }}
@@ -45,7 +33,7 @@
 
           <div
             v-else
-            class="overflow-hidden rounded-3xl border border-black/6"
+            class="overflow-hidden rounded-3xl p-5"
           >
             <div :id="widgetId" class="min-h-180 w-full" />
           </div>
@@ -63,7 +51,6 @@
               {{ contactEmail }}
             </a>
           </div>
-        </div>
       </AnimatedElement>
     </div>
   </section>
