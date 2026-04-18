@@ -1,7 +1,7 @@
 <template>
   <section
     v-if="isServiceMode"
-    class="w-full bg-white pb-8 pt-8 md:pb-16 md:pt-14"
+    class="w-full bg-white"
   >
     <div class="container">
       <div class="grid grid-cols-1 justify-items-center gap-8 md:grid-cols-[minmax(0,840px)_auto] md:items-start md:justify-between md:justify-items-stretch">
@@ -66,7 +66,7 @@
     </div>
   </section>
 
-  <section v-else class="w-full bg-white container pb-0 pt-8">
+  <section v-else class="w-full bg-white container">
     <div class="flex flex-wrap items-stretch gap-6">
       <AnimatedElement
         v-for="(card, index) in resolvedCards"

@@ -1,6 +1,6 @@
 <template>
-  <section class="w-full py-16 md:py-24">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+  <section class="w-full">
+    <div class="container mx-auto">
       <AnimatedElement direction="bottom" :delay="100">
         <BaseTitle tag="h2" variant="main" class-name="text-center ">
           {{ $t('process.title') }}

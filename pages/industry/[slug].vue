@@ -1,12 +1,12 @@
 <template>
   <main class="min-h-screen">
-    <section v-if="pending" class="container pt-32 pb-16 text-center">
+    <section v-if="pending" class="container text-center">
       <BaseText variant="section" class-name="text-text-secondary">
         {{ $t('footer.loading') }}
       </BaseText>
     </section>
 
-    <section v-else-if="error || !resolvedPage" class="container pt-32 pb-16 text-center">
+    <section v-else-if="error || !resolvedPage" class="container text-center">
       <BaseTitle tag="h1" variant="main" class-name="text-text-dark dark:text-text-light">
         {{ $t('error.404.title') }}
       </BaseTitle>
@@ -20,7 +20,7 @@
         v-if="resolvedPage.hero"
         :hero="resolvedPage.hero"
       />
-      <section v-else class="container pb-16 pt-32">
+      <section v-else class="container">
         <BaseTitle tag="h1" variant="main" class-name="text-text-dark dark:text-text-light">
           {{ resolvedPage.title }}
         </BaseTitle>

@@ -1,5 +1,5 @@
 <template>
-  <section class="container w-full bg-white py-16 md:py-24">
+  <section class="container w-full bg-white">
     <AnimatedElement direction="bottom" :delay="100">
       <BaseTitle tag="h2" variant="main" class-name="text-center md:text-left">
         {{ $t('standApart.title') }}

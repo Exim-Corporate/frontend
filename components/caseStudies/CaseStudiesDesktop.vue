@@ -28,7 +28,7 @@
     </div>
 
     <div class="flex-1 min-w-0 overflow-x-hidden" data-aos="fade-left" data-aos-duration="350">
-      <div class="flex items-start gap-6 lg:gap-15 min-h-125">
+      <div class="flex items-start gap-6 lg:gap-15 min-h-100">
         <div class="md:pl-10 flex-1 max-w-130">
           <BaseTitle tag="h3" variant="subheader" class-name="text-left text-text-dark">
             {{ $t(selectedStudy.titleKey) }}

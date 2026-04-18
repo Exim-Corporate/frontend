@@ -1,5 +1,5 @@
 <template>
-  <section class="container pt-20 text-center">
+  <section class="container pt-20 pb-0 text-center">
     <AppLogoMarquee />
   </section>
 </template>

@@ -1,10 +1,10 @@
 <template>
-  <div class="pt-20 grow min-h-[80vh]">
-    <div class="container mx-auto max-w-350 px-4 py-12">
+  <main class="grow min-h-[80vh]">
+    <section class="container mx-auto max-w-350">
       <BlogButton
         :label="'Home'"
         :variant="'text'"
-        :severity="'accent'"
+        :severity="'black'"
         :icon="'pi pi-arrow-left'"
         @click="goHome"
       />
@@ -63,8 +63,8 @@
           <p>{{ $t('blog.no_articles') }}</p>
         </div>
       </template>
-    </div>
-  </div>
+    </section>
+  </main>
 </template>
 
 <script setup lang="ts">

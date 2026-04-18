@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white dark:bg-gray-900">
+  <main class="min-h-screen bg-white dark:bg-gray-900">
     <AppLoader v-if="pending" />
 
     <div
@@ -42,7 +42,7 @@
 
       <ContactSection />
     </template>
-  </div>
+  </main>
 </template>
 
 <script setup lang="ts">

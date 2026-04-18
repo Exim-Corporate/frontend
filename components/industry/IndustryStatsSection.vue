@@ -1,5 +1,5 @@
 <template>
-  <section class="container bg-white pb-25 pt-25 md:min-h-240.25 md:py-0">
+  <section class="container bg-white md:min-h-240.25">
     <div class="flex flex-col gap-14 md:grid md:min-h-240.25 md:grid-cols-[minmax(0,658px)_minmax(0,548px)] md:items-center md:justify-between">
       <BaseTitle
         tag="h2"

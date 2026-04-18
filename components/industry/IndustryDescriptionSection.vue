@@ -1,5 +1,5 @@
 <template>
-  <section class="container pb-16 pt-14 md:pb-40 md:pt-20">
+  <section class="container">
     <div class="md:hidden">
       <div class="flex items-center justify-center gap-1 text-sm leading-4.25 text-text-dark/70">
         <span>{{ sectionData.eyebrowPrefix || 'Expertise' }}</span>

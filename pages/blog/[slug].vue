@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen mt-20 bg-white dark:bg-gray-900">
+  <main class="min-h-screen mt-20 bg-white dark:bg-gray-900">
     <!-- Loading, Error, Not Found States -->
     <ArticleState
       :pending="pending"
@@ -36,7 +36,7 @@
       :title="$t('blog.related_by_category')"
       :articles="relatedArticlesByCategory"
     />
-  </div>
+  </main>
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,5 @@
 <template>
-  <section id="faq" class="w-full py-16 md:py-24">
+  <section id="faq" class="w-full">
     <div class="container">
       <AnimatedElement direction="bottom" :delay="100">
         <div class="mb-10 flex flex-row items-start justify-between gap-8 md:mb-12">

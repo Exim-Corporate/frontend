@@ -11,7 +11,7 @@
     />
     <div class="absolute inset-0 z-10 bg-indigo-gradient mix-blend-multiply opacity-80" />
 
-    <div class="container relative z-20 mx-auto px-6 sm:px-10 lg:px-16 py-20">
+    <div class="container relative z-20 mx-auto">
       <div class="max-w-3xl mx-auto text-center md:text-left md:mx-0 md:ml-[5%] lg:ml-[8%]">
         <div
           v-if="flagIcon"

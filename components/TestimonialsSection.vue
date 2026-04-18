@@ -1,5 +1,5 @@
 <template>
-  <section ref="sectionRef" class="w-full bg-white py-16 md:py-24">
+  <section ref="sectionRef" class="w-full bg-white">
     <div class="container">
       <div class="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
         <AnimatedElement direction="bottom" :delay="100">

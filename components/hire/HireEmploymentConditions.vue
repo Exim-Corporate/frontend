@@ -1,5 +1,5 @@
 <template>
-  <section class="container py-16 md:py-20 overflow-hidden">
+  <section class="container overflow-hidden">
     <div
       data-aos="fade-up"
       data-aos-duration="350"

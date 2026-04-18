@@ -1,6 +1,6 @@
     <template>
-  <section class="my-25 pb-0 md:my-40">
-    <div class="container">
+  <section class="container">
+    <div>
       <BaseTitle
         tag="h2"
         variant="main"

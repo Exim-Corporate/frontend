@@ -1,5 +1,5 @@
 <template>
-  <section class="py-16 md:py-20 overflow-hidden">
+  <section class="overflow-hidden">
     <div class="container">
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-16">
         Why Hire Software Developers in

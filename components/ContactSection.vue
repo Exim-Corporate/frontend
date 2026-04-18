@@ -1,7 +1,7 @@
 <template>
   <section
     id="contact-us"
-    class="py-20 overflow-hidden contact-section relative"
+    class="overflow-hidden contact-section relative"
   >
     <!-- Gradient Background with Image Overlay -->
     <div
