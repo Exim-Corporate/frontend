@@ -15,19 +15,49 @@
             <template #item="{ item, hasSubmenu }" >
               <!-- Custom dropdown panel -->
               <div v-if="!item.root && isPanelItem(item.label)" class="flex gap-12 p-6 w-7xl max-w-[90vw]">
-                <div class="min-w-0 flex-1 space-y-6">
-                  <!-- Panel title -->
-                  <h3 v-if="getPanelTitle(item.label)" class="text-lg font-semibold text-text-dark">
-                    {{ getPanelTitle(item.label) }}
-                  </h3>
+                <div class="min-w-0 flex-1 flex flex-col justify-between">
+                  <div class="space-y-6">
+                    <!-- Panel title -->
+                    <h3 v-if="getPanelTitle(item.label)" class="text-lg font-semibold text-text-dark">
+                      {{ getPanelTitle(item.label) }}
+                    </h3>
 
-                  <section v-for="group in getGroups(getPanelType(item.label))" :key="group.id">
-                    <h4 v-if="group.title" class="mb-3 text-base font-semibold text-text-dark">
-                      {{ group.title }}
+                    <section v-for="group in getPrimaryGroups(getPanelType(item.label))" :key="group.id">
+                      <h4 v-if="group.title" class="mb-3 text-base font-semibold text-text-dark">
+                        {{ group.title }}
+                      </h4>
+                      <div class="flex flex-col lg:grid lg:grid-cols-2 lg:gap-x-10">
+                        <NuxtLink
+                          v-for="link in group.links"
+                          :key="link.id"
+                          :to="link.to"
+                          class="block text-text-dark hover:text-accent transition-colors"
+                        >
+                          <ArticleCard
+                            :article="{ title: link.title, description: link.description }"
+                            as="div"
+                            compact
+                            sm
+                            hide-image
+                            hide-date
+                          />
+                        </NuxtLink>
+                      </div>
+                    </section>
+
+                    <div v-if="getPrimaryGroups(getPanelType(item.label)).length === 0" class="py-8 text-center text-text-dark/50">
+                      No content available
+                    </div>
+                  </div>
+
+                  <!-- Extra links section -->
+                  <section v-if="getExtraGroup(getPanelType(item.label))" class="mt-10">
+                    <h4 v-if="getExtraGroup(getPanelType(item.label))?.title" class="mb-3 text-base font-semibold text-text-dark">
+                      {{ getExtraGroup(getPanelType(item.label))?.title }}
                     </h4>
                     <div class="flex flex-col lg:grid lg:grid-cols-2 lg:gap-x-10">
                       <NuxtLink
-                        v-for="link in group.links"
+                        v-for="link in getExtraGroup(getPanelType(item.label))?.links"
                         :key="link.id"
                         :to="link.to"
                         class="block text-text-dark hover:text-accent transition-colors"
@@ -43,10 +73,6 @@
                       </NuxtLink>
                     </div>
                   </section>
-
-                  <div v-if="getGroups(getPanelType(item.label)).length === 0" class="py-8 text-center text-text-dark/50">
-                    No content available
-                  </div>
                 </div>
 
                 <NuxtImg
@@ -224,11 +250,11 @@ const buildGroups = (
   primaryTitle: string | undefined,
   extraTitle: string | undefined,
   toPath: (slug: string) => string,
-): LinkGroup[] => {
-  const groups: LinkGroup[] = [];
+): { primary: LinkGroup[]; extra: LinkGroup | null } => {
+  const primary: LinkGroup[] = [];
 
   if (links?.length) {
-    groups.push({
+    primary.push({
       id: 'primary',
       title: primaryTitle,
       links: links.map(l => ({
@@ -240,36 +266,45 @@ const buildGroups = (
     });
   }
 
-  if (extraLinks?.length) {
-    groups.push({
-      id: 'extra',
-      title: extraTitle,
-      links: extraLinks.map(l => ({
-        id: `extra-${l.documentId || String(l.id)}`,
-        title: l.title,
-        description: l.description,
-        to: toPath(l.slug),
-      })),
-    });
-  }
+  const extra: LinkGroup | null = extraLinks?.length
+    ? {
+        id: 'extra',
+        title: extraTitle,
+        links: extraLinks.map(l => ({
+          id: `extra-${l.documentId || String(l.id)}`,
+          title: l.title,
+          description: l.description,
+          to: toPath(l.slug),
+        })),
+      }
+    : null;
 
-  return groups;
+  return { primary, extra };
 };
 
-const aiGroups = computed(() => {
+const aiData = computed(() => {
   const d = headerData.value?.aiDevelopmentDropdown;
-  if (!d) return [];
+  if (!d) return { primary: [], extra: null };
   return buildGroups(d.links, d.extraLinks, d.primaryGroupTitle, d.extraGroupTitle, toServicePath);
 });
 
-const expertiseGroups = computed(() => {
+const expertiseData = computed(() => {
   const d = headerData.value?.expertiseDropdown;
-  if (!d) return [];
+  if (!d) return { primary: [], extra: null };
   return buildGroups(d.links, d.extraLinks, d.primaryGroupTitle, d.extraGroupTitle, toIndustryPath);
 });
 
-const getGroups = (panelType?: PanelType) =>
-  panelType === 'ai' ? aiGroups.value : panelType === 'expertise' ? expertiseGroups.value : [];
+const getPrimaryGroups = (panelType?: PanelType): LinkGroup[] =>
+  panelType === 'ai' ? aiData.value.primary : panelType === 'expertise' ? expertiseData.value.primary : [];
+
+const getExtraGroup = (panelType?: PanelType): LinkGroup | null =>
+  panelType === 'ai' ? aiData.value.extra : panelType === 'expertise' ? expertiseData.value.extra : null;
+
+const getAllGroups = (panelType?: PanelType): LinkGroup[] => {
+  const p = getPrimaryGroups(panelType);
+  const e = getExtraGroup(panelType);
+  return e ? [...p, e] : p;
+};
 
 const FALLBACK_IMAGE = '/images/Header.png';
 
@@ -335,11 +370,11 @@ const mobileMenuItems = computed(() => {
   return [
     {
       label: headerData.value.aiDevelopmentDropdown?.label ?? t('header.aiDevelopmentMenu'),
-      items: toItems(aiGroups.value),
+      items: toItems(getAllGroups('ai')),
     },
     {
       label: headerData.value.expertiseDropdown?.label ?? t('navigation.expertise'),
-      items: toItems(expertiseGroups.value),
+      items: toItems(getAllGroups('expertise')),
     },
     {
       label: headerData.value.blogLabel ?? t('navigation.blog'),
