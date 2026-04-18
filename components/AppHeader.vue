@@ -1,68 +1,106 @@
 <template>
-  <Transition
-    name="header-slide"
-    appear
-  >
+  <Transition name="header-slide" appear>
     <header
       v-show="isHeaderReady"
-      class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-1.5 gap-4"
-      :class="[
-        isScrolling ? '-translate-y-full' : 'translate-y-0',
-        'bg-[var(--header-bg)] text-[var(--header-text)] shadow-[var(--header-shadow)]',
-      ]"
+      class="fixed left-0 right-0 top-0 z-50 border-b border-form-border bg-white/95 py-2 backdrop-blur-md transition-transform duration-300"
+      :class="isScrolling ? '-translate-y-full' : 'translate-y-0'"
     >
-      <div class="container m-auto flex items-center justify-between gap-4 lg:gap-8">
-        <div class="flex-shrink-0">
+      <div class="container m-auto flex items-center gap-3 lg:gap-6">
+        <div class="shrink-0">
           <HeaderLogo />
         </div>
 
-        <!-- Navigation Section -->
-        <div class="flex-1 md:flex hidden items-center justify-center min-w-0">
-          <HeaderNavigation />
-        </div>
+        <!-- <div class="hidden min-w-0 flex-1 items-center justify-center md:flex"> -->
+          <MegaMenu :model="menuItems" :pt="megaMenuPt" :dt="megaMenuDt" class="border-0 bg-transparent hidden min-w-0 flex-1 items-center justify-center md:flex">
+            <template #item="{ item, hasSubmenu }" >
+              <!-- Custom dropdown panel -->
+              <div v-if="!item.root && isPanelItem(item.label)" class="flex gap-12 p-6 w-7xl max-w-[90vw]">
+                <div class="min-w-0 flex-1 space-y-6">
+                  <!-- Panel title -->
+                  <h3 v-if="getPanelTitle(item.label)" class="text-lg font-semibold text-text-dark">
+                    {{ getPanelTitle(item.label) }}
+                  </h3>
 
-        <div class="flex-shrink-0 flex items-center gap-2 lg:gap-4">
-          <!-- Theme switcher - visible only on desktop -->
-          <ClientOnly>
-            <AppThemeSwitcher
-              size="medium"
-              className="hidden md:block"
-            />
-            <template #fallback>
-              <div
-                class="hidden md:block w-12 h-6 bg-[var(--skeleton-bg)] rounded-full animate-pulse"
-              />
+                  <section v-for="group in getGroups(getPanelType(item.label))" :key="group.id">
+                    <h4 v-if="group.title" class="mb-3 text-base font-semibold text-text-dark">
+                      {{ group.title }}
+                    </h4>
+                    <div class="flex flex-col lg:grid lg:grid-cols-2 lg:gap-x-10">
+                      <NuxtLink
+                        v-for="link in group.links"
+                        :key="link.id"
+                        :to="link.to"
+                        class="block text-text-dark hover:text-accent transition-colors"
+                      >
+                        <ArticleCard
+                          :article="{ title: link.title, description: link.description }"
+                          as="div"
+                          compact
+                          sm
+                          hide-image
+                          hide-date
+                        />
+                      </NuxtLink>
+                    </div>
+                  </section>
+
+                  <div v-if="getGroups(getPanelType(item.label)).length === 0" class="py-8 text-center text-text-dark/50">
+                    No content available
+                  </div>
+                </div>
+
+                <NuxtImg
+                  :src="getImage(getPanelType(item.label))"
+                  alt=""
+                  width="248"
+                  height="604"
+                  loading="lazy"
+                  quality="85"
+                  format="webp"
+                  class="hidden lg:block h-150 w-62 shrink-0 rounded-2xl object-cover"
+                />
+              </div>
+
+              <!-- Root item with route (e.g. Blog) -->
+              <NuxtLink
+                v-else-if="item.root && item.route"
+                :to="item.route"
+                class="flex items-center gap-1 px-4 py-2 text-[15px] font-medium text-text-dark"
+              >
+                {{ item.label }}
+              </NuxtLink>
+
+              <!-- Root item without route (dropdown trigger) -->
+              <span
+                v-else-if="item.root"
+                class="flex cursor-pointer items-center gap-1 px-4 py-2 text-[15px] font-medium text-text-dark"
+              >
+                {{ item.label }}
+                <i v-if="hasSubmenu" class="pi pi-angle-down text-xs transition-transform duration-200" />
+              </span>
             </template>
-          </ClientOnly>
-          <!-- Language Dropdown - visible on desktop -->
+          </MegaMenu>
+        <!-- </div> -->
+
+        <div class="ml-auto flex shrink-0 items-center gap-2 lg:gap-4">
           <div class="hidden md:block">
             <ClientOnly>
               <AppLanguageSwitcher />
               <template #fallback>
-                <div class="w-20 h-8 bg-[var(--skeleton-bg)] rounded animate-pulse" />
+                <div class="h-8 w-20 animate-pulse rounded bg-form-border" />
               </template>
             </ClientOnly>
           </div>
 
-          <!-- Mobile menu button -->
           <button
-            class="md:hidden flex items-center p-2 text-[var(--header-text)]"
+            class="flex items-center rounded-full p-2 text-text-dark md:hidden"
             aria-label="Menu"
-            @click="visible = true"
+            @click="drawerVisible = true"
           >
-            <AppIcon
-              icon="material-symbols:menu"
-              :size="24"
-              className=""
-              :color="'currentColor'"
-            />
+            <AppIcon icon="material-symbols:menu" :size="24" color="currentColor" />
           </button>
 
-          <AppButton
-            class="hidden md:block"
-            severity="primary"
-            scrollToContact
-          >
+          <AppButton class="hidden md:block" severity="primary" scrollToContact>
             {{ $t('header.contactUs') }}
           </AppButton>
         </div>
@@ -70,54 +108,57 @@
     </header>
   </Transition>
 
-  <!-- Mobile Navigation Drawer -->
   <ClientOnly>
     <Drawer
-      v-model:visible="visible"
+      v-model:visible="drawerVisible"
       position="right"
       :modal="true"
-      :showCloseIcon="true"
-      class="p-4 w-80 bg-[var(--drawer-bg)]"
+      :blockScroll="true"
+      :showCloseIcon="false"
+      class="mobile-header-drawer w-[86vw] max-w-105 border-0 bg-white p-4"
     >
-      <div class="flex flex-col items-start gap-6">
-        <NuxtImg
-          src="/images/logoPic.webp"
-          alt="Logo"
-          class="h-auto w-40 mx-auto cursor-pointer filter-[var(--logo-filter)]"
-          @click="navigateToHome"
-        />
-        <NuxtImg
-          src="/images/logoText.webp"
-          alt="Logo text"
-          class="h-auto w-full cursor-pointer filter-[var(--logo-filter)]"
-          @click="navigateToHome"
-        />
-        <!-- <HeaderLogo /> -->
-
-        <!-- Language Switcher in drawer for mobile -->
-        <div class="w-full mt-4">
-          <AppLanguageSwitcher />
+      <div class="flex h-full flex-col">
+        <div class="mb-4 flex items-center justify-between">
+          <HeaderLogo />
+          <div class="flex items-center gap-3">
+            <AppLanguageSwitcher />
+            <button
+              class="flex items-center rounded-full p-1 text-text-dark"
+              aria-label="Close"
+              @click="drawerVisible = false"
+            >
+              <AppIcon icon="material-symbols:close" :size="24" color="currentColor" />
+            </button>
+          </div>
         </div>
 
-        <HeaderNavigation v-model:visible="visible" />
-        <!-- Theme switcher in drawer for mobile -->
-        <div class="mt-6 flex justify-center items-center gap-3">
-          <span class="text-sm text-[var(--drawer-text)]">{{ $t('header.switchTheme') }}:</span>
-          <AppThemeSwitcher
-            size="medium"
-            className=""
-          />
-        </div>
-        <!-- <div class="flex-1 flex items-center justify-center min-w-[300px] h-[300px]"> -->
-        <!-- </div> -->
+        <PanelMenu :model="mobileMenuItems" :pt="panelMenuPt" multiple class="border-0">
+          <template #item="{ item, hasSubmenu }">
+            <h4 v-if="item.sectionHeading" class="px-2 pb-1 pt-6 text-sm font-semibold text-text-dark">
+              {{ item.label }}
+            </h4>
+            <NuxtLink v-else-if="item.route" :to="item.route" class="block" @click="drawerVisible = false">
+              <ArticleCard
+                :article="{ title: String(item.label ?? ''), description: item.subtext }"
+                as="div"
+                compact
+                hide-image
+                hide-date
+              />
+            </NuxtLink>
+            <button
+              v-else
+              type="button"
+              class="flex w-full items-center justify-between px-2 py-3 text-base font-medium text-text-dark"
+            >
+              {{ item.label }}
+              <i v-if="hasSubmenu" class="pi pi-angle-down text-xs" />
+            </button>
+          </template>
+        </PanelMenu>
 
-        <div class="mt-4 flex w-full justify-center">
-          <AppButton
-            v-model:visible="visible"
-            severity="contrast"
-            class="w-full"
-            scrollToContact
-          >
+        <div class="mt-auto pt-6">
+          <AppButton class="w-full" severity="contrast" scrollToContact @click="drawerVisible = false">
             {{ $t('header.contactUs') }}
           </AppButton>
         </div>
@@ -127,179 +168,326 @@
 </template>
 
 <script setup lang="ts">
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useLocalePath, useAsyncData, useRuntimeConfig } from '#imports';
+import type { MenuItem } from 'primevue/menuitem';
+import MegaMenu from 'primevue/megamenu';
+import PanelMenu from 'primevue/panelmenu';
+import Drawer from 'primevue/drawer';
 import AppButton from '@/components/UI/AppButton.vue';
 import AppIcon from '@/components/UI/AppIcon.vue';
-import AppThemeSwitcher from '@/components/UI/AppThemeSwitcher.vue';
 import AppLanguageSwitcher from '@/components/UI/AppLanguageSwitcher.vue';
 import HeaderLogo from '@/components/UI/HeaderLogo.vue';
-import { useNavigateHome } from '@/composables/useNavigateHome';
-import HeaderNavigation from '@/components/UI/HeaderNavigation.vue';
-import { ref, onMounted, onUnmounted, nextTick, computed } from 'vue';
-import Drawer from 'primevue/drawer';
-// import { useI18n } from 'vue-i18n';
+import ArticleCard from '@/components/blog/ArticleCard.vue';
+import type { StrapiHeaderNavigation, StrapiHeaderNavLink } from '@/types/strapi';
+import { normalizeImageUrl } from '@/utils/normalizeImageUrl';
 
-// locale & router handled inside useNavigateHome composable now
+type PanelType = 'ai' | 'expertise';
+
+interface LinkItem {
+  id: string;
+  title: string;
+  description?: string;
+  to: string;
+}
+
+interface LinkGroup {
+  id: string;
+  title?: string;
+  links: LinkItem[];
+}
+
+const { t } = useI18n();
+const localePath = useLocalePath();
+const config = useRuntimeConfig();
 
 const isScrolling = ref(false);
-const visible = ref(false);
+const drawerVisible = ref(false);
 const isMounted = ref(false);
-const themeInitialized = ref(false);
-
 let lastScrollTop = 0;
 
-// Проверяем готовность хедера для отображения
-const isHeaderReady = computed(() => {
-  // На сервере показываем сразу (SSR), на клиенте ждем инициализации
-  if (import.meta.server) return true;
-  return isMounted.value && themeInitialized.value;
+const isHeaderReady = computed(() => import.meta.server || isMounted.value);
+
+const { data: headerData } = await useAsyncData<StrapiHeaderNavigation>(
+  'header-navigation',
+  () => $fetch<StrapiHeaderNavigation>('/api/header-navigation'),
+  { server: true, lazy: false },
+);
+
+const toServicePath = (slug: string) => localePath(`/services/${slug}`);
+const toIndustryPath = (slug: string) => localePath(`/industry/${slug}`);
+
+const buildGroups = (
+  links: StrapiHeaderNavLink[] | undefined,
+  extraLinks: StrapiHeaderNavLink[] | undefined,
+  primaryTitle: string | undefined,
+  extraTitle: string | undefined,
+  toPath: (slug: string) => string,
+): LinkGroup[] => {
+  const groups: LinkGroup[] = [];
+
+  if (links?.length) {
+    groups.push({
+      id: 'primary',
+      title: primaryTitle,
+      links: links.map(l => ({
+        id: l.documentId || String(l.id),
+        title: l.title,
+        description: l.description,
+        to: toPath(l.slug),
+      })),
+    });
+  }
+
+  if (extraLinks?.length) {
+    groups.push({
+      id: 'extra',
+      title: extraTitle,
+      links: extraLinks.map(l => ({
+        id: `extra-${l.documentId || String(l.id)}`,
+        title: l.title,
+        description: l.description,
+        to: toPath(l.slug),
+      })),
+    });
+  }
+
+  return groups;
+};
+
+const aiGroups = computed(() => {
+  const d = headerData.value?.aiDevelopmentDropdown;
+  if (!d) return [];
+  return buildGroups(d.links, d.extraLinks, d.primaryGroupTitle, d.extraGroupTitle, toServicePath);
 });
 
-// Инициализация CSS переменных для предотвращения FOUC
-const initializeCSSVariables = (): void => {
-  if (import.meta.server) return;
+const expertiseGroups = computed(() => {
+  const d = headerData.value?.expertiseDropdown;
+  if (!d) return [];
+  return buildGroups(d.links, d.extraLinks, d.primaryGroupTitle, d.extraGroupTitle, toIndustryPath);
+});
 
-  const root = document.documentElement;
-  const isDark = document.documentElement.classList.contains('dark');
+const getGroups = (panelType?: PanelType) =>
+  panelType === 'ai' ? aiGroups.value : panelType === 'expertise' ? expertiseGroups.value : [];
 
-  // Устанавливаем CSS переменные на основе текущей темы
-  if (isDark) {
-    root.style.setProperty('--header-bg', 'rgb(17 24 39 / 0.9)');
-    root.style.setProperty('--header-text', 'rgb(255 255 255)');
-    root.style.setProperty('--header-shadow', '0 10px 15px -3px rgb(0 0 0 / 0.1)');
-    root.style.setProperty('--logo-filter', 'brightness(1)');
-    root.style.setProperty('--drawer-bg', 'rgb(17 24 39)');
-    root.style.setProperty('--drawer-text', 'rgb(255 255 255)');
-    root.style.setProperty('--skeleton-bg', 'rgb(55 65 81)');
-  } else {
-    root.style.setProperty('--header-bg', 'rgb(243 244 246 / 0.8)');
-    root.style.setProperty('--header-text', 'rgb(17 24 39)');
-    root.style.setProperty('--header-shadow', '0 10px 15px -3px rgb(0 0 0 / 0.1)');
-    root.style.setProperty('--logo-filter', 'brightness(0.5)');
-    root.style.setProperty('--drawer-bg', 'rgb(243 244 246)');
-    root.style.setProperty('--drawer-text', 'rgb(17 24 39)');
-    root.style.setProperty('--skeleton-bg', 'rgb(229 231 235)');
-  }
+const FALLBACK_IMAGE = '/images/Header.png';
+
+const getImage = (panelType?: PanelType): string => {
+  const url =
+    panelType === 'ai'
+      ? headerData.value?.aiDevelopmentDropdown?.image?.url
+      : panelType === 'expertise'
+        ? headerData.value?.expertiseDropdown?.image?.url
+        : undefined;
+  if (!url || !url.trim()) return FALLBACK_IMAGE;
+  return normalizeImageUrl(url, String(config.public.strapiUrl ?? '')) || FALLBACK_IMAGE;
 };
 
-// Отслеживание изменений темы
-const observeThemeChanges = (): MutationObserver | undefined => {
-  if (import.meta.server) return;
-
-  const observer = new MutationObserver(mutations => {
-    mutations.forEach(mutation => {
-      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-        initializeCSSVariables();
-      }
-    });
-  });
-
-  observer.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['class'],
-  });
-
-  return observer;
+const isPanelItem = (label: unknown): boolean => {
+  return String(label ?? '').startsWith('_panel:');
 };
 
-function handleScroll(): void {
+const getPanelType = (label: unknown): PanelType | undefined => {
+  const str = String(label);
+  if (str.startsWith('_panel:ai')) return 'ai';
+  if (str.startsWith('_panel:expertise')) return 'expertise';
+  return undefined;
+};
+
+const getPanelTitle = (label: unknown): string | undefined => {
+  const panelType = getPanelType(label);
+  if (panelType === 'ai') return headerData.value?.aiDevelopmentDropdown?.label;
+  if (panelType === 'expertise') return headerData.value?.expertiseDropdown?.label;
+  return undefined;
+};
+
+const menuItems = computed<MenuItem[]>(() => {
+  if (!headerData.value) return [];
+  return [
+    {
+      label: headerData.value.aiDevelopmentDropdown?.label ?? t('header.aiDevelopmentMenu'),
+      root: true,
+      items: [[{ label: '', items: [{ label: '_panel:ai' }] }]],
+    },
+    {
+      label: headerData.value.expertiseDropdown?.label ?? t('navigation.expertise'),
+      root: true,
+      items: [[{ label: '', items: [{ label: '_panel:expertise' }] }]],
+    },
+    {
+      label: headerData.value.blogLabel ?? t('navigation.blog'),
+      root: true,
+      route: localePath(headerData.value.blogPath || '/blog'),
+    },
+  ];
+});
+
+const mobileMenuItems = computed(() => {
+  if (!headerData.value) return [];
+
+  const toItems = (groups: LinkGroup[]): (MenuItem & { subtext?: string; route?: string; sectionHeading?: boolean })[] =>
+    groups.flatMap(g => [
+      ...(g.title ? [{ label: g.title, sectionHeading: true, disabled: true }] : []),
+      ...g.links.map(l => ({ label: l.title, subtext: l.description, route: l.to })),
+    ]);
+
+  return [
+    {
+      label: headerData.value.aiDevelopmentDropdown?.label ?? t('header.aiDevelopmentMenu'),
+      items: toItems(aiGroups.value),
+    },
+    {
+      label: headerData.value.expertiseDropdown?.label ?? t('navigation.expertise'),
+      items: toItems(expertiseGroups.value),
+    },
+    {
+      label: headerData.value.blogLabel ?? t('navigation.blog'),
+      route: localePath(headerData.value.blogPath || '/blog'),
+    },
+  ];
+});
+
+const megaMenuDt = {
+  overlay: {
+    background: 'transparent',
+    border: { color: 'transparent', radius: '0' },
+    shadow: 'none',
+    padding: '0',
+    gap: '0',
+  },
+  item: {
+    focus: { background: 'transparent' },
+    active: { background: 'transparent' },
+  },
+  submenu: {
+    padding: '0',
+    gap: '0',
+  },
+};
+
+function handleRootItemEnter(e: MouseEvent) {
+  const li = e.currentTarget as HTMLElement;
+  requestAnimationFrame(() => {
+    if (li.isConnected && li.getAttribute('data-p-active') !== 'true') {
+      const content = li.querySelector(':scope > .p-megamenu-item-content') as HTMLElement;
+      content?.click();
+    }
+  });
+}
+
+function handleMegaMenuLeave(e: MouseEvent) {
+  const root = e.currentTarget as HTMLElement;
+  requestAnimationFrame(() => {
+    const active = root.querySelector<HTMLElement>('.p-megamenu-item[data-p-active="true"] > .p-megamenu-item-content');
+    active?.click();
+  });
+}
+
+const megaMenuPt = {
+  root: {
+    onMouseleave: handleMegaMenuLeave,
+  },
+  rootList: 'justify-center gap-1',
+  submenu: 'border border-form-border bg-white px-8 py-6 shadow-xl rounded-2xl',
+  overlay: 'pt-2',
+  item: ({ context }: { context: { item: MenuItem } }) => {
+    if (!Array.isArray(context.item?.items) || context.item.items.length === 0) return {};
+    return {
+      onMouseenter: handleRootItemEnter,
+    };
+  },
+};
+
+const panelMenuPt = {
+  root: 'border-0 bg-transparent',
+  panel: 'border-0 bg-transparent mb-1',
+  headerContent: 'border-b border-form-border rounded-none bg-transparent',
+  content: 'border-0 bg-transparent',
+};
+
+function handleScroll() {
   const scrollTop = window.scrollY || document.documentElement.scrollTop;
-
-  // Hide header when scrolling down
-  if (scrollTop > lastScrollTop && scrollTop > 50) {
-    isScrolling.value = true;
-  }
-  // Show header when scrolling up (even by a few pixels)
-  else if (scrollTop < lastScrollTop) {
-    isScrolling.value = false;
-  }
-
+  isScrolling.value = scrollTop > lastScrollTop && scrollTop > 40;
+  if (scrollTop < lastScrollTop) isScrolling.value = false;
   lastScrollTop = scrollTop;
 }
 
-// Navigation helpers (DRY)
-// scrollToTop currently unused here but returned for possible future use
-const { navigateToHome, scrollToTop: _scrollToTop } = useNavigateHome({ visibleRef: visible });
-
-onMounted(async () => {
-  // Добавляем обработчик скролла
-  window.addEventListener('scroll', handleScroll);
-
-  // Ждем следующий тик для завершения гидратации
-  await nextTick();
-
-  // Инициализируем CSS переменные
-  initializeCSSVariables();
-
-  // Запускаем наблюдение за изменениями темы
-  const themeObserver = observeThemeChanges();
-
-  // Даем время для инициализации темы
-  setTimeout(() => {
-    themeInitialized.value = true;
-  }, 50);
-
-  // Помечаем как монтированный
+onMounted(() => {
   isMounted.value = true;
-
-  // Очистка при размонтировании
-  onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll);
-    themeObserver?.disconnect();
-  });
+  window.addEventListener('scroll', handleScroll);
 });
+
+onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 </script>
 
 <style scoped>
-.language-selector {
-  min-width: 100px;
+:deep(.p-megamenu-overlay) {
+  animation: headerMegaIn 200ms ease-out;
+  position: fixed !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin-inline: auto !important;
+  width: 1400px !important;
+  min-width: 0 !important;
+  max-width: 95vw !important;
 }
 
-/* Анимации для плавного появления хедера */
-.header-slide-enter-active {
-  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.header-slide-enter-from {
-  transform: translateY(-100%);
-  opacity: 0;
-}
-
-.header-slide-enter-to {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.header-slide-leave-active {
-  transition: all 0.4s cubic-bezier(0.55, 0, 0.1, 1);
-}
-
-.header-slide-leave-from {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.header-slide-leave-to {
-  transform: translateY(-100%);
-  opacity: 0;
-}
-
-/* Поддержка анимации для пользователей с ограниченными возможностями */
-@media (prefers-reduced-motion: reduce) {
-  .header-slide-enter-active,
-  .header-slide-leave-active {
-    transition: opacity 0.3s ease;
-  }
-
-  .header-slide-enter-from,
-  .header-slide-leave-to {
-    transform: none;
+@keyframes headerMegaIn {
+  from {
     opacity: 0;
+    margin-top: -10px;
   }
-
-  .header-slide-enter-to,
-  .header-slide-leave-from {
-    transform: none;
+  to {
     opacity: 1;
+    margin-top: 0;
   }
+}
+
+:deep(.p-megamenu-item[data-p-active='true'] > .p-megamenu-item-content .pi-angle-down) {
+  transform: rotate(180deg);
+}
+
+:deep(.p-megamenu-submenu .p-megamenu-item-content) {
+  background: transparent !important;
+  padding: 0;
+}
+
+:deep(.p-collapsible-enter-active) {
+  animation: headerPanelExpand 300ms ease-out;
+}
+
+:deep(.p-collapsible-leave-active) {
+  animation: headerPanelCollapse 250ms ease-in;
+}
+
+@keyframes headerPanelExpand {
+  from {
+    opacity: 0;
+    grid-template-rows: 0fr;
+  }
+  to {
+    opacity: 1;
+    grid-template-rows: 1fr;
+  }
+}
+
+@keyframes headerPanelCollapse {
+  from {
+    opacity: 1;
+    grid-template-rows: 1fr;
+  }
+  to {
+    opacity: 0;
+    grid-template-rows: 0fr;
+  }
+}
+
+:deep(.mobile-header-drawer .p-drawer-header) {
+  display: none;
+}
+
+:deep(.p-panelmenu-submenu .p-panelmenu-item:last-child .group .absolute.bottom-0) {
+  display: none;
 }
 </style>

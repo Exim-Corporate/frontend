@@ -73,6 +73,9 @@ export default {
     contactUs: 'Kontaktieren Sie uns',
     switchTheme: 'Thema wechseln',
     language: 'Sprache ändern',
+    aiDevelopmentMenu: 'KI Entwicklung',
+    aiServicesGroup: 'KI Services',
+    businessSizeGroup: 'Nach Unternehmensgröße',
   },
   navigation: {
     blog: 'Blog',
@@ -81,6 +84,7 @@ export default {
     referrals: 'Empfehlungen',
     about: 'Über uns',
     services: 'Dienstleistungen',
+    expertise: 'Expertise',
     contact: 'Kontakt',
   },
   hero: {

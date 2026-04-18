@@ -28,6 +28,8 @@ export default defineNuxtConfig({
         'primevue/button',
         'primevue/toast',
         'primevue/drawer',
+        'primevue/megamenu',
+        'primevue/panelmenu',
         'primevue/dropdown',
         'primevue/toggleswitch',
         'primevue/checkbox',
@@ -54,15 +56,15 @@ export default defineNuxtConfig({
     // Настройки маршрутов для SSG + API
     routeRules: {
       // Статические страницы (SSG) - оставляем как есть или меняем на isr
-      '/': { isr: true }, // Пример: главная страница с ISR
-      '/privacy': { isr: true }, // Пример: страница "Политика конфиденциальности" с ISR
-      '/terms': { isr: true }, // Пример: страница "Условия использования" с ISR
-      '/cookie-policy': { isr: true }, // Пример: страница "Политика Cookie" с ISR
-      '/impressum': { isr: true }, // Страница "Impressum" с ISR
+      '/': { isr: 600 },
+      '/privacy': { isr: 600 },
+      '/terms': { isr: 600 },
+      '/cookie-policy': { isr: 600 },
+      '/impressum': { isr: 600 },
 
       // Blog
       '/blog': { isr: 300 },
-      '/referrals': { isr: true },
+      '/referrals': { isr: 600 },
       '/blog/**': { isr: 300 },
       '/industry/**': { isr: 3600 },
       '/services/**': { isr: 3600 },
@@ -72,12 +74,12 @@ export default defineNuxtConfig({
       // '/hire/**': { isr: 2592000 },
 
       // Языковые версии - также можно настроить ISR
-      '/de': { isr: true },
-      '/de/**': { isr: true }, // Все страницы в /de/ с ISR
-      '/fr': { isr: true },
-      '/fr/**': { isr: true }, // Все страницы в /fr/ с ISR
-      '/es': { isr: true },
-      '/es/**': { isr: true }, // Все страницы в /es/ с ISR
+      '/de': { isr: 600 },
+      '/de/**': { isr: 600 },
+      '/fr': { isr: 600 },
+      '/fr/**': { isr: 600 },
+      '/es': { isr: 600 },
+      '/es/**': { isr: 600 },
       // API маршруты для серверных функций
       '/api/**': {
         cors: true,

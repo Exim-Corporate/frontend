@@ -72,6 +72,7 @@ export default {
     home: 'Home',
     about: 'About',
     services: 'Services',
+    expertise: 'Expertise',
     contact: 'Contact',
     faq: 'FAQ',
     referrals: 'Referrals',
@@ -115,6 +116,9 @@ export default {
     contactUs: 'Contact Us',
     switchTheme: 'Switch Theme',
     language: 'Change language',
+    aiDevelopmentMenu: 'AI Development',
+    aiServicesGroup: 'AI Services',
+    businessSizeGroup: 'By Business Size',
   },
   hero: {
     title1: 'Build Faster, Smarter, Better',

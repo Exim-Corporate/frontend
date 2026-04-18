@@ -276,3 +276,35 @@ export interface StrapiServiceHero {
   imageSecondary?: StrapiUploadFile | null;
   categories?: StrapiServiceCategory[];
 }
+
+// Header Navigation
+
+export interface StrapiHeaderNavLink {
+  id: number;
+  documentId: string;
+  title: string;
+  slug: string;
+  description?: string;
+}
+
+export interface StrapiHeaderDropdown {
+  label: string;
+  primaryGroupTitle?: string;
+  links?: StrapiHeaderNavLink[];
+  extraGroupTitle?: string;
+  extraLinks?: StrapiHeaderNavLink[];
+  image?: StrapiUploadFile | null;
+}
+
+export interface StrapiHeaderNavigation {
+  id: number;
+  aiDevelopmentDropdown?: StrapiHeaderDropdown | null;
+  expertiseDropdown?: StrapiHeaderDropdown | null;
+  blogLabel?: string;
+  blogPath?: string;
+}
+
+export interface StrapiSingleResponse<T> {
+  data: T;
+  meta: Record<string, unknown>;
+}

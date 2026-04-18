@@ -1,24 +1,40 @@
 <script setup lang="ts">
-import type { StrapiArticle } from '../../types/strapi';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useLocalePath } from '#imports';
+import type { StrapiArticle, StrapiUploadFile } from '../../types/strapi';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import { normalizeImageUrl } from '@/utils/normalizeImageUrl';
 
-// Используем defineProps для строгой типизации входных данных
+interface ArticleCardData extends Pick<StrapiArticle, 'title'> {
+  description?: string;
+  slug?: string;
+  publishedAt?: string;
+  cover?: StrapiUploadFile | null;
+}
+
 interface Props {
-  article: StrapiArticle;
+  article: ArticleCardData;
+  to?: string;
+  hideImage?: boolean;
+  hideDate?: boolean;
+  compact?: boolean;
+  sm?: boolean;
+  as?: 'link' | 'div';
 }
 const props = defineProps<Props>();
 
-// Получаем composables для создания ссылок и форматирования
 const config = useRuntimeConfig();
 const { locale } = useI18n();
 const localePath = useLocalePath();
+const isStaticCard = computed(() => props.as === 'div');
 
 const coverUrl = computed(() => {
+  if (props.hideImage) {
+    return '';
+  }
+
   return normalizeImageUrl(
     props.article.cover?.formats?.small?.url ??
       props.article.cover?.formats?.thumbnail?.url ??
@@ -28,10 +44,23 @@ const coverUrl = computed(() => {
   );
 });
 
-// Вычисляемое свойство для создания ссылки на статью (используем только slug)
-const articleLink = computed(() => localePath(`/blog/${props.article.slug}`));
+const articleLink = computed(() => {
+  if (props.to) {
+    return props.to;
+  }
+
+  if (props.article.slug) {
+    return localePath(`/blog/${props.article.slug}`);
+  }
+
+  return localePath('/blog');
+});
 
 const formattedDate = computed(() => {
+  if (!props.article.publishedAt) {
+    return '';
+  }
+
   return new Date(props.article.publishedAt).toLocaleDateString(locale.value, {
     year: 'numeric',
     month: 'long',
@@ -39,7 +68,7 @@ const formattedDate = computed(() => {
   });
 });
 
-const getExcerpt = (description: string): string => {
+const getExcerpt = (description?: string): string => {
   const normalized = description?.trim() ?? '';
   if (normalized.length <= 170) {
     return normalized;
@@ -50,12 +79,20 @@ const getExcerpt = (description: string): string => {
 </script>
 
 <template>
-  <NuxtLink
-    :to="articleLink"
-    class="group relative block py-8 last:border-b-0 lg:py-10"
+  <component
+    :is="isStaticCard ? 'div' : 'NuxtLink'"
+    :to="isStaticCard ? undefined : articleLink"
+    class="group relative block"
+    :class="sm ? 'py-3' : compact ? 'py-5' : 'py-8 lg:py-10'"
   >
-    <div class="flex flex-col gap-3 lg:grid lg:grid-cols-[180px_minmax(0,1fr)_132px_32px] lg:items-center lg:gap-8">
-      <div class="relative aspect-18/10 w-full overflow-hidden rounded-xl lg:h-25 lg:w-45 lg:rounded-xl lg:aspect-auto">
+    <div
+      class="flex flex-col gap-3"
+      :class="hideImage ? 'lg:grid lg:grid-cols-[minmax(0,1fr)_32px] lg:items-start lg:gap-6' : 'lg:grid lg:grid-cols-[180px_minmax(0,1fr)_132px_32px] lg:items-center lg:gap-8'"
+    >
+      <div
+        v-if="!hideImage"
+        class="relative aspect-18/10 w-full overflow-hidden rounded-xl lg:h-25 lg:w-45 lg:rounded-xl lg:aspect-auto"
+      >
         <NuxtImg
           v-if="coverUrl"
           :src="coverUrl"
@@ -73,38 +110,40 @@ const getExcerpt = (description: string): string => {
       <div class="min-w-0">
         <BaseTitle
           tag="h3"
-          variant="subheader18"
-          class-name="text-left text-text-dark leading-6 md:leading-8"
+          :variant="sm ? 'subheader16' : 'subheader18'"
+          :class-name="sm ? 'text-left text-text-dark leading-5 md:leading-6' : compact ? 'text-left text-text-dark leading-6 md:leading-8' : 'text-left text-text-dark leading-6 md:leading-8'"
         >
           {{ article.title }}
         </BaseTitle>
         <BaseText
-          variant="section"
-          class-name="mt-1 text-left text-text-dark line-clamp-2 md:mt-2 md:max-w-[800px] md:text-[18px] md:leading-7"
+          :variant="sm ? 'card12' : 'section'"
+          :class-name="sm ? 'mt-0.5 text-left text-text-dark line-clamp-1' : compact ? 'mt-1 text-left text-text-dark line-clamp-2 md:text-[18px] md:leading-7' : 'mt-1 text-left text-text-dark line-clamp-2 md:mt-2 md:max-w-200 md:text-[18px] md:leading-7'"
         >
           {{ getExcerpt(article.description) }}
         </BaseText>
         <BaseText
+          v-if="!hideDate && formattedDate"
           variant="card"
-          class-name="mt-3 text-left !text-[14px] !font-normal !leading-7 text-text-dark/50 lg:hidden"
+          class-name="mt-3 text-left text-[14px]! font-normal! leading-7! text-text-dark/50 lg:hidden"
         >
           {{ formattedDate }}
         </BaseText>
       </div>
 
       <BaseText
+        v-if="!hideDate && formattedDate"
         variant="card"
-        class-name="hidden text-right !text-[14px] !font-normal !leading-7 text-text-dark/50 transition-opacity duration-200 lg:block lg:group-hover:opacity-0"
+        class-name="hidden text-right text-[14px]! font-normal! leading-7! text-text-dark/50 transition-opacity duration-200 lg:block lg:group-hover:opacity-0"
       >
         {{ formattedDate }}
       </BaseText>
 
       <div class="hidden items-center justify-end opacity-0 transition-all duration-300 ease-out lg:flex lg:-translate-x-2 lg:group-hover:translate-x-0 lg:group-hover:opacity-100">
-        <i class="pi pi-arrow-right text-[32px] text-text-dark" />
+        <i :class="['pi pi-arrow-right text-text-dark', sm ? 'text-[20px]' : 'text-[32px]']" />
       </div>
     </div>
 
     <span class="absolute bottom-0 left-0 h-px w-full bg-form-border" />
     <span class="absolute bottom-0 left-0 hidden h-0.5 w-0 bg-text-dark transition-all duration-500 ease-out lg:block lg:group-hover:w-full" />
-  </NuxtLink>
+  </component>
 </template>

@@ -6,16 +6,13 @@
     @click="onClickHome"
   >
     <NuxtImg
-      src="/images/logoPic.webp"
-      alt="Logo"
-      class="h-full w-15 transition-all duration-300 filter-[var(--logo-filter)]"
+      src="/images/LogoNew.png"
+      alt="AS EXIM"
+      class="h-10 w-auto transition-all duration-300"
       draggable="false"
-    />
-    <NuxtImg
-      src="/images/logoText.webp"
-      alt="Logo text"
-      class="h-10 w-auto transition-all duration-300 filter-[var(--logo-filter)]"
-      draggable="false"
+      quality="100"
+      densities="x1 x2"
+      format="png"
     />
   </NuxtLink>
 </template>

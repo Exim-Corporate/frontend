@@ -70,6 +70,7 @@ export default {
     home: 'Inicio',
     about: 'Acerca de',
     services: 'Servicios',
+    expertise: 'Expertise',
     contact: 'Contacto',
     faq: 'Preguntas Frecuentes',
     referrals: 'Referencias',
@@ -114,6 +115,9 @@ export default {
     contactUs: 'Contáctanos',
     switchTheme: 'Cambiar tema',
     language: 'Cambiar idioma',
+    aiDevelopmentMenu: 'Desarrollo IA',
+    aiServicesGroup: 'Servicios IA',
+    businessSizeGroup: 'Por tamaño de empresa',
   },
   hero: {
     title1: 'Construye más rápido, más inteligente, mejor',

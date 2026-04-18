@@ -5,25 +5,18 @@
       :options="locales"
       optionLabel="name"
       optionValue="code"
-      trigger="{hide:true}"
       class="language-selector"
+      :dt="dropdownDt"
+      appendTo="self"
       @change="switchLanguage($event.value)"
     >
       <template #value="slotProps">
-        <div class="flex items-center gap-2">
-          <AppIcon
-            :icon="`emojione:flag-for-${getFlagIconName(slotProps.value || 'en')}`"
-            :size="16"
-          />
+        <div class="flex items-center">
           <span>{{ slotProps.value?.toUpperCase() || 'EN' }}</span>
         </div>
       </template>
       <template #option="slotProps">
-        <div class="flex items-center gap-2">
-          <AppIcon
-            :icon="`emojione:flag-for-${getFlagIconName(slotProps.option.code)}`"
-            :size="16"
-          />
+        <div class="flex items-center">
           <span>{{ slotProps.option.name }}</span>
         </div>
       </template>
@@ -33,7 +26,6 @@
 
 <script setup lang="ts">
 import Dropdown from 'primevue/dropdown';
-import AppIcon from '@/components/UI/AppIcon.vue';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -41,6 +33,26 @@ const { locale } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
 const selectedLocale = ref(locale.value);
+
+const dropdownDt = {
+  option: {
+    selected: {
+      background: '{form-border}',
+      color: '{text-dark}',
+      focus: {
+        background: '{form-border-hover}',
+        color: '{text-dark}',
+      },
+    },
+    focus: {
+      background: '{surface-100}',
+      color: '{text-dark}',
+    },
+  },
+  checkmark: {
+    color: '{text-dark}',
+  },
+};
 
 function switchLanguage(newLocale: string) {
   if (newLocale !== locale.value) {
@@ -57,16 +69,6 @@ const locales = [
   { code: 'fr', name: 'Français' },
   { code: 'es', name: 'Español' },
 ];
-
-function getFlagIconName(code: string): string {
-  const flagMap: Record<string, string> = {
-    en: 'united-kingdom',
-    de: 'germany',
-    fr: 'france',
-    es: 'spain',
-  };
-  return flagMap[code] || 'united-kingdom';
-}
 </script>
 
 <style>
@@ -74,21 +76,18 @@ function getFlagIconName(code: string): string {
   background-color: transparent;
   border: transparent;
 }
-.p-select {
+.language-selector .p-select {
   box-shadow: none !important;
 }
 .language-selector:hover {
   background-color: transparent;
 }
-.language-selector:hover .dark {
-  background-color: transparent;
-}
-.p-select-dropdown {
+.language-selector .p-select-dropdown {
   width: 0 !important;
   height: 0 !important;
   display: none !important;
 }
-.p-dropdown-trigger {
+.language-selector .p-dropdown-trigger {
   display: none !important;
 }
 </style>
