@@ -1,13 +1,13 @@
 <template>
     <section class=" bg-white container">
       <div class="flex w-full flex-col items-center lg:flex-row lg:items-start lg:justify-between">
-        <AnimatedElement direction="bottom" :delay="100">
+        <AnimatedElement direction="bottom" >
           <BaseTitle tag="h2" variant="main" class-name="text-center lg:text-left">
             {{ $t('heroBlog.title') }}
           </BaseTitle>
         </AnimatedElement>
 
-        <AnimatedElement direction="bottom" :delay="160">
+        <AnimatedElement direction="bottom">
           <div class="hidden lg:block">
             <AppButton variant="gray" class="w-auto! rounded-full" :label="$t('heroBlog.viewMore')" @click="openBlog" />
           </div>
@@ -15,13 +15,13 @@
       </div>
 
       <div class="mt-2">
-        <AnimatedElement v-if="pending" direction="bottom" :delay="180">
-          <BaseText variant="section" class-name="text-left text-text-secondary">
+        <AnimatedElement v-if="pending" direction="bottom">
+                    <BaseText variant="section" class-name="text-left text-text-secondary">
             {{ $t('blog.loading') }}
           </BaseText>
         </AnimatedElement>
 
-        <AnimatedElement v-else-if="articles.length === 0" direction="bottom" :delay="180">
+        <AnimatedElement v-else-if="articles.length === 0" direction="bottom">
           <BaseText variant="section" class-name="text-left text-text-secondary">
             {{ $t('heroBlog.empty') }}
           </BaseText>
@@ -40,7 +40,7 @@
       </div>
 
       <div class="container">
-        <AnimatedElement v-if="articles.length > 0" direction="bottom" :delay="260">
+        <AnimatedElement v-if="articles.length > 0" direction="bottom">
           <div class="mt-8 flex justify-center lg:hidden">
             <AppButton variant="gray" class="w-auto! rounded-full" :label="$t('heroBlog.viewMore')" @click="openBlog" />
           </div>

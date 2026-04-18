@@ -1,7 +1,7 @@
 <template>
   <section class="w-full min-h-150">
     <div class="container mx-auto">
-      <AnimatedElement direction="bottom" :delay="100">
+      <AnimatedElement direction="bottom">
         <BaseTitle tag="h3" variant="main" class-name="text-center">
           {{ $t('caseStudies.title') }}
         </BaseTitle>

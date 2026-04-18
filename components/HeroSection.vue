@@ -1,15 +1,15 @@
 <template>
-  <section class="relative w-full overflow-hidden bg-white pb-0">
-    <div class="container mx-auto flex flex-col items-center justify-center min-h-100 top-20 pb-0">
+  <section class="container relative w-full overflow-hidden bg-white pb-0">
+    <div class=" mx-auto flex flex-col items-center justify-center pt-12">
       
       <AnimatedElement direction="bottom" :delay="100">
-        <BaseChip variant="light" size="normal" class="mb-6 md:mb-8">
+        <BaseChip variant="light" size="normal" class="mb-6 md:mb-6">
           {{ $t('heroNew.badge') }}
         </BaseChip>
       </AnimatedElement>
 
       <AnimatedElement direction="bottom" :delay="200" class="">
-        <BaseTitle variant="main" class-name="mb-8 whitespace-pre-line text-center max-w-2xl font-semibold text-[28px] md:text-[56px] leading-[1.1]">
+        <BaseTitle variant="main" class-name="mb-8 whitespace-pre-line text-center max-w-3xl font-semibold text-[28px] md:text-[56px] leading-[1.1]">
           {{ $t('heroNew.title') }}
         </BaseTitle>
       </AnimatedElement>

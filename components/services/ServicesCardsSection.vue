@@ -66,7 +66,7 @@
     </div>
   </section>
 
-  <section v-else class="w-full bg-white container">
+  <section v-else class="w-full bg-white container pt-15">
     <div class="flex flex-wrap items-stretch gap-6">
       <AnimatedElement
         v-for="(card, index) in resolvedCards"

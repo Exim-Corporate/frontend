@@ -2,7 +2,7 @@
   <section class="container">
     <div class="flex flex-col gap-10 md:flex-row items-center md:items-start md:gap-10">
       <div class="md:basis-[35%] md:pr-4">
-        <AnimatedElement direction="left" :delay="80">
+        <AnimatedElement :delay="80">
           <div>
           <BaseTitle
             tag="h2"
@@ -31,7 +31,7 @@
       </div>
 
       <div class="md:basis-[65%]">
-        <AnimatedElement direction="right" :delay="140">
+        <AnimatedElement :delay="140">
           <div class="space-y-6">
           <BaseText
             v-for="(paragraph, paragraphIndex) in descriptionParagraphs"

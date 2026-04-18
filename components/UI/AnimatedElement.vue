@@ -16,7 +16,7 @@ import { computed } from 'vue';
 const props = defineProps({
   direction: {
     type: String,
-    default: 'left',
+    default: 'bottom',
     validator: (value: string) =>
       ['left', 'right', 'top', 'bottom', 'zoom', 'fade'].includes(value),
   },
@@ -26,7 +26,7 @@ const props = defineProps({
   },
   duration: {
     type: Number,
-    default: 850,
+    default: 300,
   },
 });
 
