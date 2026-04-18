@@ -1,13 +1,15 @@
 <template>
   <main class="grow min-h-[80vh]">
     <section class="container mx-auto max-w-350">
-      <BlogButton
+      <!-- <BlogButton
         :label="'Home'"
         :variant="'text'"
-        :severity="'black'"
         :icon="'pi pi-arrow-left'"
+        pt:root:class="group !bg-transparent !border-0 !shadow-none !text-text-dark hover:!bg-transparent hover:!text-text-dark focus:!bg-transparent focus:!text-text-dark active:!bg-transparent active:!text-text-dark transition-transform duration-200 hover:scale-105 focus:scale-105 active:scale-105"
+        pt:label:class="!text-text-dark font-normal transition-all duration-200 group-hover:font-bold group-focus:font-bold group-active:font-bold"
+        pt:icon:class="!text-text-dark transition-all duration-200"
         @click="goHome"
-      />
+      /> -->
 
       <!-- Loading State -->
       <div
@@ -31,21 +33,24 @@
         <div ref="articlesTopAnchor" />
 
         <!-- Articles List -->
-        <TransitionGroup
+        <Transition
           v-if="articles.length > 0"
-          name="blog-card"
-          tag="div"
-          class="mt-8 md:mt-12"
+          name="blog-page"
+          mode="out-in"
         >
           <div
-            v-for="(article, index) in articles"
-            :key="article.id"
-            class="blog-card-item"
-            :style="{ transitionDelay: `${Math.min(index, 6) * 45}ms` }"
+            :key="currentPage"
+            class="mt-8 md:mt-12"
           >
-            <ArticleCard :article="article" />
+            <div
+              v-for="article in articles"
+              :key="article.id"
+              class="blog-page-item"
+            >
+              <ArticleCard :article="article" />
+            </div>
           </div>
-        </TransitionGroup>
+        </Transition>
         <ArticlePagination
           v-if="articles.length > 0"
           :current-page="currentPage"
@@ -68,24 +73,17 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'nuxt/app';
 import { useLazyAsyncData } from '#imports';
-import { ref, computed, watch, nextTick } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStrapiData } from '@/composables/useStrapiData';
 import { useSEO } from '@/composables/useSEO';
 // import type { StrapiResponse, StrapiArticle } from '../../types/strapi';
 import ArticleCard from '@/components/blog/ArticleCard.vue';
 import BlogHeroSection from '@/components/blog/BlogHeroSection.vue';
-import BlogButton from '@/components/UI/blog/BlogButton.vue';
 import ArticlePagination from '@/components/blog/ArticlePagination.vue';
 import AppLoader from '@/components/UI/AppLoader.vue';
 import type { StrapiArticle } from '@/types/strapi';
-const router = useRouter();
-
-function goHome(): void {
-  router.push('/');
-}
 
 // Composables
 const { fetchArticles } = useStrapiData();
@@ -96,7 +94,6 @@ const pageSize = ref(12);
 const totalItems = ref(0);
 const totalPages = ref(0);
 const articlesTopAnchor = ref<HTMLElement | null>(null);
-const shouldScrollToListTop = ref(false);
 
 const { data: articleData, pending, error } = useLazyAsyncData(
   () => `blog-articles-${locale.value}-page-${currentPage.value}`,
@@ -143,35 +140,30 @@ const articles = computed<Array<StrapiArticle>>(() => articleData.value ?? []);
 const heroArticle = computed<StrapiArticle | null>(() => articles.value[0] ?? null);
 const isInitialLoading = computed<boolean>(() => pending.value && articles.value.length === 0);
 
+const scrollToArticlesTop = (): void => {
+  const anchor = articlesTopAnchor.value;
+  if (!anchor || typeof window === 'undefined') {
+    return;
+  }
+
+  const headerOffset = 96;
+  const targetTop = Math.max(0, window.scrollY + anchor.getBoundingClientRect().top - headerOffset);
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  window.scrollTo({
+    top: targetTop,
+    behavior: prefersReducedMotion ? 'auto' : 'smooth',
+  });
+};
+
 const onPageChange = (page: number): void => {
   if (page === currentPage.value) {
     return;
   }
 
-  shouldScrollToListTop.value = true;
+  scrollToArticlesTop();
   currentPage.value = page;
 };
-
-watch(pending, async (isPending) => {
-  if (isPending || !shouldScrollToListTop.value) {
-    return;
-  }
-
-  await nextTick();
-  const anchor = articlesTopAnchor.value;
-  if (anchor) {
-    const headerOffset = 96;
-    const targetTop = Math.max(0, window.scrollY + anchor.getBoundingClientRect().top - headerOffset);
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    window.scrollTo({
-      top: targetTop,
-      behavior: prefersReducedMotion ? 'auto' : 'smooth',
-    });
-  }
-
-  shouldScrollToListTop.value = false;
-});
 
 // Basic SEO Meta
 useSEO({
@@ -181,34 +173,38 @@ useSEO({
 </script>
 
 <style scoped>
-.blog-card-enter-active,
-.blog-card-leave-active,
-.blog-card-move {
-  transition: transform 360ms ease, opacity 360ms ease;
+.blog-page-enter-active,
+.blog-page-leave-active {
+  transition: transform 320ms ease, opacity 320ms ease;
 }
 
-.blog-card-enter-from {
+.blog-page-enter-from {
   opacity: 0;
-  transform: translateX(24px);
+  transform: translateX(-32px);
 }
 
-.blog-card-enter-to {
+.blog-page-enter-to {
   opacity: 1;
   transform: translateX(0);
 }
 
-.blog-card-leave-from {
+.blog-page-leave-from {
   opacity: 1;
   transform: translateX(0);
 }
 
-.blog-card-leave-to {
+.blog-page-leave-to {
   opacity: 0;
-  transform: translateX(28px);
+  transform: translateX(32px);
 }
 
-.blog-card-leave-active {
-  position: absolute;
-  width: calc(100% - 2rem);
+.blog-page-item + .blog-page-item {
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .blog-page-item + .blog-page-item {
+    margin-top: 2rem;
+  }
 }
 </style>
