@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import MarkdownIt from 'markdown-it';
-// import DOMPurify from 'dompurify';
+import DOMPurify from 'dompurify';
 import type { StrapiArticle } from '@/types/strapi';
 
 const props = defineProps<{
@@ -31,8 +31,8 @@ const md = new MarkdownIt({
 const renderedContent = computed(() => {
   if (props.content && typeof props.content === 'string') {
     const rawHtml = md.render(props.content);
-    return rawHtml;
-    // return DOMPurify.sanitize(rawHtml);
+    // return rawHtml;
+    return DOMPurify.sanitize(rawHtml);
   }
   return '';
 });

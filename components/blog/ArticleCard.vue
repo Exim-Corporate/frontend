@@ -79,9 +79,9 @@ const getExcerpt = (description?: string): string => {
 </script>
 
 <template>
-  <component
-    :is="isStaticCard ? 'div' : 'NuxtLink'"
-    :to="isStaticCard ? undefined : articleLink"
+  <NuxtLink
+    v-if="!isStaticCard"
+    :to="articleLink"
     class="group relative block"
     :class="sm ? 'py-3' : compact ? 'py-5' : 'py-8 lg:py-10'"
   >
@@ -145,5 +145,71 @@ const getExcerpt = (description?: string): string => {
 
     <span class="absolute bottom-0 left-0 h-px w-full bg-form-border" />
     <span class="absolute bottom-0 left-0 hidden h-0.5 w-0 bg-text-dark transition-all duration-500 ease-out lg:block lg:group-hover:w-full" />
-  </component>
+  </NuxtLink>
+
+  <div
+    v-else
+    class="group relative block"
+    :class="sm ? 'py-3' : compact ? 'py-5' : 'py-8 lg:py-10'"
+  >
+    <div
+      class="flex flex-col gap-3"
+      :class="hideImage ? 'lg:grid lg:grid-cols-[minmax(0,1fr)_32px] lg:items-start lg:gap-6' : 'lg:grid lg:grid-cols-[180px_minmax(0,1fr)_132px_32px] lg:items-center lg:gap-8'"
+    >
+      <div
+        v-if="!hideImage"
+        class="relative aspect-18/10 w-full overflow-hidden rounded-xl lg:h-25 lg:w-45 lg:rounded-xl lg:aspect-auto"
+      >
+        <NuxtImg
+          v-if="coverUrl"
+          :src="coverUrl"
+          :alt="article.cover?.alternativeText || article.title"
+          width="360"
+          height="200"
+          loading="lazy"
+          quality="85"
+          format="webp"
+          sizes="(max-width: 1023px) 100vw, 180px"
+          class="absolute inset-0 h-full w-full object-cover"
+        />
+      </div>
+
+      <div class="min-w-0">
+        <BaseTitle
+          tag="h3"
+          :variant="sm ? 'subheader16' : 'subheader18'"
+          :class-name="sm ? 'text-left text-text-dark leading-5 md:leading-6' : compact ? 'text-left text-text-dark leading-6 md:leading-8' : 'text-left text-text-dark leading-6 md:leading-8'"
+        >
+          {{ article.title }}
+        </BaseTitle>
+        <BaseText
+          :variant="sm ? 'card12' : 'section'"
+          :class-name="sm ? 'mt-0.5 text-left text-text-dark line-clamp-1' : compact ? 'mt-1 text-left text-text-dark line-clamp-2 md:text-[18px] md:leading-7' : 'mt-1 text-left text-text-dark line-clamp-2 md:mt-2 md:max-w-200 md:text-[18px] md:leading-7'"
+        >
+          {{ getExcerpt(article.description) }}
+        </BaseText>
+        <BaseText
+          v-if="!hideDate && formattedDate"
+          variant="card"
+          class-name="mt-3 text-left text-[14px]! font-normal! leading-7! text-text-dark/50 lg:hidden"
+        >
+          {{ formattedDate }}
+        </BaseText>
+      </div>
+
+      <BaseText
+        v-if="!hideDate && formattedDate"
+        variant="card"
+        class-name="hidden text-right text-[14px]! font-normal! leading-7! text-text-dark/50 lg:block"
+      >
+        {{ formattedDate }}
+      </BaseText>
+
+      <div class="hidden items-center justify-end lg:flex">
+        <i :class="['pi pi-arrow-right text-text-dark', sm ? 'text-[20px]' : 'text-[32px]']" />
+      </div>
+    </div>
+
+    <span class="absolute bottom-0 left-0 h-px w-full bg-form-border" />
+  </div>
 </template>
