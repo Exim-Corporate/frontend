@@ -42,14 +42,18 @@ export default defineEventHandler(async event => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await $fetch<StrapiSingleResponse<StrapiHeaderNavigation>>(
-    `${strapiUrl}/api/header-navigation?${query}`,
-    { headers },
-  );
+  try {
+    const response = await $fetch<StrapiSingleResponse<StrapiHeaderNavigation>>(
+      `${strapiUrl}/api/header-navigation?${query}`,
+      { headers },
+    );
 
-  if (!response?.data) {
-    throw createError({ statusCode: 404, message: 'Header navigation not found' });
+    if (!response?.data) {
+      return { id: 0 } as StrapiHeaderNavigation;
+    }
+
+    return response.data;
+  } catch {
+    return { id: 0 } as StrapiHeaderNavigation;
   }
-
-  return response.data;
 });

@@ -19,14 +19,19 @@ export default defineEventHandler(async event => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await $fetch<StrapiSingleResponse<StrapiMainCalendly>>(
-    `${strapiUrl}/api/main-calendly`,
-    { headers },
-  );
+  try {
+    const response = await $fetch<StrapiSingleResponse<StrapiMainCalendly>>(
+      `${strapiUrl}/api/main-calendly`,
+      { headers },
+    );
 
-  if (!response?.data) {
-    throw createError({ statusCode: 404, message: 'Main Calendly not found' });
+    if (!response?.data) {
+      return null;
+    }
+
+    return response.data;
   }
-
-  return response.data;
+  catch {
+    return null;
+  }
 });

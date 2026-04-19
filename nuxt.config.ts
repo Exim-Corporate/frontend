@@ -1,19 +1,60 @@
-import { defineNuxtConfig } from 'nuxt/config';
 import Noir from './assets/theme';
 import tailwindcss from '@tailwindcss/vite';
+import { buildLocalizedPaths, CONTENT_LOCALES, fetchLocalizedRouteEntries } from './utils/strapiRoutes';
 
-export default defineNuxtConfig({
+const contentRouteSources = [
+  { endpoint: 'articles', basePath: '/blog' },
+  { endpoint: 'industry-pages', basePath: '/industry' },
+  { endpoint: 'service-pages', basePath: '/services' },
+] as const;
+
+const contentIsrTtl = 60 * 60 * 24 * 14;
+
+const getBuildStrapiConfig = () => ({
+  baseUrl: process.env.STRAPI_URL || 'http://127.0.0.1:1337',
+  token: process.env.STRAPI_TOKEN,
+});
+
+const buildDynamicContentRoutes = async (): Promise<string[]> => {
+  const { baseUrl, token } = getBuildStrapiConfig();
+
+  const routeGroups = await Promise.all(
+    contentRouteSources.map(async source => {
+      const routeMap = await fetchLocalizedRouteEntries({
+        baseUrl,
+        endpoint: source.endpoint,
+        token,
+        locales: CONTENT_LOCALES,
+      });
+
+      return buildLocalizedPaths(source.basePath, routeMap).map(route => route.loc);
+    }),
+  );
+
+  return routeGroups.flat();
+};
+
+export default {
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
 
-  // Site config for SEO
-  site: {
-    url: 'https://www.exim.eu.com',
-    name: 'AS Exim',
-  },
-
   // Включаем SSR для генерации статических страниц
   ssr: true,
+
+  hooks: {
+    async 'prerender:routes'(ctx: { routes: Set<string> }) {
+      try {
+        const routes = await buildDynamicContentRoutes();
+
+        for (const route of routes) {
+          ctx.routes.add(route);
+        }
+      }
+      catch (error) {
+        console.error('Failed to collect dynamic prerender routes from Strapi:', error);
+      }
+    },
+  },
 
   vite: {
     build: {
@@ -51,50 +92,60 @@ export default defineNuxtConfig({
 
   // Конфигурация для Vercel SSG
   nitro: {
-    preset: process.env.NODE_ENV === 'development' ? 'node' : 'vercel',
-
-    // Настройки маршрутов для SSG + API
+    preset: process.env.NODE_ENV === 'development' ? 'node-server' : 'vercel',
+    vercel: {
+      config: {
+        bypassToken: process.env.VERCEL_BYPASS_TOKEN,
+      },
+    },
     routeRules: {
-      // Статические страницы (SSG) - оставляем как есть или меняем на isr
       '/': { isr: 600 },
       '/privacy': { isr: 600 },
       '/terms': { isr: 600 },
       '/cookie-policy': { isr: 600 },
       '/impressum': { isr: 600 },
-
-      // Blog
-      '/blog': { isr: 300 },
-      '/referrals': { isr: 600 },
-      '/blog/**': { isr: 300 },
-      '/industry/**': { isr: 3600 },
-      '/services/**': { isr: 3600 },
-
-      // // Hire pages (30 days)
-      // '/hire': { isr: 2592000 },
-      // '/hire/**': { isr: 2592000 },
-
-      // Языковые версии - также можно настроить ISR
+      '/blog': { isr: contentIsrTtl },
+      '/referrals': { isr: contentIsrTtl },
+      '/blog/**': { isr: contentIsrTtl },
+      '/industry/**': { isr: contentIsrTtl },
+      '/services/**': { isr: contentIsrTtl },
+      '/hire/**': { isr: contentIsrTtl },
+      '/de/blog': { isr: contentIsrTtl },
+      '/de/referrals': { isr: contentIsrTtl },
+      '/de/blog/**': { isr: contentIsrTtl },
+      '/de/industry/**': { isr: contentIsrTtl },
+      '/de/services/**': { isr: contentIsrTtl },
+      '/de/hire/**': { isr: contentIsrTtl },
+      '/fr/blog': { isr: contentIsrTtl },
+      '/fr/referrals': { isr: contentIsrTtl },
+      '/fr/blog/**': { isr: contentIsrTtl },
+      '/fr/industry/**': { isr: contentIsrTtl },
+      '/fr/services/**': { isr: contentIsrTtl },
+      '/fr/hire/**': { isr: contentIsrTtl },
+      '/es/blog': { isr: contentIsrTtl },
+      '/es/referrals': { isr: contentIsrTtl },
+      '/es/blog/**': { isr: contentIsrTtl },
+      '/es/industry/**': { isr: contentIsrTtl },
+      '/es/services/**': { isr: contentIsrTtl },
+      '/es/hire/**': { isr: contentIsrTtl },
       '/de': { isr: 600 },
       '/de/**': { isr: 600 },
       '/fr': { isr: 600 },
       '/fr/**': { isr: 600 },
       '/es': { isr: 600 },
       '/es/**': { isr: 600 },
-      // API маршруты для серверных функций
       '/api/**': {
         cors: true,
-        headers: { 'cache-control': 's-maxage=1, stale-while-revalidate=31536000' }, // Пример: кеш на 1 секунду, ревалидация в течение года
+        headers: { 'cache-control': 's-maxage=1, stale-while-revalidate=31536000' },
       },
-
-      // Preview страницы (только для разработки)
       '/preview/**': {
-        prerender: false, // Оставляем false, т.к. это для разработки
+        prerender: false,
         index: false,
       },
     },
 
     prerender: {
-      crawlLinks: true, // Можно оставить, если есть страницы, которые должны быть предрендерены
+      crawlLinks: true,
       routes: [],
     },
   },
@@ -155,6 +206,7 @@ export default defineNuxtConfig({
     // Использовать встроенный provider для SSG
     provider: 'ipx',
   },
+
   runtimeConfig: {
     strapiToken: process.env.STRAPI_TOKEN, // Server-only for write operations if any
     gmail: {
@@ -162,12 +214,11 @@ export default defineNuxtConfig({
       pass: process.env.GMAIL_PASS,
       to: process.env.GMAIL_TO,
     },
+    revalidateSecret: process.env.REVALIDATE_SECRET,
     public: {
       // Public site URL for constructing absolute OG links (used by useSEO)
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://www.exim.eu.com',
       strapiUrl: process.env.STRAPI_URL || 'http://localhost:1337',
-      // Dedicated footer source; defaults to local Strapi for navigation collections
-      strapiToken: process.env.STRAPI_TOKEN, // Exposed to client for read-only fetching
       privacyEmail: process.env.NUXT_PUBLIC_PRIVACY_EMAIL,
       contactEmail: process.env.NUXT_PUBLIC_CONTACT_EMAIL,
       supportEmail: process.env.NUXT_PUBLIC_SUPPORT_EMAIL,
@@ -348,4 +399,4 @@ export default defineNuxtConfig({
       mode: 'out-in',
     },
   },
-});
+};

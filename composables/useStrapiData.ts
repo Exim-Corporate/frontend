@@ -1,6 +1,4 @@
-import { useRuntimeConfig } from 'nuxt/app';
 import type { StrapiResponse, StrapiArticle } from '../types/strapi';
-import { stringify } from 'qs';
 
 interface QueryParams {
   locale?: string;
@@ -14,7 +12,6 @@ interface QueryParams {
 
 interface FetchOptions {
   silent404?: boolean;
-  baseUrl?: string;
 }
 
 const getErrorStatus = (error: unknown): number | undefined => {
@@ -45,59 +42,24 @@ const createEmptyCollectionResponse = <T>(page = 1, pageSize = 10): StrapiRespon
   },
 });
 
+const serializeParam = (value: unknown): string | undefined => {
+  if (value === undefined) {
+    return undefined;
+  }
+
+  return JSON.stringify(value);
+};
+
 export const useStrapiData = () => {
-  const config = useRuntimeConfig();
-  const strapiUrl = String(config.public.strapiUrl || '');
-  const strapiToken = config.public.strapiToken;
-
-  const getHeaders = () => {
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
-    };
-    if (strapiToken) {
-      headers.Authorization = `Bearer ${strapiToken}`;
-    }
-    return headers;
-  };
-
-  const fetchFromStrapi = async <T>(
-    endpoint: string,
-    params: QueryParams = {},
-    fallbackValue: T,
-  ): Promise<T> => {
-    const query = stringify(
-      {
-        populate: params.populate || '*',
-        sort: params.sort || ['publishedAt:desc'],
-        locale: params.locale,
-        filters: params.filters,
-        pagination: {
-          page: params.page ?? 1,
-          pageSize: params.pageSize ?? 10,
-        },
-      },
-      {
-        encodeValuesOnly: true,
-      },
-    );
-    const url = `${strapiUrl}/api/${endpoint}?${query}`;
-
-    try {
-      const response = await $fetch<T>(url, {
-        headers: getHeaders(),
-      });
-      return response;
-    } catch {
-      return fallbackValue;
-    }
-  };
 
   const fetchArticles = (params: QueryParams = {}) => {
-    return fetchFromStrapi<StrapiResponse<StrapiArticle[]>>(
-      'articles',
-      params,
-      createEmptyCollectionResponse<StrapiArticle>(params.page ?? 1, params.pageSize ?? 10),
-    );
+    return $fetch<StrapiResponse<StrapiArticle[]>>('/api/articles', {
+      query: {
+        locale: params.locale,
+        page: params.page,
+        pageSize: params.pageSize,
+      },
+    }).catch(() => createEmptyCollectionResponse<StrapiArticle>(params.page ?? 1, params.pageSize ?? 10));
   };
 
   const fetchCollection = async <T>(
@@ -105,27 +67,12 @@ export const useStrapiData = () => {
     params: QueryParams = {},
     options: FetchOptions = {},
   ): Promise<StrapiResponse<T[]> | null> => {
-    const query = stringify(
-      {
-        populate: params.populate || '*',
-        sort: params.sort || ['publishedAt:desc'],
-        locale: params.locale,
-        filters: params.filters,
-        pagination: {
-          page: params.page ?? 1,
-          pageSize: params.pageSize ?? 10,
-        },
-      },
-      {
-        encodeValuesOnly: true,
-      },
-    );
-    const baseUrl = options.baseUrl || strapiUrl;
-    const url = `${baseUrl}/api/${endpoint}?${query}`;
-
     try {
-      return await $fetch<StrapiResponse<T[]>>(url, {
-        headers: getHeaders(),
+      return await $fetch<StrapiResponse<T[]>>('/api/content/collection', {
+        query: {
+          endpoint,
+          params: serializeParam(params),
+        },
       });
     } catch (error) {
       if (options.silent404 && getErrorStatus(error) === 404) {
@@ -142,29 +89,15 @@ export const useStrapiData = () => {
     locale?: string,
     populate: QueryParams['populate'] = '*',
   ): Promise<T | null> => {
-    const query = stringify(
-      {
-        filters: {
-          slug: { $eq: slug },
-        },
-        populate,
-        locale,
-        pagination: {
-          page: 1,
-          pageSize: 1,
-        },
-      },
-      {
-        encodeValuesOnly: true,
-      },
-    );
-    const url = `${strapiUrl}/api/${endpoint}?${query}`;
-
     try {
-      const response = await $fetch<StrapiResponse<T[]>>(url, {
-        headers: getHeaders(),
+      return await $fetch<T | null>('/api/content/by-slug', {
+        query: {
+          endpoint,
+          slug,
+          locale,
+          populate: serializeParam(populate),
+        },
       });
-      return response?.data?.[0] || null;
     } catch {
       return null;
     }
@@ -174,25 +107,12 @@ export const useStrapiData = () => {
     slug: string,
     locale?: string,
   ): Promise<StrapiArticle | null> => {
-    const query = stringify(
-      {
-        filters: {
-          slug: { $eq: slug },
-        },
-        populate: '*',
-        locale,
-      },
-      {
-        encodeValuesOnly: true,
-      },
-    );
-    const url = `${strapiUrl}/api/articles?${query}`;
-
     try {
-      const response = await $fetch<StrapiResponse<StrapiArticle[]>>(url, {
-        headers: getHeaders(),
+      const response = await $fetch<{ article: StrapiArticle }>(`/api/articles/${encodeURIComponent(slug)}`, {
+        query: locale ? { locale } : undefined,
       });
-      return response?.data?.[0] || null;
+
+      return response.article ?? null;
     } catch {
       return null;
     }
@@ -202,33 +122,10 @@ export const useStrapiData = () => {
     documentId: string,
     locale?: string,
   ): Promise<StrapiArticle | null> => {
-    const query = stringify(
-      {
-        populate: {
-          categories: { fields: ['id', 'name'] },
-          cover: { fields: ['url', 'alternativeText', 'caption'] },
-          authors: {
-            fields: ['name', 'position', 'bio'],
-            populate: {
-              avatar: {
-                fields: ['url', 'alternativeText'],
-              },
-            },
-          },
-        },
-        locale,
-      },
-      {
-        encodeValuesOnly: true,
-      },
-    );
-    const url = `${strapiUrl}/api/articles/${documentId}?${query}`;
-
     try {
-      const response = await $fetch<{ data: StrapiArticle }>(url, {
-        headers: getHeaders(),
+      return await $fetch<StrapiArticle | null>(`/api/articles/by-id/${encodeURIComponent(documentId)}`, {
+        query: locale ? { locale } : undefined,
       });
-      return response?.data || null;
     } catch {
       return null;
     }
@@ -244,37 +141,11 @@ export const useStrapiData = () => {
 };
 
 export const useHireData = () => {
-  const config = useRuntimeConfig();
-  const strapiUrl = String(config.public.strapiUrl || '');
-  const strapiToken = config.public.strapiToken;
-
-  const getHeaders = () => {
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
-    };
-    if (strapiToken) {
-      headers.Authorization = `Bearer ${strapiToken}`;
-    }
-    return headers;
-  };
-
   const fetchHirePageBySlug = async (slug: string, locale?: string) => {
-    const params: QueryParams = {
-      populate: '*',
-      locale,
-    };
-
-    const query = stringify(params, {
-      encodeValuesOnly: true,
-    });
-
-    const url = `${strapiUrl}/api/hire-pages/${slug}?${query}`;
-
     try {
-      const response = await $fetch<{ data: unknown }>(url, {
-        headers: getHeaders(),
+      return await $fetch<unknown | null>(`/api/hire-pages/${encodeURIComponent(slug)}`, {
+        query: locale ? { locale } : undefined,
       });
-      return response?.data || null;
     } catch {
       return null;
     }

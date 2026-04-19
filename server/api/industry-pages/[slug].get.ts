@@ -28,53 +28,61 @@ export default defineEventHandler(async event => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const strapiQuery = stringify(
-    {
-      filters: {
-        slug: { $eq: slug },
-      },
-      locale,
-      pagination: {
-        page: 1,
-        pageSize: 1,
-      },
-      populate: {
-        seo: true,
-        hero: { populate: { image: true, categories: true } },
-        industryDescription: {
-          populate: {
-            accordions: {
-              populate: {
-                card: {
-                  populate: { image: true },
+  const fetchPage = async (requestedLocale?: string) => {
+    const strapiQuery = stringify(
+      {
+        filters: {
+          slug: { $eq: slug },
+        },
+        locale: requestedLocale,
+        pagination: {
+          page: 1,
+          pageSize: 1,
+        },
+        populate: {
+          seo: true,
+          hero: { populate: { image: true, categories: true } },
+          industryDescription: {
+            populate: {
+              accordions: {
+                populate: {
+                  card: {
+                    populate: { image: true },
+                  },
                 },
               },
             },
           },
-        },
-        industryStats: {
-          populate: {
-            accordions: true,
+          industryStats: {
+            populate: {
+              accordions: true,
+            },
           },
-        },
-        ctaSection: {
-          populate: {
-            image: true,
+          ctaSection: {
+            populate: {
+              image: true,
+            },
           },
         },
       },
-    },
-    { encodeValuesOnly: true },
-  );
+      { encodeValuesOnly: true },
+    );
+
+    const response = await $fetch<StrapiResponse<StrapiIndustryPage[]>>(
+      `${strapiUrl}/api/industry-pages?${strapiQuery}`,
+      { headers },
+    );
+
+    return response?.data?.[0] || null;
+  };
 
   console.info(`[api] Fetching industry page from Strapi: slug=${slug} locale=${locale || 'default'}`);
 
-  const response = await $fetch<StrapiResponse<StrapiIndustryPage[]>>(
-    `${strapiUrl}/api/industry-pages?${strapiQuery}`,
-    { headers },
-  );
+  let page = await fetchPage(locale);
 
-  const page = response?.data?.[0] || null;
+  if (!page && locale && locale !== 'en') {
+    page = await fetchPage('en');
+  }
 
   if (!page) {
     throw createError({ statusCode: 404, message: 'Industry page not found' });

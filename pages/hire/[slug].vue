@@ -1,71 +1,53 @@
 <template>
   <main class="min-h-screen bg-white dark:bg-gray-900">
-    <AppLoader v-if="pending" />
+    <HireHero
+      :title="hirePage.heroTitle"
+      :subtitle="hirePage.heroSubtitle"
+      :hero-image="heroImage"
+      :flag-icon="flagIcon"
+      :country-name="hirePage.country?.name"
+    />
 
-    <div
-      v-else-if="error"
-      class="min-h-screen flex items-center justify-center"
-    >
-      <p class="text-red-500">{{ $t('hire.error') }}</p>
-    </div>
+    <HireAtGlance
+      v-if="stats.length"
+      :stats="stats"
+    />
 
-    <div
-      v-else-if="!hirePage"
-      class="min-h-screen flex items-center justify-center"
-    >
-      <p class="text-gray-500">{{ $t('hire.notFound') }}</p>
-    </div>
+    <HireWhyHire
+      :country-name="hirePage.country?.name || 'Germany'"
+      :content="whyHireContent"
+      :image="whyHireImage"
+    />
 
-    <template v-else>
-      <HireHero
-        :title="hirePage.heroTitle"
-        :subtitle="hirePage.heroSubtitle"
-        :hero-image="heroImage"
-        :flag-icon="flagIcon"
-        :country-name="hirePage.country?.name"
-      />
+    <HireCTA />
 
-      <HireAtGlance
-        v-if="stats.length"
-        :stats="stats"
-      />
+    <HireEmploymentConditions />
 
-      <HireWhyHire
-        :country-name="hirePage.country?.name || 'Germany'"
-        :content="whyHireContent"
-        :image="whyHireImage"
-      />
+    <CtaSection
+      :section-data="pageCtaSection"
+      scroll-target-id="calendly-booking"
+    />
 
-      <HireCTA />
+    <FAQSection />
 
-      <HireEmploymentConditions />
-
-      <CtaSection
-        :section-data="pageCtaSection"
-        scroll-target-id="calendly-booking"
-      />
-
-      <FAQSection />
-
-      <CalendlyBookingSection section-id="calendly-booking" />
-    </template>
+    <CalendlyBookingSection section-id="calendly-booking" />
   </main>
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue';
-import { useLazyAsyncData, useRoute, useRuntimeConfig, useSeoMeta } from '#imports';
+import { computed } from 'vue';
+import { createError, useAsyncData, useRoute, useRuntimeConfig, useSeoMeta } from '#imports';
 import { useI18n } from 'vue-i18n';
 import CtaSection from '@/components/CtaSection.vue';
 import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
-import { useHireData } from '@/composables/useStrapiData';
+import { usePageContentApi } from '@/composables/usePageContentApi';
 import HireHero from '@/components/hire/HireHero.vue';
 import HireAtGlance from '@/components/hire/HireAtGlance.vue';
 import HireWhyHire from '@/components/hire/HireWhyHire.vue';
 import HireCTA from '@/components/hire/HireCTA.vue';
 import HireEmploymentConditions from '@/components/hire/HireEmploymentConditions.vue';
-import AppLoader from '@/components/UI/AppLoader.vue';
 import type { StrapiCtaSection, StrapiUploadFile } from '@/types/strapi';
+import { normalizeImageUrl } from '@/utils/normalizeImageUrl';
 import { FAQSection } from '#components';
 
 interface HirePageData {
@@ -88,25 +70,29 @@ interface HirePageData {
   service_role?: { heroImage?: StrapiUploadFile | null } | null;
 }
 
-const { fetchHirePageBySlug } = useHireData();
+const { fetchHirePage } = usePageContentApi();
 const route = useRoute();
 const { locale } = useI18n();
 const config = useRuntimeConfig();
 
 const slug = computed(() => route.params.slug as string);
 
-const {
-  data: hirePage,
-  pending,
-  error,
-} = useLazyAsyncData<HirePageData | null>(
+const { data: hirePageData, error } = await useAsyncData<HirePageData | null>(
   `hire-${slug.value}-${locale.value}`,
-  async () => await fetchHirePageBySlug(slug.value, locale.value) as HirePageData | null,
+  async () => await fetchHirePage<HirePageData>(slug.value, locale.value),
   {
     default: () => null,
+    server: true,
+    lazy: false,
     watch: [locale, slug],
   },
 );
+
+if (error.value || !hirePageData.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Page Not Found', fatal: true });
+}
+
+const hirePage = computed<HirePageData>(() => hirePageData.value as HirePageData);
 
 const getServiceRole = computed(() => {
   const page = hirePage.value;
@@ -122,7 +108,7 @@ const heroImage = computed(() => {
 
 const flagIcon = computed(() => {
   const icon = hirePage.value?.country?.flagIcon?.url;
-  return icon ? `${config.public.strapiUrl}${icon}` : undefined;
+  return icon ? normalizeImageUrl(icon, String(config.public.strapiUrl ?? '')) : undefined;
 });
 
 const stats = computed(() => hirePage.value?.country?.atAGlance || []);
@@ -151,21 +137,13 @@ const pageCtaSection = computed<StrapiCtaSection>(() => ({
     : 'Hiring CTA image',
 }));
 
-watch(
-  hirePage,
-  page => {
-    if (page) {
-      useSeoMeta({
-        title: page.seo?.metaTitle || page.heroTitle,
-        description: page.seo?.metaDescription || page.heroSubtitle || '',
-        keywords: page.seo?.keywords,
-        ogTitle: page.seo?.metaTitle || page.heroTitle,
-        ogDescription: page.seo?.metaDescription || page.heroSubtitle || '',
-        ogImage: heroImage.value,
-        twitterCard: 'summary_large_image',
-      });
-    }
-  },
-  { immediate: true },
-);
+useSeoMeta({
+  title: hirePage.value.seo?.metaTitle || hirePage.value.heroTitle,
+  description: hirePage.value.seo?.metaDescription || hirePage.value.heroSubtitle || '',
+  keywords: hirePage.value.seo?.keywords,
+  ogTitle: hirePage.value.seo?.metaTitle || hirePage.value.heroTitle,
+  ogDescription: hirePage.value.seo?.metaDescription || hirePage.value.heroSubtitle || '',
+  ogImage: heroImage.value,
+  twitterCard: 'summary_large_image',
+});
 </script>

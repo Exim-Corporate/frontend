@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import MarkdownIt from 'markdown-it';
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 import type { StrapiArticle } from '@/types/strapi';
 
 const props = defineProps<{
@@ -28,10 +28,13 @@ const md = new MarkdownIt({
   // breaks: true,
 });
 
+const normalizeMalformedMarkdownLinks = (content: string) =>
+  content.replace(/\[(https?:\/\/[^\]]+)\]\((link|url)\)/gi, '[link]($1)');
+
 const renderedContent = computed(() => {
   if (props.content && typeof props.content === 'string') {
-    const rawHtml = md.render(props.content);
-    // return rawHtml;
+    const normalizedContent = normalizeMalformedMarkdownLinks(props.content);
+    const rawHtml = md.render(normalizedContent);
     return DOMPurify.sanitize(rawHtml);
   }
   return '';

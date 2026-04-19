@@ -1,68 +1,51 @@
 <template>
   <main class="min-h-screen pt-15">
-    <section v-if="pending" class="container text-center">
-      <BaseText variant="section" class-name="text-text-secondary">
-        {{ $t('footer.loading') }}
-      </BaseText>
-    </section>
-
-    <section v-else-if="error || !resolvedPage" class="container text-center">
+    <IndustryHeroSection
+      v-if="resolvedPage.hero"
+      :hero="resolvedPage.hero"
+    />
+    <section v-else class="container">
       <BaseTitle tag="h1" variant="main" class-name="text-text-dark dark:text-text-light">
-        {{ $t('error.404.title') }}
+        {{ resolvedPage.title }}
       </BaseTitle>
-      <BaseText variant="section" class-name="mt-4 text-text-secondary dark:text-text-light/70">
-        {{ $t('error.404.description') }}
+      <BaseText
+        v-if="resolvedPage.description"
+        variant="section"
+        class-name="mt-6 text-text-secondary dark:text-text-light/80"
+      >
+        {{ resolvedPage.description }}
       </BaseText>
     </section>
 
-    <template v-else>
-      <IndustryHeroSection
-        v-if="resolvedPage.hero"
-        :hero="resolvedPage.hero"
-      />
-      <section v-else class="container">
-        <BaseTitle tag="h1" variant="main" class-name="text-text-dark dark:text-text-light">
-          {{ resolvedPage.title }}
-        </BaseTitle>
-        <BaseText
-          v-if="resolvedPage.description"
-          variant="section"
-          class-name="mt-6 text-text-secondary dark:text-text-light/80"
-        >
-          {{ resolvedPage.description }}
-        </BaseText>
-      </section>
+    <IndustryDescriptionSection
+      v-if="resolvedPage.industryDescription"
+      :section-data="resolvedPage.industryDescription"
+    />
 
-      <IndustryDescriptionSection
-        v-if="resolvedPage.industryDescription"
-        :section-data="resolvedPage.industryDescription"
-      />
+    <TechStackSection />
 
-      <TechStackSection />
+    <IndustryStatsSection
+      v-if="resolvedPage.industryStats"
+      :section-data="resolvedPage.industryStats"
+    />
 
-      <IndustryStatsSection
-        v-if="resolvedPage.industryStats"
-        :section-data="resolvedPage.industryStats"
-      />
-      
-      <TestimonialsSection />
-      
-      <CtaSection
-        v-if="resolvedPage.ctaSection?.title"
-        :section-data="resolvedPage.ctaSection"
-        scroll-target-id="calendly-booking"
-      />
+    <TestimonialsSection />
 
-      <FAQSection />
+    <CtaSection
+      v-if="resolvedPage.ctaSection?.title"
+      :section-data="resolvedPage.ctaSection"
+      scroll-target-id="calendly-booking"
+    />
 
-      <CalendlyBookingSection section-id="calendly-booking" />
-    </template>
+    <FAQSection />
+
+    <CalendlyBookingSection section-id="calendly-booking" />
   </main>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useAsyncData, useRoute, useRuntimeConfig } from 'nuxt/app';
+import { createError, useAsyncData, useRoute, useRuntimeConfig } from 'nuxt/app';
 import { useI18n } from 'vue-i18n';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
@@ -82,13 +65,17 @@ const { fetchIndustryPage } = usePageContentApi();
 
 const slug = computed(() => String(route.params.slug || ''));
 
-const { data: page, pending, error } = useAsyncData<StrapiIndustryPage | null>(
+const { data: page, error } = await useAsyncData<StrapiIndustryPage | null>(
   `industry-page-${slug.value}-${locale.value}`,
   async () => await fetchIndustryPage(slug.value, locale.value),
-  { default: () => null, watch: [slug, locale] },
+  { default: () => null, watch: [slug, locale], server: true, lazy: false },
 );
 
-const resolvedPage = computed<StrapiIndustryPage | null>(() => page.value ?? null);
+if (error.value || !page.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Page Not Found', fatal: true });
+}
+
+const resolvedPage = computed<StrapiIndustryPage>(() => page.value as StrapiIndustryPage);
 
 const config = useRuntimeConfig();
 const siteBase = config.public.siteUrl || 'https://www.exim.eu.com';

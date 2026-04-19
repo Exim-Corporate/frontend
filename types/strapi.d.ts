@@ -35,6 +35,18 @@ export interface StrapiArticle {
   localizations?: StrapiArticle[];
 }
 
+export interface StrapiArticlePagePayload {
+  article: StrapiArticle;
+  relatedArticles: StrapiArticle[];
+  resolvedLocale: string;
+}
+
+export interface StrapiArticleListPayload {
+  data: StrapiArticle[];
+  meta: StrapiResponse<StrapiArticle[]>['meta'];
+  resolvedLocale: string;
+}
+
 export interface StrapiArticleCategory {
   id: number;
   name: string;

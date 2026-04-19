@@ -51,56 +51,34 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { navigateTo, useLazyAsyncData, useLocalePath } from '#imports';
+import { navigateTo, useAsyncData, useLocalePath } from '#imports';
 import { useI18n } from 'vue-i18n';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import AppButton from '@/components/UI/AppButton.vue';
 import ArticleCard from '@/components/blog/ArticleCard.vue';
-import { useStrapiData } from '@/composables/useStrapiData';
-import type { StrapiArticle, StrapiResponse } from '@/types/strapi';
+import { usePageContentApi } from '@/composables/usePageContentApi';
+import type { StrapiArticle, StrapiArticleListPayload } from '@/types/strapi';
 
-const { fetchArticles } = useStrapiData();
+const { fetchArticleList } = usePageContentApi();
 const { locale } = useI18n();
 const localePath = useLocalePath();
 
 const key = computed(() => `hero-blog-${locale.value}`);
 
-const { data: articleResponse, pending } = useLazyAsyncData<StrapiResponse<StrapiArticle[]> | null>(
+const { data: articleResponse, pending } = await useAsyncData<StrapiArticleListPayload | null>(
   key,
   async () => {
-    let response = await fetchArticles({
+    return await fetchArticleList({
       locale: locale.value,
       page: 1,
       pageSize: 4,
-      populate: {
-        cover: {
-          fields: ['url', 'alternativeText', 'formats'],
-        },
-      },
-      sort: ['publishedAt:desc'],
     });
-
-    if (locale.value !== 'en' && (response?.data?.length ?? 0) === 0) {
-      response = await fetchArticles({
-        locale: 'en',
-        page: 1,
-        pageSize: 4,
-        populate: {
-          cover: {
-            fields: ['url', 'alternativeText', 'formats'],
-          },
-        },
-        sort: ['publishedAt:desc'],
-      });
-    }
-
-    return response;
   },
   {
-    server: false,
-    immediate: true,
+    server: true,
+    lazy: false,
     watch: [locale],
     default: () => null,
   },

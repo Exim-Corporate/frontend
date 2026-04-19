@@ -73,56 +73,33 @@
 </template>
 
 <script setup lang="ts">
-import { useLazyAsyncData } from '#imports';
+import { useAsyncData } from '#imports';
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStrapiData } from '@/composables/useStrapiData';
+import { usePageContentApi } from '@/composables/usePageContentApi';
 import { useSEO } from '@/composables/useSEO';
-// import type { StrapiResponse, StrapiArticle } from '../../types/strapi';
 import ArticleCard from '@/components/blog/ArticleCard.vue';
 import BlogHeroSection from '@/components/blog/BlogHeroSection.vue';
 import ArticlePagination from '@/components/blog/ArticlePagination.vue';
 import AppLoader from '@/components/UI/AppLoader.vue';
 import type { StrapiArticle } from '@/types/strapi';
 
-// Composables
-const { fetchArticles } = useStrapiData();
+const { fetchArticleList } = usePageContentApi();
 const { locale, t } = useI18n();
-// Pagination state
 const currentPage = ref(1);
 const pageSize = ref(12);
 const totalItems = ref(0);
 const totalPages = ref(0);
 const articlesTopAnchor = ref<HTMLElement | null>(null);
 
-const { data: articleData, pending, error } = useLazyAsyncData(
+const { data: articleData, pending, error } = await useAsyncData(
   () => `blog-articles-${locale.value}-page-${currentPage.value}`,
   async () => {
-    let response = await fetchArticles({
+    const response = await fetchArticleList({
       locale: locale.value,
       page: currentPage.value,
       pageSize: pageSize.value,
-      populate: {
-        cover: {
-          fields: ['url', 'alternativeText', 'formats'],
-        },
-      },
-      sort: ['publishedAt:desc'],
     });
-
-    if (locale.value !== 'en' && (response?.data?.length ?? 0) === 0) {
-      response = await fetchArticles({
-        locale: 'en',
-        page: currentPage.value,
-        pageSize: pageSize.value,
-        populate: {
-          cover: {
-            fields: ['url', 'alternativeText', 'formats'],
-          },
-        },
-        sort: ['publishedAt:desc'],
-      });
-    }
 
     totalItems.value = response?.meta?.pagination?.total ?? 0;
     totalPages.value = response?.meta?.pagination?.pageCount ?? 0;
@@ -130,8 +107,8 @@ const { data: articleData, pending, error } = useLazyAsyncData(
   },
   {
     default: () => [] as StrapiArticle[],
-    server: false,
-    immediate: true,
+    server: true,
+    lazy: false,
     watch: [locale, currentPage, pageSize],
   },
 );
@@ -165,7 +142,6 @@ const onPageChange = (page: number): void => {
   currentPage.value = page;
 };
 
-// Basic SEO Meta
 useSEO({
   title: t('blog.title'),
   description: t('blog.description'),

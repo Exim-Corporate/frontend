@@ -22,7 +22,7 @@ interface StrapiListResponse<T> {
 export default defineEventHandler(async _event => {
   const config = useRuntimeConfig();
   const base = config.public.strapiUrl as string;
-  const token = config.public.strapiToken as string | undefined;
+  const token = config.strapiToken as string | undefined;
 
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   if (token) headers.Authorization = `Bearer ${token}`;

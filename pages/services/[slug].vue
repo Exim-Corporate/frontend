@@ -1,62 +1,43 @@
 <template>
   <main class="min-h-screen mt-20">
-    <section v-if="pending" class="container text-center">
-      <BaseText variant="section" class-name="text-text-secondary">
-        {{ $t('footer.loading') }}
-      </BaseText>
-    </section>
+    <ServiceHeroSection
+      v-if="resolvedPage.hero"
+      :hero="resolvedPage.hero"
+    />
 
-    <section v-else-if="error || !resolvedPage" class="container text-center">
-      <BaseTitle tag="h1" variant="main" class-name="text-text-dark dark:text-text-light">
-        {{ $t('error.404.title') }}
-      </BaseTitle>
-      <BaseText variant="section" class-name="mt-4 text-text-secondary dark:text-text-light/70">
-        {{ $t('error.404.description') }}
-      </BaseText>
-    </section>
+    <ServicesCardsSection
+      v-if="resolvedPage.serviceCardsSection"
+      mode="service"
+      :page-title="resolvedPage.title"
+      :section-data="resolvedPage.serviceCardsSection"
+    />
 
-    <template v-else>
-      <ServiceHeroSection
-        v-if="resolvedPage.hero"
-        :hero="resolvedPage.hero"
-      />
+    <ServicesAboutSection
+      v-if="resolvedPage.serviceAboutSection"
+      :section-data="resolvedPage.serviceAboutSection"
+    />
 
-      <ServicesCardsSection
-        v-if="resolvedPage.serviceCardsSection"
-        mode="service"
-        :page-title="resolvedPage.title"
-        :section-data="resolvedPage.serviceCardsSection"
-      />
+    <ServicesBenefitsSection
+      v-if="resolvedPage.serviceBenefitsSection"
+      :section-data="resolvedPage.serviceBenefitsSection"
+    />
 
-      <ServicesAboutSection
-        v-if="resolvedPage.serviceAboutSection"
-        :section-data="resolvedPage.serviceAboutSection"
-      />
+    <CtaSection
+      v-if="resolvedPage.ctaSection?.title"
+      :section-data="resolvedPage.ctaSection"
+      scroll-target-id="calendly-booking"
+    />
 
-      <ServicesBenefitsSection
-        v-if="resolvedPage.serviceBenefitsSection"
-        :section-data="resolvedPage.serviceBenefitsSection"
-      />
-
-      <CtaSection
-        v-if="resolvedPage.ctaSection?.title"
-        :section-data="resolvedPage.ctaSection"
-        scroll-target-id="calendly-booking"
-      />
-
-      <TestimonialsSection />
-      <FAQSection />
-      <CalendlyBookingSection section-id="calendly-booking" />
-    </template>
+    <TestimonialsSection />
+    <FAQSection />
+    <CalendlyBookingSection section-id="calendly-booking" />
   </main>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useAsyncData, useRoute, useRuntimeConfig } from 'nuxt/app';
+import { createError, useAsyncData, useRoute, useRuntimeConfig } from 'nuxt/app';
 import { useI18n } from 'vue-i18n';
-import BaseText from '@/components/UI/BaseText.vue';
-import BaseTitle from '@/components/UI/BaseTitle.vue';
 import CtaSection from '@/components/CtaSection.vue';
 import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
 import ServiceHeroSection from '@/components/services/ServiceHeroSection.vue';
@@ -74,13 +55,17 @@ const { fetchServicePage } = usePageContentApi();
 
 const slug = computed(() => String(route.params.slug || ''));
 
-const { data: page, pending, error } = useAsyncData<StrapiServicePage | null>(
+const { data: page, error } = await useAsyncData<StrapiServicePage | null>(
   `service-page-${slug.value}-${locale.value}`,
   async () => await fetchServicePage(slug.value, locale.value),
-  { default: () => null, watch: [slug, locale] },
+  { default: () => null, watch: [slug, locale], server: true, lazy: false },
 );
 
-const resolvedPage = computed<StrapiServicePage | null>(() => page.value ?? null);
+if (error.value || !page.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Page Not Found', fatal: true });
+}
+
+const resolvedPage = computed<StrapiServicePage>(() => page.value as StrapiServicePage);
 
 const config = useRuntimeConfig();
 const siteBase = config.public.siteUrl || 'https://www.exim.eu.com';

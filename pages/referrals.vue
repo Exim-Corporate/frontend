@@ -1,124 +1,67 @@
 <template>
   <main class="min-h-screen mt-20">
-    <section v-if="pending" class="container pb-16 pt-32 text-center">
-      <BaseText variant="section" class-name="text-text-secondary">
-        {{ $t('footer.loading') }}
-      </BaseText>
-    </section>
+    <ReferralsHero
+      v-if="resolvedPage.hero"
+      :hero="resolvedPage.hero"
+    />
 
-    <section v-else-if="error || !resolvedPage" class="container pb-16 pt-32 text-center">
+    <ReferralProgramSection
+      v-if="resolvedPage.referralProgramSection"
+      :section-data="resolvedPage.referralProgramSection"
+    />
+
+    <section v-else class="container pb-16 pt-32">
       <BaseTitle tag="h1" variant="main" class-name="text-text-dark dark:text-text-light">
-        {{ $t('error.404.title') }}
+        {{ resolvedPage.title }}
       </BaseTitle>
-      <BaseText variant="section" class-name="mt-4 text-text-secondary dark:text-text-light/70">
-        {{ $t('error.404.description') }}
+      <BaseText
+        v-if="resolvedPage.description"
+        variant="section"
+        class-name="mt-6 text-text-secondary dark:text-text-light/80"
+      >
+        {{ resolvedPage.description }}
       </BaseText>
     </section>
 
-    <template v-else>
-      <ReferralsHero
-        v-if="resolvedPage.hero"
-        :hero="resolvedPage.hero"
-      />
+    <CtaSection
+      v-if="resolvedPage.ctaSection?.title"
+      :section-data="resolvedPage.ctaSection"
+      scroll-target-id="calendly-booking"
+    />
 
-      <ReferralProgramSection
-        v-if="resolvedPage.referralProgramSection"
-        :section-data="resolvedPage.referralProgramSection"
-      />
-
-      <section v-else class="container pb-16 pt-32">
-        <BaseTitle tag="h1" variant="main" class-name="text-text-dark dark:text-text-light">
-          {{ resolvedPage.title }}
-        </BaseTitle>
-        <BaseText
-          v-if="resolvedPage.description"
-          variant="section"
-          class-name="mt-6 text-text-secondary dark:text-text-light/80"
-        >
-          {{ resolvedPage.description }}
-        </BaseText>
-      </section>
-
-      <CtaSection
-        v-if="resolvedPage.ctaSection?.title"
-        :section-data="resolvedPage.ctaSection"
-        scroll-target-id="calendly-booking"
-      />
-
-      <CalendlyBookingSection section-id="calendly-booking" />
-    </template>
+    <CalendlyBookingSection section-id="calendly-booking" />
   </main>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useLazyAsyncData, useRoute, useRuntimeConfig } from 'nuxt/app';
+import { createError, useAsyncData, useRoute, useRuntimeConfig } from 'nuxt/app';
 import { useI18n } from 'vue-i18n';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
 import CtaSection from '@/components/CtaSection.vue';
+import { usePageContentApi } from '@/composables/usePageContentApi';
 import { useSEO } from '@/composables/useSEO';
-import { useStrapiData } from '@/composables/useStrapiData';
 import type { StrapiReferralPage } from '@/types/strapi';
 import ReferralsHero from '@/components/referrals/ReferralsHero.vue';
 import ReferralProgramSection from '@/components/referrals/ReferralProgramSection.vue';
 
 const route = useRoute();
 const { locale, t } = useI18n();
-const { fetchSingleBySlug } = useStrapiData();
+const { fetchReferralPage } = usePageContentApi();
 
-const { data: page, pending, error } = useLazyAsyncData<StrapiReferralPage | null>(
+const { data: page, error } = await useAsyncData<StrapiReferralPage | null>(
   `referral-page-referrals-${locale.value}`,
-  async () => {
-    const localizedPage = await fetchSingleBySlug<StrapiReferralPage>(
-      'referral-pages',
-      'referrals',
-      locale.value,
-      {
-        seo: true,
-        hero: { populate: { image: true, categories: true } },
-        referralProgramSection: {
-          populate: {
-            cards: {
-              populate: {
-                points: true,
-              },
-            },
-          },
-        },
-        ctaSection: { populate: { image: true } },
-      },
-    );
-
-    if (localizedPage) {
-      return localizedPage;
-    }
-
-    return (await fetchSingleBySlug<StrapiReferralPage>(
-      'referral-pages',
-      'referrals',
-      undefined,
-      {
-        seo: true,
-        hero: { populate: { image: true, categories: true } },
-        referralProgramSection: {
-          populate: {
-            cards: {
-              populate: {
-                points: true,
-              },
-            },
-          },
-        },
-        ctaSection: { populate: { image: true } },
-      },
-    )) ?? null;
-  },
-  { default: () => null, server: false, watch: [locale] },
+  async () => await fetchReferralPage('referrals', locale.value),
+  { default: () => null, server: true, lazy: false, watch: [locale] },
 );
 
-const resolvedPage = computed<StrapiReferralPage | null>(() => page.value ?? null);
+if (error.value || !page.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Page Not Found', fatal: true });
+}
+
+const resolvedPage = computed<StrapiReferralPage>(() => page.value as StrapiReferralPage);
 
 const config = useRuntimeConfig();
 const siteBase = config.public.siteUrl || 'https://www.exim.eu.com';

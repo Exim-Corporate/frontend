@@ -1,7 +1,22 @@
 import { useRuntimeConfig } from '#imports';
 import { createError, defineEventHandler, getQuery, getRouterParam } from 'h3';
 import { stringify } from 'qs';
-import type { StrapiResponse, StrapiServicePage } from '@/types/strapi';
+import type { StrapiReferralPage, StrapiResponse } from '@/types/strapi';
+
+const referralPopulate = {
+  seo: true,
+  hero: { populate: { image: true, categories: true } },
+  referralProgramSection: {
+    populate: {
+      cards: {
+        populate: {
+          points: true,
+        },
+      },
+    },
+  },
+  ctaSection: { populate: { image: true } },
+} as const;
 
 export default defineEventHandler(async event => {
   const slug = String(getRouterParam(event, 'slug') || '').trim();
@@ -9,7 +24,7 @@ export default defineEventHandler(async event => {
   const locale = typeof query.locale === 'string' ? query.locale : undefined;
 
   if (!slug) {
-    throw createError({ statusCode: 400, message: 'Service slug is required' });
+    throw createError({ statusCode: 400, message: 'Referral slug is required' });
   }
 
   const config = useRuntimeConfig(event);
@@ -28,8 +43,8 @@ export default defineEventHandler(async event => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const fetchPage = async (requestedLocale?: string) => {
-    const strapiQuery = stringify(
+  const fetchPage = async (requestedLocale?: string): Promise<StrapiReferralPage | null> => {
+    const referralQuery = stringify(
       {
         filters: {
           slug: { $eq: slug },
@@ -39,43 +54,18 @@ export default defineEventHandler(async event => {
           page: 1,
           pageSize: 1,
         },
-        populate: {
-          seo: true,
-          hero: { populate: { imagePrimary: true, imageSecondary: true, categories: true } },
-          serviceCardsSection: {
-            populate: {
-              cards: { populate: { image: true } },
-            },
-          },
-          serviceAboutSection: {
-            populate: {
-              accordions: true,
-            },
-          },
-          serviceBenefitsSection: {
-            populate: {
-              items: true,
-            },
-          },
-          ctaSection: {
-            populate: {
-              image: true,
-            },
-          },
-        },
+        populate: referralPopulate,
       },
       { encodeValuesOnly: true },
     );
 
-    const response = await $fetch<StrapiResponse<StrapiServicePage[]>>(
-      `${strapiUrl}/api/service-pages?${strapiQuery}`,
+    const response = await $fetch<StrapiResponse<StrapiReferralPage[]>>(
+      `${strapiUrl}/api/referral-pages?${referralQuery}`,
       { headers },
     );
 
     return response?.data?.[0] || null;
   };
-
-  console.info(`[api] Fetching service page from Strapi: slug=${slug} locale=${locale || 'default'}`);
 
   let page = await fetchPage(locale);
 
@@ -84,7 +74,7 @@ export default defineEventHandler(async event => {
   }
 
   if (!page) {
-    throw createError({ statusCode: 404, message: 'Service page not found' });
+    throw createError({ statusCode: 404, message: 'Referral page not found' });
   }
 
   return page;

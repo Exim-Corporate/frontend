@@ -1,7 +1,6 @@
 import { useRuntimeConfig } from 'nuxt/app';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStrapiData } from '@/composables/useStrapiData';
 import type {
   FooterFallbackItem,
   FooterLegalLink,
@@ -105,7 +104,6 @@ const sortFooterItems = (items: FooterNavigationItem[]) => {
 export const useFooterData = () => {
   const { t, locale } = useI18n();
   const runtimeConfig = useRuntimeConfig();
-  const { fetchCollection } = useStrapiData();
 
   interface FooterProxyResponse {
     industry: FooterStrapiEntry[];
@@ -184,99 +182,18 @@ export const useFooterData = () => {
   };
 
   const loadNavigation = async (): Promise<FooterNavigationData> => {
-    const [industryResponse, servicesResponse] = await Promise.all([
-      fetchCollection<FooterStrapiEntry>(
-        'industry-pages',
-        {
-          locale: locale.value,
-          filters: {
-            showInFooter: {
-              $eq: true,
-            },
-          },
-          sort: ['footerOrder:asc', 'title:asc'],
-          pageSize: 6,
-          populate: ['seo'],
-        },
-        { silent404: true },
-      ),
-      fetchCollection<FooterStrapiEntry>(
-        'service-pages',
-        {
-          locale: locale.value,
-          filters: {
-            showInFooter: {
-              $eq: true,
-            },
-          },
-          sort: ['footerOrder:asc', 'title:asc'],
-          pageSize: 9,
-          populate: ['seo'],
-        },
-        { silent404: true },
-      ),
-    ]);
+    try {
+      const proxyResponse = await $fetch<FooterProxyResponse>('/api/footer-navigation', {
+        query: { locale: locale.value },
+      });
 
-    let industryItems = industryResponse?.data ?? [];
-    let serviceItems = servicesResponse?.data ?? [];
-
-    // Fallback to default locale if current locale has no localized entries.
-    if (locale.value !== 'en' && industryItems.length === 0 && serviceItems.length === 0) {
-      const [fallbackIndustryResponse, fallbackServicesResponse] = await Promise.all([
-        fetchCollection<FooterStrapiEntry>(
-          'industry-pages',
-          {
-            locale: 'en',
-            filters: {
-              showInFooter: {
-                $eq: true,
-              },
-            },
-            sort: ['footerOrder:asc', 'title:asc'],
-            pageSize: 6,
-            populate: ['seo'],
-          },
-          { silent404: true },
-        ),
-        fetchCollection<FooterStrapiEntry>(
-          'service-pages',
-          {
-            locale: 'en',
-            filters: {
-              showInFooter: {
-                $eq: true,
-              },
-            },
-            sort: ['footerOrder:asc', 'title:asc'],
-            pageSize: 9,
-            populate: ['seo'],
-          },
-          { silent404: true },
-        ),
-      ]);
-
-      industryItems = fallbackIndustryResponse?.data ?? industryItems;
-      serviceItems = fallbackServicesResponse?.data ?? serviceItems;
+      return {
+        industry: mapStrapiItems('industry', proxyResponse.industry ?? []),
+        services: mapStrapiItems('services', proxyResponse.services ?? []),
+      };
+    } catch {
+      return getFallbackNavigation();
     }
-
-    // If direct client fetch is blocked by Strapi public permissions, retry via Nuxt server proxy.
-    if (industryItems.length === 0 || serviceItems.length === 0) {
-      try {
-        const proxyResponse = await $fetch<FooterProxyResponse>('/api/footer-navigation', {
-          query: { locale: locale.value },
-        });
-
-        industryItems = proxyResponse.industry ?? industryItems;
-        serviceItems = proxyResponse.services ?? serviceItems;
-      } catch {
-        // Keep current values; mapStrapiItems will safely fall back to static defaults.
-      }
-    }
-
-    return {
-      industry: mapStrapiItems('industry', industryItems),
-      services: mapStrapiItems('services', serviceItems),
-    };
   };
 
   const resolveNavigationTarget = (item: FooterNavigationItem): string => {
