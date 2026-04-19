@@ -53,7 +53,7 @@ const cards: IndustryExpertiseItem[] = [
     key: 'healthcare',
     titleKey: 'industryExpertise.cards.healthcare.title',
     descriptionKey: 'industryExpertise.cards.healthcare.description',
-    image: '/images/expertise/1.png',
+    image: '/images/expertise/1.webp',
     tagKeys: [
       'industryExpertise.tags.clinicalDecisionSupport',
       'industryExpertise.tags.patientDataAnalytics',
@@ -63,7 +63,7 @@ const cards: IndustryExpertiseItem[] = [
     key: 'logistics',
     titleKey: 'industryExpertise.cards.logistics.title',
     descriptionKey: 'industryExpertise.cards.logistics.description',
-    image: '/images/expertise/2.png',
+    image: '/images/expertise/2.webp',
     tagKeys: [
       'industryExpertise.tags.aiSupplyChain',
       'industryExpertise.tags.blockchainSaas',
@@ -73,7 +73,7 @@ const cards: IndustryExpertiseItem[] = [
     key: 'retail',
     titleKey: 'industryExpertise.cards.retail.title',
     descriptionKey: 'industryExpertise.cards.retail.description',
-    image: '/images/expertise/3.png',
+    image: '/images/expertise/3.webp',
     tagKeys: [
       'industryExpertise.tags.aiPricing',
       'industryExpertise.tags.retailAnalytics',
@@ -83,7 +83,7 @@ const cards: IndustryExpertiseItem[] = [
     key: 'finance',
     titleKey: 'industryExpertise.cards.finance.title',
     descriptionKey: 'industryExpertise.cards.finance.description',
-    image: '/images/expertise/4.png',
+    image: '/images/expertise/4.webp',
     tagKeys: [
       'industryExpertise.tags.fraudDetection',
       'industryExpertise.tags.riskAnalytics',
@@ -93,7 +93,7 @@ const cards: IndustryExpertiseItem[] = [
     key: 'education',
     titleKey: 'industryExpertise.cards.education.title',
     descriptionKey: 'industryExpertise.cards.education.description',
-    image: '/images/expertise/5.png',
+    image: '/images/expertise/5.webp',
     tagKeys: [
       'industryExpertise.tags.adaptiveLearning',
       'industryExpertise.tags.learningAnalytics',
@@ -103,7 +103,7 @@ const cards: IndustryExpertiseItem[] = [
     key: 'manufacturing',
     titleKey: 'industryExpertise.cards.manufacturing.title',
     descriptionKey: 'industryExpertise.cards.manufacturing.description',
-    image: '/images/expertise/6.png',
+    image: '/images/expertise/6.webp',
     tagKeys: [
       'industryExpertise.tags.predictiveMaintenance',
       'industryExpertise.tags.qualityAnalytics',

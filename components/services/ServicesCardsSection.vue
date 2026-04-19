@@ -126,23 +126,23 @@ const { open: openContactModal } = useContactModal();
 
 const homeCards: HomeCardConfig[] = [
   {
-    image: '/images/hero/Card1.png',
+    image: '/images/hero/Card1.webp',
     titleKey: 'servicesCards.aiConsulting.title',
     descriptionKey: 'servicesCards.aiConsulting.description',
   },
   {
-    image: '/images/hero/Card2.png',
+    image: '/images/hero/Card2.webp',
     titleKey: 'servicesCards.generativeAi.title',
     descriptionKey: 'servicesCards.generativeAi.description',
   },
   {
-    image: '/images/hero/Card3.png',
+    image: '/images/hero/Card3.webp',
     titleKey: 'servicesCards.bigData.title',
     descriptionKey: 'servicesCards.bigData.description',
   },
 ];
 
-const fallbackServiceCardImage = '/images/hero/Card1.png';
+const fallbackServiceCardImage = '/images/hero/Card1.webp';
 
 const isServiceMode = computed(() => props.mode === 'service' || Boolean(props.sectionData));
 

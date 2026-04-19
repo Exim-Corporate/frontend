@@ -32,7 +32,9 @@
           class="absolute inset-0 h-full w-full scale-100 object-cover transition-transform duration-2500 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
           width="820"
           height="450"
-          loading="lazy"
+          loading="eager"
+          preload
+          fetchpriority="high"
           quality="90"
           format="webp"
           sizes="(max-width: 767px) 100vw, 820px"

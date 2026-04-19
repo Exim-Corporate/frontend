@@ -164,7 +164,7 @@ const activeCard = computed<StrapiIndustryDescriptionCard | null>(() => {
   return activeItem.value?.raw.card || null;
 });
 
-const fallbackImage = '/images/expertise/Hero.png';
+const fallbackImage = '/images/expertise/Hero.webp';
 
 const getCardImage = (card?: StrapiIndustryDescriptionCard | null): string => {
   const image = card?.image;

@@ -82,13 +82,13 @@ const cards: CardConfig[] = [
     type: 'image',
     titleKey: 'servicesProvide.cards.webApp.title',
     descriptionKey: 'servicesProvide.cards.webApp.description',
-    image: '/images/services/Card3bg.png',
+    image: '/images/services/Card3bg.webp',
   },
   {
     type: 'image',
     titleKey: 'servicesProvide.cards.mobile.title',
     descriptionKey: 'servicesProvide.cards.mobile.description',
-    image: '/images/services/Card4bg.png',
+    image: '/images/services/Card4bg.webp',
   },
   {
     type: 'icon',
@@ -110,7 +110,7 @@ const cards: CardConfig[] = [
     type: 'image',
     titleKey: 'servicesProvide.cards.vcto.title',
     descriptionKey: 'servicesProvide.cards.vcto.description',
-    image: '/images/services/Card8bg.png',
+    image: '/images/services/Card8bg.webp',
   },
   {
     type: 'icon',

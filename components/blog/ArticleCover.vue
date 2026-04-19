@@ -5,7 +5,11 @@
       :src="cover.url"
       :alt="cover?.alternativeText || cover?.caption || 'Article cover'"
       className="w-full h-auto aspect-7/3 object-cover rounded-lg"
-      loading="lazy"
+      loading="eager"
+      fetchpriority="high"
+      quality="85"
+      format="webp"
+      sizes="100vw"
     />
     <div
       v-else

@@ -4,6 +4,8 @@
       v-if="heroImage"
       :src="heroImage"
       alt="Hero background"
+      loading="eager"
+      fetchpriority="high"
       format="webp"
       quality="80"
       class="absolute inset-0 w-full h-full object-cover z-0"
@@ -22,6 +24,7 @@
           <NuxtImg
             :src="flagIcon"
             :alt="countryName"
+            loading="eager"
             class="w-10 h-10 rounded-full object-cover shadow-lg"
           />
           <span class="text-white/80 text-lg font-medium">{{ countryName }}</span>

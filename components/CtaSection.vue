@@ -65,7 +65,7 @@ const buttonHref = computed(() => {
 const imageSrc = computed(() => {
   const image = props.sectionData.image;
   const imageUrl = image?.formats?.large?.url || image?.url || image?.formats?.medium?.url || image?.formats?.small?.url;
-  return imageUrl ? normalizeImageUrl(imageUrl) : '/images/Header.png';
+  return imageUrl ? normalizeImageUrl(imageUrl) : '/images/Header.webp';
 });
 
 const imageAlt = computed(() => props.sectionData.imageAlt || props.sectionData.title);

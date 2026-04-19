@@ -15,12 +15,14 @@
                 alt="AS Exim logo mark"
                 class="h-auto w-10"
                 draggable="false"
+                loading="lazy"
               />
               <NuxtImg
                 src="/images/logoText.webp"
                 alt="AS Exim"
                 class="h-7 w-auto"
                 draggable="false"
+                loading="lazy"
               />
             </button>
           </div>
@@ -169,12 +171,14 @@
                 alt="AS Exim logo mark"
                 class="h-auto w-11"
                 draggable="false"
+                loading="lazy"
               />
               <NuxtImg
                 src="/images/logoText.webp"
                 alt="AS Exim"
                 class="h-7 w-auto"
                 draggable="false"
+                loading="lazy"
               />
             </button>
 

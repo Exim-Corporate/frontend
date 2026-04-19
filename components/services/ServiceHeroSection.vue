@@ -39,6 +39,10 @@
       <NuxtImg
         :src="primaryImageUrl"
         :alt="hero.title + ' primary image'"
+        loading="eager"
+        preload
+        fetchpriority="high"
+        quality="85"
         class="h-52 w-full rounded-2xl object-cover md:h-66.75"
         sizes="sm:100vw md:216px"
         format="webp"
@@ -46,6 +50,8 @@
       <NuxtImg
         :src="secondaryImageUrl"
         :alt="hero.title + ' secondary image'"
+        loading="eager"
+        quality="85"
         class="h-72 w-full rounded-2xl object-cover md:h-66.75"
         sizes="sm:100vw md:900px"
         format="webp"
@@ -76,7 +82,7 @@ const primaryImageUrl = computed(() => {
     const url = img.url || img.formats?.large?.url || img.formats?.medium?.url || img.formats?.small?.url;
     if (url) return normalizeImageUrl(url);
   }
-  return '/images/services/sh1.png';
+  return '/images/services/sh1.webp';
 });
 
 const secondaryImageUrl = computed(() => {
@@ -85,7 +91,7 @@ const secondaryImageUrl = computed(() => {
     const url = img.url || img.formats?.large?.url || img.formats?.medium?.url || img.formats?.small?.url;
     if (url) return normalizeImageUrl(url);
   }
-  return '/images/services/sh2.png';
+  return '/images/services/sh2.webp';
 });
 
 </script>

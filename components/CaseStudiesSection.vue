@@ -32,7 +32,7 @@ const studies: CaseStudyItem[] = [
     labelKey: 'caseStudies.items.industrialAi.label',
     titleKey: 'caseStudies.items.industrialAi.title',
     descriptionKey: 'caseStudies.items.industrialAi.description',
-    image: '/images/caseStudies/industrial.png',
+    image: '/images/caseStudies/industrial.webp',
     impacts: [
       {
         value: '27%',
@@ -49,7 +49,7 @@ const studies: CaseStudyItem[] = [
     labelKey: 'caseStudies.items.genAi.label',
     titleKey: 'caseStudies.items.genAi.title',
     descriptionKey: 'caseStudies.items.genAi.description',
-    image: '/images/caseStudies/gen.jpg',
+    image: '/images/caseStudies/gen.webp',
     impacts: [
       {
         value: '34%',
@@ -66,7 +66,7 @@ const studies: CaseStudyItem[] = [
     labelKey: 'caseStudies.items.neoBanking.label',
     titleKey: 'caseStudies.items.neoBanking.title',
     descriptionKey: 'caseStudies.items.neoBanking.description',
-    image: '/images/caseStudies/bank.jpg',
+    image: '/images/caseStudies/bank.webp',
     impacts: [
       {
         value: '41%',
@@ -83,7 +83,7 @@ const studies: CaseStudyItem[] = [
     labelKey: 'caseStudies.items.retailAnalytics.label',
     titleKey: 'caseStudies.items.retailAnalytics.title',
     descriptionKey: 'caseStudies.items.retailAnalytics.description',
-    image: '/images/caseStudies/analytics.jpg',
+    image: '/images/caseStudies/analytics.webp',
     impacts: [
       {
         value: '29%',

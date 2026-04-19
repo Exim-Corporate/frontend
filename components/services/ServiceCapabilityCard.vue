@@ -1,11 +1,15 @@
 <template>
   <article :class="cardClasses">
-    <img
+    <NuxtImg
       v-if="isWithPicture && imageUrl"
       :src="imageUrl"
       :alt="title"
+      loading="lazy"
+      format="webp"
+      quality="80"
+      sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
       class="mb-6 h-28 w-full rounded-2xl object-cover md:h-32"
-    >
+    />
 
     <BaseTitle
       tag="h3"

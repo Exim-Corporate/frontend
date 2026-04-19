@@ -1,10 +1,14 @@
 <template>
   <div class="group relative w-full aspect-square rounded-4xl overflow-hidden cursor-pointer bg-card-bg max-h-80 lg:max-h-full">
-    <img
+    <NuxtImg
       :src="image"
       :alt="title"
+      loading="lazy"
+      format="webp"
+      quality="80"
+      sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
       class="absolute inset-0 w-full h-full object-cover"
-    >
+    />
 
     <div class="absolute inset-10 transition-opacity duration-300 group-hover:opacity-0">
       <BaseTitle variant="subheader" class-name="text-white drop-shadow-lg text-left line-clamp-2">

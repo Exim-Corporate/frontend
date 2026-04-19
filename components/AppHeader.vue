@@ -308,7 +308,7 @@ const getAllGroups = (panelType?: PanelType): LinkGroup[] => {
   return e ? [...p, e] : p;
 };
 
-const FALLBACK_IMAGE = '/images/Header.png';
+const FALLBACK_IMAGE = '/images/Header.webp';
 
 const getImage = (panelType?: PanelType): string => {
   const url =

@@ -6,11 +6,17 @@
     @click="onClickHome"
   >
     <NuxtImg
-      src="/images/LogoNew.png"
+      src="/images/LogoNew.webp"
       alt="AS EXIM"
       class="h-10 w-auto transition-all duration-300 hover:scale-105"
       draggable="false"
-      quality="100"
+      width="278"
+      height="40"
+      sizes="278px"
+      loading="eager"
+      preload
+      fetchpriority="high"
+      quality="85"
       densities="x1 x2"
       format="webp"
     />

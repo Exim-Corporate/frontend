@@ -44,6 +44,10 @@
       <NuxtImg
         :src="imageUrl"
         :alt="hero.title"
+        loading="eager"
+        preload
+        fetchpriority="high"
+        quality="85"
         class="aspect-square h-auto w-full rounded-2xl object-cover md:aspect-9/3"
         sizes="sm:100vw md:100vw lg:1200px"
         format="webp"
@@ -73,6 +77,6 @@ const imageUrl = computed(() => {
       return normalizeImageUrl(url);
     }
   }
-  return '/images/referral/hero1.png';
+  return '/images/referral/hero1.webp';
 });
 </script>
