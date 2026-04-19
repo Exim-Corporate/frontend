@@ -31,7 +31,11 @@
         {{ hero.description }}
       </BaseText>
 
-      <AppButton class="w-full shrink-0 md:w-auto" @click="navigateToContact">
+      <AppButton
+        class="w-full shrink-0 md:w-auto"
+        scrollToContact
+        scroll-target-id="calendly-booking"
+      >
         {{ hero.buttonLabel || 'Become Referral Partner' }}
       </AppButton>
     </div>
@@ -50,7 +54,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useRouter } from 'nuxt/app';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseChip from '@/components/UI/BaseChip.vue';
@@ -62,8 +65,6 @@ const props = defineProps<{
   hero: StrapiReferralHero;
 }>();
 
-const router = useRouter();
-
 const imageUrl = computed(() => {
   const img = props.hero.image;
   if (img) {
@@ -74,8 +75,4 @@ const imageUrl = computed(() => {
   }
   return '/images/referral/hero1.png';
 });
-
-function navigateToContact() {
-  router.push('/#contact');
-}
 </script>

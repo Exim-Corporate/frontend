@@ -1,50 +1,52 @@
 <template>
   <NuxtLayout>
-    <div class="flex items-center justify-center px-4 py-20 min-h-[80vh]">
-      <div class="max-w-2xl w-full text-center">
-        <!-- Error Code -->
-        <h1
-          class="text-8xl md:text-9xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-6"
-        >
-          {{ error.statusCode }}
-        </h1>
+    <main class="min-h-screen bg-white">
+      <section class="container flex min-h-screen flex-col justify-center">
+        <div class="mx-auto flex w-fit max-w-full flex-col items-stretch">
+          <AnimatedElement>
+            <BaseTitle
+              tag="h1"
+              variant="main"
+              class-name="text-center text-[56px] leading-[0.9] md:text-[96px] lg:text-[124px]"
+            >
+              {{ errorTitle }}
+            </BaseTitle>
+          </AnimatedElement>
 
-        <!-- Error Message -->
-        <h2 class="text-3xl md:text-4xl font-bold text-surface-900 dark:text-surface-0 mb-4">
-          {{ errorTitle }}
-        </h2>
+          <AnimatedElement :delay="90">
+            <div class="mt-8 flex w-full flex-col gap-6 md:mt-10 md:flex-row md:items-end md:justify-between md:gap-10">
+              <AppButton
+                class="error-home-button rounded-full! border-0! bg-text-dark! px-5! py-3! hover:bg-text-dark/95!"
+                @click="handleClearError"
+              >
+                {{ t('error.goHome') }}
+              </AppButton>
 
-        <p class="text-lg text-surface-600 dark:text-surface-400 mb-8 max-w-xl mx-auto">
-          {{ errorDescription }}
-        </p>
-
-        <!-- Action Button -->
-        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <AppButton
-            :label="t('error.goHome')"
-            icon="pi pi-home"
-            severity="primary"
-            size="large"
-            @click="handleClearError"
-          />
-          <AppButton
-            v-if="error.statusCode === 404"
-            :label="t('error.goBack')"
-            icon="pi pi-arrow-left"
-            severity="secondary"
-            outlined
-            size="large"
-            @click="goBack"
-          />
+              <BaseText
+                variant="section"
+                class-name="max-w-md text-left text-text-secondary md:ml-auto md:text-right"
+              >
+                {{ errorDescription }}
+              </BaseText>
+            </div>
+          </AnimatedElement>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   </NuxtLayout>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+import { clearError, useHead } from '#app';
 import type { NuxtError } from 'nuxt/app';
+import { useI18n } from 'vue-i18n';
+import { useLocalePath } from '#i18n';
 import AppButton from '@/components/UI/AppButton.vue';
+import AnimatedElement from '@/components/UI/AnimatedElement.vue';
+import BaseText from '@/components/UI/BaseText.vue';
+import BaseTitle from '@/components/UI/BaseTitle.vue';
+import { useSEO } from '@/composables/useSEO';
 
 const props = defineProps<{
   error: NuxtError;
@@ -53,7 +55,6 @@ const props = defineProps<{
 const { t } = useI18n();
 const localePath = useLocalePath();
 
-// Computed error title based on status code
 const errorTitle = computed(() => {
   switch (props.error.statusCode) {
     case 404:
@@ -65,7 +66,6 @@ const errorTitle = computed(() => {
   }
 });
 
-// Computed error description
 const errorDescription = computed(() => {
   switch (props.error.statusCode) {
     case 404:
@@ -77,21 +77,16 @@ const errorDescription = computed(() => {
   }
 });
 
-// Handle clear error and navigate to home
 const handleClearError = () => {
   clearError({ redirect: localePath('/') });
 };
 
-// Handle go back
-const goBack = () => {
-  if (window.history.length > 1) {
-    window.history.back();
-  } else {
-    handleClearError();
-  }
-};
+useSEO({
+  title: errorTitle.value,
+  description: errorDescription.value,
+  type: 'website',
+});
 
-// SEO Meta
 useHead({
   title: errorTitle.value,
   meta: [
@@ -106,3 +101,11 @@ useHead({
   ],
 });
 </script>
+
+<style scoped>
+.error-home-button :deep(.p-button-label) {
+  background: none;
+  color: white;
+  -webkit-text-fill-color: white;
+}
+</style>
