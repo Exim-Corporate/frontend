@@ -57,12 +57,16 @@ const props = defineProps({
     default: '',
   },
   variant: {
-    type: String as () => 'default' | 'gray',
+    type: String as () => 'default' | 'gray' | 'white',
     default: 'default',
   },
   scrollToContact: {
     type: Boolean,
     default: false,
+  },
+  scrollTargetId: {
+    type: String,
+    default: 'contact-us',
   },
 });
 
@@ -71,6 +75,13 @@ const buttonClasses = computed(() => {
     return [
       '!w-auto !border-0 !bg-card-bg !px-[20px] !py-[10px]',
       'hover:!bg-background-gray transition-colors duration-300',
+    ];
+  }
+
+  if (props.variant === 'white') {
+    return [
+      '!w-auto !border !border-white/20 !bg-white !px-[20px] !py-[12px] shadow-[0_18px_40px_rgba(15,23,42,0.12)]',
+      'hover:!bg-white/95 transition-colors duration-300',
     ];
   }
 
@@ -85,6 +96,10 @@ const labelClasses = computed(() => {
     return 'block w-full text-center align-middle font-sans text-[16px] leading-[100%] font-normal tracking-normal text-text-dark';
   }
 
+  if (props.variant === 'white') {
+    return 'block w-full text-center align-middle font-sans text-[16px] leading-[100%] font-normal tracking-normal text-text-dark md:text-[18px]';
+  }
+
   return 'block w-full bg-btn-gradient bg-clip-text text-center align-middle font-sans text-[16px] leading-[100%] font-normal tracking-normal text-transparent md:text-[18px]';
 });
 
@@ -92,9 +107,9 @@ const { open: openContactModal } = useContactModal();
 
 const onClick = () => {
   if (props.scrollToContact) {
-    const contactSection = document.getElementById('contact-us');
+    const contactSection = document.getElementById(props.scrollTargetId);
     if (contactSection) {
-      contactSection.scrollIntoView({ block: 'center' });
+      contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
       return;
     }
 

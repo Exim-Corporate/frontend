@@ -9,7 +9,7 @@
         class="w-full h-full object-cover"
       />
     </div>
-    <div class="absolute inset-0 bg-gradient-to-r from-navy-blue/90 to-background/80 z-0" />
+    <div class="absolute inset-0 bg-linear-to-r from-navy-blue/90 to-background/80 z-0" />
 
     <div class="container relative z-10 mx-auto py-16 md:py-20 px-4">
       <div
@@ -30,6 +30,7 @@
           severity="contrast"
           size="large"
           scrollToContact
+          scroll-target-id="calendly-booking"
           class="transition-transform duration-300 hover:scale-105"
         >
           {{ $t('hire.cta.button') }}

@@ -136,6 +136,15 @@ export interface StrapiIndustryStats {
   accordions: StrapiIndustryStatsAccordion[];
 }
 
+export interface StrapiCtaSection {
+  title: string;
+  description?: string;
+  buttonText?: string;
+  buttonUrl?: string;
+  image?: StrapiUploadFile | null;
+  imageAlt?: string;
+}
+
 export interface StrapiIndustryPage {
   id: number;
   documentId: string;
@@ -148,6 +157,7 @@ export interface StrapiIndustryPage {
   hero?: StrapiIndustryHero | null;
   industryDescription?: StrapiIndustryDescription | null;
   industryStats?: StrapiIndustryStats | null;
+  ctaSection?: StrapiCtaSection | null;
   seo?: StrapiPageSeo;
 }
 
@@ -198,6 +208,7 @@ export interface StrapiReferralPage {
   showInFooter?: boolean;
   hero?: StrapiReferralHero | null;
   referralProgramSection?: StrapiReferralProgramSection | null;
+  ctaSection?: StrapiCtaSection | null;
   seo?: StrapiPageSeo;
 }
 
@@ -214,6 +225,7 @@ export interface StrapiServicePage {
   serviceCardsSection?: StrapiServiceCardsSection | null;
   serviceAboutSection?: StrapiServiceAboutSection | null;
   serviceBenefitsSection?: StrapiServiceBenefitsSection | null;
+  ctaSection?: StrapiCtaSection | null;
   seo?: StrapiPageSeo;
 }
 

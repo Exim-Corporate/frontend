@@ -133,3 +133,55 @@ Use this checklist whenever adding/updating content models or content in Strapi.
 1. Re-read updated entries with nested populate.
 2. Confirm all required pages have content (no missing items).
 3. Only after API validation is complete, implement/update frontend rendering.
+
+## 12) CTA Section Workflow For ISR Pages (Required)
+Use this exact sequence whenever adding a new Strapi-backed CTA section to `industry` or `services` pages.
+
+### A. Research + Shape First
+1. Confirm the target page already renders through an ISR route in `nuxt.config.ts`.
+2. Confirm the page data is fetched through a Nuxt server-visible path:
+  - preferred: `useAsyncData(() => $fetch('/api/...'))`
+  - avoid direct client requests to Strapi from page components when the section must participate in ISR payload generation.
+3. Inspect the target Strapi content-type and component list before editing schemas.
+
+### B. Strapi Schema Pattern
+1. Create one dedicated shared CTA component in `strapi/src/components/shared/`.
+2. CTA component fields must be:
+  - `title`
+  - `description`
+  - `buttonText`
+  - `buttonUrl`
+  - `image`
+  - `imageAlt`
+3. Attach the component as a non-repeatable field on each required page content type.
+4. Re-read the updated schema after editing and verify the field names match the frontend typings exactly.
+
+### C. Content Population Pattern
+1. Inspect existing page entries first.
+2. Add CTA content only to pages that should render the section.
+3. Use Strapi REST or the document/content-manager flow to write `{ data: { ctaSection: ... } }` payloads.
+4. Re-read with nested populate to confirm media and text fields are present.
+
+### D. Frontend Data Fetching Pattern
+1. Do not expose the Strapi URL to the browser for page section fetching.
+2. Add a Nuxt server API route in `frontend/server/api/` that fetches the page from Strapi server-side.
+3. Keep the Strapi request visible in the server/runtime logs by performing the upstream fetch inside that server route.
+4. In the page component, fetch only from the internal route with `useAsyncData` or `useFetch` and keep SSR enabled.
+5. Do not set `server: false` for ISR page payloads.
+
+### E. Rendering Pattern
+1. Add a dedicated CTA section component.
+2. Use only:
+  - `BaseTitle`
+  - `BaseText`
+  - `NuxtImg`
+  - existing button primitive (`AppButton`) when a button is needed
+3. Keep layout simple with Tailwind.
+4. If Strapi image is missing, use fallback `/images/Header.png`.
+5. If Strapi alt is missing, fall back to the CTA title.
+
+### F. Validation Pattern
+1. Validate the server route response shape first.
+2. Validate the page fetch still resolves on SSR/ISR paths.
+3. Validate TypeScript after updating Strapi typings.
+4. Validate fallback image rendering when CTA image is absent.

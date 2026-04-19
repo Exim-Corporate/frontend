@@ -1,5 +1,5 @@
 <template>
-  <main class="min-h-screen">
+  <main class="min-h-screen mt-20">
     <section v-if="pending" class="container pb-16 pt-32 text-center">
       <BaseText variant="section" class-name="text-text-secondary">
         {{ $t('footer.loading') }}
@@ -38,6 +38,14 @@
           {{ resolvedPage.description }}
         </BaseText>
       </section>
+
+      <CtaSection
+        v-if="resolvedPage.ctaSection?.title"
+        :section-data="resolvedPage.ctaSection"
+        scroll-target-id="calendly-booking"
+      />
+
+      <CalendlyBookingSection section-id="calendly-booking" />
     </template>
   </main>
 </template>
@@ -48,6 +56,8 @@ import { useLazyAsyncData, useRoute, useRuntimeConfig } from 'nuxt/app';
 import { useI18n } from 'vue-i18n';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
+import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
+import CtaSection from '@/components/CtaSection.vue';
 import { useSEO } from '@/composables/useSEO';
 import { useStrapiData } from '@/composables/useStrapiData';
 import type { StrapiReferralPage } from '@/types/strapi';
@@ -77,6 +87,7 @@ const { data: page, pending, error } = useLazyAsyncData<StrapiReferralPage | nul
             },
           },
         },
+        ctaSection: { populate: { image: true } },
       },
     );
 
@@ -100,6 +111,7 @@ const { data: page, pending, error } = useLazyAsyncData<StrapiReferralPage | nul
             },
           },
         },
+        ctaSection: { populate: { image: true } },
       },
     )) ?? null;
   },

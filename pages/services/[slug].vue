@@ -38,61 +38,46 @@
         :section-data="resolvedPage.serviceBenefitsSection"
       />
 
+      <CtaSection
+        v-if="resolvedPage.ctaSection?.title"
+        :section-data="resolvedPage.ctaSection"
+        scroll-target-id="calendly-booking"
+      />
+
       <TestimonialsSection />
       <FAQSection />
+      <CalendlyBookingSection section-id="calendly-booking" />
     </template>
   </main>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useLazyAsyncData, useRoute, useRuntimeConfig } from 'nuxt/app';
+import { useAsyncData, useRoute, useRuntimeConfig } from 'nuxt/app';
 import { useI18n } from 'vue-i18n';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
+import CtaSection from '@/components/CtaSection.vue';
+import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
 import ServiceHeroSection from '@/components/services/ServiceHeroSection.vue';
 import ServicesCardsSection from '@/components/services/ServicesCardsSection.vue';
 import ServicesAboutSection from '@/components/services/ServicesAboutSection.vue';
 import ServicesBenefitsSection from '@/components/services/ServicesBenefitsSection.vue';
+import { usePageContentApi } from '@/composables/usePageContentApi';
 import { useSEO } from '@/composables/useSEO';
-import { useStrapiData } from '@/composables/useStrapiData';
 import type { StrapiServicePage } from '@/types/strapi';
 import { FAQSection, TestimonialsSection } from '#components';
 
 const route = useRoute();
 const { locale, t } = useI18n();
-const { fetchSingleBySlug } = useStrapiData();
+const { fetchServicePage } = usePageContentApi();
 
 const slug = computed(() => String(route.params.slug || ''));
 
-const { data: page, pending, error } = useLazyAsyncData<StrapiServicePage | null>(
+const { data: page, pending, error } = useAsyncData<StrapiServicePage | null>(
   `service-page-${slug.value}-${locale.value}`,
-  async () =>
-    (await fetchSingleBySlug<StrapiServicePage>(
-      'service-pages',
-      slug.value,
-      locale.value,
-      {
-        seo: true,
-        hero: { populate: { imagePrimary: true, imageSecondary: true, categories: true } },
-        serviceCardsSection: {
-          populate: {
-            cards: { populate: { image: true } },
-          },
-        },
-        serviceAboutSection: {
-          populate: {
-            accordions: true,
-          },
-        },
-        serviceBenefitsSection: {
-          populate: {
-            items: true,
-          },
-        },
-      },
-    )) ?? null,
-  { default: () => null, server: false, watch: [slug, locale] },
+  async () => await fetchServicePage(slug.value, locale.value),
+  { default: () => null, watch: [slug, locale] },
 );
 
 const resolvedPage = computed<StrapiServicePage | null>(() => page.value ?? null);

@@ -40,21 +40,53 @@
 
       <HireEmploymentConditions />
 
-      <ContactSection />
+      <CtaSection
+        :section-data="pageCtaSection"
+        scroll-target-id="calendly-booking"
+      />
+
+      <FAQSection />
+
+      <CalendlyBookingSection section-id="calendly-booking" />
     </template>
   </main>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
+import { useLazyAsyncData, useRoute, useRuntimeConfig, useSeoMeta } from '#imports';
+import { useI18n } from 'vue-i18n';
+import CtaSection from '@/components/CtaSection.vue';
+import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
 import { useHireData } from '@/composables/useStrapiData';
 import HireHero from '@/components/hire/HireHero.vue';
 import HireAtGlance from '@/components/hire/HireAtGlance.vue';
 import HireWhyHire from '@/components/hire/HireWhyHire.vue';
 import HireCTA from '@/components/hire/HireCTA.vue';
 import HireEmploymentConditions from '@/components/hire/HireEmploymentConditions.vue';
-import ContactSection from '@/components/ContactSection.vue';
 import AppLoader from '@/components/UI/AppLoader.vue';
+import type { StrapiCtaSection, StrapiUploadFile } from '@/types/strapi';
+import { FAQSection } from '#components';
+
+interface HirePageData {
+  heroTitle: string;
+  heroSubtitle?: string;
+  customOverview?: string;
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    keywords?: string;
+  };
+  country?: {
+    name?: string;
+    overview?: string;
+    atAGlance?: unknown[];
+    heroImage?: StrapiUploadFile | null;
+    flagIcon?: StrapiUploadFile | null;
+  } | null;
+  serviceRole?: { heroImage?: StrapiUploadFile | null } | null;
+  service_role?: { heroImage?: StrapiUploadFile | null } | null;
+}
 
 const { fetchHirePageBySlug } = useHireData();
 const route = useRoute();
@@ -67,19 +99,18 @@ const {
   data: hirePage,
   pending,
   error,
-} = useLazyAsyncData(
+} = useLazyAsyncData<HirePageData | null>(
   `hire-${slug.value}-${locale.value}`,
-  async () => await fetchHirePageBySlug(slug.value, locale.value),
+  async () => await fetchHirePageBySlug(slug.value, locale.value) as HirePageData | null,
   {
     default: () => null,
     watch: [locale, slug],
   },
 );
 
-// Helper to get service role (handles both camelCase and snake_case from Strapi)
 const getServiceRole = computed(() => {
-  // @ts-expect-error - Strapi may return service_role instead of serviceRole
-  return hirePage.value?.serviceRole || hirePage.value?.service_role;
+  const page = hirePage.value;
+  return page?.serviceRole || page?.service_role || null;
 });
 
 const heroImage = computed(() => {
@@ -104,6 +135,21 @@ const whyHireImage = computed(() => {
   const img = hirePage.value?.country?.heroImage?.url;
   return img ?? '/images/germany.webp';
 });
+
+const pageCtaSection = computed<StrapiCtaSection>(() => ({
+  title: hirePage.value?.country?.name
+    ? `Need help hiring in ${hirePage.value.country.name}?`
+    : 'Need help hiring your next team?',
+  description: hirePage.value?.country?.name
+    ? `Check the FAQ below, then schedule a call to plan your hiring process in ${hirePage.value.country.name}.`
+    : 'Check the FAQ below, then schedule a call with our team to plan your hiring process.',
+  buttonText: 'Book a Call',
+  buttonUrl: '#calendly-booking',
+  image: hirePage.value?.country?.heroImage ?? getServiceRole.value?.heroImage ?? null,
+  imageAlt: hirePage.value?.country?.name
+    ? `${hirePage.value.country.name} hiring CTA image`
+    : 'Hiring CTA image',
+}));
 
 watch(
   hirePage,

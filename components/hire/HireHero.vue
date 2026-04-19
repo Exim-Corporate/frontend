@@ -55,6 +55,7 @@
             severity="contrast"
             size="large"
             scrollToContact
+            scroll-target-id="calendly-booking"
           >
             {{ $t('hire.hero.cta') }}
           </AppButton>

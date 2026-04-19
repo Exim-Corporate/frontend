@@ -36,6 +36,15 @@
       :title="$t('blog.related_by_category')"
       :articles="relatedArticlesByCategory"
     />
+
+    <template v-if="!pending && !error && resolvedArticle">
+      <CtaSection
+        :section-data="pageCtaSection"
+        scroll-target-id="calendly-booking"
+      />
+      <FAQSection />
+      <CalendlyBookingSection section-id="calendly-booking" />
+    </template>
   </main>
 </template>
 
@@ -45,6 +54,7 @@ import { useLazyAsyncData, useRoute, useRuntimeConfig } from '#imports';
 import { useStrapiData } from '@/composables/useStrapiData';
 import { useSEO } from '@/composables/useSEO';
 import { useI18n } from 'vue-i18n';
+import CtaSection from '@/components/CtaSection.vue';
 import ArticleHeader from '@/components/blog/ArticleHeader.vue';
 import ArticleCover from '@/components/blog/ArticleCover.vue';
 import ArticleAuthor from '@/components/blog/ArticleAuthor.vue';
@@ -53,7 +63,9 @@ import ArticleContent from '@/components/blog/ArticleContent.vue';
 import ArticleFooter from '@/components/blog/ArticleFooter.vue';
 import ArticleState from '@/components/blog/ArticleState.vue';
 import RelatedArticlesSection from '@/components/blog/RelatedArticlesSection.vue';
-import type { StrapiArticle } from '@/types/strapi';
+import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
+import type { StrapiArticle, StrapiCtaSection } from '@/types/strapi';
+import { FAQSection } from '#components';
 
 // Composables
 const { fetchArticleBySlug, fetchArticles } = useStrapiData();
@@ -151,6 +163,19 @@ const { data: relatedByCategoryData } = useLazyAsyncData<StrapiArticle[]>(
 );
 
 const relatedArticlesByCategory = computed<StrapiArticle[]>(() => relatedByCategoryData.value ?? []);
+
+const pageCtaSection = computed<StrapiCtaSection>(() => ({
+  title: resolvedArticle.value
+    ? `Still have questions about ${resolvedArticle.value.title}?`
+    : 'Still have questions?',
+  description: resolvedArticle.value
+    ? `Review the answers below, then book a call if you want to discuss ${resolvedArticle.value.title.toLowerCase()} with our team.`
+    : 'Review the answers below, then book a call with our team.',
+  buttonText: 'Book a Call',
+  buttonUrl: '#calendly-booking',
+  image: resolvedArticle.value?.cover ?? null,
+  imageAlt: resolvedArticle.value?.cover?.alternativeText || resolvedArticle.value?.title || 'Article CTA image',
+}));
 
 // Build SEO meta when article is available (this runs during SSR because useAsyncData resolved)
 const config = useRuntimeConfig();

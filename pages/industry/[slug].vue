@@ -44,63 +44,48 @@
         v-if="resolvedPage.industryStats"
         :section-data="resolvedPage.industryStats"
       />
-
+      
       <TestimonialsSection />
+      
+      <CtaSection
+        v-if="resolvedPage.ctaSection?.title"
+        :section-data="resolvedPage.ctaSection"
+        scroll-target-id="calendly-booking"
+      />
 
       <FAQSection />
+
+      <CalendlyBookingSection section-id="calendly-booking" />
     </template>
   </main>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useLazyAsyncData, useRoute, useRuntimeConfig } from 'nuxt/app';
+import { useAsyncData, useRoute, useRuntimeConfig } from 'nuxt/app';
 import { useI18n } from 'vue-i18n';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
+import CtaSection from '@/components/CtaSection.vue';
+import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
 import IndustryHeroSection from '@/components/industry/IndustryHeroSection.vue';
 import IndustryDescriptionSection from '@/components/industry/IndustryDescriptionSection.vue';
 import IndustryStatsSection from '@/components/industry/IndustryStatsSection.vue';
+import { usePageContentApi } from '@/composables/usePageContentApi';
 import { useSEO } from '@/composables/useSEO';
-import { useStrapiData } from '@/composables/useStrapiData';
 import type { StrapiIndustryPage } from '@/types/strapi';
 import { FAQSection, TestimonialsSection } from '#components';
 
 const route = useRoute();
 const { locale, t } = useI18n();
-const { fetchSingleBySlug } = useStrapiData();
+const { fetchIndustryPage } = usePageContentApi();
 
 const slug = computed(() => String(route.params.slug || ''));
 
-const { data: page, pending, error } = useLazyAsyncData<StrapiIndustryPage | null>(
+const { data: page, pending, error } = useAsyncData<StrapiIndustryPage | null>(
   `industry-page-${slug.value}-${locale.value}`,
-  async () =>
-    (await fetchSingleBySlug<StrapiIndustryPage>(
-      'industry-pages',
-      slug.value,
-      locale.value,
-      {
-        seo: true,
-        hero: { populate: { image: true, categories: true } },
-        industryDescription: {
-          populate: {
-            accordions: {
-              populate: {
-                card: {
-                  populate: { image: true },
-                },
-              },
-            },
-          },
-        },
-        industryStats: {
-          populate: {
-            accordions: true,
-          },
-        },
-      },
-    )) ?? null,
-  { default: () => null, server: false, watch: [slug, locale] },
+  async () => await fetchIndustryPage(slug.value, locale.value),
+  { default: () => null, watch: [slug, locale] },
 );
 
 const resolvedPage = computed<StrapiIndustryPage | null>(() => page.value ?? null);
