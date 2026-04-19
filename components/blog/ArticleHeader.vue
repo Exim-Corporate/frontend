@@ -1,18 +1,18 @@
 <template>
   <header class="mb-8">
-    <!-- Category Badge (if exists) -->
-    <div class="flex items-center justify-between mb-4">
+    <div class="mb-6 flex items-start justify-between gap-4 md:mb-8 md:items-center">
       <div
         v-if="article?.categories?.length"
-        class="mb-4 flex gap-4"
+        class="flex flex-wrap justify-center gap-2 md:justify-start"
       >
-        <Badge
+        <BaseChip
           v-for="category in article.categories"
-          :key="category.name"
-          :value="category.name"
-          :severity:="'secondary'"
-          class="uppercase font-medium text-md p-4"
-        />
+          :key="category.documentId || category.name"
+          variant="light"
+          size="small"
+        >
+          {{ category.name }}
+        </BaseChip>
       </div>
       <BlogButton
         :icon="'pi pi-arrow-left'"
@@ -60,7 +60,7 @@ import { useRouter } from 'nuxt/app';
 
 import type { StrapiArticle } from '@/types/strapi';
 import BlogButton from '@/components/UI/blog/BlogButton.vue';
-// import type { StrapiArticle } from '/types/strapi';
+import BaseChip from '@/components/UI/BaseChip.vue';
 import ArticleActions from './ArticleActions.vue';
 import { useI18n } from 'vue-i18n';
 const { locale } = useI18n();

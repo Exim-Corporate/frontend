@@ -11,7 +11,6 @@
         </AnimatedElement>
       </div>
 
-      <AnimatedElement direction="bottom" :delay="220">
           <div
             v-if="showFallbackState"
             class="flex min-h-180 flex-col items-center justify-center text-center"
@@ -59,7 +58,6 @@
               {{ contactEmail }}
             </NuxtLink>
           </div>
-      </AnimatedElement>
     </div>
   </section>
 </template>
@@ -118,9 +116,9 @@ const bookingLink = computed(() => {
 
   try {
     const url = new URL(link);
-    url.searchParams.set('primary_color', '4b5563');
-    url.searchParams.set('text_color', '111827');
-    url.searchParams.set('background_color', 'ffffff');
+    // url.searchParams.set('primary_color', '4b5563');
+    // url.searchParams.set('text_color', '111827');
+    // url.searchParams.set('background_color', 'ffffff');
     url.searchParams.set('locale', locale.value);
     // url.searchParams.set('hide_event_type_details', '1');
     return url.toString();
