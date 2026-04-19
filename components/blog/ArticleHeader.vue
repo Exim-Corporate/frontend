@@ -22,14 +22,14 @@
     </div>
 
     <!-- Main Title -->
-    <h1 class="text-5xl font-bold leading-tight mb-6 text-gray-900 dark:text-white font-georgia">
+    <h1 class="mb-6 font-serif text-5xl font-bold leading-tight text-gray-900 dark:text-white">
       {{ article.title }}
     </h1>
 
     <!-- Article Description -->
     <div
       v-if="article.description"
-      class="text-xl leading-relaxed text-gray-700 dark:text-gray-300 mb-8 font-georgia"
+      class="mb-8 font-sans text-xl leading-relaxed text-gray-700 dark:text-gray-300"
     >
       {{ article.description }}
     </div>

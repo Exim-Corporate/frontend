@@ -174,6 +174,7 @@ export default {
 
   modules: [
     '@nuxt/eslint',
+    '@nuxt/fonts',
     '@nuxt/image',
     '@primevue/nuxt-module',
     '@nuxtjs/i18n',
@@ -205,6 +206,31 @@ export default {
     quality: 85,
     // Использовать встроенный provider для SSG
     provider: 'ipx',
+  },
+
+  fonts: {
+    defaults: {
+      subsets: ['latin'],
+      styles: ['normal'],
+      fallbacks: {
+        'sans-serif': ['Arial', 'Helvetica Neue', 'sans-serif'],
+        serif: ['Times New Roman', 'Times', 'serif'],
+      },
+    },
+    families: [
+      {
+        name: 'Inter',
+        provider: 'google',
+        weights: ['300', '400', '500', '600', '700'],
+        preload: true,
+      },
+      {
+        name: 'Shippori Mincho',
+        provider: 'google',
+        weights: ['400', '500', '600', '700'],
+        preload: true,
+      },
+    ],
   },
 
   runtimeConfig: {

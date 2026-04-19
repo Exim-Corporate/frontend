@@ -1,6 +1,6 @@
 <template>
   <div class="app-shell overflow-hidden">
-    <Analytics />
+    <Analytics mode="production" />
     <NuxtLayout>
       <NuxtPage
         :transition="{

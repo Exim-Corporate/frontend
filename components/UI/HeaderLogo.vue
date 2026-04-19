@@ -6,7 +6,7 @@
     @click="onClickHome"
   >
     <NuxtImg
-      src="/images/LogoNew.webp"
+      src="/images/LogoNew.png"
       alt="AS EXIM"
       class="h-10 w-auto transition-all duration-300 hover:scale-105"
       draggable="false"
