@@ -39,7 +39,7 @@
             <iframe
               :src="bookingLink"
               title="Calendly booking widget"
-              loading="lazy"
+              loading="eager"
               class="min-h-180 w-full rounded-3xl border-0 bg-white"
             />
           </div>
@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useAsyncData, useRuntimeConfig } from '#imports';
+import { useAsyncData, useHead, useRuntimeConfig } from '#imports';
 import { useI18n } from 'vue-i18n';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BaseText from '@/components/UI/BaseText.vue';
@@ -127,6 +127,35 @@ const bookingLink = computed(() => {
     return '';
   }
 });
+
+const bookingOrigin = computed(() => {
+  if (!bookingLink.value) {
+    return '';
+  }
+
+  try {
+    return new URL(bookingLink.value).origin;
+  }
+  catch {
+    return '';
+  }
+});
+
+useHead(() => ({
+  link: bookingOrigin.value
+    ? [
+        {
+          rel: 'preconnect',
+          href: bookingOrigin.value,
+          crossorigin: '',
+        },
+        {
+          rel: 'dns-prefetch',
+          href: bookingOrigin.value,
+        },
+      ]
+    : [],
+}));
 
 const showFallbackState = computed(() => !pending.value && !bookingLink.value);
 </script>
