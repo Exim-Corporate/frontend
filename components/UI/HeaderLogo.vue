@@ -10,9 +10,6 @@
       alt="AS EXIM"
       class="h-10 w-auto transition-all duration-300 hover:scale-105"
       draggable="false"
-      width="278"
-      height="40"
-      sizes="278px"
       loading="eager"
       preload
       fetchpriority="high"
