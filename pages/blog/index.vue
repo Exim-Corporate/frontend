@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAsyncData } from '#imports';
+import { navigateTo, useAsyncData, useRoute } from '#imports';
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { usePageContentApi } from '@/composables/usePageContentApi';
@@ -86,11 +86,24 @@ import type { StrapiArticle } from '@/types/strapi';
 
 const { fetchArticleList } = usePageContentApi();
 const { locale, t } = useI18n();
-const currentPage = ref(1);
+const route = useRoute();
 const pageSize = ref(12);
 const totalItems = ref(0);
 const totalPages = ref(0);
 const articlesTopAnchor = ref<HTMLElement | null>(null);
+
+const currentPage = computed<number>(() => {
+  const rawQueryPage = Array.isArray(route.query.page)
+    ? route.query.page[0]
+    : route.query.page;
+  const parsedPage = Number.parseInt(String(rawQueryPage ?? '1'), 10);
+
+  if (!Number.isFinite(parsedPage) || parsedPage < 1) {
+    return 1;
+  }
+
+  return parsedPage;
+});
 
 const { data: articleData, pending, error } = await useAsyncData(
   () => `blog-articles-${locale.value}-page-${currentPage.value}`,
@@ -139,7 +152,21 @@ const onPageChange = (page: number): void => {
   }
 
   scrollToArticlesTop();
-  currentPage.value = page;
+
+  const nextQuery = {
+    ...route.query,
+    page: page > 1 ? String(page) : undefined,
+  };
+
+  void navigateTo(
+    {
+      path: route.path,
+      query: nextQuery,
+    },
+    {
+      replace: false,
+    },
+  );
 };
 
 useSEO({

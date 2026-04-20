@@ -34,6 +34,54 @@ const buildDynamicContentRoutes = async (): Promise<string[]> => {
   return routeGroups.flat();
 };
 
+const buildBlogPaginationRoutes = async (): Promise<string[]> => {
+  const { baseUrl, token } = getBuildStrapiConfig();
+  const headers: Record<string, string> = {};
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const fetchPageCount = async (locale: string): Promise<number> => {
+    const query = new URLSearchParams({
+      locale,
+      'pagination[page]': '1',
+      'pagination[pageSize]': '12',
+    });
+
+    const response = await fetch(`${baseUrl}/api/articles?${query.toString()}`, {
+      headers,
+    });
+
+    if (!response.ok) {
+      return 0;
+    }
+
+    const data = await response.json() as {
+      meta?: {
+        pagination?: {
+          pageCount?: number;
+        };
+      };
+    };
+
+    return data.meta?.pagination?.pageCount ?? 0;
+  };
+
+  const routes: string[] = [];
+
+  for (const locale of CONTENT_LOCALES) {
+    const pageCount = await fetchPageCount(locale);
+    const basePath = locale === 'en' ? '/blog' : `/${locale}/blog`;
+
+    for (let page = 2; page <= pageCount; page += 1) {
+      routes.push(`${basePath}?page=${page}`);
+    }
+  }
+
+  return routes;
+};
+
 export default {
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
@@ -44,9 +92,16 @@ export default {
   hooks: {
     async 'prerender:routes'(ctx: { routes: Set<string> }) {
       try {
-        const routes = await buildDynamicContentRoutes();
+        const [routes, paginationRoutes] = await Promise.all([
+          buildDynamicContentRoutes(),
+          buildBlogPaginationRoutes(),
+        ]);
 
         for (const route of routes) {
+          ctx.routes.add(route);
+        }
+
+        for (const route of paginationRoutes) {
           ctx.routes.add(route);
         }
       }
