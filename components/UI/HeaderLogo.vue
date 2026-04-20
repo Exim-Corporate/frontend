@@ -18,7 +18,7 @@
       fetchpriority="high"
       quality="85"
       densities="x1 x2"
-      format="webp"
+      format="png"
     />
   </NuxtLink>
 </template>

@@ -111,13 +111,13 @@ const getExcerpt = (description?: string): string => {
         <BaseTitle
           tag="h3"
           :variant="sm ? 'subheader16' : 'subheader18'"
-          :class-name="sm ? 'text-left text-text-dark leading-5 md:leading-6' : compact ? 'text-left text-text-dark leading-6 md:leading-8' : 'text-left text-text-dark leading-6 md:leading-8'"
+          :class-name="compact ? 'text-left text-text-dark text-[14px] leading-5 md:text-[14px] md:leading-5' : sm ? 'text-left text-text-dark leading-5 md:leading-6' : 'text-left text-text-dark leading-6 md:leading-8'"
         >
           {{ article.title }}
         </BaseTitle>
         <BaseText
           :variant="sm ? 'card12' : 'section'"
-          :class-name="sm ? 'mt-0.5 text-left text-text-dark line-clamp-1' : compact ? 'mt-1 text-left text-text-dark line-clamp-2 md:text-[18px] md:leading-7' : 'mt-1 text-left text-text-dark line-clamp-2 md:mt-2 md:max-w-200 md:text-[18px] md:leading-7'"
+          :class-name="compact ? 'mt-0.5 text-left text-text-dark text-[11px] leading-4 line-clamp-2 md:text-[11px] md:leading-4' : sm ? 'mt-0.5 text-left text-text-dark line-clamp-1' : 'mt-1 text-left text-text-dark line-clamp-2 md:mt-2 md:max-w-200 md:text-[18px] md:leading-7'"
         >
           {{ getExcerpt(article.description) }}
         </BaseText>
@@ -178,13 +178,13 @@ const getExcerpt = (description?: string): string => {
         <BaseTitle
           tag="h3"
           :variant="sm ? 'subheader16' : 'subheader18'"
-          :class-name="sm ? 'text-left text-text-dark leading-5 md:leading-6' : compact ? 'text-left text-text-dark leading-6 md:leading-8' : 'text-left text-text-dark leading-6 md:leading-8'"
+          :class-name="compact ? 'text-left text-text-dark text-[14px] leading-5 md:text-[14px] md:leading-5' : sm ? 'text-left text-text-dark leading-5 md:leading-6' : 'text-left text-text-dark leading-6 md:leading-8'"
         >
           {{ article.title }}
         </BaseTitle>
         <BaseText
           :variant="sm ? 'card12' : 'section'"
-          :class-name="sm ? 'mt-0.5 text-left text-text-dark line-clamp-1' : compact ? 'mt-1 text-left text-text-dark line-clamp-2 md:text-[18px] md:leading-7' : 'mt-1 text-left text-text-dark line-clamp-2 md:mt-2 md:max-w-200 md:text-[18px] md:leading-7'"
+          :class-name="compact ? 'mt-0.5 text-left text-text-dark text-[11px] leading-4 line-clamp-2 md:text-[11px] md:leading-4' : sm ? 'mt-0.5 text-left text-text-dark line-clamp-1' : 'mt-1 text-left text-text-dark line-clamp-2 md:mt-2 md:max-w-200 md:text-[18px] md:leading-7'"
         >
           {{ getExcerpt(article.description) }}
         </BaseText>
