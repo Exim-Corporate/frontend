@@ -79,11 +79,11 @@
                   :src="getImage(getPanelType(item.label))"
                   alt=""
                   width="248"
-                  height="604"
+                  height="400"
                   loading="lazy"
                   quality="85"
                   format="webp"
-                  class="hidden lg:block h-150 w-62 shrink-0 rounded-2xl object-cover"
+                  class="hidden lg:block h-auto w-62 shrink-0 rounded-2xl object-cover"
                 />
               </div>
 

@@ -8,13 +8,12 @@
     <NuxtImg
       src="/images/LogoNew.png"
       alt="AS EXIM"
-      class="h-10 w-auto transition-all duration-300 hover:scale-105"
+      class="w-auto transition-all duration-300 hover:scale-105"
       draggable="false"
       loading="eager"
       preload
       fetchpriority="high"
       quality="85"
-      densities="x1 x2"
       format="png"
     />
   </NuxtLink>
