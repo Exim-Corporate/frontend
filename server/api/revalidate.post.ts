@@ -109,7 +109,7 @@ export default defineEventHandler(async event => {
   const expectedSecret = String(config.revalidateSecret || '');
   const bypassToken = String(process.env.VERCEL_BYPASS_TOKEN || '');
   const protectionBypassSecret = String(
-    process.env.VERCEL_BYPASS_TOKEN || process.env.VERCEL_AUTOMATION_BYPASS_SECRET || '',
+    process.env.VERCEL_AUTOMATION_BYPASS_SECRET || process.env.VERCEL_BYPASS_TOKEN || '',
   );
   const siteUrl = String(config.public.siteUrl || '');
   const providedSecret = headerSecret || bodySecret;
