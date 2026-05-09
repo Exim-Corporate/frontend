@@ -1,5 +1,5 @@
 import { useRuntimeConfig } from '#imports';
-import { createError, defineEventHandler, readBody } from 'h3';
+import { createError, defineEventHandler, getHeader, readBody } from 'h3';
 
 const contentLocales = ['en', 'de', 'fr', 'es'] as const;
 
@@ -81,12 +81,14 @@ export default defineEventHandler(async event => {
     slug: rawBody.slug || rawBody.entry?.slug,
     locale: rawBody.locale || rawBody.entry?.locale,
   };
-  const secret = typeof body.secret === 'string' ? body.secret : '';
+  const bodySecret = typeof body.secret === 'string' ? body.secret : '';
+  const headerSecret = String(getHeader(event, 'x-revalidate-secret') || '');
   const expectedSecret = String(config.revalidateSecret || '');
   const bypassToken = String(process.env.VERCEL_BYPASS_TOKEN || '');
   const siteUrl = String(config.public.siteUrl || '');
+  const providedSecret = headerSecret || bodySecret;
 
-  if (!expectedSecret || secret !== expectedSecret) {
+  if (!expectedSecret || providedSecret !== expectedSecret) {
     throw createError({ statusCode: 401, message: 'Invalid revalidation secret' });
   }
 
@@ -101,7 +103,12 @@ export default defineEventHandler(async event => {
   const paths = Array.from(new Set([...explicitPaths, ...derivedPaths]));
 
   if (paths.length === 0) {
-    throw createError({ statusCode: 400, message: 'No revalidation paths provided' });
+    return {
+      revalidated: false,
+      skipped: true,
+      reason: 'No revalidation paths resolved for payload',
+      model: body.model || null,
+    };
   }
 
   const results = await Promise.all(
