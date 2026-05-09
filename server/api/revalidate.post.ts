@@ -1,5 +1,5 @@
 import { useRuntimeConfig } from '#imports';
-import { createError, defineEventHandler, getHeader, readBody } from 'h3';
+import { createError, defineEventHandler, getHeader, getRequestURL, readBody } from 'h3';
 
 const contentLocales = ['en', 'de', 'fr', 'es'] as const;
 
@@ -111,7 +111,9 @@ export default defineEventHandler(async event => {
   const protectionBypassSecret = String(
     process.env.VERCEL_AUTOMATION_BYPASS_SECRET || process.env.VERCEL_BYPASS_TOKEN || '',
   );
-  const siteUrl = String(config.public.siteUrl || '');
+  const requestOrigin = getRequestURL(event).origin;
+  const configuredSiteUrl = String(config.public.siteUrl || '');
+  const siteUrl = String(requestOrigin || configuredSiteUrl || '');
   const providedSecret = headerSecret || bodySecret;
 
   console.log(`[revalidate] Secret validation - header: ${headerSecret ? '✓ present' : '✗ missing'}, expected: ${expectedSecret ? '✓ set' : '✗ not set'}`);
@@ -128,6 +130,9 @@ export default defineEventHandler(async event => {
 
   console.log(
     `[revalidate] Deployment protection bypass for internal fetches: ${protectionBypassSecret ? 'enabled' : 'disabled'}`,
+  );
+  console.log(
+    `[revalidate] Revalidation target origin: request=${requestOrigin || 'n/a'}, configured=${configuredSiteUrl || 'n/a'}, using=${siteUrl || 'n/a'}`,
   );
 
   const explicitPaths = Array.isArray(body.paths)
