@@ -76,11 +76,15 @@ const buildPathsFromPayload = ({ model, slug, locale }: RevalidateBody): string[
 export default defineEventHandler(async event => {
   const config = useRuntimeConfig(event);
   const rawBody = await readBody<RevalidateBody>(event);
+  
+  console.log(`[revalidate] Received webhook:`, JSON.stringify(rawBody, null, 2));
+  
   const body: RevalidateBody = {
     ...rawBody,
     slug: rawBody.slug || rawBody.entry?.slug,
     locale: rawBody.locale || rawBody.entry?.locale,
   };
+  
   const bodySecret = typeof body.secret === 'string' ? body.secret : '';
   const headerSecret = String(getHeader(event, 'x-revalidate-secret') || '');
   const expectedSecret = String(config.revalidateSecret || '');
@@ -88,11 +92,15 @@ export default defineEventHandler(async event => {
   const siteUrl = String(config.public.siteUrl || '');
   const providedSecret = headerSecret || bodySecret;
 
+  console.log(`[revalidate] Secret validation - header: ${headerSecret ? '✓ present' : '✗ missing'}, expected: ${expectedSecret ? '✓ set' : '✗ not set'}`);
+
   if (!expectedSecret || providedSecret !== expectedSecret) {
+    console.error(`[revalidate] 401 Unauthorized - secret mismatch`);
     throw createError({ statusCode: 401, message: 'Invalid revalidation secret' });
   }
 
   if (!bypassToken || !siteUrl) {
+    console.error(`[revalidate] 500 - missing config: bypassToken=${!!bypassToken}, siteUrl=${!!siteUrl}`);
     throw createError({ statusCode: 500, message: 'Revalidation is not configured' });
   }
 
@@ -102,7 +110,10 @@ export default defineEventHandler(async event => {
   const derivedPaths = buildPathsFromPayload(body);
   const paths = Array.from(new Set([...explicitPaths, ...derivedPaths]));
 
+  console.log(`[revalidate] Paths to revalidate: ${JSON.stringify(paths)}`);
+
   if (paths.length === 0) {
+    console.warn(`[revalidate] No paths resolved for model: ${body.model}`);
     return {
       revalidated: false,
       skipped: true,
@@ -113,23 +124,54 @@ export default defineEventHandler(async event => {
 
   const results = await Promise.all(
     paths.map(async path => {
-      const response = await fetch(new URL(path, siteUrl).href, {
-        method: 'HEAD',
-        headers: {
-          'x-prerender-revalidate': bypassToken,
-        },
-      });
+      try {
+        const url = new URL(path, siteUrl).href;
+        
+        // Step 1: Invalidate the cache with HEAD request
+        console.log(`[revalidate] Invalidating cache for: ${path}`);
+        const headResponse = await fetch(url, {
+          method: 'HEAD',
+          headers: {
+            'x-prerender-revalidate': bypassToken,
+          },
+        });
+        console.log(`[revalidate] HEAD response for ${path}: ${headResponse.status}`);
 
-      return {
-        path,
-        ok: response.ok,
-        status: response.status,
-      };
+        // Step 2: Force regeneration with GET request
+        // This ensures the page is actually re-rendered immediately
+        console.log(`[revalidate] Forcing regeneration for: ${path}`);
+        const getResponse = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'x-prerender-revalidate': bypassToken,
+          },
+        });
+        console.log(`[revalidate] GET response for ${path}: ${getResponse.status}`);
+
+        const ok = headResponse.ok && getResponse.ok;
+        return {
+          path,
+          ok,
+          headStatus: headResponse.status,
+          getStatus: getResponse.status,
+          error: ok ? undefined : 'Head or GET request failed',
+        };
+      } catch (error) {
+        console.error(`[revalidate] Error revalidating ${path}:`, error);
+        return {
+          path,
+          ok: false,
+          error: error instanceof Error ? error.message : String(error),
+        };
+      }
     }),
   );
 
+  const allOk = results.every(result => result.ok);
+  console.log(`[revalidate] Final result - revalidated: ${allOk}, paths: ${paths.length}`, results);
+
   return {
-    revalidated: results.every(result => result.ok),
+    revalidated: allOk,
     results,
   };
 });
