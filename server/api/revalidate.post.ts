@@ -27,6 +27,14 @@ const normalizeModel = (model?: string): string => {
       return 'referral-page';
     case 'api::hire-page.hire-page':
       return 'hire-page';
+    case 'api::header-navigation.header-navigation':
+      return 'header-navigation';
+    case 'api::global.global':
+      return 'global';
+    case 'api::about.about':
+      return 'about';
+    case 'api::main-calendly.main-calendly':
+      return 'main-calendly';
     default:
       return model || '';
   }
@@ -45,6 +53,8 @@ const buildPathsFromPayload = ({ model, slug, locale }: RevalidateBody): string[
   const normalizedLocale = contentLocales.includes((locale || 'en') as (typeof contentLocales)[number])
     ? locale || 'en'
     : 'en';
+
+  const allLocaleHomePaths = contentLocales.map(currentLocale => withLocalePrefix('/', currentLocale));
 
   if (normalizedModel === 'article' && slug) {
     return [
@@ -68,6 +78,15 @@ const buildPathsFromPayload = ({ model, slug, locale }: RevalidateBody): string[
 
   if (normalizedModel === 'hire-page' && slug) {
     return [withLocalePrefix('/', normalizedLocale), withLocalePrefix(`/hire/${slug}`, normalizedLocale)];
+  }
+
+  if (
+    normalizedModel === 'header-navigation'
+    || normalizedModel === 'global'
+    || normalizedModel === 'about'
+    || normalizedModel === 'main-calendly'
+  ) {
+    return allLocaleHomePaths;
   }
 
   return [];
