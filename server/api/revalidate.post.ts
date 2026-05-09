@@ -163,7 +163,6 @@ export default defineEventHandler(async event => {
 
         if (protectionBypassSecret) {
           headers['x-vercel-protection-bypass'] = protectionBypassSecret;
-          targetUrl.searchParams.set('x-vercel-protection-bypass', protectionBypassSecret);
         }
 
         const url = targetUrl.href;
