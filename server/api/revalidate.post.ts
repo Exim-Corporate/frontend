@@ -108,6 +108,9 @@ export default defineEventHandler(async event => {
   const headerSecret = String(getHeader(event, 'x-revalidate-secret') || '');
   const expectedSecret = String(config.revalidateSecret || '');
   const bypassToken = String(process.env.VERCEL_BYPASS_TOKEN || '');
+  const protectionBypassSecret = String(
+    process.env.VERCEL_BYPASS_TOKEN || process.env.VERCEL_AUTOMATION_BYPASS_SECRET || '',
+  );
   const siteUrl = String(config.public.siteUrl || '');
   const providedSecret = headerSecret || bodySecret;
 
@@ -122,6 +125,10 @@ export default defineEventHandler(async event => {
     console.error(`[revalidate] 500 - missing config: bypassToken=${!!bypassToken}, siteUrl=${!!siteUrl}`);
     throw createError({ statusCode: 500, message: 'Revalidation is not configured' });
   }
+
+  console.log(
+    `[revalidate] Deployment protection bypass for internal fetches: ${protectionBypassSecret ? 'enabled' : 'disabled'}`,
+  );
 
   const explicitPaths = Array.isArray(body.paths)
     ? body.paths.filter((path): path is string => typeof path === 'string' && path.startsWith('/'))
@@ -144,15 +151,25 @@ export default defineEventHandler(async event => {
   const results = await Promise.all(
     paths.map(async path => {
       try {
-        const url = new URL(path, siteUrl).href;
+        const targetUrl = new URL(path, siteUrl);
+        const headers: Record<string, string> = {
+          'x-prerender-revalidate': bypassToken,
+        };
+
+        if (protectionBypassSecret) {
+          headers['x-vercel-protection-bypass'] = protectionBypassSecret;
+          headers['x-vercel-set-bypass-cookie'] = 'true';
+          targetUrl.searchParams.set('x-vercel-protection-bypass', protectionBypassSecret);
+          targetUrl.searchParams.set('x-vercel-set-bypass-cookie', 'true');
+        }
+
+        const url = targetUrl.href;
         
         // Step 1: Invalidate the cache with HEAD request
         console.log(`[revalidate] Invalidating cache for: ${path}`);
         const headResponse = await fetch(url, {
           method: 'HEAD',
-          headers: {
-            'x-prerender-revalidate': bypassToken,
-          },
+          headers,
         });
         console.log(`[revalidate] HEAD response for ${path}: ${headResponse.status}`);
 
@@ -161,9 +178,7 @@ export default defineEventHandler(async event => {
         console.log(`[revalidate] Forcing regeneration for: ${path}`);
         const getResponse = await fetch(url, {
           method: 'GET',
-          headers: {
-            'x-prerender-revalidate': bypassToken,
-          },
+          headers,
         });
         console.log(`[revalidate] GET response for ${path}: ${getResponse.status}`);
 
