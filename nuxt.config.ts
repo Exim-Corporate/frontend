@@ -157,14 +157,24 @@ export default {
           if (!existsSync(htmlSrc)) continue;
 
           const key = route === '/' ? 'index' : route.replace(/^\//, '');
+          const fallbackName = `${key.split('/').at(-1)}.prerender-fallback.html`;
           mkdirSync(resolve(functionsDir, dirname(key)), { recursive: true });
 
           writeFileSync(resolve(functionsDir, `${key}.prerender-fallback.html`), readFileSync(htmlSrc));
           writeFileSync(
             resolve(functionsDir, `${key}.prerender-config.json`),
-            JSON.stringify({ expiration: typeof match[1] === 'number' ? match[1] : false, ...(bypassToken ? { bypassToken } : {}) }),
+            JSON.stringify({
+              expiration: typeof match[1] === 'number' ? match[1] : false,
+              fallback: fallbackName,
+              ...(bypassToken ? { bypassToken } : {}),
+            }),
           );
           unlinkSync(htmlSrc);
+
+          // Also remove _payload.json so client-side navigation goes through ISR too
+          const payloadSrc = resolve(staticDir, route.replace(/^\//, ''), '_payload.json');
+          if (existsSync(payloadSrc)) unlinkSync(payloadSrc);
+
           count++;
         }
 
