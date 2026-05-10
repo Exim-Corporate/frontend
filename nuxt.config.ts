@@ -1,7 +1,7 @@
 import Noir from './assets/theme';
 import tailwindcss from '@tailwindcss/vite';
-import { readFileSync, writeFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
 import { buildLocalizedPaths, CONTENT_LOCALES, fetchLocalizedRouteEntries } from './utils/strapiRoutes';
 
 const contentRouteSources = [
@@ -112,75 +112,63 @@ export default {
       }
     },
 
-    // Documented approach:
-    // 1. Nuxt hook `nitro:init` — https://nuxt.com/docs/api/advanced/hooks#nuxt-hooks-build-time
-    //    "Called after Nitro is initialized, allows registering Nitro hooks"
-    // 2. Nitro hook `compiled` — fires after ALL output files are written (including config.json)
-    // 3. Vercel Build Output API `has` on routes — https://vercel.com/docs/build-output-api/v3/configuration#routes
-    //    "Conditions of the HTTP request that must exist to apply the route"
+    // Vercel serves static files from .vercel/output/static/ BEFORE config.json routing.
+    // Moving ISR routes in config.json has no effect — static files always win.
     //
-    // ПРОБЛЕМА: Nitro размещает ISR-роуты ПОСЛЕ { handle: "filesystem" }.
-    // Filesystem handler отдаёт статику до ISR-функции, поэтому x-prerender-revalidate
-    // никогда не достигает ISR-функции (x-matched-path=-).
+    // Fix: for each prerendered ISR page, move the HTML to a .prerender-fallback.html
+    // (Vercel ISR pre-warming) and delete from static. Vercel then serves the fallback
+    // on first request (no cold start) and replaces it on revalidation.
     //
-    // РЕШЕНИЕ: вставить bypass-варианты ISR-роутов ПЕРЕД filesystem handler.
-    // Эти роуты срабатывают ТОЛЬКО при наличии заголовка x-prerender-revalidate.
-    // Обычные запросы — через filesystem → статика (быстро).
-    // Запросы с x-prerender-revalidate — через bypass → ISR-функция → ревалидация.
-    'nitro:init'(nitro: { hooks: { hook: (event: string, cb: (n: { options: { output: { dir: string }; preset: string } }) => Promise<void>) => void } }) {
-      nitro.hooks.hook('compiled', async (nitro: { options: { output: { dir: string }; preset: string } }) => {
+    // Docs: https://vercel.com/docs/build-output-api/v3/primitives#prerender-functions
+    'nitro:init'(nitro: { hooks: { hook: (event: string, cb: (n: unknown) => Promise<void>) => void } }) {
+      nitro.hooks.hook('compiled', async (n: unknown) => {
+        const nitro = n as {
+          options: {
+            preset: string;
+            output: { dir: string; serverDir: string };
+            routeRules: Record<string, { isr?: number | boolean }>;
+            vercel?: { config?: { bypassToken?: string } };
+          };
+          _prerenderedRoutes?: Array<{ route: string; fileName: string }>;
+        };
+
         if (nitro.options.preset !== 'vercel') return;
 
-        const configPath = resolve(nitro.options.output.dir, 'config.json');
-        let config: { routes?: Array<Record<string, unknown>> };
+        const { output, routeRules, vercel } = nitro.options;
+        const bypassToken = vercel?.config?.bypassToken;
+        const functionsDir = resolve(output.serverDir, '..');
+        const staticDir = resolve(output.dir, 'static');
 
-        try {
-          config = JSON.parse(readFileSync(configPath, 'utf-8'));
+        const isrPrefixes = Object.entries(routeRules)
+          .filter(([, r]) => r.isr)
+          .map(([pat, r]) => [pat.replace(/\/\*\*?$/, ''), r.isr] as [string, number | boolean]);
+
+        if (!isrPrefixes.length) return;
+
+        const matchIsr = (route: string) =>
+          isrPrefixes.find(([prefix]) => route === prefix || route.startsWith(prefix + '/'));
+
+        let count = 0;
+        for (const { route, fileName } of nitro._prerenderedRoutes ?? []) {
+          const match = matchIsr(route);
+          if (!match) continue;
+
+          const htmlSrc = resolve(staticDir, fileName.replace(/^\//, ''));
+          if (!existsSync(htmlSrc)) continue;
+
+          const key = route === '/' ? 'index' : route.replace(/^\//, '');
+          mkdirSync(resolve(functionsDir, dirname(key)), { recursive: true });
+
+          writeFileSync(resolve(functionsDir, `${key}.prerender-fallback.html`), readFileSync(htmlSrc));
+          writeFileSync(
+            resolve(functionsDir, `${key}.prerender-config.json`),
+            JSON.stringify({ expiration: typeof match[1] === 'number' ? match[1] : false, ...(bypassToken ? { bypassToken } : {}) }),
+          );
+          unlinkSync(htmlSrc);
+          count++;
         }
-        catch {
-          return;
-        }
 
-        const routes = config.routes;
-        if (!Array.isArray(routes)) return;
-
-        const fsIndex = routes.findIndex(r => r.handle === 'filesystem');
-        if (fsIndex === -1) return;
-
-        // ISR-роуты — после filesystem handler, содержат '-isr' в dest
-        const isrRoutes = routes
-          .slice(fsIndex + 1)
-          .filter(r => typeof r.dest === 'string' && (r.dest as string).includes('-isr') && !r.has);
-
-        if (isrRoutes.length === 0) return;
-
-        // ПРОБЛЕМА: Patch с `has: x-prerender-revalidate` обновляет ISR-кеш,
-        // но пользователи всё равно получают старый контент — filesystem handler
-        // отдаёт статический файл из .output/public/, а не из ISR-кеша.
-        //
-        // РЕШЕНИЕ: Переносим ВСЕ ISR-роуты ПЕРЕД filesystem handler (без условия `has`).
-        // Тогда:
-        //   - Обычные запросы → ISR функция → ISR edge cache (Vercel CDN) → MISS/HIT
-        //   - Revalidation → ISR функция регенерирует → ISR edge cache обновляется
-        //   - Следующие запросы → ISR edge cache → HIT (свежий контент) ✅
-        //
-        // Статические файлы в .output/public/ остаются как fallback (не используются
-        // для ISR-страниц, т.к. ISR-роуты теперь идут первыми).
-        //
-        // Документация: https://vercel.com/docs/build-output-api/v3/configuration#routes
-
-        // Удаляем ISR-роуты из их текущей позиции (после filesystem)
-        const isrRouteSet = new Set(isrRoutes.map(r => JSON.stringify(r)));
-        const cleanedRoutes = routes.filter(r => !isrRouteSet.has(JSON.stringify(r)));
-
-        // Вставляем ISR-роуты ПЕРЕД filesystem handler
-        const newFsIndex = cleanedRoutes.findIndex(r => r.handle === 'filesystem');
-        cleanedRoutes.splice(newFsIndex, 0, ...isrRoutes);
-
-        config.routes = cleanedRoutes;
-        writeFileSync(configPath, JSON.stringify(config, null, 2));
-
-        console.log(`\n✅ [isr-patch] Patched Vercel config.json: moved ${isrRoutes.length} ISR routes before filesystem handler (all requests use ISR edge cache)`);
+        if (count) console.log(`\n✅ [isr-patch] ${count} prerendered ISR pages → prerender-fallback (no cold start + revalidation)`);
       });
     },
   },
