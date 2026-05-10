@@ -170,11 +170,6 @@ export default {
             }),
           );
           unlinkSync(htmlSrc);
-
-          // Also remove _payload.json so client-side navigation goes through ISR too
-          const payloadSrc = resolve(staticDir, route.replace(/^\//, ''), '_payload.json');
-          if (existsSync(payloadSrc)) unlinkSync(payloadSrc);
-
           count++;
         }
 
@@ -394,6 +389,7 @@ export default {
 
   experimental: {
     scanPageMeta: true,
+    payloadExtraction: false,
   },
 
   aos: {
