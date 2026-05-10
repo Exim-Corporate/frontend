@@ -104,6 +104,10 @@ export default defineEventHandler(async event => {
 
   console.log('[revalidate] PATHS TO REVALIDATE: ' + JSON.stringify(paths));
 
+  // Strapi sends webhook BEFORE transaction completes, causing Race Condition
+  console.log('[revalidate] WAITING 3s for Strapi DB commit...');
+  await new Promise(resolve => setTimeout(resolve, 3000));
+
   const results = await Promise.all(
     paths.map(async path => {
       const url = `${SITE_URL}${path}`;
@@ -118,12 +122,12 @@ export default defineEventHandler(async event => {
       try {
         console.log('[revalidate] -> FETCH: ' + path);
         const response = await fetch(url, {
-          method: 'GET',
+          method: 'HEAD',
           headers,
           redirect: 'manual',
         });
         console.log('[revalidate] <- RESPONSE: ' + path + ' status=' + response.status);
-        return { path, ok: response.status === 200, status: response.status };
+        return { path, ok: response.status === 200 || response.status === 304, status: response.status };
       } catch (err) {
         console.error('[revalidate] ERROR: ' + path + ' - ' + (err instanceof Error ? err.message : String(err)));
         return { path, ok: false, error: String(err) };
