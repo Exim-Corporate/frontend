@@ -83,7 +83,7 @@ const buildPaths = (model: string, slug?: string, locale: string = 'en'): string
   }
 
   if (normalized === 'single-type') {
-    return LOCALES.map(loc => loc === 'en' ? '/' : `/${loc}/`);
+    return LOCALES.map(loc => (loc === 'en' ? '/' : `/${loc}/`));
   }
 
   return [];

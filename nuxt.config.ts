@@ -200,7 +200,7 @@ export default {
       '/es/**': { isr: 600 },
       '/api/**': {
         cors: true,
-        headers: { 'cache-control': 's-maxage=1, stale-while-revalidate=31536000' },
+        headers: { 'cache-control': 'no-store, max-age=0' },
       },
       '/preview/**': {
         prerender: false,
