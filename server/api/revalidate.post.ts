@@ -2,6 +2,8 @@ import { defineEventHandler, createError, getHeader, readBody } from 'h3';
 
 const LOCALES = ['en', 'de', 'fr', 'es'] as const;
 const SECRET = process.env.REVALIDATE_SECRET || '';
+const BYPASS_TOKEN = process.env.VERCEL_BYPASS_TOKEN || '';
+const PROTECTION_BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET || '';
 const SITE_URL = process.env.NUXT_PUBLIC_SITE_URL || 'https://outsource-nuxt-git-test-artems-projects-543846aa.vercel.app';
 
 interface WebhookBody {
@@ -99,38 +101,44 @@ export default defineEventHandler(async event => {
   }
 
   console.log('[revalidate] triggering revalidation for paths:', paths);
+  console.log('[revalidate] BYPASS_TOKEN available:', !!BYPASS_TOKEN);
+  console.log('[revalidate] PROTECTION_BYPASS available:', !!PROTECTION_BYPASS);
 
-  // Make HEAD requests to trigger ISR revalidation
-  // x-prerender-revalidate header tells Vercel ISR to clear cache
-  const bypassToken = process.env.VERCEL_BYPASS_TOKEN || '';
-  const protectionBypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET || '';
+  if (!BYPASS_TOKEN) {
+    console.warn('[revalidate] VERCEL_BYPASS_TOKEN not set - ISR revalidation will not work');
+  }
+  if (!PROTECTION_BYPASS) {
+    console.warn('[revalidate] VERCEL_AUTOMATION_BYPASS_SECRET not set - may fail if Deployment Protection enabled');
+  }
 
   const results = await Promise.all(
     paths.map(async path => {
       try {
         const url = `${SITE_URL}${path}`;
-        const headers: Record<string, string> = {};
+        const headers: Record<string, string> = {
+          'x-prerender-revalidate': BYPASS_TOKEN || '',
+        };
 
-        // Add both headers: one for ISR, one for Deployment Protection bypass
-        if (bypassToken) {
-          headers['x-prerender-revalidate'] = bypassToken;
+        // If Deployment Protection is enabled, we need this to pass through
+        if (PROTECTION_BYPASS) {
+          headers['x-vercel-protection-bypass'] = PROTECTION_BYPASS;
         }
-        if (protectionBypass) {
-          headers['x-vercel-protection-bypass'] = protectionBypass;
-        }
 
-        console.log(`[revalidate] requesting ${path} with headers:`, Object.keys(headers));
+        console.log(`[revalidate] GET ${path}`);
+        console.log(`[revalidate] headers:`, {
+          'x-prerender-revalidate': BYPASS_TOKEN ? '***' : 'EMPTY',
+          'x-vercel-protection-bypass': PROTECTION_BYPASS ? '***' : 'NOT SET',
+        });
 
-        // Use HEAD to trigger cache revalidation without downloading response body
-        const response = await fetch(url, { method: 'GET', headers });
+        const response = await fetch(url, {
+          method: 'GET',
+          headers,
+          redirect: 'manual',
+        });
         
         console.log(`[revalidate] ${path}: ${response.status}`);
 
-        if (response.status === 200 || response.status === 304) {
-          return { path, ok: true, status: response.status };
-        } else {
-          return { path, ok: false, status: response.status };
-        }
+        return { path, ok: response.status === 200, status: response.status };
       } catch (err) {
         console.error(`[revalidate] error revalidating ${path}:`, err);
         return { path, ok: false, error: String(err) };
