@@ -200,8 +200,11 @@ export default {
     },
 
     prerender: {
-      crawlLinks: true,
-      routes: [],
+      // crawlLinks: false — не создаём статические HTML-файлы для ISR-страниц
+      // Иначе Vercel отдаёт их как static files (handle: filesystem, route [12])
+      // и ISR-маршруты + x-prerender-revalidate header НИКОГДА не обрабатываются
+      crawlLinks: false,
+      routes: ['/sitemap.xml'],
     },
   },
 
