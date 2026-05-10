@@ -328,12 +328,6 @@ export default {
 
   experimental: {
     scanPageMeta: true,
-    payloadExtraction: false,
-    defaults: {
-      nuxtLink: {
-        prefetch: false,
-      },
-    },
   },
 
   aos: {
