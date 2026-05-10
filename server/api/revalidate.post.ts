@@ -5,7 +5,7 @@ const SECRET = process.env.REVALIDATE_SECRET || '';
 const BYPASS_TOKEN = process.env.VERCEL_BYPASS_TOKEN || '';
 const PROTECTION_BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET || '';
 const DEBUG_REVALIDATE_TOKENS = process.env.DEBUG_REVALIDATE_TOKENS === 'true';
-const SITE_URL = process.env.NUXT_PUBLIC_SITE_URL || 'https://outsource-nuxt-git-test-artems-projects-543846aa.vercel.app';
+const SITE_URL = process.env.NUXT_PUBLIC_SITE_URL || '';
 
 interface WebhookBody {
   secret?: string;
@@ -97,6 +97,7 @@ export default defineEventHandler(async event => {
   console.log('[revalidate] webhook received', { model: body.model, slug: body.entry?.slug });
   console.log('[revalidate] ENV: BYPASS_TOKEN len=' + (BYPASS_TOKEN?.length || 0) + ', PROTECTION_BYPASS len=' + (PROTECTION_BYPASS?.length || 0));
   console.log('[revalidate] TOKEN CHECK: BYPASS=' + maskToken(BYPASS_TOKEN) + ', PROTECTION=' + maskToken(PROTECTION_BYPASS));
+  console.log('[revalidate] DEPLOY INFO: VERCEL_URL=' + (process.env.VERCEL_URL || '-') + ', SITE_URL=' + (SITE_URL || '-'));
 
   if (DEBUG_REVALIDATE_TOKENS) {
     console.log('[revalidate] DEBUG TOKEN BYPASS(full)=', BYPASS_TOKEN);
@@ -121,23 +122,38 @@ export default defineEventHandler(async event => {
 
   console.log('[revalidate] PATHS TO REVALIDATE: ' + JSON.stringify(paths));
 
+  const forwardedHost = getHeader(event, 'x-forwarded-host');
+  const host = getHeader(event, 'host');
+  const proto = getHeader(event, 'x-forwarded-proto') || 'https';
+  const currentHost = forwardedHost || host || process.env.VERCEL_URL || '';
+  const baseUrl = currentHost
+    ? `${proto}://${currentHost}`
+    : SITE_URL;
+
+  if (!baseUrl) {
+    throw createError({ statusCode: 500, message: 'Cannot resolve base URL for ISR revalidation' });
+  }
+
+  console.log('[revalidate] TARGET BASE URL: ' + baseUrl);
+
   // Strapi sends webhook BEFORE transaction completes, causing Race Condition
   console.log('[revalidate] WAITING 3s for Strapi DB commit...');
   await new Promise(resolve => setTimeout(resolve, 3000));
 
   const results = await Promise.all(
     paths.map(async path => {
-      const url = `${SITE_URL}${path}`;
+      const url = new URL(path, baseUrl).toString();
       const headers: Record<string, string> = {
         'x-prerender-revalidate': BYPASS_TOKEN || '',
       };
 
       if (PROTECTION_BYPASS) {
         headers['x-vercel-protection-bypass'] = PROTECTION_BYPASS;
+        headers['x-vercel-set-bypass-cookie'] = PROTECTION_BYPASS;
       }
 
       try {
-        console.log('[revalidate] -> FETCH: ' + path);
+        console.log('[revalidate] -> FETCH: ' + path + ' url=' + url);
         console.log(
           '[revalidate] -> HEADERS: x-prerender-revalidate(len=' +
             (headers['x-prerender-revalidate']?.length || 0) +
