@@ -33,46 +33,46 @@ const normalizeModel = (model: string): string => {
 
 const buildPaths = (model: string, slug?: string, locale: string = 'en'): string[] => {
   const normalized = normalizeModel(model);
-  const localePrefix = locale === 'en' ? '' : `/${locale}`;
+  const localePrefix = locale === 'en' ? '' : '/${locale}';
 
   if (normalized === 'article' && slug) {
     return [
-      `${localePrefix}/`,
-      `${localePrefix}/blog`,
-      `${localePrefix}/blog/${slug}`,
+      '${localePrefix}/',
+      '${localePrefix}/blog',
+      '${localePrefix}/blog/${slug}',
     ];
   }
 
   if (normalized === 'industry-page' && slug) {
     return [
-      `${localePrefix}/`,
-      `${localePrefix}/industry/${slug}`,
+      '${localePrefix}/',
+      '${localePrefix}/industry/${slug}',
     ];
   }
 
   if (normalized === 'service-page' && slug) {
     return [
-      `${localePrefix}/`,
-      `${localePrefix}/services/${slug}`,
+      '${localePrefix}/',
+      '${localePrefix}/services/${slug}',
     ];
   }
 
   if (normalized === 'referral-page') {
     return [
-      `${localePrefix}/`,
-      `${localePrefix}/referrals`,
+      '${localePrefix}/',
+      '${localePrefix}/referrals',
     ];
   }
 
   if (normalized === 'hire-page' && slug) {
     return [
-      `${localePrefix}/`,
-      `${localePrefix}/hire/${slug}`,
+      '${localePrefix}/',
+      '${localePrefix}/hire/${slug}',
     ];
   }
 
   if (normalized === 'single-type') {
-    return LOCALES.map(loc => loc === 'en' ? '/' : `/${loc}/`);
+    return LOCALES.map(loc => loc === 'en' ? '/' : '/${loc}/');
   }
 
   return [];
@@ -82,11 +82,13 @@ export default defineEventHandler(async event => {
   const body = await readBody<WebhookBody>(event);
   const headerSecret = getHeader(event, 'x-revalidate-secret');
 
+  console.log('[revalidate] ===== WEBHOOK START =====');
   console.log('[revalidate] webhook received', { model: body.model, slug: body.entry?.slug });
+  console.log('[revalidate] ENV: BYPASS_TOKEN len=' + (BYPASS_TOKEN?.length || 0) + ', PROTECTION_BYPASS len=' + (PROTECTION_BYPASS?.length || 0));
 
   // Validate secret
   if (!SECRET || headerSecret !== SECRET) {
-    console.error('[revalidate] invalid secret');
+    console.error('[revalidate] INVALID SECRET');
     throw createError({ statusCode: 401, message: 'Unauthorized' });
   }
 
@@ -96,63 +98,50 @@ export default defineEventHandler(async event => {
   const paths = buildPaths(body.model || '', slug, locale);
 
   if (!paths.length) {
-    console.warn('[revalidate] no paths resolved');
-    return { ok: false, reason: 'no paths' };
+    console.warn('[revalidate] NO PATHS RESOLVED for model=' + body.model);
+    return { ok: false, reason: 'no paths', model: body.model };
   }
 
-  console.log('[revalidate] triggering revalidation for paths:', paths);
-  console.log('[revalidate] BYPASS_TOKEN available:', !!BYPASS_TOKEN);
-  console.log('[revalidate] PROTECTION_BYPASS available:', !!PROTECTION_BYPASS);
-
-  if (!BYPASS_TOKEN) {
-    console.warn('[revalidate] VERCEL_BYPASS_TOKEN not set - ISR revalidation will not work');
-  }
-  if (!PROTECTION_BYPASS) {
-    console.warn('[revalidate] VERCEL_AUTOMATION_BYPASS_SECRET not set - may fail if Deployment Protection enabled');
-  }
+  console.log('[revalidate] PATHS TO REVALIDATE: ' + JSON.stringify(paths));
 
   const results = await Promise.all(
     paths.map(async path => {
+      const url = '${SITE_URL}' + path;
+      const headers: Record<string, string> = {
+        'x-prerender-revalidate': BYPASS_TOKEN || '',
+      };
+
+      if (PROTECTION_BYPASS) {
+        headers['x-vercel-protection-bypass'] = PROTECTION_BYPASS;
+      }
+
       try {
-        const url = `${SITE_URL}${path}`;
-        const headers: Record<string, string> = {
-          'x-prerender-revalidate': BYPASS_TOKEN || '',
-        };
-
-        // If Deployment Protection is enabled, we need this to pass through
-        if (PROTECTION_BYPASS) {
-          headers['x-vercel-protection-bypass'] = PROTECTION_BYPASS;
-        }
-
-        console.log(`[revalidate] GET ${path}`);
-        console.log(`[revalidate] headers:`, {
-          'x-prerender-revalidate': BYPASS_TOKEN ? '***' : 'EMPTY',
-          'x-vercel-protection-bypass': PROTECTION_BYPASS ? '***' : 'NOT SET',
-        });
-
+        console.log('[revalidate] -> FETCH: ' + path);
         const response = await fetch(url, {
           method: 'GET',
           headers,
           redirect: 'manual',
         });
-        
-        console.log(`[revalidate] ${path}: ${response.status}`);
-
+        console.log('[revalidate] <- RESPONSE: ' + path + ' status=' + response.status);
         return { path, ok: response.status === 200, status: response.status };
       } catch (err) {
-        console.error(`[revalidate] error revalidating ${path}:`, err);
+        console.error('[revalidate] ERROR: ' + path + ' - ' + (err instanceof Error ? err.message : String(err)));
         return { path, ok: false, error: String(err) };
       }
     }),
   );
 
   const success = results.every(r => r.ok);
-  console.log('[revalidate] done:', { success, results });
+  console.log('[revalidate] ===== DONE ===== success=' + success + ' results=' + JSON.stringify(results));
 
   return {
     ok: success,
     revalidated: success,
     paths,
     results,
+    tokenInfo: {
+      bypassToken: !!BYPASS_TOKEN,
+      protectionBypass: !!PROTECTION_BYPASS,
+    },
   };
 });
