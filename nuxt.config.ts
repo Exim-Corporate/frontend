@@ -10,6 +10,11 @@ const contentRouteSources = [
 
 const contentIsrTtl = 60 * 60 * 24 * 14;
 
+const isIsrManagedRoute = (route: string): boolean => {
+  return /^\/(blog|industry|services|hire|referrals)(\/|$)/.test(route)
+    || /^\/(de|fr|es)\/(blog|industry|services|hire|referrals)(\/|$)/.test(route);
+};
+
 const getBuildStrapiConfig = () => ({
   baseUrl: process.env.STRAPI_URL || 'http://127.0.0.1:1337',
   token: process.env.STRAPI_TOKEN,
@@ -98,11 +103,15 @@ export default {
         ]);
 
         for (const route of routes) {
-          ctx.routes.add(route);
+          if (!isIsrManagedRoute(route)) {
+            ctx.routes.add(route);
+          }
         }
 
         for (const route of paginationRoutes) {
-          ctx.routes.add(route);
+          if (!isIsrManagedRoute(route)) {
+            ctx.routes.add(route);
+          }
         }
       }
       catch (error) {
