@@ -33,46 +33,46 @@ const normalizeModel = (model: string): string => {
 
 const buildPaths = (model: string, slug?: string, locale: string = 'en'): string[] => {
   const normalized = normalizeModel(model);
-  const localePrefix = locale === 'en' ? '' : '/${locale}';
+  const localePrefix = locale === 'en' ? '' : `/${locale}`;
 
   if (normalized === 'article' && slug) {
     return [
-      '${localePrefix}/',
-      '${localePrefix}/blog',
-      '${localePrefix}/blog/${slug}',
+      `${localePrefix}/`,
+      `${localePrefix}/blog`,
+      `${localePrefix}/blog/${slug}`,
     ];
   }
 
   if (normalized === 'industry-page' && slug) {
     return [
-      '${localePrefix}/',
-      '${localePrefix}/industry/${slug}',
+      `${localePrefix}/`,
+      `${localePrefix}/industry/${slug}`,
     ];
   }
 
   if (normalized === 'service-page' && slug) {
     return [
-      '${localePrefix}/',
-      '${localePrefix}/services/${slug}',
+      `${localePrefix}/`,
+      `${localePrefix}/services/${slug}`,
     ];
   }
 
   if (normalized === 'referral-page') {
     return [
-      '${localePrefix}/',
-      '${localePrefix}/referrals',
+      `${localePrefix}/`,
+      `${localePrefix}/referrals`,
     ];
   }
 
   if (normalized === 'hire-page' && slug) {
     return [
-      '${localePrefix}/',
-      '${localePrefix}/hire/${slug}',
+      `${localePrefix}/`,
+      `${localePrefix}/hire/${slug}`,
     ];
   }
 
   if (normalized === 'single-type') {
-    return LOCALES.map(loc => loc === 'en' ? '/' : '/${loc}/');
+    return LOCALES.map(loc => loc === 'en' ? '/' : `/${loc}/`);
   }
 
   return [];
@@ -106,7 +106,7 @@ export default defineEventHandler(async event => {
 
   const results = await Promise.all(
     paths.map(async path => {
-      const url = '${SITE_URL}' + path;
+      const url = `${SITE_URL}${path}`;
       const headers: Record<string, string> = {
         'x-prerender-revalidate': BYPASS_TOKEN || '',
       };
