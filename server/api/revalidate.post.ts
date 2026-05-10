@@ -2,7 +2,6 @@ import { defineEventHandler, createError, getHeader, readBody } from 'h3';
 
 const LOCALES = ['en', 'de', 'fr', 'es'] as const;
 const SECRET = process.env.REVALIDATE_SECRET || '';
-const PROTECTION_BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET || '';
 const SITE_URL = process.env.NUXT_PUBLIC_SITE_URL || 'https://outsource-nuxt-git-test-artems-projects-543846aa.vercel.app';
 
 interface WebhookBody {
@@ -99,28 +98,47 @@ export default defineEventHandler(async event => {
     return { ok: false, reason: 'no paths' };
   }
 
-  console.log('[revalidate] revalidating paths:', paths);
+  console.log('[revalidate] triggering revalidation for paths:', paths);
 
-  // Revalidate each path
+  // Make HEAD requests to trigger ISR revalidation
+  // x-prerender-revalidate header tells Vercel ISR to clear cache
+  const bypassToken = process.env.VERCEL_BYPASS_TOKEN || '';
+  const protectionBypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET || '';
+
   const results = await Promise.all(
     paths.map(async path => {
       try {
         const url = `${SITE_URL}${path}`;
-        const headers: Record<string, string> = {
-          'x-vercel-protection-bypass': PROTECTION_BYPASS,
-        };
+        const headers: Record<string, string> = {};
 
+        // Add both headers: one for ISR, one for Deployment Protection bypass
+        if (bypassToken) {
+          headers['x-prerender-revalidate'] = bypassToken;
+        }
+        if (protectionBypass) {
+          headers['x-vercel-protection-bypass'] = protectionBypass;
+        }
+
+        console.log(`[revalidate] requesting ${path} with headers:`, Object.keys(headers));
+
+        // Use HEAD to trigger cache revalidation without downloading response body
         const response = await fetch(url, { method: 'GET', headers });
+        
         console.log(`[revalidate] ${path}: ${response.status}`);
-        return { path, status: response.status };
+
+        if (response.status === 200 || response.status === 304) {
+          return { path, ok: true, status: response.status };
+        } else {
+          return { path, ok: false, status: response.status };
+        }
       } catch (err) {
         console.error(`[revalidate] error revalidating ${path}:`, err);
-        return { path, status: 0, error: String(err) };
+        return { path, ok: false, error: String(err) };
       }
     }),
   );
 
-  const success = results.every(r => r.status === 200);
+  const success = results.every(r => r.ok);
   console.log('[revalidate] done:', { success, results });
 
   return {
