@@ -1,86 +1,12 @@
 import Noir from './assets/theme';
 import tailwindcss from '@tailwindcss/vite';
-import { buildLocalizedPaths, CONTENT_LOCALES, fetchLocalizedRouteEntries } from './utils/strapiRoutes';
 
-const contentRouteSources = [
-  { endpoint: 'articles', basePath: '/blog' },
-  { endpoint: 'industry-pages', basePath: '/industry' },
-  { endpoint: 'service-pages', basePath: '/services' },
-] as const;
+// buildDynamicContentRoutes, buildBlogPaginationRoutes и связанные импорты удалены.
+// ISR-маршруты (blog, industry, services) НЕ добавляются в prerender:routes hook —
+// иначе Nitro кладёт их в .output/public/ как static files и ISR revalidation не работает.
+// Маршруты обслуживаются ISR-функцией Vercel напрямую.
 
 const contentIsrTtl = 60 * 60 * 24 * 14;
-
-const getBuildStrapiConfig = () => ({
-  baseUrl: process.env.STRAPI_URL || 'http://127.0.0.1:1337',
-  token: process.env.STRAPI_TOKEN,
-});
-
-const buildDynamicContentRoutes = async (): Promise<string[]> => {
-  const { baseUrl, token } = getBuildStrapiConfig();
-
-  const routeGroups = await Promise.all(
-    contentRouteSources.map(async source => {
-      const routeMap = await fetchLocalizedRouteEntries({
-        baseUrl,
-        endpoint: source.endpoint,
-        token,
-        locales: CONTENT_LOCALES,
-      });
-
-      return buildLocalizedPaths(source.basePath, routeMap).map(route => route.loc);
-    }),
-  );
-
-  return routeGroups.flat();
-};
-
-const buildBlogPaginationRoutes = async (): Promise<string[]> => {
-  const { baseUrl, token } = getBuildStrapiConfig();
-  const headers: Record<string, string> = {};
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
-  const fetchPageCount = async (locale: string): Promise<number> => {
-    const query = new URLSearchParams({
-      locale,
-      'pagination[page]': '1',
-      'pagination[pageSize]': '12',
-    });
-
-    const response = await fetch(`${baseUrl}/api/articles?${query.toString()}`, {
-      headers,
-    });
-
-    if (!response.ok) {
-      return 0;
-    }
-
-    const data = await response.json() as {
-      meta?: {
-        pagination?: {
-          pageCount?: number;
-        };
-      };
-    };
-
-    return data.meta?.pagination?.pageCount ?? 0;
-  };
-
-  const routes: string[] = [];
-
-  for (const locale of CONTENT_LOCALES) {
-    const pageCount = await fetchPageCount(locale);
-    const basePath = locale === 'en' ? '/blog' : `/${locale}/blog`;
-
-    for (let page = 2; page <= pageCount; page += 1) {
-      routes.push(`${basePath}?page=${page}`);
-    }
-  }
-
-  return routes;
-};
 
 export default {
   compatibilityDate: '2024-11-01',
@@ -89,27 +15,20 @@ export default {
   // Включаем SSR для генерации статических страниц
   ssr: true,
 
-  hooks: {
-    async 'prerender:routes'(ctx: { routes: Set<string> }) {
-      try {
-        const [routes, paginationRoutes] = await Promise.all([
-          buildDynamicContentRoutes(),
-          buildBlogPaginationRoutes(),
-        ]);
-
-        for (const route of routes) {
-          ctx.routes.add(route);
-        }
-
-        for (const route of paginationRoutes) {
-          ctx.routes.add(route);
-        }
-      }
-      catch (error) {
-        console.error('Failed to collect dynamic prerender routes from Strapi:', error);
-      }
-    },
-  },
+  // hooks prerender:routes УБРАН намеренно.
+  //
+  // Проблема: Nitro кладёт все явно добавленные маршруты в .output/public/ как
+  // static HTML-файлы — это происходит независимо от crawlLinks и routeRules.
+  // Vercel обслуживает static files через file system handler ДО ISR-функции,
+  // из-за чего x-prerender-revalidate никогда не обрабатывается (x-matched-path=-).
+  //
+  // Решение: ISR-маршруты (blog, industry, services и т.д.) НЕ добавляются в prerender.
+  // Они обслуживаются ISR-функцией Vercel: первый запрос после деплоя делает SSR
+  // и кеширует результат, все последующие запросы идут из кеша (быстро).
+  // Revalidation через x-prerender-revalidate работает корректно.
+  //
+  // Для pre-warming кеша после деплоя — использовать отдельный скрипт
+  // (см. scripts/warm-isr-cache.ts или Vercel Post-Deploy hooks).
 
   vite: {
     build: {
