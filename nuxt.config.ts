@@ -393,6 +393,7 @@ export default {
 
   experimental: {
     scanPageMeta: true,
+    payloadExtraction: false,
   },
 
   aos: {

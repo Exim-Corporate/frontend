@@ -120,7 +120,7 @@ export default defineEventHandler(async event => {
     return { ok: false, reason: 'no paths', model: body.model };
   }
 
-  const allPaths = paths.flatMap(p => [p, `${p === '/' ? '' : p}/_payload.json`]);
+  const allPaths = paths;
   console.log('[revalidate] PATHS TO REVALIDATE: ' + JSON.stringify(allPaths));
 
   const forwardedHost = getHeader(event, 'x-forwarded-host');
