@@ -1,12 +1,88 @@
 import Noir from './assets/theme';
 import tailwindcss from '@tailwindcss/vite';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { buildLocalizedPaths, CONTENT_LOCALES, fetchLocalizedRouteEntries } from './utils/strapiRoutes';
 
-// buildDynamicContentRoutes, buildBlogPaginationRoutes и связанные импорты удалены.
-// ISR-маршруты (blog, industry, services) НЕ добавляются в prerender:routes hook —
-// иначе Nitro кладёт их в .output/public/ как static files и ISR revalidation не работает.
-// Маршруты обслуживаются ISR-функцией Vercel напрямую.
+const contentRouteSources = [
+  { endpoint: 'articles', basePath: '/blog' },
+  { endpoint: 'industry-pages', basePath: '/industry' },
+  { endpoint: 'service-pages', basePath: '/services' },
+] as const;
 
 const contentIsrTtl = 60 * 60 * 24 * 14;
+
+const getBuildStrapiConfig = () => ({
+  baseUrl: process.env.STRAPI_URL || 'http://127.0.0.1:1337',
+  token: process.env.STRAPI_TOKEN,
+});
+
+const buildDynamicContentRoutes = async (): Promise<string[]> => {
+  const { baseUrl, token } = getBuildStrapiConfig();
+
+  const routeGroups = await Promise.all(
+    contentRouteSources.map(async source => {
+      const routeMap = await fetchLocalizedRouteEntries({
+        baseUrl,
+        endpoint: source.endpoint,
+        token,
+        locales: CONTENT_LOCALES,
+      });
+
+      return buildLocalizedPaths(source.basePath, routeMap).map(route => route.loc);
+    }),
+  );
+
+  return routeGroups.flat();
+};
+
+const buildBlogPaginationRoutes = async (): Promise<string[]> => {
+  const { baseUrl, token } = getBuildStrapiConfig();
+  const headers: Record<string, string> = {};
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const fetchPageCount = async (locale: string): Promise<number> => {
+    const query = new URLSearchParams({
+      locale,
+      'pagination[page]': '1',
+      'pagination[pageSize]': '12',
+    });
+
+    const response = await fetch(`${baseUrl}/api/articles?${query.toString()}`, {
+      headers,
+    });
+
+    if (!response.ok) {
+      return 0;
+    }
+
+    const data = await response.json() as {
+      meta?: {
+        pagination?: {
+          pageCount?: number;
+        };
+      };
+    };
+
+    return data.meta?.pagination?.pageCount ?? 0;
+  };
+
+  const routes: string[] = [];
+
+  for (const locale of CONTENT_LOCALES) {
+    const pageCount = await fetchPageCount(locale);
+    const basePath = locale === 'en' ? '/blog' : `/${locale}/blog`;
+
+    for (let page = 2; page <= pageCount; page += 1) {
+      routes.push(`${basePath}?page=${page}`);
+    }
+  }
+
+  return routes;
+};
 
 export default {
   compatibilityDate: '2024-11-01',
@@ -15,20 +91,84 @@ export default {
   // Включаем SSR для генерации статических страниц
   ssr: true,
 
-  // hooks prerender:routes УБРАН намеренно.
-  //
-  // Проблема: Nitro кладёт все явно добавленные маршруты в .output/public/ как
-  // static HTML-файлы — это происходит независимо от crawlLinks и routeRules.
-  // Vercel обслуживает static files через file system handler ДО ISR-функции,
-  // из-за чего x-prerender-revalidate никогда не обрабатывается (x-matched-path=-).
-  //
-  // Решение: ISR-маршруты (blog, industry, services и т.д.) НЕ добавляются в prerender.
-  // Они обслуживаются ISR-функцией Vercel: первый запрос после деплоя делает SSR
-  // и кеширует результат, все последующие запросы идут из кеша (быстро).
-  // Revalidation через x-prerender-revalidate работает корректно.
-  //
-  // Для pre-warming кеша после деплоя — использовать отдельный скрипт
-  // (см. scripts/warm-isr-cache.ts или Vercel Post-Deploy hooks).
+  hooks: {
+    async 'prerender:routes'(ctx: { routes: Set<string> }) {
+      try {
+        const [routes, paginationRoutes] = await Promise.all([
+          buildDynamicContentRoutes(),
+          buildBlogPaginationRoutes(),
+        ]);
+
+        for (const route of routes) {
+          ctx.routes.add(route);
+        }
+
+        for (const route of paginationRoutes) {
+          ctx.routes.add(route);
+        }
+      }
+      catch (error) {
+        console.error('Failed to collect dynamic prerender routes from Strapi:', error);
+      }
+    },
+
+    // Documented approach:
+    // 1. Nuxt hook `nitro:init` — https://nuxt.com/docs/api/advanced/hooks#nuxt-hooks-build-time
+    //    "Called after Nitro is initialized, allows registering Nitro hooks"
+    // 2. Nitro hook `compiled` — fires after ALL output files are written (including config.json)
+    // 3. Vercel Build Output API `has` on routes — https://vercel.com/docs/build-output-api/v3/configuration#routes
+    //    "Conditions of the HTTP request that must exist to apply the route"
+    //
+    // ПРОБЛЕМА: Nitro размещает ISR-роуты ПОСЛЕ { handle: "filesystem" }.
+    // Filesystem handler отдаёт статику до ISR-функции, поэтому x-prerender-revalidate
+    // никогда не достигает ISR-функции (x-matched-path=-).
+    //
+    // РЕШЕНИЕ: вставить bypass-варианты ISR-роутов ПЕРЕД filesystem handler.
+    // Эти роуты срабатывают ТОЛЬКО при наличии заголовка x-prerender-revalidate.
+    // Обычные запросы — через filesystem → статика (быстро).
+    // Запросы с x-prerender-revalidate — через bypass → ISR-функция → ревалидация.
+    'nitro:init'(nitro: { hooks: { hook: (event: string, cb: (n: { options: { output: { dir: string }; preset: string } }) => Promise<void>) => void } }) {
+      nitro.hooks.hook('compiled', async (nitro: { options: { output: { dir: string }; preset: string } }) => {
+        if (nitro.options.preset !== 'vercel') return;
+
+        const configPath = resolve(nitro.options.output.dir, 'config.json');
+        let config: { routes?: Array<Record<string, unknown>> };
+
+        try {
+          config = JSON.parse(readFileSync(configPath, 'utf-8'));
+        }
+        catch {
+          return;
+        }
+
+        const routes = config.routes;
+        if (!Array.isArray(routes)) return;
+
+        const fsIndex = routes.findIndex(r => r.handle === 'filesystem');
+        if (fsIndex === -1) return;
+
+        // ISR-роуты — после filesystem handler, содержат '-isr' в dest
+        const isrRoutes = routes
+          .slice(fsIndex + 1)
+          .filter(r => typeof r.dest === 'string' && (r.dest as string).includes('-isr') && !r.has);
+
+        if (isrRoutes.length === 0) return;
+
+        // Bypass-варианты: те же роуты, но с условием на x-prerender-revalidate header
+        // Документация: https://vercel.com/docs/build-output-api/v3/configuration#routes
+        // has: HasField — "Conditions of the HTTP request that must exist to apply the route"
+        const bypassRoutes = isrRoutes.map(r => ({
+          ...r,
+          has: [{ type: 'header', key: 'x-prerender-revalidate' }],
+        }));
+
+        routes.splice(fsIndex, 0, ...bypassRoutes);
+        writeFileSync(configPath, JSON.stringify(config, null, 2));
+
+        console.log(`\n✅ [isr-patch] Patched Vercel config.json: added ${bypassRoutes.length} ISR bypass routes before filesystem handler`);
+      });
+    },
+  },
 
   vite: {
     build: {
@@ -119,11 +259,12 @@ export default {
     },
 
     prerender: {
-      // crawlLinks: false — не кладём страницы в .output/public/ как static files.
-      // При crawlLinks:true Vercel обслуживает их через file system handler (route [12])
-      // раньше ISR-функции, поэтому x-prerender-revalidate header никогда не обрабатывается.
-      // Динамические маршруты добавляются через хук prerender:routes (см. выше) —
-      // они будут преренедрены как ISR cache entries, а не как статические HTML-файлы.
+      // crawlLinks: false — не даём Nitro автоматически обходить ссылки.
+      // Маршруты добавляются явно через prerender:routes hook выше.
+      // ВАЖНО: ISR revalidation для этих страниц требует post-build патча
+      // Vercel config.json (см. scripts/patch-vercel-isr.mjs).
+      // Патч вставляет ISR bypass-роуты ПЕРЕД { handle: filesystem }, чтобы
+      // запросы с x-prerender-revalidate доходили до ISR-функции.
       crawlLinks: false,
       routes: ['/sitemap.xml'],
     },
