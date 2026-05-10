@@ -2,7 +2,7 @@ import { defineEventHandler, createError, getHeader, readBody } from 'h3';
 
 const LOCALES = ['en', 'de', 'fr', 'es'] as const;
 const SECRET = process.env.REVALIDATE_SECRET || '';
-const BYPASS_TOKEN = process.env.VERCEL_BYPASS_TOKEN || '';
+const PROTECTION_BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET || '';
 const SITE_URL = process.env.NUXT_PUBLIC_SITE_URL || 'https://outsource-nuxt-git-test-artems-projects-543846aa.vercel.app';
 
 interface WebhookBody {
@@ -106,11 +106,10 @@ export default defineEventHandler(async event => {
     paths.map(async path => {
       try {
         const url = `${SITE_URL}${path}`;
-        const headers = {
-          'x-prerender-revalidate': BYPASS_TOKEN,
+        const headers: Record<string, string> = {
+          'x-vercel-protection-bypass': PROTECTION_BYPASS,
         };
 
-        // For Nitro/Nuxt ISR we need to use the bypassToken properly
         const response = await fetch(url, { method: 'GET', headers });
         console.log(`[revalidate] ${path}: ${response.status}`);
         return { path, status: response.status };
