@@ -120,7 +120,8 @@ export default defineEventHandler(async event => {
     return { ok: false, reason: 'no paths', model: body.model };
   }
 
-  console.log('[revalidate] PATHS TO REVALIDATE: ' + JSON.stringify(paths));
+  const allPaths = paths.flatMap(p => [p, `${p === '/' ? '' : p}/_payload.json`]);
+  console.log('[revalidate] PATHS TO REVALIDATE: ' + JSON.stringify(allPaths));
 
   const forwardedHost = getHeader(event, 'x-forwarded-host');
   const host = getHeader(event, 'host');
@@ -141,7 +142,7 @@ export default defineEventHandler(async event => {
   await new Promise(resolve => setTimeout(resolve, 3000));
 
   const results = await Promise.all(
-    paths.map(async path => {
+    allPaths.map(async path => {
       const url = new URL(path, baseUrl).toString();
       const headers: Record<string, string> = {
         'x-prerender-revalidate': BYPASS_TOKEN || '',

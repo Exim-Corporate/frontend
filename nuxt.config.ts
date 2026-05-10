@@ -170,6 +170,10 @@ export default {
             }),
           );
           unlinkSync(htmlSrc);
+
+          const payloadSrc = resolve(staticDir, route.replace(/^\//, ''), '_payload.json');
+          if (existsSync(payloadSrc)) unlinkSync(payloadSrc);
+
           count++;
         }
 
@@ -389,7 +393,6 @@ export default {
 
   experimental: {
     scanPageMeta: true,
-    payloadExtraction: false,
   },
 
   aos: {
