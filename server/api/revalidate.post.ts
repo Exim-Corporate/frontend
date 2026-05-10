@@ -4,6 +4,7 @@ const LOCALES = ['en', 'de', 'fr', 'es'] as const;
 const SECRET = process.env.REVALIDATE_SECRET || '';
 const BYPASS_TOKEN = process.env.VERCEL_BYPASS_TOKEN || '';
 const PROTECTION_BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET || '';
+const DEBUG_REVALIDATE_TOKENS = process.env.DEBUG_REVALIDATE_TOKENS === 'true';
 const SITE_URL = process.env.NUXT_PUBLIC_SITE_URL || 'https://outsource-nuxt-git-test-artems-projects-543846aa.vercel.app';
 
 interface WebhookBody {
@@ -15,6 +16,16 @@ interface WebhookBody {
     locale?: string;
   };
 }
+
+const maskToken = (token: string): string => {
+  if (!token) {
+    return '<empty>';
+  }
+  if (token.length <= 8) {
+    return `${token[0]}***${token[token.length - 1]}`;
+  }
+  return `${token.slice(0, 4)}...${token.slice(-4)}`;
+};
 
 const normalizeModel = (model: string): string => {
   const map: Record<string, string> = {
@@ -85,6 +96,12 @@ export default defineEventHandler(async event => {
   console.log('[revalidate] ===== WEBHOOK START =====');
   console.log('[revalidate] webhook received', { model: body.model, slug: body.entry?.slug });
   console.log('[revalidate] ENV: BYPASS_TOKEN len=' + (BYPASS_TOKEN?.length || 0) + ', PROTECTION_BYPASS len=' + (PROTECTION_BYPASS?.length || 0));
+  console.log('[revalidate] TOKEN CHECK: BYPASS=' + maskToken(BYPASS_TOKEN) + ', PROTECTION=' + maskToken(PROTECTION_BYPASS));
+
+  if (DEBUG_REVALIDATE_TOKENS) {
+    console.log('[revalidate] DEBUG TOKEN BYPASS(full)=', BYPASS_TOKEN);
+    console.log('[revalidate] DEBUG TOKEN PROTECTION(full)=', PROTECTION_BYPASS);
+  }
 
   // Validate secret
   if (!SECRET || headerSecret !== SECRET) {
@@ -121,12 +138,37 @@ export default defineEventHandler(async event => {
 
       try {
         console.log('[revalidate] -> FETCH: ' + path);
+        console.log(
+          '[revalidate] -> HEADERS: x-prerender-revalidate(len=' +
+            (headers['x-prerender-revalidate']?.length || 0) +
+            ', value=' +
+            maskToken(headers['x-prerender-revalidate'] || '') +
+            '), x-vercel-protection-bypass(len=' +
+            (headers['x-vercel-protection-bypass']?.length || 0) +
+            ', value=' +
+            maskToken(headers['x-vercel-protection-bypass'] || '') +
+            ')'
+        );
         const response = await fetch(url, {
-          method: 'HEAD',
-          headers,
+          method: 'GET',
+          headers: {
+            ...headers,
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            Pragma: 'no-cache',
+          },
           redirect: 'manual',
         });
         console.log('[revalidate] <- RESPONSE: ' + path + ' status=' + response.status);
+        console.log(
+          '[revalidate] <- RESPONSE HEADERS: x-vercel-cache=' +
+            (response.headers.get('x-vercel-cache') || '-') +
+            ', x-vercel-id=' +
+            (response.headers.get('x-vercel-id') || '-') +
+            ', x-matched-path=' +
+            (response.headers.get('x-matched-path') || '-') +
+            ', cache-control=' +
+            (response.headers.get('cache-control') || '-')
+        );
         return { path, ok: response.status === 200 || response.status === 304, status: response.status };
       } catch (err) {
         console.error('[revalidate] ERROR: ' + path + ' - ' + (err instanceof Error ? err.message : String(err)));
