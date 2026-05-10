@@ -154,18 +154,33 @@ export default {
 
         if (isrRoutes.length === 0) return;
 
-        // Bypass-варианты: те же роуты, но с условием на x-prerender-revalidate header
+        // ПРОБЛЕМА: Patch с `has: x-prerender-revalidate` обновляет ISR-кеш,
+        // но пользователи всё равно получают старый контент — filesystem handler
+        // отдаёт статический файл из .output/public/, а не из ISR-кеша.
+        //
+        // РЕШЕНИЕ: Переносим ВСЕ ISR-роуты ПЕРЕД filesystem handler (без условия `has`).
+        // Тогда:
+        //   - Обычные запросы → ISR функция → ISR edge cache (Vercel CDN) → MISS/HIT
+        //   - Revalidation → ISR функция регенерирует → ISR edge cache обновляется
+        //   - Следующие запросы → ISR edge cache → HIT (свежий контент) ✅
+        //
+        // Статические файлы в .output/public/ остаются как fallback (не используются
+        // для ISR-страниц, т.к. ISR-роуты теперь идут первыми).
+        //
         // Документация: https://vercel.com/docs/build-output-api/v3/configuration#routes
-        // has: HasField — "Conditions of the HTTP request that must exist to apply the route"
-        const bypassRoutes = isrRoutes.map(r => ({
-          ...r,
-          has: [{ type: 'header', key: 'x-prerender-revalidate' }],
-        }));
 
-        routes.splice(fsIndex, 0, ...bypassRoutes);
+        // Удаляем ISR-роуты из их текущей позиции (после filesystem)
+        const isrRouteSet = new Set(isrRoutes.map(r => JSON.stringify(r)));
+        const cleanedRoutes = routes.filter(r => !isrRouteSet.has(JSON.stringify(r)));
+
+        // Вставляем ISR-роуты ПЕРЕД filesystem handler
+        const newFsIndex = cleanedRoutes.findIndex(r => r.handle === 'filesystem');
+        cleanedRoutes.splice(newFsIndex, 0, ...isrRoutes);
+
+        config.routes = cleanedRoutes;
         writeFileSync(configPath, JSON.stringify(config, null, 2));
 
-        console.log(`\n✅ [isr-patch] Patched Vercel config.json: added ${bypassRoutes.length} ISR bypass routes before filesystem handler`);
+        console.log(`\n✅ [isr-patch] Patched Vercel config.json: moved ${isrRoutes.length} ISR routes before filesystem handler (all requests use ISR edge cache)`);
       });
     },
   },
