@@ -48,7 +48,6 @@ const buildPaths = (model: string, slug?: string, locale: string = 'en'): string
 
   if (normalized === 'article' && slug) {
     return [
-      `${localePrefix}/`,
       `${localePrefix}/blog`,
       `${localePrefix}/blog/${slug}`,
     ];
@@ -56,28 +55,24 @@ const buildPaths = (model: string, slug?: string, locale: string = 'en'): string
 
   if (normalized === 'industry-page' && slug) {
     return [
-      `${localePrefix}/`,
       `${localePrefix}/industry/${slug}`,
     ];
   }
 
   if (normalized === 'service-page' && slug) {
     return [
-      `${localePrefix}/`,
       `${localePrefix}/services/${slug}`,
     ];
   }
 
   if (normalized === 'referral-page') {
     return [
-      `${localePrefix}/`,
       `${localePrefix}/referrals`,
     ];
   }
 
   if (normalized === 'hire-page' && slug) {
     return [
-      `${localePrefix}/`,
       `${localePrefix}/hire/${slug}`,
     ];
   }
