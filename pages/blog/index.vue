@@ -95,6 +95,26 @@ const currentPage = computed<number>(() => {
   return parsedPage;
 });
 
+// Hero article: always the very first (latest) article from Strapi.
+// Fetched once per locale — does NOT react to currentPage changes.
+const { data: heroData } = await useAsyncData(
+  () => `blog-hero-${locale.value}`,
+  async () => {
+    const response = await fetchArticleList({
+      locale: locale.value,
+      page: 1,
+      pageSize: 1,
+    });
+    return (response?.data?.[0] ?? null) as StrapiArticle | null;
+  },
+  {
+    default: () => null as StrapiArticle | null,
+    server: true,
+    lazy: false,
+    watch: [locale],
+  },
+);
+
 const { data: articleData, pending, error } = await useAsyncData(
   () => `blog-articles-${locale.value}-page-${currentPage.value}`,
   async () => {
@@ -126,7 +146,8 @@ const { data: articleData, pending, error } = await useAsyncData(
 const articles = computed<Array<StrapiArticle>>(() => articleData.value?.articles ?? []);
 const totalItems = computed<number>(() => articleData.value?.total ?? 0);
 const totalPages = computed<number>(() => articleData.value?.pageCount ?? 0);
-const heroArticle = computed<StrapiArticle | null>(() => articles.value[0] ?? null);
+// Hero is stable — not recalculated on page change
+const heroArticle = computed<StrapiArticle | null>(() => heroData.value ?? null);
 const articlesForList = computed<Array<StrapiArticle>>(() => (
   currentPage.value === 1
     ? articles.value.slice(1)
