@@ -1,15 +1,6 @@
 <template>
   <main class="grow min-h-[80vh]">
     <section class="container mx-auto max-w-350">
-      <!-- <BlogButton
-        :label="'Home'"
-        :variant="'text'"
-        :icon="'pi pi-arrow-left'"
-        pt:root:class="group !bg-transparent !border-0 !shadow-none !text-text-dark hover:!bg-transparent hover:!text-text-dark focus:!bg-transparent focus:!text-text-dark active:!bg-transparent active:!text-text-dark transition-transform duration-200 hover:scale-105 focus:scale-105 active:scale-105"
-        pt:label:class="!text-text-dark font-normal transition-all duration-200 group-hover:font-bold group-focus:font-bold group-active:font-bold"
-        pt:icon:class="!text-text-dark transition-all duration-200"
-        @click="goHome"
-      /> -->
 
       <!-- Loading State -->
       <div
@@ -34,7 +25,7 @@
 
         <!-- Articles List -->
         <Transition
-          v-if="articles.length > 0"
+          v-if="articlesForList.length > 0"
           name="blog-page"
           mode="out-in"
         >
@@ -43,7 +34,7 @@
             class="mt-8 md:mt-12"
           >
             <div
-              v-for="article in articles"
+              v-for="article in articlesForList"
               :key="article.id"
               class="blog-page-item"
             >
@@ -51,6 +42,7 @@
             </div>
           </div>
         </Transition>
+
         <ArticlePagination
           v-if="articles.length > 0"
           :current-page="currentPage"
@@ -62,7 +54,7 @@
 
         <!-- No Articles State -->
         <div
-          v-else
+          v-if="articles.length === 0"
           class="text-center"
         >
           <p>{{ $t('blog.no_articles') }}</p>
@@ -88,8 +80,6 @@ const { fetchArticleList } = usePageContentApi();
 const { locale, t } = useI18n();
 const route = useRoute();
 const pageSize = ref(12);
-const totalItems = ref(0);
-const totalPages = ref(0);
 const articlesTopAnchor = ref<HTMLElement | null>(null);
 
 const currentPage = computed<number>(() => {
@@ -117,23 +107,31 @@ const { data: articleData, pending, error } = await useAsyncData(
     const total = response?.meta?.pagination?.total ?? 0;
     const pageCountFromApi = response?.meta?.pagination?.pageCount ?? 0;
 
-    totalItems.value = total;
-    totalPages.value = pageCountFromApi > 0
-      ? pageCountFromApi
-      : Math.max(1, Math.ceil(total / pageSize.value));
-
-    return response?.data ?? ([] as StrapiArticle[]);
+    return {
+      articles: response?.data ?? ([] as StrapiArticle[]),
+      total,
+      pageCount: pageCountFromApi > 0
+        ? pageCountFromApi
+        : Math.max(1, Math.ceil(total / pageSize.value)),
+    };
   },
   {
-    default: () => [] as StrapiArticle[],
+    default: () => ({ articles: [] as StrapiArticle[], total: 0, pageCount: 0 }),
     server: true,
     lazy: false,
     watch: [locale, currentPage, pageSize],
   },
 );
 
-const articles = computed<Array<StrapiArticle>>(() => articleData.value ?? []);
+const articles = computed<Array<StrapiArticle>>(() => articleData.value?.articles ?? []);
+const totalItems = computed<number>(() => articleData.value?.total ?? 0);
+const totalPages = computed<number>(() => articleData.value?.pageCount ?? 0);
 const heroArticle = computed<StrapiArticle | null>(() => articles.value[0] ?? null);
+const articlesForList = computed<Array<StrapiArticle>>(() => (
+  currentPage.value === 1
+    ? articles.value.slice(1)
+    : articles.value
+));
 const isInitialLoading = computed<boolean>(() => pending.value && articles.value.length === 0);
 
 const scrollToArticlesTop = (): void => {

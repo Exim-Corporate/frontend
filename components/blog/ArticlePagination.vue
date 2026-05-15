@@ -4,57 +4,71 @@
       class="blog-paginator mb-2 flex flex-wrap items-center justify-center gap-2"
       :aria-label="$t('blog.pagination')"
     >
-      <button
+      <Button
         type="button"
+        label="«"
+        size="small"
+        severity="secondary"
+        rounded
         class="blog-paginator-btn"
         :class="{ 'is-disabled': currentPageNumber <= 1 }"
+        :disabled="currentPageNumber <= 1"
         :aria-disabled="currentPageNumber <= 1"
-        @click.prevent="onPageChange(1)"
-      >
-        «
-      </button>
+        @click="onPageChange(1)"
+      />
 
-      <button
+      <Button
         type="button"
+        label="‹"
+        size="small"
+        severity="secondary"
+        rounded
         class="blog-paginator-btn"
         :class="{ 'is-disabled': currentPageNumber <= 1 }"
+        :disabled="currentPageNumber <= 1"
         :aria-disabled="currentPageNumber <= 1"
-        @click.prevent="onPageChange(Math.max(1, currentPageNumber - 1))"
-      >
-        ‹
-      </button>
+        @click="onPageChange(Math.max(1, currentPageNumber - 1))"
+      />
 
-      <button
+      <Button
         v-for="page in pages"
         :key="page"
         type="button"
+        :label="String(page)"
+        size="small"
+        :severity="page === currentPageNumber ? 'contrast' : 'secondary'"
+        rounded
         class="blog-paginator-btn"
         :class="{ 'is-active': page === currentPageNumber }"
         :aria-current="page === currentPageNumber ? 'page' : undefined"
-        @click.prevent="onPageChange(page)"
-      >
-        {{ page }}
-      </button>
+        @click="onPageChange(page)"
+      />
 
-      <button
+      <Button
         type="button"
+        label="›"
+        size="small"
+        severity="secondary"
+        rounded
         class="blog-paginator-btn"
         :class="{ 'is-disabled': currentPageNumber >= pageCountNumber }"
+        :disabled="currentPageNumber >= pageCountNumber"
         :aria-disabled="currentPageNumber >= pageCountNumber"
-        @click.prevent="onPageChange(Math.min(pageCountNumber, currentPageNumber + 1))"
-      >
-        ›
-      </button>
+        @click="onPageChange(Math.min(pageCountNumber, currentPageNumber + 1))"
+      />
 
-      <button
+      <Button
         type="button"
+        label="»"
+        size="small"
+        severity="secondary"
+        rounded
         class="blog-paginator-btn"
         :class="{ 'is-disabled': currentPageNumber >= pageCountNumber }"
+        :disabled="currentPageNumber >= pageCountNumber"
         :aria-disabled="currentPageNumber >= pageCountNumber"
-        @click.prevent="onPageChange(pageCountNumber)"
-      >
-        »
-      </button>
+        @click="onPageChange(pageCountNumber)"
+      />
     </nav>
     <div class="mt-2 text-center text-sm text-text-secondary">
       {{
@@ -72,6 +86,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import Button from 'primevue/button';
 
 interface Props {
   currentPage: number;
@@ -103,30 +118,18 @@ function onPageChange(page: number) {
 
 <style scoped>
 .blog-paginator-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background: var(--color-card-bg);
-  color: var(--color-text-secondary);
   min-width: 2.25rem;
   height: 2.25rem;
-  transition: all 220ms ease;
-  text-decoration: none;
+  cursor: pointer;
+  transition: transform 220ms ease;
 }
 
-.blog-paginator-btn:hover {
-  background: var(--color-background-gray);
-  color: var(--color-text-dark);
-}
-
-.blog-paginator-btn.is-active {
-  background: var(--color-background-gray);
-  color: var(--color-text-dark);
+.blog-paginator-btn:hover:not(.is-disabled) {
+  transform: translateY(-1px);
 }
 
 .blog-paginator-btn.is-disabled {
-  pointer-events: none;
+  cursor: not-allowed;
   opacity: 0.5;
 }
 </style>
