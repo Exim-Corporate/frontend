@@ -1,7 +1,7 @@
 <template>
   <section class="container overflow-hidden">
     <div
-      class="min-h-50 overflow-hidden rounded-4xl px-5 py-5 md:px-8 md:py-8"
+      class="min-h-50 overflow-hidden rounded-3xl px-5 py-5 md:px-8 md:py-8"
       :style="sectionBackgroundStyle"
     >
       <div class="flex min-h-50 flex-col justify-between gap-6 md:gap-8">
@@ -23,7 +23,7 @@
           </div>
         </div>
 
-        <div v-if="sectionData.description" class="w-full rounded-4xl bg-white/90 p-5 md:p-6">
+        <div v-if="sectionData.description" class="w-full rounded-3xl bg-white/90 p-5 md:p-6">
         <BaseText
           variant="section"
             class-name="text-left text-text-dark md:text-[18px] md:leading-7.5"

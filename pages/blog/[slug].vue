@@ -62,16 +62,12 @@ const resolvedArticle = computed<StrapiArticle>(() => articlePage.value?.article
 const relatedArticlesByCategory = computed<StrapiArticle[]>(() => articlePage.value?.relatedArticles ?? []);
 
 const pageCtaSection = computed<StrapiCtaSection>(() => ({
-  title: resolvedArticle.value
-    ? `Still have questions about ${resolvedArticle.value.title}?`
-    : 'Still have questions?',
-  description: resolvedArticle.value
-    ? `Review the answers below, then book a call if you want to discuss ${resolvedArticle.value.title.toLowerCase()} with our team.`
-    : 'Review the answers below, then book a call with our team.',
-  buttonText: 'Book a Call',
+  title: 'Build Your Dream Team Faster',
+  description: 'We believe great technology thrives on collaboration, precision, and cultural fit. That’s why we provide accurate project estimations within 48 hours and offer flexible engagement models — whether you need AI initiatives, full product development cycles, or long-term technical support.',
+  buttonText: 'Start Project',
   buttonUrl: '#calendly-booking',
-  image: resolvedArticle.value?.cover ?? null,
-  imageAlt: resolvedArticle.value?.cover?.alternativeText || resolvedArticle.value?.title || 'Article CTA image',
+  image: null,
+  imageAlt: 'CTA image',
 }));
 
 const config = useRuntimeConfig();
