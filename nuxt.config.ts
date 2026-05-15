@@ -1,186 +1,13 @@
 import Noir from './assets/theme';
 import tailwindcss from '@tailwindcss/vite';
-import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
-import { buildLocalizedPaths, CONTENT_LOCALES, fetchLocalizedRouteEntries } from './utils/strapiRoutes';
-
-const contentRouteSources = [
-  { endpoint: 'articles', basePath: '/blog' },
-  { endpoint: 'industry-pages', basePath: '/industry' },
-  { endpoint: 'service-pages', basePath: '/services' },
-] as const;
-
-const contentIsrTtl = 60 * 60 * 24 * 14;
-
-const getBuildStrapiConfig = () => ({
-  baseUrl: process.env.STRAPI_URL || 'http://127.0.0.1:1337',
-  token: process.env.STRAPI_TOKEN,
-});
-
-const buildDynamicContentRoutes = async (): Promise<string[]> => {
-  const { baseUrl, token } = getBuildStrapiConfig();
-
-  const routeGroups = await Promise.all(
-    contentRouteSources.map(async source => {
-      const routeMap = await fetchLocalizedRouteEntries({
-        baseUrl,
-        endpoint: source.endpoint,
-        token,
-        locales: CONTENT_LOCALES,
-      });
-
-      return buildLocalizedPaths(source.basePath, routeMap).map(route => route.loc);
-    }),
-  );
-
-  return routeGroups.flat();
-};
-
-const buildBlogPaginationRoutes = async (): Promise<string[]> => {
-  const { baseUrl, token } = getBuildStrapiConfig();
-  const headers: Record<string, string> = {};
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
-  const fetchPageCount = async (locale: string): Promise<number> => {
-    const query = new URLSearchParams({
-      locale,
-      'pagination[page]': '1',
-      'pagination[pageSize]': '12',
-    });
-
-    const response = await fetch(`${baseUrl}/api/articles?${query.toString()}`, {
-      headers,
-    });
-
-    if (!response.ok) {
-      return 0;
-    }
-
-    const data = await response.json() as {
-      meta?: {
-        pagination?: {
-          pageCount?: number;
-        };
-      };
-    };
-
-    return data.meta?.pagination?.pageCount ?? 0;
-  };
-
-  const routes: string[] = [];
-
-  for (const locale of CONTENT_LOCALES) {
-    const pageCount = await fetchPageCount(locale);
-    const basePath = locale === 'en' ? '/blog' : `/${locale}/blog`;
-
-    for (let page = 2; page <= pageCount; page += 1) {
-      routes.push(`${basePath}?page=${page}`);
-    }
-  }
-
-  return routes;
-};
+const HOME_ISR_TTL = 60 * 60 * 24 * 7;
 
 export default {
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
 
-  // Включаем SSR для генерации статических страниц
+  // SSR by default; only homepage uses ISR.
   ssr: true,
-
-  hooks: {
-    async 'prerender:routes'(ctx: { routes: Set<string> }) {
-      try {
-        const [routes, paginationRoutes] = await Promise.all([
-          buildDynamicContentRoutes(),
-          buildBlogPaginationRoutes(),
-        ]);
-
-        for (const route of routes) {
-          ctx.routes.add(route);
-        }
-
-        for (const route of paginationRoutes) {
-          ctx.routes.add(route);
-        }
-      }
-      catch (error) {
-        console.error('Failed to collect dynamic prerender routes from Strapi:', error);
-      }
-    },
-
-    // Vercel serves static files from .vercel/output/static/ BEFORE config.json routing.
-    // Moving ISR routes in config.json has no effect — static files always win.
-    //
-    // Fix: for each prerendered ISR page, move the HTML to a .prerender-fallback.html
-    // (Vercel ISR pre-warming) and delete from static. Vercel then serves the fallback
-    // on first request (no cold start) and replaces it on revalidation.
-    //
-    // Docs: https://vercel.com/docs/build-output-api/v3/primitives#prerender-functions
-    'nitro:init'(nitro: { hooks: { hook: (event: string, cb: (n: unknown) => Promise<void>) => void } }) {
-      nitro.hooks.hook('compiled', async (n: unknown) => {
-        const nitro = n as {
-          options: {
-            preset: string;
-            output: { dir: string; serverDir: string };
-            routeRules: Record<string, { isr?: number | boolean }>;
-            vercel?: { config?: { bypassToken?: string } };
-          };
-          _prerenderedRoutes?: Array<{ route: string; fileName: string }>;
-        };
-
-        if (nitro.options.preset !== 'vercel') return;
-
-        const { output, routeRules, vercel } = nitro.options;
-        const bypassToken = vercel?.config?.bypassToken;
-        const functionsDir = resolve(output.serverDir, '..');
-        const staticDir = resolve(output.dir, 'static');
-
-        const isrPrefixes = Object.entries(routeRules)
-          .filter(([, r]) => r.isr)
-          .map(([pat, r]) => [pat.replace(/\/\*\*?$/, ''), r.isr] as [string, number | boolean]);
-
-        if (!isrPrefixes.length) return;
-
-        const matchIsr = (route: string) =>
-          isrPrefixes.find(([prefix]) => route === prefix || route.startsWith(prefix + '/'));
-
-        let count = 0;
-        for (const { route, fileName } of nitro._prerenderedRoutes ?? []) {
-          const match = matchIsr(route);
-          if (!match) continue;
-
-          const htmlSrc = resolve(staticDir, fileName.replace(/^\//, ''));
-          if (!existsSync(htmlSrc)) continue;
-
-          const key = route === '/' ? 'index' : route.replace(/^\//, '');
-          const fallbackName = `${key.split('/').at(-1)}.prerender-fallback.html`;
-          mkdirSync(resolve(functionsDir, dirname(key)), { recursive: true });
-
-          writeFileSync(resolve(functionsDir, `${key}.prerender-fallback.html`), readFileSync(htmlSrc));
-          writeFileSync(
-            resolve(functionsDir, `${key}.prerender-config.json`),
-            JSON.stringify({
-              expiration: typeof match[1] === 'number' ? match[1] : false,
-              fallback: fallbackName,
-              ...(bypassToken ? { bypassToken } : {}),
-            }),
-          );
-          unlinkSync(htmlSrc);
-
-          const payloadSrc = resolve(staticDir, route.replace(/^\//, ''), '_payload.json');
-          if (existsSync(payloadSrc)) unlinkSync(payloadSrc);
-
-          count++;
-        }
-
-        if (count) console.log(`\n✅ [isr-patch] ${count} prerendered ISR pages → prerender-fallback (no cold start + revalidation)`);
-      });
-    },
-  },
 
   vite: {
     build: {
@@ -216,7 +43,7 @@ export default {
     },
   },
 
-  // Конфигурация для Vercel SSG
+  // Vercel runtime: SSR by default + homepage ISR only.
   nitro: {
     preset: process.env.NODE_ENV === 'development' ? 'node-server' : 'vercel',
     vercel: {
@@ -225,41 +52,7 @@ export default {
       },
     },
     routeRules: {
-      '/': { isr: 600 },
-      '/privacy': { isr: 600 },
-      '/terms': { isr: 600 },
-      '/cookie-policy': { isr: 600 },
-      '/impressum': { isr: 600 },
-      '/blog': { isr: contentIsrTtl },
-      '/referrals': { isr: contentIsrTtl },
-      '/blog/**': { isr: contentIsrTtl },
-      '/industry/**': { isr: contentIsrTtl },
-      '/services/**': { isr: contentIsrTtl },
-      '/hire/**': { isr: contentIsrTtl },
-      '/de/blog': { isr: contentIsrTtl },
-      '/de/referrals': { isr: contentIsrTtl },
-      '/de/blog/**': { isr: contentIsrTtl },
-      '/de/industry/**': { isr: contentIsrTtl },
-      '/de/services/**': { isr: contentIsrTtl },
-      '/de/hire/**': { isr: contentIsrTtl },
-      '/fr/blog': { isr: contentIsrTtl },
-      '/fr/referrals': { isr: contentIsrTtl },
-      '/fr/blog/**': { isr: contentIsrTtl },
-      '/fr/industry/**': { isr: contentIsrTtl },
-      '/fr/services/**': { isr: contentIsrTtl },
-      '/fr/hire/**': { isr: contentIsrTtl },
-      '/es/blog': { isr: contentIsrTtl },
-      '/es/referrals': { isr: contentIsrTtl },
-      '/es/blog/**': { isr: contentIsrTtl },
-      '/es/industry/**': { isr: contentIsrTtl },
-      '/es/services/**': { isr: contentIsrTtl },
-      '/es/hire/**': { isr: contentIsrTtl },
-      '/de': { isr: 600 },
-      '/de/**': { isr: 600 },
-      '/fr': { isr: 600 },
-      '/fr/**': { isr: 600 },
-      '/es': { isr: 600 },
-      '/es/**': { isr: 600 },
+      '/': { isr: HOME_ISR_TTL },
       '/api/**': {
         cors: true,
         headers: { 'cache-control': 's-maxage=1, stale-while-revalidate=31536000' },
@@ -268,17 +61,6 @@ export default {
         prerender: false,
         index: false,
       },
-    },
-
-    prerender: {
-      // crawlLinks: false — не даём Nitro автоматически обходить ссылки.
-      // Маршруты добавляются явно через prerender:routes hook выше.
-      // ВАЖНО: ISR revalidation для этих страниц требует post-build патча
-      // Vercel config.json (см. scripts/patch-vercel-isr.mjs).
-      // Патч вставляет ISR bypass-роуты ПЕРЕД { handle: filesystem }, чтобы
-      // запросы с x-prerender-revalidate доходили до ISR-функции.
-      crawlLinks: false,
-      routes: ['/sitemap.xml'],
     },
   },
 
@@ -393,7 +175,6 @@ export default {
 
   experimental: {
     scanPageMeta: true,
-    payloadExtraction: false,
   },
 
   aos: {
