@@ -11,20 +11,6 @@ export default {
     './assets/**/*.{css,scss,ts}',
   ],
   theme: {
-    container: {
-      center: true,
-      padding: {
-        DEFAULT: '1rem',
-        sm: '1.5rem',
-        lg: '3rem',
-        xl: '3.125rem',
-        '2xl': '3.125rem',
-      },
-      screens: {
-        xl: '1400px',
-        '2xl': '1400px',
-      },
-    },
     extend: {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
@@ -36,6 +22,26 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    ({ addComponents }: any) => {
+      addComponents({
+        '.container': {
+          width: '100%',
+          maxWidth: '1400px',
+          marginInline: 'auto',
+          paddingInline: '1rem',
+          '@media (min-width: 640px)': {
+            paddingInline: '1.5rem',
+          },
+          '@media (min-width: 1024px)': {
+            paddingInline: '3rem',
+          },
+          '@media (min-width: 1280px)': {
+            paddingInline: '3.125rem',
+          },
+        },
+      });
+    },
+  ],
   darkMode: 'class',
 } satisfies Config;

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col min-h-screen">
+  <div class="app-shell flex flex-col min-h-screen">
     <Toast />
     <ContactModal />
     <AppHeader />
