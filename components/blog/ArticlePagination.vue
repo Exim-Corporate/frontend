@@ -4,66 +4,66 @@
       class="blog-paginator mb-2 flex flex-wrap items-center justify-center gap-2"
       :aria-label="$t('blog.pagination')"
     >
-      <NuxtLink
-        :to="buildPageLink(1)"
+      <button
+        type="button"
         class="blog-paginator-btn"
-        :class="{ 'is-disabled': currentPage <= 1 }"
-        :aria-disabled="currentPage <= 1"
+        :class="{ 'is-disabled': currentPageNumber <= 1 }"
+        :aria-disabled="currentPageNumber <= 1"
         @click.prevent="onPageChange(1)"
       >
         «
-      </NuxtLink>
+      </button>
 
-      <NuxtLink
-        :to="buildPageLink(Math.max(1, currentPage - 1))"
+      <button
+        type="button"
         class="blog-paginator-btn"
-        :class="{ 'is-disabled': currentPage <= 1 }"
-        :aria-disabled="currentPage <= 1"
-        @click.prevent="onPageChange(Math.max(1, currentPage - 1))"
+        :class="{ 'is-disabled': currentPageNumber <= 1 }"
+        :aria-disabled="currentPageNumber <= 1"
+        @click.prevent="onPageChange(Math.max(1, currentPageNumber - 1))"
       >
         ‹
-      </NuxtLink>
+      </button>
 
-      <NuxtLink
+      <button
         v-for="page in pages"
         :key="page"
-        :to="buildPageLink(page)"
+        type="button"
         class="blog-paginator-btn"
-        :class="{ 'is-active': page === currentPage }"
-        :aria-current="page === currentPage ? 'page' : undefined"
+        :class="{ 'is-active': page === currentPageNumber }"
+        :aria-current="page === currentPageNumber ? 'page' : undefined"
         @click.prevent="onPageChange(page)"
       >
         {{ page }}
-      </NuxtLink>
+      </button>
 
-      <NuxtLink
-        :to="buildPageLink(Math.min(pageCount, currentPage + 1))"
+      <button
+        type="button"
         class="blog-paginator-btn"
-        :class="{ 'is-disabled': currentPage >= pageCount }"
-        :aria-disabled="currentPage >= pageCount"
-        @click.prevent="onPageChange(Math.min(pageCount, currentPage + 1))"
+        :class="{ 'is-disabled': currentPageNumber >= pageCountNumber }"
+        :aria-disabled="currentPageNumber >= pageCountNumber"
+        @click.prevent="onPageChange(Math.min(pageCountNumber, currentPageNumber + 1))"
       >
         ›
-      </NuxtLink>
+      </button>
 
-      <NuxtLink
-        :to="buildPageLink(pageCount)"
+      <button
+        type="button"
         class="blog-paginator-btn"
-        :class="{ 'is-disabled': currentPage >= pageCount }"
-        :aria-disabled="currentPage >= pageCount"
-        @click.prevent="onPageChange(pageCount)"
+        :class="{ 'is-disabled': currentPageNumber >= pageCountNumber }"
+        :aria-disabled="currentPageNumber >= pageCountNumber"
+        @click.prevent="onPageChange(pageCountNumber)"
       >
         »
-      </NuxtLink>
+      </button>
     </nav>
     <div class="mt-2 text-center text-sm text-text-secondary">
       {{
         $t('blog.pagination_report', {
-          first: (currentPage - 1) * pageSize + 1,
-          last: Math.min(currentPage * pageSize, totalItems),
-          total: totalItems,
-          page: currentPage,
-          pageCount,
+          first: Math.max(1, (currentPageNumber - 1) * pageSizeNumber + 1),
+          last: Math.min(currentPageNumber * pageSizeNumber, totalItemsNumber),
+          total: totalItemsNumber,
+          page: currentPageNumber,
+          pageCount: pageCountNumber,
         })
       }}
     </div>
@@ -72,7 +72,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useRoute } from '#imports';
 
 interface Props {
   currentPage: number;
@@ -83,36 +82,18 @@ interface Props {
 
 const props = defineProps<Props>();
 const emit = defineEmits<{ (e: 'page-change', page: number): void }>();
-const route = useRoute();
 
-const pageSize = computed(() => props.pageSize ?? 10);
-const currentPage = computed(() => props.currentPage);
-const totalItems = computed(() => props.totalItems);
-const pageCount = computed(() => props.pageCount);
+const pageSizeNumber = computed(() => Math.max(1, Number(props.pageSize ?? 10) || 10));
+const currentPageNumber = computed(() => Math.max(1, Number(props.currentPage) || 1));
+const totalItemsNumber = computed(() => Math.max(0, Number(props.totalItems) || 0));
+const pageCountNumber = computed(() => Math.max(1, Number(props.pageCount) || 1));
 const pages = computed<number[]>(() => {
-  const count = Math.max(1, pageCount.value);
+  const count = pageCountNumber.value;
   return Array.from({ length: count }, (_, i) => i + 1);
 });
 
-function buildPageLink(page: number) {
-  const targetPage = Math.max(1, page);
-  const query = { ...route.query } as Record<string, string | string[] | undefined>;
-
-  if (targetPage <= 1) {
-    delete query.page;
-  }
-  else {
-    query.page = String(targetPage);
-  }
-
-  return {
-    path: route.path,
-    query,
-  };
-}
-
 function onPageChange(page: number) {
-  if (page < 1 || page > pageCount.value || page === currentPage.value) {
+  if (page < 1 || page > pageCountNumber.value || page === currentPageNumber.value) {
     return;
   }
 

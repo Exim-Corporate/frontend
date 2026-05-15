@@ -114,8 +114,14 @@ const { data: articleData, pending, error } = await useAsyncData(
       pageSize: pageSize.value,
     });
 
-    totalItems.value = response?.meta?.pagination?.total ?? 0;
-    totalPages.value = response?.meta?.pagination?.pageCount ?? 0;
+    const total = response?.meta?.pagination?.total ?? 0;
+    const pageCountFromApi = response?.meta?.pagination?.pageCount ?? 0;
+
+    totalItems.value = total;
+    totalPages.value = pageCountFromApi > 0
+      ? pageCountFromApi
+      : Math.max(1, Math.ceil(total / pageSize.value));
+
     return response?.data ?? ([] as StrapiArticle[]);
   },
   {
