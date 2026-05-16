@@ -24,7 +24,7 @@
       </template>
 
       <template #content="{ item }">
-        <div class="grid grid-cols-2 gap-3 justify-items-center">
+        <div class="grid grid-cols-3 gap-3 justify-items-center">
           <TechStackCard
             v-for="technology in getRole(item).technologies"
             :key="`mobile-${section.id}-${getRole(item).id}-${technology.name}`"
