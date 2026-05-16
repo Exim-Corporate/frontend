@@ -13,7 +13,7 @@
 
     <BaseText
       variant="section"
-      class-name="mt-3 text-center mx-auto text-light line-clamp-3"
+      class-name="mt-3 text-center mx-auto text-light line-clamp-3 xl:max-w-xl 2xl:max-w-2xl md:max-w-lg "
     >
       {{ description }}
     </BaseText>

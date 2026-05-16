@@ -22,7 +22,7 @@
         loading="lazy"
         quality="80"
         format="webp"
-        class="hidden lg:block absolute top-0 right-0 z-10 rounded-xl w-67.5 h-55 object-cover transition-all duration-2000 ease-out"
+        class="hidden xl:block absolute top-0 right-0 z-10 rounded-xl w-67.5 h-55 object-cover transition-all duration-2000 ease-out"
         :style="{
           transform: `translateY(${imageY}px)`,
           opacity: isSectionInView ? 1 : 0,
