@@ -18,14 +18,11 @@
                 <div class="min-w-0 flex-1 flex flex-col justify-between">
                   <div class="space-y-6">
                     <!-- Panel title -->
-                    <h3 v-if="getPanelTitle(item.label)" class="text-lg font-semibold text-text-dark">
-                      {{ getPanelTitle(item.label) }}
-                    </h3>
-
+                    
                     <section v-for="group in getPrimaryGroups(getPanelType(item.label))" :key="group.id">
-                      <h4 v-if="group.title" class="mb-3 text-base font-semibold text-text-dark">
-                        {{ group.title }}
-                      </h4>
+                        <h3 v-if="group.title" class="mb-3 text-base font-semibold text-text-dark">
+                        {{ getPanelTitle(item.label) }}
+                      </h3>
                       <div class="flex flex-col lg:grid lg:grid-cols-2 lg:gap-x-10">
                         <NuxtLink
                           v-for="link in group.links"
@@ -215,7 +212,7 @@ type PanelType = 'ai' | 'expertise';
 interface LinkItem {
   id: string;
   title: string;
-  description?: string;
+  description: string;
   to: string;
 }
 
@@ -245,6 +242,10 @@ const { data: headerData } = await useAsyncData<StrapiHeaderNavigation>(
 
 const toServicePath = (slug: string) => localePath(`/services/${slug}`);
 const toIndustryPath = (slug: string) => localePath(`/industry/${slug}`);
+const normalizeLinkDescription = (description: string | undefined, title: string): string => {
+  const normalized = description?.trim();
+  return normalized && normalized.length > 0 ? normalized : title;
+};
 
 const buildGroups = (
   links: StrapiHeaderNavLink[] | undefined,
@@ -262,7 +263,7 @@ const buildGroups = (
       links: links.map(l => ({
         id: l.documentId || String(l.id),
         title: l.title,
-        description: l.description,
+        description: normalizeLinkDescription(l.description, l.title),
         to: toPath(l.slug),
       })),
     });
@@ -275,7 +276,7 @@ const buildGroups = (
         links: extraLinks.map(l => ({
           id: `extra-${l.documentId || String(l.id)}`,
           title: l.title,
-          description: l.description,
+          description: normalizeLinkDescription(l.description, l.title),
           to: toPath(l.slug),
         })),
       }

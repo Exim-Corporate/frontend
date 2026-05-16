@@ -153,7 +153,7 @@ const getExcerpt = (description?: string): string => {
     :class="sm ? 'py-3' : compact ? 'py-5' : 'py-8 lg:py-10'"
   >
     <div
-      class="flex flex-col gap-3"
+      class="flex flex-col gap-3 cursor-pointer"
       :class="hideImage ? 'lg:grid lg:grid-cols-[minmax(0,1fr)_32px] lg:items-start lg:gap-6' : 'lg:grid lg:grid-cols-[180px_minmax(0,1fr)_132px_32px] lg:items-center lg:gap-8'"
     >
       <div
@@ -170,7 +170,7 @@ const getExcerpt = (description?: string): string => {
           quality="85"
           format="webp"
           sizes="(max-width: 1023px) 100vw, 180px"
-          class="absolute inset-0 h-full w-full object-cover"
+          class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
       </div>
 
@@ -200,16 +200,17 @@ const getExcerpt = (description?: string): string => {
       <BaseText
         v-if="!hideDate && formattedDate"
         variant="card"
-        class-name="hidden text-right text-[14px]! font-normal! leading-7! text-text-dark/50 lg:block"
+        class-name="hidden text-right text-[14px]! font-normal! leading-7! text-text-dark/50 transition-opacity duration-200 lg:block lg:group-hover:opacity-0"
       >
         {{ formattedDate }}
       </BaseText>
 
-      <div class="hidden items-center justify-end lg:flex">
+      <div class="hidden items-center justify-end opacity-0 transition-all duration-300 ease-out lg:flex lg:-translate-x-2 lg:group-hover:translate-x-0 lg:group-hover:opacity-100">
         <i :class="['pi pi-arrow-right text-text-dark', sm ? 'text-[20px]' : 'text-[32px]']" />
       </div>
     </div>
 
     <span class="absolute bottom-0 left-0 h-px w-full bg-form-border" />
+    <span class="absolute bottom-0 left-0 hidden h-0.5 w-0 bg-text-dark transition-all duration-500 ease-out lg:block lg:group-hover:w-full" />
   </div>
 </template>
