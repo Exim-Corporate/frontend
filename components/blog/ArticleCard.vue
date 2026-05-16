@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useLocalePath } from '#imports';
+import { useLocalePath, useRuntimeConfig } from '#imports';
 import type { StrapiArticle, StrapiUploadFile } from '../../types/strapi';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
@@ -30,19 +30,9 @@ const { locale } = useI18n();
 const localePath = useLocalePath();
 const isStaticCard = computed(() => props.as === 'div');
 
-const coverUrl = computed(() => {
-  if (props.hideImage) {
-    return '';
-  }
-
-  return normalizeImageUrl(
-    props.article.cover?.formats?.small?.url ??
-      props.article.cover?.formats?.thumbnail?.url ??
-      props.article.cover?.url ??
-      '',
-    String(config.public.strapiUrl ?? ''),
-  );
-});
+const strapiUrl = String(config.public.strapiUrl ?? '');
+const mobileCoverUrl = computed(() => normalizeImageUrl(props.article.cover?.url ?? '', strapiUrl));
+const desktopCoverUrl = computed(() => normalizeImageUrl(props.article.cover?.formats?.thumbnail?.url ?? props.article.cover?.url ?? '', strapiUrl));
 
 const articleLink = computed(() => {
   if (props.to) {
@@ -94,16 +84,26 @@ const getExcerpt = (description?: string): string => {
         class="relative aspect-18/10 w-full overflow-hidden rounded-xl lg:h-25 lg:w-45 lg:rounded-xl lg:aspect-auto"
       >
         <NuxtImg
-          v-if="coverUrl"
-          :src="coverUrl"
+          v-if="mobileCoverUrl"
+          :src="mobileCoverUrl"
           :alt="article.cover?.alternativeText || article.title"
           width="360"
           height="200"
           loading="lazy"
           quality="85"
           format="webp"
-          sizes="(max-width: 1023px) 100vw, 180px"
-          class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 lg:hidden"
+        />
+        <NuxtImg
+          v-if="desktopCoverUrl"
+          :src="desktopCoverUrl"
+          :alt="article.cover?.alternativeText || article.title"
+          width="180"
+          height="100"
+          loading="lazy"
+          quality="85"
+          format="webp"
+          class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 hidden lg:block"
         />
       </div>
 
@@ -161,16 +161,26 @@ const getExcerpt = (description?: string): string => {
         class="relative aspect-18/10 w-full overflow-hidden rounded-xl lg:h-25 lg:w-45 lg:rounded-xl lg:aspect-auto"
       >
         <NuxtImg
-          v-if="coverUrl"
-          :src="coverUrl"
+          v-if="mobileCoverUrl"
+          :src="mobileCoverUrl"
           :alt="article.cover?.alternativeText || article.title"
           width="360"
           height="200"
           loading="lazy"
           quality="85"
           format="webp"
-          sizes="(max-width: 1023px) 100vw, 180px"
-          class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 lg:hidden"
+        />
+        <NuxtImg
+          v-if="desktopCoverUrl"
+          :src="desktopCoverUrl"
+          :alt="article.cover?.alternativeText || article.title"
+          width="180"
+          height="100"
+          loading="lazy"
+          quality="85"
+          format="webp"
+          class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 hidden lg:block"
         />
       </div>
 
