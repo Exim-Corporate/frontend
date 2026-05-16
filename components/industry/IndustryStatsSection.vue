@@ -4,14 +4,14 @@
       <BaseTitle
         tag="h2"
         variant="main"
-        class-name="max-w-92.5 text-left leading-[120%] md:max-w-164.5 md:leading-12"
+        class-name="max-w-92.5 m-auto text-center lg:m-0 lg:text-left lg:max-w-164.5"
       >
         {{ sectionData.title }}
       </BaseTitle>
 
       <div
         v-if="statsItems.length"
-        class="flex max-w-92.5 flex-col gap-14 md:max-w-137 md:gap-28"
+        class="flex max-w-92.5 m-auto flex-col gap-14 md:max-w-137 md:gap-28"
       >
         <article
           v-for="(item, index) in statsItems"
