@@ -56,7 +56,7 @@ const cardClasses = computed(() => {
 
   if (isWithBackground.value) {
     classes.push(
-      "bg-card-bg bg-[url('/images/services/CardBackground.svg')] bg-center bg-no-repeat bg-[length:500px_500px]",
+      "bg-card-bg bg-[url('/images/services/CardBackground.svg')] bg-center bg-no-repeat bg-cover",
     );
   } else {
     classes.push('bg-card-bg');
