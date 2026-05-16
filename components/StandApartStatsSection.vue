@@ -1,7 +1,7 @@
 <template>
   <section class="container w-full bg-white">
     <AnimatedElement direction="bottom" :delay="100">
-      <BaseTitle tag="h2" variant="main" class-name="text-center md:text-left">
+      <BaseTitle tag="h2" variant="main" class-name="text-center lg:text-left">
         {{ $t('standApart.title') }}
       </BaseTitle>
     </AnimatedElement>
@@ -13,7 +13,7 @@
           direction="bottom"
           :delay="100 + index * 60"
         >
-          <div class="flex items-start gap-4 border-b border-black/10 py-5 last:border-b-0">
+          <div class="flex items-center lg:items-start gap-4 border-b border-black/10 py-5 last:border-b-0">
             <BaseText variant="card" className="w-1/2 text-left text-text-dark">
               {{ $t(item.labelKey) }}
             </BaseText>

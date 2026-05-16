@@ -8,7 +8,7 @@
         <BaseTitle
           tag="h2"
           variant="main"
-          class-name="text-center lg:text-left max-w-md"
+          class-name="text-center lg:text-left lg:max-w-md"
         >
           {{ $t('chooseUs.title') }}
         </BaseTitle>
