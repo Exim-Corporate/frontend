@@ -46,7 +46,7 @@
       </div>
     </div>
 
-    <div class="mt-10 grid grid-cols-2 gap-2 md:mt-12 md:grid-cols-5 md:gap-4">
+    <div class="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-2 md:mt-12 md:grid-cols-5 md:gap-4">
       <AnimatedElement
         v-for="(item, index) in limitedItems"
         :key="`${item.technologyName}-${index}`"
@@ -55,13 +55,13 @@
       >
         <article
           :class="[
-              'group flex h-40 w-full max-w-45 flex-col justify-center rounded-3xl border border-transparent p-4 text-center transition-all duration-300 hover:border hover:border-text-dark/15 md:h-50 md:max-w-62.5 md:p-6',
+              'group m-auto flex h-40 w-full max-w-45 flex-col justify-center rounded-3xl border border-transparent p-4 text-center transition-all duration-300 hover:border hover:border-text-dark/15 md:h-50 md:max-w-62.5 md:p-6',
               'bg-background-gray',
           ]"
         >
             <div class="flex h-16 items-center justify-center">
             <AppIcon
-              v-if="item.iconType === 'withSvg'"
+              v-if="item.iconType === 'withSvg' && item.icon?.trim()"
               :icon="item.icon"
                 :size="56"
                 class-name="text-text-dark grayscale transition-transform duration-300 hover:scale-100 group-hover:scale-115 cursor-default"
@@ -71,7 +71,7 @@
               variant="main"
                 class-name="text-[42px] md:text-[56px] leading-none text-text-dark grayscale transition-transform duration-300 group-hover:scale-115"
             >
-              {{ item.icon }}
+              {{ item.icon?.trim() || '🧩' }}
             </BaseText>
           </div>
 
