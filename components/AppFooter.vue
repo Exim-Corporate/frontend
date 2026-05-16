@@ -140,17 +140,14 @@
         <AnimatedElement direction="bottom">
           <div class="mt-16 flex justify-center">
             <div class="footer-badge-shell flex h-32.5 w-27 items-center justify-center border border-text-light/35 bg-text-light/8 p-1.5">
-              <div class="footer-badge-core flex h-full w-full flex-col items-center justify-center gap-1 border border-text-light/25 bg-text-light px-2 text-center text-text-dark">
-                <span class="font-sans text-[9px] font-semibold uppercase tracking-[0.18em] text-text-secondary">
-                  Top
-                </span>
-                <span class="font-sans text-[10px] font-semibold uppercase tracking-widest text-text-secondary">
-                  Software development Company
-                </span>
-                <span class="font-sans text-[27px] font-semibold leading-none">Clutch</span>
-                <span class="font-sans text-[11px] font-semibold tracking-[0.18em] text-text-secondary">
-                  2025
-                </span>
+              <div class="footer-badge-core flex h-full w-full items-center justify-center border border-text-light/25 bg-text-light overflow-hidden">
+                <NuxtImg
+                  src="/images/footer/clutch.webp"
+                  alt="Top Software Development Company Clutch 2025"
+                  class="h-full w-full object-cover"
+                  draggable="false"
+                  loading="lazy"
+                />
               </div>
             </div>
           </div>
@@ -218,17 +215,14 @@
 
               <div class="mt-24">
                 <div class="footer-badge-shell flex h-31.5 w-25.5 items-center justify-center border border-text-light/35 bg-text-light/8 p-1.5">
-                  <div class="footer-badge-core flex h-full w-full flex-col items-center justify-center gap-1 border border-text-light/25 bg-text-light px-2 text-center text-text-dark">
-                    <span class="font-sans text-[8px] font-semibold uppercase tracking-[0.18em] text-text-secondary">
-                      Top
-                    </span>
-                    <span class="font-sans text-[10px] font-semibold uppercase tracking-widest text-text-secondary">
-                      SEO Company
-                    </span>
-                    <span class="font-sans text-[26px] font-semibold leading-none">Clutch</span>
-                    <span class="font-sans text-[11px] font-semibold tracking-[0.18em] text-text-secondary">
-                      2025
-                    </span>
+                  <div class="footer-badge-core flex h-full w-full items-center justify-center border border-text-light/25 bg-text-light overflow-hidden">
+                    <NuxtImg
+                      src="/images/footer/clutch.webp"
+                      alt="Top Software Development Company Clutch 2025"
+                      class="h-full w-full object-cover"
+                      draggable="false"
+                      loading="lazy"
+                    />
                   </div>
                 </div>
               </div>
