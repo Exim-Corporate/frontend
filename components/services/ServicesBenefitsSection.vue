@@ -5,7 +5,7 @@
         <BaseTitle
           tag="h2"
           variant="main"
-          class-name="max-w-92.5 text-center md:text-left md:max-w-164.5"
+          class-name="max-w-92.5 m-auto text-center lg:m-0 lg:text-left lg:max-w-164.5"
         >
           {{ sectionData.title }}
         </BaseTitle>

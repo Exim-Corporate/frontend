@@ -46,7 +46,7 @@
       </div>
     </div>
 
-    <div class="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-2 md:mt-12 md:grid-cols-5 md:gap-4">
+    <div class="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-2 md:mt-12 md:grid-cols-4 lg:grid-cols-5 md:gap-4">
       <AnimatedElement
         v-for="(item, index) in limitedItems"
         :key="`${item.technologyName}-${index}`"

@@ -5,11 +5,11 @@
       :style="sectionBackgroundStyle"
     >
       <div class="flex min-h-50 flex-col justify-between gap-6 md:gap-8">
-        <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between md:gap-6">
+        <div class="flex gap-4 flex-row justify-between md:gap-6">
           <BaseTitle
             tag="h2"
             variant="main"
-            class-name="max-w-65 text-left text-white md:max-w-96.25 md:text-[40px] md:leading-12"
+            class-name="max-w-65 text-left text-white md:text-[40px] md:leading-12"
           >
             {{ sectionData.title }}
           </BaseTitle>
