@@ -29,7 +29,7 @@
 
     <div
       :key="selectedRole.id"
-      class="grid grid-cols-2 xl:grid-cols-4 gap-4 justify-items-start"
+      class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-start"
       data-aos="fade-left"
       data-aos-duration="350"
     >
