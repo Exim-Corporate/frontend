@@ -213,18 +213,20 @@
                 </a>
               </div>
 
-              <div class="mt-24">
-                <div class="footer-badge-shell flex h-31.5 w-25.5 items-center justify-center border border-text-light/35 bg-text-light/8 p-1.5">
-                  <div class="footer-badge-core flex h-full w-full items-center justify-center border border-text-light/25 bg-text-light overflow-hidden">
+              <div class="mt-24 items-start">
+                <!-- <div class="footer-badge-shell flex h-31.5 w-25.5 items-center justify-center border border-text-light/35 bg-text-light/8 p-1.5"> -->
+                  <!-- <div class="footer-badge-core flex h-full w-full items-center justify-center border border-text-light/25 bg-text-light overflow-hidden"> -->
                     <NuxtImg
-                      src="/images/footer/clutch.webp"
-                      alt="Top Software Development Company Clutch 2025"
+                      src="/images/footer/cropped-clutch.webp"
+                      alt="AS Exim Top Software Development Company Clutch 2025"
                       class="h-full w-full object-cover"
                       draggable="false"
+                      width="100"
+                      height="100"
                       loading="lazy"
                     />
-                  </div>
-                </div>
+                  <!-- </div> -->
+                <!-- </div> -->
               </div>
             </div>
           </div>
