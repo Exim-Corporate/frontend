@@ -11,7 +11,7 @@
         </div>
 
         <!-- <div class="hidden min-w-0 flex-1 items-center justify-center md:flex"> -->
-          <MegaMenu :model="menuItems" :pt="megaMenuPt" :dt="megaMenuDt" class="border-0 bg-transparent hidden min-w-0 flex-1 items-center justify-center lg:flex">
+          <MegaMenu :model="menuItems" :pt="megaMenuPt" :dt="megaMenuDt" breakpoint="1500px" class="border-0 bg-transparent hidden min-w-0 flex-1 items-center justify-center lg:flex">
             <template #item="{ item, hasSubmenu }" >
               <!-- Custom dropdown panel -->
               <div v-if="!item.root && isPanelItem(item.label)" class="flex max-h-[70vh] w-7xl max-w-[90vw] gap-12 overflow-y-auto p-6">
