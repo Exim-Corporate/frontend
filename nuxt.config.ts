@@ -1,6 +1,7 @@
 import Noir from './assets/theme';
 import tailwindcss from '@tailwindcss/vite';
 const HOME_ISR_TTL = 60 * 60 * 24 * 7;
+const IS_PROD = process.env.NODE_ENV === 'production';
 
 export default {
   compatibilityDate: '2024-11-01',
@@ -115,11 +116,12 @@ export default {
   },
   // Оптимизация изображений для production
   image: {
+    // Keep local assets in /public and use Vercel optimizer in production.
+    // IPX can fail to resolve local files in serverless ISR runtime.
     dir: 'public',
     format: ['webp', 'jpeg', 'png'],
     quality: 85,
-    // Использовать встроенный provider для SSG
-    provider: 'ipx',
+    provider: IS_PROD ? 'vercel' : 'ipx',
   },
 
   fonts: {
