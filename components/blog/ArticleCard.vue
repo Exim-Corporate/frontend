@@ -57,15 +57,6 @@ const formattedDate = computed(() => {
     day: 'numeric',
   });
 });
-
-const getExcerpt = (description?: string): string => {
-  const normalized = description?.trim() ?? '';
-  if (normalized.length <= 170) {
-    return normalized;
-  }
-
-  return `${normalized.slice(0, 167).trimEnd()}...`;
-};
 </script>
 
 <template>
@@ -117,9 +108,9 @@ const getExcerpt = (description?: string): string => {
         </BaseTitle>
         <BaseText
           :variant="sm ? 'card12' : 'section'"
-          :class-name="compact ? 'mt-0.5 text-left text-text-dark text-[11px] leading-4 line-clamp-2 md:text-[11px] md:leading-4' : sm ? 'mt-0.5 text-left text-text-dark line-clamp-1' : 'mt-1 text-left text-text-dark line-clamp-2 md:mt-2 md:max-w-200 md:text-[18px] md:leading-7'"
+          :class-name="compact ? 'mt-0.5 text-left text-text-dark text-[11px] leading-4 line-clamp-2 whitespace-normal md:text-[11px] md:leading-4' : sm ? 'mt-0.5 text-left text-text-dark line-clamp-2 whitespace-normal' : 'mt-1 text-left text-text-dark line-clamp-2 whitespace-normal md:mt-2 md:max-w-200 md:text-[18px] md:leading-7'"
         >
-          {{ getExcerpt(article.description) }}
+          {{ article.description }}
         </BaseText>
         <BaseText
           v-if="!hideDate && formattedDate"
@@ -194,9 +185,9 @@ const getExcerpt = (description?: string): string => {
         </BaseTitle>
         <BaseText
           :variant="sm ? 'card12' : 'section'"
-          :class-name="compact ? 'mt-0.5 text-left text-text-dark text-[11px] leading-4 line-clamp-2 md:text-[11px] md:leading-4' : sm ? 'mt-0.5 text-left text-text-dark line-clamp-1' : 'mt-1 text-left text-text-dark line-clamp-2 md:mt-2 md:max-w-200 md:text-[18px] md:leading-7'"
+          :class-name="compact ? 'mt-0.5 text-left text-text-dark text-[11px] leading-4 line-clamp-2 whitespace-normal md:text-[11px] md:leading-4' : sm ? 'mt-0.5 text-left text-text-dark line-clamp-2 whitespace-normal' : 'mt-1 text-left text-text-dark line-clamp-2 whitespace-normal md:mt-2 md:max-w-200 md:text-[18px] md:leading-7'"
         >
-          {{ getExcerpt(article.description) }}
+          {{ article.description }}
         </BaseText>
         <BaseText
           v-if="!hideDate && formattedDate"
