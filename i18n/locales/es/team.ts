@@ -6,7 +6,7 @@ export default {
     members: {
       artem: {
         name: 'Artem Shapovalov',
-        role: 'CEO y cofundador',
+        role: 'Fundador y CEO',
         bio: 'Líder visionario con más de 10 años de experiencia en optimización de talento tecnológico y desarrollo de negocios.',
       },
       dmytro: {
