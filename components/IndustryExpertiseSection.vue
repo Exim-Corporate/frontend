@@ -16,11 +16,11 @@
       </AnimatedElement>
     </div>
 
-    <div class="flex flex-wrap items-stretch gap-4 lg:gap-6">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
       <AnimatedElement
         v-for="(card, index) in cards"
         :key="card.key"
-        class="w-full min-w-0 md:flex-[1_1_calc(50%-0.5rem)] lg:flex-[1_1_calc(33.333%-1rem)]"
+        class="min-w-0"
         direction="bottom"
         :delay="180 + index * 50"
       >
@@ -29,6 +29,8 @@
           :title="$t(card.titleKey)"
           :description="$t(card.descriptionKey)"
           :tags="card.tagKeys.map((key) => $t(key))"
+          :link-to="card.linkTo"
+          link-label="Read more"
         />
       </AnimatedElement>
     </div>
@@ -46,6 +48,7 @@ interface IndustryExpertiseItem {
   descriptionKey: string;
   image: string;
   tagKeys: string[];
+  linkTo: string;
 }
 
 const cards: IndustryExpertiseItem[] = [
@@ -58,6 +61,7 @@ const cards: IndustryExpertiseItem[] = [
       'industryExpertise.tags.clinicalDecisionSupport',
       'industryExpertise.tags.patientDataAnalytics',
     ],
+    linkTo: '/industry/healthcare',
   },
   {
     key: 'logistics',
@@ -68,6 +72,7 @@ const cards: IndustryExpertiseItem[] = [
       'industryExpertise.tags.aiSupplyChain',
       'industryExpertise.tags.blockchainSaas',
     ],
+    linkTo: '/industry/logistics',
   },
   {
     key: 'retail',
@@ -78,6 +83,7 @@ const cards: IndustryExpertiseItem[] = [
       'industryExpertise.tags.aiPricing',
       'industryExpertise.tags.retailAnalytics',
     ],
+    linkTo: '/industry/retail',
   },
   {
     key: 'finance',
@@ -88,6 +94,7 @@ const cards: IndustryExpertiseItem[] = [
       'industryExpertise.tags.fraudDetection',
       'industryExpertise.tags.riskAnalytics',
     ],
+    linkTo: '/industry/finance-fintech',
   },
   {
     key: 'education',
@@ -98,6 +105,7 @@ const cards: IndustryExpertiseItem[] = [
       'industryExpertise.tags.adaptiveLearning',
       'industryExpertise.tags.learningAnalytics',
     ],
+    linkTo: '/industry/education-edtech',
   },
   {
     key: 'manufacturing',
@@ -108,6 +116,7 @@ const cards: IndustryExpertiseItem[] = [
       'industryExpertise.tags.predictiveMaintenance',
       'industryExpertise.tags.qualityAnalytics',
     ],
+    linkTo: '/industry/manufacturing',
   },
 ];
 

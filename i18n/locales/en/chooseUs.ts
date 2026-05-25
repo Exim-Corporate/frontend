@@ -20,7 +20,7 @@ const chooseUs = {
   feat4_desc:
     'We only work with proven experts in software development, data, AI/ML, QA, and design.',
   feat5_title: 'Communication-Ready Talent',
-  feat5_desc: 'Every candidate is fluent in English, collaborative, and remote-native.',
+  feat5_desc: 'All our developers are fluent in English, collaborative, and remote-native.',
   feat6_title: 'Exceptional Quality of Development',
   feat6_desc:
     'From idea to delivery, we help you ship faster without compromising quality.',

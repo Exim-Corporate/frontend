@@ -1,5 +1,5 @@
 <template>
-  <div class="group relative w-full aspect-square rounded-4xl overflow-hidden cursor-pointer bg-card-bg max-h-80 lg:max-h-full">
+  <div class="group relative w-full aspect-square rounded-4xl overflow-hidden bg-card-bg max-h-80 lg:max-h-full">
     <NuxtImg
       :src="image"
       :alt="title"
@@ -36,6 +36,13 @@
           {{ description }}
         </BaseText>
       </div>
+      <NuxtLink
+        v-if="linkTo"
+        :to="linkTo"
+        class="absolute bottom-6 right-6 text-sm font-semibold text-text-dark underline underline-offset-4 decoration-black/30 hover:text-accent"
+      >
+        {{ linkLabel }}
+      </NuxtLink>
 <!-- 
       <div v-if="tags.length" class="mt-auto flex flex-wrap gap-2">
         <ExpertiseTag
@@ -59,7 +66,11 @@ withDefaults(defineProps<{
   title: string;
   description: string;
   tags?: string[];
+  linkTo?: string;
+  linkLabel?: string;
 }>(), {
   tags: () => [],
+  linkTo: '',
+  linkLabel: 'Read more',
 });
 </script>
