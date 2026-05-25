@@ -1,13 +1,26 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useSEO } from '@/composables/useSEO';
+import CtaSection from '@/components/CtaSection.vue';
 import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
+import { useI18n } from 'vue-i18n';
+import type { StrapiCtaSection } from '@/types/strapi';
 
 const calendlyPrefillEmail = ref('');
+const { t } = useI18n();
 
 const handleHeroSubmitEmail = (email: string) => {
   calendlyPrefillEmail.value = email;
 };
+
+const pageCtaSection = computed<StrapiCtaSection>(() => ({
+  title: t('cta.title'),
+  description: t('cta.description'),
+  buttonText: t('cta.button'),
+  buttonUrl: '#contact-us',
+  image: null,
+  imageAlt: 'CTA image',
+}));
 
 // Centralized SEO for the homepage using useSEO
 useSEO({
@@ -66,9 +79,10 @@ useSEO({
     <TestimonialsSection />
     <TeamSection />
     <HeroBlogSection />
-<!--  -->
-    <!-- CTA Banner Section -->
-    <!-- <CTABanner /> -->
+    <CtaSection
+      :section-data="pageCtaSection"
+      scroll-target-id="contact-us"
+    />
 
     <!-- FAQ Section -->
     <FAQSection />
@@ -79,7 +93,6 @@ useSEO({
       utm-source="homepage"
       :prefill-email="calendlyPrefillEmail"
     />
-<!--  -->
     <!-- Contact Section -->
     <!-- <ContactSection /> -->
 

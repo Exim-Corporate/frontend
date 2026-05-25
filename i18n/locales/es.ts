@@ -487,14 +487,10 @@ export default {
     },
   },
   cta: {
-    title_part1: '¿Necesita ',
-    title_span1: 'talento',
-    title_part2: ' experto? Construyamos algo ',
-    title_span2: 'grandioso',
-    title_part3: ' juntos.',
-    subtitle:
-      'Díganos sus necesidades: entregaremos desarrolladores que se sientan como parte de su equipo interno, sin los costos generales.',
-    button: '¡Comience a contratar ahora!',
+    title: 'Construya su equipo ideal más rápido',
+    description:
+      'Creemos que la gran tecnología prospera con colaboración, precisión y encaje cultural. Por eso ofrecemos estimaciones de proyecto precisas en 48 horas y modelos de colaboración flexibles — tanto si necesita iniciativas de IA, ciclos completos de desarrollo de producto o soporte técnico a largo plazo.',
+    button: 'Iniciar proyecto',
   },
 
   // legal: {

@@ -477,14 +477,10 @@ export default {
     },
   },
   cta: {
-    title_part1: 'Need ',
-    title_span1: 'Expert',
-    title_part2: " Talent? Let's Build Something ",
-    title_span2: 'Great',
-    title_part3: ' Together.',
-    subtitle:
-      "Tell us your needs—we'll deliver developers that feel like your in-house team, without the overhead.",
-    button: 'Start Hiring Now!',
+    title: 'Build Your Dream Team Faster',
+    description:
+      'We believe great technology thrives on collaboration, precision, and cultural fit. That’s why we provide accurate project estimations within 48 hours and offer flexible engagement models — whether you need AI initiatives, full product development cycles, or long-term technical support.',
+    button: 'Start Project',
   },
   // legal: {
   //   test: legalTranslations.legal.test,

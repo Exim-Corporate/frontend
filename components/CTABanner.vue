@@ -1,14 +1,14 @@
 <template>
   <section class="cta-banner relative overflow-hidden">
     <!-- Фоновое изображение с улучшенным параллакс эффектом -->
-    <div class="absolute inset-0 w-full h-[100%]">
+    <div class="absolute inset-0 w-full h-full">
       <div
         ref="parallaxBg"
         class="w-full h-full bg-fixed bg-cover bg-center"
         style="background-image: url('/images/cta.webp')"
       />
     </div>
-    <div class="absolute inset-0 bg-gradient-to-r from-navy-blue/90 to-background/80 z-0" />
+    <div class="absolute inset-0 bg-linear-to-r from-navy-blue/90 to-background/80 z-0" />
 
     <div class="container relative z-10 mx-auto py-20 px-4">
       <div
@@ -18,13 +18,11 @@
       >
         <!-- Заголовок с градиентным текстом -->
         <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-text-light">
-          {{ $t('cta.title_part1') }}<span class="text-gradient">{{ $t('cta.title_span1') }}</span
-          >{{ $t('cta.title_part2') }} <span class="text-gradient">{{ $t('cta.title_span2') }}</span
-          >{{ $t('cta.title_part3') }}
+          {{ $t('cta.title') }}
         </h2>
 
         <p class="text-lg text-text-light mb-10 max-w-3xl mx-auto">
-          {{ $t('cta.subtitle') }}
+          {{ $t('cta.description') }}
         </p>
 
         <!-- Кнопка с анимацией и скроллом к контактной форме -->
