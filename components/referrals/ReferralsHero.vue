@@ -1,17 +1,22 @@
 <template>
   <section class="container overflow-hidden">
-    <div
-      v-if="hero.categories && hero.categories.length"
-      class="mb-6 flex flex-wrap justify-center gap-2 md:mb-8 md:justify-start"
-    >
-      <BaseChip
-        v-for="cat in hero.categories"
-        :key="cat.documentId"
-        variant="light"
-        size="small"
-      >
-        {{ cat.name }}
+    <div class="mb-6 flex flex-wrap justify-center gap-2 md:mb-8 md:justify-start">
+      <BaseChip size="small" variant="light">
+        {{ $t('referrals.hero.chips.referralProgram') }}
       </BaseChip>
+      <BaseChip size="small" variant="light">
+        {{ $t('referrals.hero.chips.partnership') }}
+      </BaseChip>
+      <template v-if="hero.categories && hero.categories.length">
+        <BaseChip
+          v-for="cat in hero.categories"
+          :key="cat.documentId"
+          size="small"
+          variant="light"
+        >
+          {{ cat.name }}
+        </BaseChip>
+      </template>
     </div>
 
     <BaseTitle

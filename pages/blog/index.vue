@@ -61,6 +61,9 @@
         </div>
       </template>
     </section>
+
+    <CtaSection :section-data="ctaData" />
+    <FAQSection />
   </main>
 </template>
 
@@ -74,7 +77,9 @@ import ArticleCard from '@/components/blog/ArticleCard.vue';
 import BlogHeroSection from '@/components/blog/BlogHeroSection.vue';
 import ArticlePagination from '@/components/blog/ArticlePagination.vue';
 import AppLoader from '@/components/UI/AppLoader.vue';
-import type { StrapiArticle } from '@/types/strapi';
+import CtaSection from '@/components/CtaSection.vue';
+import FAQSection from '@/components/FAQSection.vue';
+import type { StrapiArticle, StrapiCtaSection } from '@/types/strapi';
 
 const { fetchArticleList } = usePageContentApi();
 const { locale, t } = useI18n();
@@ -193,6 +198,13 @@ const onPageChange = (page: number): void => {
     },
   );
 };
+
+const ctaData = computed<StrapiCtaSection>(() => ({
+  title: t('cta.title'),
+  description: t('cta.description'),
+  buttonText: t('cta.button'),
+  buttonUrl: '/#contact-us',
+}));
 
 useSEO({
   title: t('blog.title'),

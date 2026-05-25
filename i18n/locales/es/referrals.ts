@@ -1,5 +1,11 @@
 export default {
   referrals: {
+    hero: {
+      chips: {
+        referralProgram: 'Programa de referidos',
+        partnership: 'Asociación',
+      },
+    },
     form: {
       full_name: 'Your Full Name',
       email: 'Your Email',
