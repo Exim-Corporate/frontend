@@ -22,7 +22,7 @@
             variant="main"
             class-name="text-left text-[36px] leading-11 font-light text-text-dark md:text-[48px] md:leading-14.5"
           >
-            {{ item.title }}
+            <AnimatedCounterValue :value="item.title" />
           </BaseText>
           <BaseText
             v-if="item.description"
@@ -39,6 +39,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import AnimatedCounterValue from '@/components/UI/AnimatedCounterValue.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import type { StrapiIndustryStats } from '@/types/strapi';

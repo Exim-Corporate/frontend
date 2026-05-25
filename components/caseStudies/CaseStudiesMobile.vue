@@ -55,7 +55,7 @@
             <div class="mt-3 grid grid-cols-2 gap-5">
               <div v-for="impact in item.study.impacts" :key="impact.labelKey">
                 <BaseTitle tag="p" variant="subheader" class-name="text-left text-text-dark">
-                  {{ impact.value }}
+                  <AnimatedCounterValue :value="impact.value" />
                 </BaseTitle>
                 <BaseText variant="card" class-name="mt-1 text-left text-text-secondary">
                   {{ $t(impact.labelKey) }}
@@ -80,6 +80,7 @@ import { Icon } from '@iconify/vue/dist/iconify.js';
 import AppAccordion from '@/components/UI/AppAccordion.vue';
 import type { AppAccordionItem } from '@/components/UI/AppAccordion.vue';
 import AppButton from '@/components/UI/AppButton.vue';
+import AnimatedCounterValue from '@/components/UI/AnimatedCounterValue.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import type { CaseStudyItem } from '@/types/case-studies';

@@ -18,7 +18,7 @@
               {{ $t(item.labelKey) }}
             </BaseText>
             <BaseTitle tag="p" variant="main" class-name="w-1/2 text-start text-text-dark">
-              {{ item.value }}
+              <AnimatedCounterValue :value="item.value" />
             </BaseTitle>
           </div>
         </AnimatedElement>
@@ -36,7 +36,7 @@
             {{ $t(item.labelKey) }}
           </BaseText>
           <BaseTitle tag="p" variant="main" class-name="w-1/2 text-left text-text-dark">
-            {{ item.value }}
+            <AnimatedCounterValue :value="item.value" />
           </BaseTitle>
         </div>
       </AnimatedElement>
@@ -46,6 +46,7 @@
 
 <script setup lang="ts">
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
+import AnimatedCounterValue from '@/components/UI/AnimatedCounterValue.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 
