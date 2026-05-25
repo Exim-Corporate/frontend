@@ -9,5 +9,6 @@ export interface CaseStudyItem {
   titleKey: string;
   descriptionKey: string;
   image: string;
+  linkTo: string;
   impacts: CaseStudyImpact[];
 }

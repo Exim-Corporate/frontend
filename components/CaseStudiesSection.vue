@@ -33,6 +33,7 @@ const studies: CaseStudyItem[] = [
     titleKey: 'caseStudies.items.industrialAi.title',
     descriptionKey: 'caseStudies.items.industrialAi.description',
     image: '/images/caseStudies/industrial.webp',
+    linkTo: '/industry/manufacturing',
     impacts: [
       {
         value: '27%',
@@ -50,6 +51,7 @@ const studies: CaseStudyItem[] = [
     titleKey: 'caseStudies.items.genAi.title',
     descriptionKey: 'caseStudies.items.genAi.description',
     image: '/images/caseStudies/gen.webp',
+    linkTo: '/services/artificial-intelligence',
     impacts: [
       {
         value: '34%',
@@ -67,6 +69,7 @@ const studies: CaseStudyItem[] = [
     titleKey: 'caseStudies.items.neoBanking.title',
     descriptionKey: 'caseStudies.items.neoBanking.description',
     image: '/images/caseStudies/bank.webp',
+    linkTo: '/industry/banking',
     impacts: [
       {
         value: '41%',
@@ -84,6 +87,7 @@ const studies: CaseStudyItem[] = [
     titleKey: 'caseStudies.items.retailAnalytics.title',
     descriptionKey: 'caseStudies.items.retailAnalytics.description',
     image: '/images/caseStudies/analytics.webp',
+    linkTo: '/industry/retail',
     impacts: [
       {
         value: '29%',

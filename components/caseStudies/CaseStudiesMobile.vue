@@ -64,7 +64,7 @@
             </div>
           </div>
 
-          <AppButton class="mt-7 max-w-42.5">
+          <AppButton class="mt-7 whitespace-nowrap min-w-fit!" @click="openStudy(item.study.linkTo)">
             {{ $t('caseStudies.cta') }}
           </AppButton>
         </div>
@@ -74,6 +74,7 @@
 </template>
 
 <script setup lang="ts">
+import { navigateTo, useLocalePath } from '#imports';
 import { computed } from 'vue';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import AppAccordion from '@/components/UI/AppAccordion.vue';
@@ -99,6 +100,12 @@ const accordionItems = computed<CaseStudiesAccordionItem[]>(() => {
 });
 
 const activeValue = computed<string | null>(() => accordionItems.value[0]?.value ?? null);
+
+const localePath = useLocalePath();
+
+const openStudy = (to: string) => {
+  navigateTo(localePath(to));
+};
 </script>
 
 <style scoped>

@@ -55,7 +55,7 @@
             </div>
           </div>
 
-          <AppButton class="mt-9">
+          <AppButton class="mt-9 whitespace-nowrap min-w-fit!" @click="openStudy(selectedStudy.linkTo)">
             {{ $t('caseStudies.cta') }}
           </AppButton>
         </div>
@@ -81,6 +81,7 @@
 </template>
 
 <script setup lang="ts">
+import { navigateTo, useLocalePath } from '#imports';
 import { computed, ref, watch } from 'vue';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import AppButton from '@/components/UI/AppButton.vue';
@@ -126,5 +127,11 @@ const getImageStateClass = (studyId: string): string => {
   }
 
   return 'z-0 translate-x-8 opacity-0';
+};
+
+const localePath = useLocalePath();
+
+const openStudy = (to: string) => {
+  navigateTo(localePath(to));
 };
 </script>
