@@ -1,6 +1,13 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useSEO } from '@/composables/useSEO';
 import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
+
+const calendlyPrefillEmail = ref('');
+
+const handleHeroSubmitEmail = (email: string) => {
+  calendlyPrefillEmail.value = email;
+};
 
 // Centralized SEO for the homepage using useSEO
 useSEO({
@@ -40,7 +47,7 @@ useSEO({
 
 <template>
   <main>
-    <HeroSection />
+    <HeroSection @submit-email="handleHeroSubmitEmail" />
 
     <ServicesCardsSection />
 
@@ -67,8 +74,10 @@ useSEO({
     <FAQSection />
 
     <CalendlyBookingSection
+      :key="calendlyPrefillEmail || 'no-prefill'"
       section-id="contact-us"
       utm-source="homepage"
+      :prefill-email="calendlyPrefillEmail"
     />
 <!--  -->
     <!-- Contact Section -->

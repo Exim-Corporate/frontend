@@ -28,8 +28,10 @@
           <div class="flex w-full flex-col gap-3 md:flex-row md:items-center md:rounded-full border-0 md:border md:border-form-border p-0 md:p-2.5 md:transition-colors md:hover:border-form-border-hover">
             <div class="w-full rounded-4xl border border-form-border p-0 transition-colors hover:border-form-border-hover md:flex-1 md:rounded-none md:border-0 md:p-0 md:hover:border-transparent">
               <InputText
+                v-model="email"
                 type="email"
                 :placeholder="$t('heroNew.inputPlaceholder')"
+                autocomplete="email"
                 class="w-full text-base"
               />
             </div>
@@ -49,6 +51,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
@@ -57,7 +60,14 @@ import AppButton from '@/components/UI/AppButton.vue';
 import InputText from 'primevue/inputtext';
 import CompaniesCarousel from '@/components/CompaniesCarousel.vue';
 
+const emit = defineEmits<{
+  (e: 'submit-email', email: string): void;
+}>();
+
+const email = ref('');
+
 const submitForm = () => {
+  emit('submit-email', email.value.trim());
   document.getElementById('contact-us')?.scrollIntoView({
     behavior: 'smooth',
     block: 'start',

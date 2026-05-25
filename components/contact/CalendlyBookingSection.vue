@@ -93,10 +93,11 @@ import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import type { StrapiMainCalendly } from '@/types/strapi';
 
-defineProps({
+const props = defineProps({
   sectionId: { type: String, default: '' },
   embedded: { type: Boolean, default: false },
   utmSource: { type: String, default: 'website' },
+  prefillEmail: { type: String, default: '' },
 });
 
 const { locale } = useI18n();
@@ -143,6 +144,11 @@ const bookingOrigin = computed(() => {
   }
 });
 
+const normalizedPrefillEmail = computed(() => {
+  const email = props.prefillEmail.trim();
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : '';
+});
+
 const showFallbackState = computed(() => !pending.value && !bookingLink.value);
 
 // Preconnect + preload the Calendly widget script
@@ -187,10 +193,15 @@ onMounted(() => {
     const C = (window as any).Calendly;
     if (C?.initInlineWidget && calendlyContainer.value) {
       clearInterval(interval);
+      const prefill = normalizedPrefillEmail.value
+        ? { email: normalizedPrefillEmail.value }
+        : undefined;
+
       C.initInlineWidget({
         url: bookingLink.value,
         parentElement: calendlyContainer.value,
         resize: true, // auto-adjusts height — fixes mobile clipping
+        prefill,
       });
     }
   }, 50);
