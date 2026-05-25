@@ -4,29 +4,29 @@ export default {
     subtitle: 'Clear, quick answers about our process and collaboration.',
     items: [
       {
-        question: '¿Qué es la ampliación de personal?',
+        question: 'What should you know about AS EXIM?',
         answer:
-          'La ampliación de personal es una estrategia de externalización flexible que le permite contratar desarrolladores calificados de forma temporal para llenar vacíos en su proyecto. Este enfoque le proporciona la experiencia necesaria sin el compromiso a largo plazo de contratar empleados a tiempo completo.',
+          'AS EXIM is a software development and staff augmentation partner focused on delivering vetted engineers, transparent collaboration, and measurable business outcomes.',
       },
       {
-        question: '¿Cómo aseguran que los desarrolladores se ajusten a nuestras necesidades?',
+        question: 'What types of software development projects does AS EXIM specialize in?',
         answer:
-          'Comenzamos con una consulta detallada para entender los requisitos específicos de su proyecto, incluyendo habilidades técnicas, niveles de experiencia y dinámica del equipo. Con base en esto, seleccionamos cuidadosamente desarrolladores que se ajusten a sus necesidades.',
+          'We specialize in web and platform development, AI-driven solutions, product modernization, integrations, and dedicated team delivery for startups and enterprises.',
       },
       {
-        question: '¿En qué tecnologías están especializados sus desarrolladores?',
+        question: 'What technologies do your developers specialized in?',
         answer:
-          'Nuestros desarrolladores son expertos en Java, JavaScript (incluyendo React, Angular, Node.js) y PHP, entre otras tecnologías. También nos mantenemos actualizados con las últimas tendencias y herramientas de la industria para garantizar soluciones de vanguardia.',
+          'Our engineers work across Java, JavaScript/TypeScript, React, Angular, Node.js, PHP, cloud, DevOps, data, and modern AI/ML toolchains.',
       },
       {
-        question: '¿Qué tan rápido podemos comenzar a trabajar con sus desarrolladores?',
+        question: "What is AS EXIM's pricing structure for development services?",
         answer:
-          'Tras nuestra consulta inicial, generalmente le asignamos desarrolladores adecuados en pocos días. Una vez que apruebe la selección, el proceso de integración es rápido, permitiendo que los desarrolladores contribuyan a su proyecto casi de inmediato.',
+          'Pricing is flexible and depends on scope, seniority, and engagement model (time & materials, dedicated team, or fixed scope), with clear estimates and no hidden fees.',
       },
       {
-        question: '¿Podemos escalar nuestro equipo hacia arriba o hacia abajo?',
+        question: 'What geographies does AS EXIM work?',
         answer:
-          'Sí, nuestros servicios de ampliación de personal están diseñados para ser flexibles. Puede escalar su equipo hacia arriba o hacia abajo fácilmente según las necesidades y cronogramas de su proyecto.',
+          'We support clients across Europe, the UK, and North America, and we can operate globally with remote-first delivery and timezone-aligned collaboration.',
       },
     ],
   },

@@ -4,29 +4,29 @@ export default {
     subtitle: 'Clear, quick answers about our process and collaboration.',
     items: [
       {
-        question: 'What is staff augmentation?',
+        question: 'What should you know about AS EXIM?',
         answer:
-          'Staff augmentation is a flexible outsourcing strategy that allows you to hire skilled developers temporarily to fill gaps in your project. This approach provides you with the expertise you need without the long-term commitment of hiring full-time employees.',
+          'AS EXIM is a software development and staff augmentation partner focused on delivering vetted engineers, transparent collaboration, and measurable business outcomes.',
       },
       {
-        question: 'How do you ensure that the developers match our needs?',
+        question: 'What types of software development projects does AS EXIM specialize in?',
         answer:
-          'We start with an in-depth consultation to understand your specific project requirements, including technical skills, experience levels, and team dynamics. Based on this, we carefully match you with developers who suit your needs.',
+          'We specialize in web and platform development, AI-driven solutions, product modernization, integrations, and dedicated team delivery for startups and enterprises.',
       },
       {
-        question: 'What technologies do your developers specialize in?',
+        question: 'What technologies do your developers specialized in?',
         answer:
-          'Our developers are experts in Java, JavaScript (including React, Angular, Node.js), and PHP, among other technologies. We also stay updated on the latest industry trends and tools to ensure that we provide cutting-edge solutions.',
+          'Our engineers work across Java, JavaScript/TypeScript, React, Angular, Node.js, PHP, cloud, DevOps, data, and modern AI/ML toolchains.',
       },
       {
-        question: 'How quickly can we start working with your developers?',
+        question: "What is AS EXIM's pricing structure for development services?",
         answer:
-          'After our initial consultation, we typically match you with suitable developers within a few days. Once you approve the match, the onboarding process is quick, allowing the developers to contribute to your project almost immediately.',
+          'Pricing is flexible and depends on scope, seniority, and engagement model (time & materials, dedicated team, or fixed scope), with clear estimates and no hidden fees.',
       },
       {
-        question: 'Can we scale our team up or down?',
+        question: 'What geographies does AS EXIM work?',
         answer:
-          'Yes, our staff augmentation services are designed to be flexible. You can easily scale your team up or down based on your project needs and timelines.',
+          'We support clients across Europe, the UK, and North America, and we can operate globally with remote-first delivery and timezone-aligned collaboration.',
       },
     ],
   },

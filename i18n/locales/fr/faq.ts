@@ -4,24 +4,29 @@ export default {
     subtitle: 'Clear, quick answers about our process and collaboration.',
     items: [
       {
-        question: "Qu'est-ce que l'augmentation d'effectifs ?",
-        answer: "L'augmentation d'effectifs est une stratégie d'externalisation flexible.",
+        question: 'What should you know about AS EXIM?',
+        answer:
+          'AS EXIM is a software development and staff augmentation partner focused on delivering vetted engineers, transparent collaboration, and measurable business outcomes.',
       },
       {
-        question: 'Comment vous assurez-vous que les développeurs correspondent ?',
-        answer: 'Nous commençons par une consultation approfondie.',
+        question: 'What types of software development projects does AS EXIM specialize in?',
+        answer:
+          'We specialize in web and platform development, AI-driven solutions, product modernization, integrations, and dedicated team delivery for startups and enterprises.',
       },
       {
-        question: 'Dans quelles technologies vos développeurs sont-ils spécialisés ?',
-        answer: 'Nos développeurs sont experts en Java, JavaScript et PHP.',
+        question: 'What technologies do your developers specialized in?',
+        answer:
+          'Our engineers work across Java, JavaScript/TypeScript, React, Angular, Node.js, PHP, cloud, DevOps, data, and modern AI/ML toolchains.',
       },
       {
-        question: 'Quelle est la rapidité ?',
-        answer: 'Nous trouvons généralement des développeurs appropriés en quelques jours.',
+        question: "What is AS EXIM's pricing structure for development services?",
+        answer:
+          'Pricing is flexible and depends on scope, seniority, and engagement model (time & materials, dedicated team, or fixed scope), with clear estimates and no hidden fees.',
       },
       {
-        question: 'Pouvons-nous augmenter ou réduire notre équipe ?',
-        answer: 'Oui, nos services sont conçus pour être flexibles.',
+        question: 'What geographies does AS EXIM work?',
+        answer:
+          'We support clients across Europe, the UK, and North America, and we can operate globally with remote-first delivery and timezone-aligned collaboration.',
       },
     ],
   },
