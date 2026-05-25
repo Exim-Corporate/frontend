@@ -83,6 +83,8 @@ const addressLines = [
   '6036 Larnaca, Cyprus',
 ] as const;
 
+const clutchUrl = 'https://clutch.co/profile/exim';
+
 const mapFallbackItems = (
   section: FooterSectionKey,
   items: FooterFallbackItem[],
@@ -116,7 +118,7 @@ export const useFooterData = () => {
     {
       name: 'LinkedIn',
       icon: 'mdi:linkedin',
-      url: 'https://linkedin.com/company/as-exim-ltd',
+      url: 'https://www.linkedin.com/company/as-exim-cyprus',
     },
     {
       name: 'Telegram',
@@ -128,11 +130,11 @@ export const useFooterData = () => {
       icon: 'mdi:gmail',
       url: `mailto:${runtimeConfig.public.supportEmail}`,
     },
-    {
-      name: 'X',
-      icon: 'bi:twitter-x',
-      url: 'https://x.com/eximltdcy',
-    },
+    // {
+    //   name: 'Clutch',
+    //   icon: 'bi:clutch',
+    //   url: 'https://clutch.co/profile/exim',
+    // },
   ]);
 
   const legalPrimaryLinks = computed<FooterLegalLink[]>(() => [
@@ -203,6 +205,7 @@ export const useFooterData = () => {
 
   return {
     addressLines,
+    clutchUrl,
     currentYear,
     getFallbackNavigation,
     legalPrimaryLinks,

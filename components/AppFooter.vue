@@ -128,9 +128,9 @@
 
             <NuxtLinkLocale
               :to="legalSecondaryLink.to"
-              class="mt-12 transition-colors duration-300 hover:text-text-light"
+              class="mt-12"
             >
-              <BaseText variant="section" class-name="text-text-light/82">
+              <BaseText variant="section" class-name="text-text-light/82 transition-all duration-300 hover:font-bold hover:text-text-light">
                 {{ legalSecondaryLink.label }}
               </BaseText>
             </NuxtLinkLocale>
@@ -139,47 +139,59 @@
 
         <AnimatedElement direction="bottom">
           <div class="mt-16 flex justify-center">
-            <div class="footer-badge-shell flex h-32.5 w-27 items-center justify-center border border-text-light/35 bg-text-light/8 p-1.5">
-              <div class="footer-badge-core flex h-full w-full items-center justify-center border border-text-light/25 bg-text-light overflow-hidden">
-                <NuxtImg
-                  src="/images/footer/clutch.webp"
-                  alt="Top Software Development Company Clutch 2025"
-                  class="h-full w-full object-cover"
-                  draggable="false"
-                  loading="lazy"
-                />
+            <a
+              :href="clutchUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Clutch profile"
+              class="block transition-transform duration-300 hover:scale-102"
+            >
+              <div class="footer-badge-shell flex h-32.5 w-27 items-center justify-center border border-text-light/35 bg-text-light/8 p-1.5">
+                <div class="footer-badge-core flex h-full w-full items-center justify-center overflow-hidden border border-text-light/25 bg-text-light">
+                  <NuxtImg
+                    src="/images/footer/clutch.webp"
+                    alt="Top Software Development Company Clutch 2025"
+                    class="h-full w-full object-cover"
+                    draggable="false"
+                    loading="lazy"
+                  />
+                </div>
               </div>
-            </div>
+            </a>
           </div>
         </AnimatedElement> 
       </div>
 
-      <div class="hidden md:grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_minmax(0,1.15fr)_minmax(0,0.82fr)] md:gap-x-10 lg:gap-x-16">
+      <AnimatedElement direction="bottom" class="hidden md:block">
+        <div class="mb-16 hidden md:flex md:w-full">
+          <button
+            type="button"
+            class="flex w-full items-center gap-3 bg-transparent p-0 text-left"
+            aria-label="Homepage"
+            @click="navigateToHome"
+          >
+            <NuxtImg
+              src="/images/logoPic.webp"
+              alt="AS Exim logo mark"
+              class="h-auto w-11"
+              draggable="false"
+              loading="lazy"
+            />
+            <NuxtImg
+              src="/images/logoText.webp"
+              alt="AS Exim"
+              class="h-7 w-auto"
+              draggable="false"
+              loading="lazy"
+            />
+          </button>
+        </div>
+      </AnimatedElement>
+
+      <div class="hidden md:grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_minmax(0,1.15fr)_minmax(0,0.82fr)] md:items-start md:gap-x-10 lg:gap-x-16">
         <AnimatedElement direction="bottom">
           <div class="flex flex-col items-start text-left">
-            <button
-              type="button"
-              class="flex items-center gap-3 bg-transparent p-0 text-left"
-              aria-label="Homepage"
-              @click="navigateToHome"
-            >
-              <NuxtImg
-                src="/images/logoPic.webp"
-                alt="AS Exim logo mark"
-                class="h-auto w-11"
-                draggable="false"
-                loading="lazy"
-              />
-              <NuxtImg
-                src="/images/logoText.webp"
-                alt="AS Exim"
-                class="h-7 w-auto"
-                draggable="false"
-                loading="lazy"
-              />
-            </button>
-
-            <div class="mt-16">
+            <div>
               <BaseTitle tag="h2" variant="subheader18" class-name="text-text-light">
                 {{ $t('footer.company') }}
               </BaseTitle>
@@ -203,7 +215,7 @@
                   target="_blank"
                   rel="noopener noreferrer"
                   :aria-label="social.name"
-                  className="text-text-light/90 transition-all duration-300 hover:text-text-light hover:scale-115 h-6 w-6"
+                  class="h-6 w-6 text-text-light/90 transition-all duration-300 hover:scale-115 hover:text-text-light"
                 >
                   <AppIcon
                     :icon="social.icon"
@@ -214,8 +226,13 @@
               </div>
 
               <div class="mt-24 items-start">
-                <!-- <div class="footer-badge-shell flex h-31.5 w-25.5 items-center justify-center border border-text-light/35 bg-text-light/8 p-1.5"> -->
-                  <!-- <div class="footer-badge-core flex h-full w-full items-center justify-center border border-text-light/25 bg-text-light overflow-hidden"> -->
+                <a
+                  :href="clutchUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Clutch profile"
+                  class="block transition-transform duration-300 hover:scale-102"
+                >
                     <NuxtImg
                       src="/images/footer/cropped-clutch.webp"
                       alt="AS Exim Top Software Development Company Clutch 2025"
@@ -225,15 +242,14 @@
                       height="100"
                       loading="lazy"
                     />
-                  <!-- </div> -->
-                <!-- </div> -->
+                </a>
               </div>
             </div>
           </div>
         </AnimatedElement>
 
         <AnimatedElement direction="bottom">
-          <div class="flex flex-col items-start text-left pt-20">
+          <div class="flex flex-col items-start text-left">
             <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.navigation.industry.title') }}
             </BaseTitle>
@@ -253,7 +269,7 @@
         </AnimatedElement>
 
         <AnimatedElement direction="bottom">
-          <div class="flex flex-col items-start text-left pt-20">
+          <div class="flex flex-col items-start text-left">
             <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.navigation.services.title') }}
             </BaseTitle>
@@ -273,7 +289,7 @@
         </AnimatedElement>
 
         <AnimatedElement direction="bottom">
-          <div class="flex flex-col items-start text-left pt-20">
+          <div class="flex flex-col items-start text-left">
             <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.navigation.legal.title') }}
             </BaseTitle>
@@ -285,7 +301,7 @@
                 :to="link.to"
                 class=""
               >
-                <BaseText variant="section" className="text-text-light transition-all duration-300 hover:font-bold ">
+                <BaseText variant="section" class-name="text-text-light transition-all duration-300 hover:font-bold hover:text-text-light">
                   {{ link.label }}
                 </BaseText>
               </NuxtLinkLocale>
@@ -293,9 +309,9 @@
 
             <NuxtLinkLocale
               :to="legalSecondaryLink.to"
-              class="mt-16 transition-colors duration-300 hover:text-text-light"
+              class="mt-16"
             >
-              <BaseText variant="section" class-name="text-text-light/82">
+              <BaseText variant="section" class-name="text-text-light/82 transition-all duration-300 hover:font-bold hover:text-text-light">
                 {{ legalSecondaryLink.label }}
               </BaseText>
             </NuxtLinkLocale>
@@ -327,6 +343,7 @@ const { locale } = useI18n();
 const { navigateToHome } = useNavigateHome();
 const {
   addressLines,
+  clutchUrl,
   currentYear,
   getFallbackNavigation,
   legalPrimaryLinks,
