@@ -1,7 +1,7 @@
 export default {
   faq: {
     title_span: 'FAQ',
-    subtitle: 'Klare, schnelle Antworten zu unserem Prozess und unserer Zusammenarbeit.',
+    subtitle: 'Clear, quick answers about our process and collaboration.',
     items: [
       {
         question: 'Was ist Staff Augmentation?',

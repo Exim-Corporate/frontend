@@ -3,10 +3,10 @@
     <div class="container">
       <AnimatedElement direction="bottom" :delay="100">
         <div class="mb-10 flex flex-row items-start justify-between gap-8 md:mb-12">
-          <BaseTitle tag="h2" variant="main" class-name="text-left">
+          <BaseTitle tag="h2" variant="main" class-name="text-left lg:text-[56px]">
             {{ $t('faq.title_span') }}
           </BaseTitle>
-          <BaseText variant="main" class-name="max-w-[640px] text-left md:text-right">
+          <BaseText variant="main" className="max-w-xs text-left md:text-right">
             {{ $t('faq.subtitle') }}
           </BaseText>
         </div>

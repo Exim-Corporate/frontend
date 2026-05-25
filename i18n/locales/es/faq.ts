@@ -1,7 +1,7 @@
 export default {
   faq: {
     title_span: 'FAQ',
-    subtitle: 'Respuestas claras y rápidas sobre nuestro proceso y colaboración.',
+    subtitle: 'Clear, quick answers about our process and collaboration.',
     items: [
       {
         question: '¿Qué es la ampliación de personal?',

@@ -1,7 +1,7 @@
 export default {
   faq: {
     title_span: 'FAQ',
-    subtitle: 'Des réponses claires et rapides sur notre processus et notre collaboration.',
+    subtitle: 'Clear, quick answers about our process and collaboration.',
     items: [
       {
         question: "Qu'est-ce que l'augmentation d'effectifs ?",
