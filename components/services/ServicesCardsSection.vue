@@ -31,14 +31,14 @@
           </div>
         </div>
 
-        <div class="md:pt-26">
+        <!-- <div class="md:pt-26"> -->
           <AppButton 
-                      class="mt-10 w-full md:w-auto"
+                      class="mt-auto w-full md:w-auto"
           @click="openContactModal('cta-button')"
           >
             {{ buttonLabel }}
           </AppButton>
-        </div>
+        <!-- </div> -->
       </div>
 
       <div class="mt-9 grid grid-cols-1 gap-1.5 md:mt-14 md:grid-cols-2 md:gap-6 lg:grid-cols-3">

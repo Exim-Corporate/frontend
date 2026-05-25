@@ -41,7 +41,7 @@ export default defineEventHandler(async event => {
         },
         populate: {
           seo: true,
-          hero: { populate: { imagePrimary: true, imageSecondary: true, categories: true } },
+          hero: { populate: { imagePrimary: true, categories: true } },
           serviceCardsSection: {
             populate: {
               cards: { populate: { image: true } },

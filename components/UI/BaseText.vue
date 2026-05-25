@@ -31,7 +31,7 @@ const variantClasses: Record<BaseTextVariant, string> = {
 
 const mergedClasses = computed(() => {
   return twMerge(
-    'font-sans m-0 text-text-dark wrap-break-word text-ellipsis',
+    'font-sans m-0 text-text-dark wrap-break-word text-ellipsis whitespace-pre-line',
     variantClasses[props.variant],
     props.className,
   );

@@ -297,7 +297,6 @@ export interface StrapiServiceHero {
   title: string;
   description?: string;
   imagePrimary?: StrapiUploadFile | null;
-  imageSecondary?: StrapiUploadFile | null;
   categories?: StrapiServiceCategory[];
 }
 

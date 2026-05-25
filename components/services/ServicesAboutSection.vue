@@ -32,16 +32,13 @@
 
       <div class="md:basis-[65%]">
         <AnimatedElement :delay="140">
-          <div class="space-y-6">
           <BaseText
-            v-for="(paragraph, paragraphIndex) in descriptionParagraphs"
-            :key="`paragraph-${paragraphIndex}`"
+            v-if="sectionData.description"
             variant="section"
             class-name="text-left text-text-dark/85"
           >
-            {{ paragraph }}
+            {{ sectionData.description }}
           </BaseText>
-          </div>
         </AnimatedElement>
       </div>
     </div>
@@ -104,14 +101,6 @@ const { open: openContactModal } = useContactModal();
 
 const resolvedButtonText = computed(() => {
   return props.sectionData.buttonText?.trim() || t('servicesProvide.button');
-});
-
-const descriptionParagraphs = computed<string[]>(() => {
-  const raw = props.sectionData.description || '';
-  return raw
-    .split(/\n\s*\n/g)
-    .map((chunk) => chunk.trim())
-    .filter(Boolean);
 });
 
 const limitedItems = computed(() => {

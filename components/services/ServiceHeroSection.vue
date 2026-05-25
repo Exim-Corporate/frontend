@@ -35,7 +35,7 @@
       </AppButton>
     </div>
 
-    <div class="mt-8 grid grid-cols-1 gap-3 md:mt-10 md:grid-cols-[30%_minmax(0,1fr)] md:gap-2.5">
+    <div class="mt-8 w-full md:mt-10 lg:ml-auto lg:max-w-[70%]">
       <NuxtImg
         :src="primaryImageUrl"
         :alt="hero.title + ' primary image'"
@@ -43,17 +43,8 @@
         preload
         fetchpriority="high"
         quality="85"
-        class="h-52 w-full rounded-2xl object-cover md:h-66.75"
+        class="h-56 w-full rounded-2xl object-cover sm:h-64 md:h-80 lg:h-125"
         sizes="sm:100vw md:216px"
-        format="webp"
-      />
-      <NuxtImg
-        :src="secondaryImageUrl"
-        :alt="hero.title + ' secondary image'"
-        loading="eager"
-        quality="85"
-        class="h-72 w-full rounded-2xl object-cover md:h-66.75"
-        sizes="sm:100vw md:900px"
         format="webp"
       />
     </div>
@@ -78,15 +69,6 @@ const { open: openContactModal } = useContactModal();
 
 const primaryImageUrl = computed(() => {
   const img = props.hero.imagePrimary;
-  if (img) {
-    const url = img.url || img.formats?.large?.url || img.formats?.medium?.url || img.formats?.small?.url;
-    if (url) return normalizeImageUrl(url);
-  }
-  return '/images/services/sh1.webp';
-});
-
-const secondaryImageUrl = computed(() => {
-  const img = props.hero.imageSecondary;
   if (img) {
     const url = img.url || img.formats?.large?.url || img.formats?.medium?.url || img.formats?.small?.url;
     if (url) return normalizeImageUrl(url);
