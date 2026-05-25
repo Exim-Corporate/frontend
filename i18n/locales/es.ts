@@ -65,7 +65,7 @@ export default {
         description: 'Infraestructura cloud escalable, estrategias de migración y servicios gestionados que reducen costes y aumentan la agilidad.',
       },
       vcto: {
-        title: 'VCTO',
+        title: 'Virtual CTO',
         description: 'Asesoramiento de CTO virtual que alinea tu estrategia tecnológica con los objetivos de negocio y guía el liderazgo técnico.',
       },
       enterpriseSearch: {
@@ -428,7 +428,7 @@ export default {
           aiChatbots: 'Chatbots de IA',
           dataEngineering: 'Data Engineering',
           cloudServices: 'Servicios Cloud',
-          vcto: 'VCTO',
+          vcto: 'Virtual CTO',
           enterpriseSearch: 'Búsqueda Empresarial',
         },
       },

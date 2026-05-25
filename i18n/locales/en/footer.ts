@@ -25,7 +25,7 @@ const footer = {
         aiChatbots: 'AI Chatbots',
         dataEngineering: 'Data Engineering',
         cloudServices: 'Cloud Services',
-        vcto: 'VCTO',
+        vcto: 'Virtual CTO',
         enterpriseSearch: 'Enterprise Search',
       },
     },

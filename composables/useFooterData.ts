@@ -68,7 +68,7 @@ const serviceFallbackItems: FooterFallbackItem[] = [
     slug: 'cloud-services',
     footerOrder: 7,
   },
-  { labelKey: 'footer.navigation.services.items.vcto', slug: 'vcto', footerOrder: 8 },
+  { labelKey: 'footer.navigation.services.items.vcto', slug: 'virtual-cto', footerOrder: 8 },
   {
     labelKey: 'footer.navigation.services.items.enterpriseSearch',
     slug: 'enterprise-search',
