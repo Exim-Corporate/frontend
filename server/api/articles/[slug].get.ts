@@ -15,7 +15,7 @@ const articlePopulate = {
       },
     },
   },
-  category: {
+  categories: {
     fields: ['name', 'slug'],
   },
 } as const;
@@ -33,13 +33,12 @@ const normalizeArticle = (article: StrapiArticle | null): StrapiArticle | null =
 
   const normalizedArticle = article as StrapiArticle & {
     author?: StrapiArticle['authors'] extends Array<infer T> ? T | null : never;
-    category?: StrapiArticle['categories'] extends Array<infer T> ? T | null : never;
   };
 
   return {
     ...normalizedArticle,
     authors: normalizedArticle.author ? [normalizedArticle.author] : [],
-    categories: normalizedArticle.category ? [normalizedArticle.category] : [],
+    categories: normalizedArticle.categories || [],
   };
 };
 
@@ -96,7 +95,7 @@ export default defineEventHandler(async event => {
     article: StrapiArticle,
     requestedLocale?: string,
   ): Promise<StrapiArticle[]> => {
-    const primaryCategoryId = article.category?.id ?? article.categories?.[0]?.id;
+    const primaryCategoryId = article.categories?.[0]?.id;
 
     if (!primaryCategoryId) {
       return [];
@@ -108,7 +107,7 @@ export default defineEventHandler(async event => {
         populate: relatedPopulate,
         sort: ['publishedAt:desc'],
         filters: {
-          category: {
+          categories: {
             id: {
               $eq: primaryCategoryId,
             },

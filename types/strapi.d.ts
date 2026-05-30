@@ -25,7 +25,6 @@ export interface StrapiArticle {
   locale: string;
   cover: StrapiUploadFile;
   authors?: StrapiAuthor[];
-  category?: StrapiArticleCategory | null;
   categories?: StrapiArticleCategory[];
   tags?: {
     id: number;

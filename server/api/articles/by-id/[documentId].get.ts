@@ -10,13 +10,12 @@ const normalizeArticle = (article: StrapiArticle | null): StrapiArticle | null =
 
   const normalizedArticle = article as StrapiArticle & {
     author?: StrapiArticle['authors'] extends Array<infer T> ? T | null : never;
-    category?: StrapiArticle['categories'] extends Array<infer T> ? T | null : never;
   };
 
   return {
     ...normalizedArticle,
     authors: normalizedArticle.author ? [normalizedArticle.author] : [],
-    categories: normalizedArticle.category ? [normalizedArticle.category] : [],
+    categories: normalizedArticle.categories || [],
   };
 };
 
@@ -40,7 +39,7 @@ export default defineEventHandler(async event => {
   const articleQuery = stringify(
     {
       populate: {
-        category: { fields: ['name', 'slug'] },
+        categories: { fields: ['name', 'slug'] },
         cover: { fields: ['url', 'alternativeText', 'caption'] },
         author: {
           fields: ['name', 'position'],
