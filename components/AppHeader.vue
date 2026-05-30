@@ -222,7 +222,7 @@ interface LinkGroup {
   links: LinkItem[];
 }
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const localePath = useLocalePath();
 const config = useRuntimeConfig();
 const { open: openContactModal } = useContactModal();
@@ -235,9 +235,9 @@ let lastScrollTop = 0;
 const isHeaderReady = computed(() => import.meta.server || isMounted.value);
 
 const { data: headerData } = await useAsyncData<StrapiHeaderNavigation>(
-  'header-navigation',
-  () => $fetch<StrapiHeaderNavigation>('/api/header-navigation'),
-  { server: true, lazy: false },
+  () => `header-navigation-${locale.value}`,
+  () => $fetch<StrapiHeaderNavigation>('/api/header-navigation', { query: { locale: locale.value } }),
+  { server: true, lazy: false, watch: [locale] },
 );
 
 const toServicePath = (slug: string) => localePath(`/services/${slug}`);

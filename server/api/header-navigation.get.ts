@@ -1,9 +1,12 @@
 import { useRuntimeConfig } from '#imports';
-import { defineEventHandler, createError } from 'h3';
+import { defineEventHandler, createError, getQuery } from 'h3';
 import { stringify } from 'qs';
 import type { StrapiHeaderNavigation, StrapiSingleResponse } from '@/types/strapi';
 
 export default defineEventHandler(async event => {
+  const queryParams = getQuery(event);
+  const locale = typeof queryParams.locale === 'string' ? queryParams.locale : undefined;
+
   const config = useRuntimeConfig(event);
   const strapiUrl = String(config.public.strapiUrl || '').replace('://localhost', '://127.0.0.1');
   const token = typeof config.strapiToken === 'string' ? config.strapiToken : undefined;
@@ -12,8 +15,9 @@ export default defineEventHandler(async event => {
     throw createError({ statusCode: 500, message: 'Strapi URL not configured' });
   }
 
-  const query = stringify(
+  const buildQuery = (requestedLocale?: string) => stringify(
     {
+      locale: requestedLocale,
       populate: {
         aiDevelopmentDropdown: {
           populate: {
@@ -43,10 +47,17 @@ export default defineEventHandler(async event => {
   }
 
   try {
-    const response = await $fetch<StrapiSingleResponse<StrapiHeaderNavigation>>(
-      `${strapiUrl}/api/header-navigation?${query}`,
-      { headers },
-    );
+    const fetchHeader = (requestedLocale?: string) =>
+      $fetch<StrapiSingleResponse<StrapiHeaderNavigation>>(
+        `${strapiUrl}/api/header-navigation?${buildQuery(requestedLocale)}`,
+        { headers },
+      );
+
+    let response = await fetchHeader(locale);
+
+    if (!response?.data && locale && locale !== 'en') {
+      response = await fetchHeader('en');
+    }
 
     if (!response?.data) {
       return { id: 0 } as StrapiHeaderNavigation;

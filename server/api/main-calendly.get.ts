@@ -20,6 +20,7 @@ export default defineEventHandler(async event => {
   }
 
   try {
+    // Always fetch English version for main-calendly (no locale parameter)
     const response = await $fetch<StrapiSingleResponse<StrapiMainCalendly>>(
       `${strapiUrl}/api/main-calendly`,
       { headers },

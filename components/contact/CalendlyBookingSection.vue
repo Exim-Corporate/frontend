@@ -4,7 +4,7 @@
       <div class="mx-auto max-w-5xl text-center">
         <AnimatedElement direction="bottom" :delay="100">
           <BaseTitle tag="h2" variant="main" class-name="text-center">
-            {{ calendlyContent?.title || $t('booking.title') }}
+            {{ t('booking.title') }}
           </BaseTitle>
         </AnimatedElement>
       </div>
@@ -15,7 +15,7 @@
         class="flex min-h-180 flex-col items-center justify-center text-center"
       >
         <BaseText class-name="max-w-xl text-text-dark">
-          {{ $t('booking.unavailable') }}
+          {{ t('booking.unavailable') }}
         </BaseText>
         <NuxtLink
           v-if="bookingLink"
@@ -26,7 +26,7 @@
           aria-label="Open Calendly booking page in a new tab"
           class="mt-5 inline-flex items-center justify-center rounded-full bg-text-dark px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-text-dark/90"
         >
-          {{ $t('heroNew.scheduleButton') }}
+          {{ t('heroNew.scheduleButton') }}
         </NuxtLink>
       </div>
 
@@ -70,7 +70,7 @@
         v-if="contactEmail"
         class="mt-6 text-center text-sm text-text-dark/60"
       >
-        <span>Prefer email? Reach us directly at </span>
+        <span>{{ t('booking.preferEmail') }} </span>
         <NuxtLink
           :to="`mailto:${contactEmail}`"
           external
@@ -100,15 +100,15 @@ const props = defineProps({
   prefillEmail: { type: String, default: '' },
 });
 
-const { locale } = useI18n();
 const runtimeConfig = useRuntimeConfig();
+const { t } = useI18n();
 const contactEmail = String(runtimeConfig.public.contactEmail || '');
 
 const calendlyContainer = ref<HTMLElement | null>(null);
 const widgetLoading = ref(true);
 
 const { data: calendlyContent, pending } = await useAsyncData<StrapiMainCalendly | null>(
-  'main-calendly',
+  () => 'main-calendly',
   async () => {
     try {
       return await $fetch<StrapiMainCalendly>('/api/main-calendly');
@@ -126,7 +126,6 @@ const bookingLink = computed(() => {
   try {
     const url = new URL(link);
     url.searchParams.set('background_color', 'ffffff');
-    url.searchParams.set('locale', locale.value);
     return url.toString();
   }
   catch {
@@ -190,7 +189,7 @@ onMounted(() => {
 
   // Poll until the Calendly global is available (script is defer-loaded)
   const interval = setInterval(() => {
-    const C = (window as Window & { Calendly?: { initInlineWidget?: Function } })?.Calendly;
+    const C = (window as Window & { Calendly?: { initInlineWidget?: (config: { url: string; parentElement: HTMLElement; resize: boolean; prefill?: { email: string } }) => void } })?.Calendly;
     if (C?.initInlineWidget && calendlyContainer.value) {
       clearInterval(interval);
       const prefill = normalizedPrefillEmail.value
