@@ -24,15 +24,15 @@
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Open Calendly booking page in a new tab"
-          class="mt-5 inline-flex items-center justify-center rounded-full bg-text-dark px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-text-dark/90"
+          class="mt-5 ml-1 inline-flex items-center justify-center rounded-full bg-text-dark px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-text-dark/90"
         >
           {{ t('heroNew.scheduleButton') }}
         </NuxtLink>
       </div>
 
       <!-- Calendly JS widget embed -->
-      <div v-else class="overflow-hidden rounded-3xl p-5">
-        <div class="relative min-h-160 w-full rounded-3xl bg-white">
+      <div v-else class="overflow-hidden min-h-140 rounded-3xl p-5">
+        <div class="relative w-full rounded-3xl bg-white">
           <!-- Custom loader shown until calendly fires event_type_viewed -->
           <Transition name="fade">
             <div
@@ -68,14 +68,14 @@
 
       <div
         v-if="contactEmail"
-        class="mt-6 text-center text-sm text-text-dark/60"
+        class="text-center -mt-5 text-sm text-text-dark/60"
       >
         <span>{{ t('booking.preferEmail') }} </span>
         <NuxtLink
           :to="`mailto:${contactEmail}`"
           external
           :aria-label="`Email ${contactEmail}`"
-          class="font-medium text-text-dark underline decoration-black/25 underline-offset-4 transition-colors duration-300 hover:text-text-dark/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-dark -mt-30"
+          class="font-medium ml-2 text-text-dark underline decoration-black/25 underline-offset-4 transition-colors duration-300 hover:text-text-dark/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-dark"
         >
           {{ contactEmail }}
         </NuxtLink>
