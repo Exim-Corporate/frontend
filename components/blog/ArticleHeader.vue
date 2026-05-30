@@ -22,13 +22,28 @@
     </div>
 
     <!-- Main Title -->
-    <BaseTitle
-      tag="h1"
-      variant="header56"
-      class-name="mb-6 leading-tight text-gray-900 dark:text-white"
-    >
-      {{ article.title }}
-    </BaseTitle>
+    <div class="relative mb-6 h-90 w-full overflow-hidden rounded-[20px] md:h-110 pb-20">
+      <NuxtImg
+        src="/images/blog-bg.png"
+        alt="Article header background"
+        class="absolute inset-0 block h-full w-full object-cover"
+        width="1200"
+        height="420"
+        loading="eager"
+        quality="90"
+        format="webp"
+        sizes="(max-width: 767px) 100vw, 1200px"
+      />
+      <div class="absolute inset-0 flex items-end justify-center px-10 md:px-15 pb-10 md:pb-15">
+        <BaseTitle
+          tag="h1"
+          variant="header56"
+          class-name="text-center text-white font-normal! leading-tight"
+        >
+          {{ article.title }}
+        </BaseTitle>
+      </div>
+    </div>
 
     <!-- Article Description -->
     <div
