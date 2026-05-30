@@ -30,6 +30,8 @@
             :image="card.image!"
             :title="$t(card.titleKey)"
             :description="$t(card.descriptionKey)"
+            :link-to="card.linkTo"
+            link-label="Read more"
           />
           <!-- <ServiceIconCard
             v-else-if="card.type === 'icon'"
@@ -41,6 +43,8 @@
             v-else
             :title="$t(card.titleKey)"
             :description="$t(card.descriptionKey)"
+            :link-to="card.linkTo"
+            link-label="Read more"
           />
         </AnimatedElement>
       </div>
@@ -62,6 +66,7 @@ interface CardConfig {
   type: 'image' | 'icon' | 'text';
   titleKey: string;
   descriptionKey: string;
+  linkTo?: string;
   image?: string;
   icon?: string;
 }
@@ -71,51 +76,60 @@ const cards: CardConfig[] = [
     type: 'icon',
     titleKey: 'servicesProvide.cards.ai.title',
     descriptionKey: 'servicesProvide.cards.ai.description',
+    // linkTo: '/services/artificial-intelligence',
     icon: '/images/services/Card1Icon.svg',
   },
   {
     type: 'text',
     titleKey: 'servicesProvide.cards.customSoftware.title',
     descriptionKey: 'servicesProvide.cards.customSoftware.description',
+    // linkTo: '/services/custom-software-development',
   },
   {
     type: 'image',
     titleKey: 'servicesProvide.cards.webApp.title',
     descriptionKey: 'servicesProvide.cards.webApp.description',
+    linkTo: '/services/web-application-development',
     image: '/images/services/Card3bg.webp',
   },
   {
     type: 'image',
     titleKey: 'servicesProvide.cards.mobile.title',
     descriptionKey: 'servicesProvide.cards.mobile.description',
+    linkTo: '/services/mobile-development',
     image: '/images/services/Card4bg.webp',
   },
   {
     type: 'icon',
     titleKey: 'servicesProvide.cards.chatbots.title',
     descriptionKey: 'servicesProvide.cards.chatbots.description',
+    // linkTo: '/services/ai-chatbots',
     icon: '/images/services/Card2Icon.svg',
   },
   {
     type: 'text',
     titleKey: 'servicesProvide.cards.dataEngineering.title',
     descriptionKey: 'servicesProvide.cards.dataEngineering.description',
+    // linkTo: '/services/data-engineering',
   },
   {
     type: 'text',
     titleKey: 'servicesProvide.cards.cloud.title',
     descriptionKey: 'servicesProvide.cards.cloud.description',
+    // linkTo: '/services/cloud-services',
   },
   {
     type: 'image',
     titleKey: 'servicesProvide.cards.vcto.title',
     descriptionKey: 'servicesProvide.cards.vcto.description',
+    linkTo: '/services/virtual-cto',
     image: '/images/services/Card8bg.webp',
   },
   {
     type: 'icon',
     titleKey: 'servicesProvide.cards.enterpriseSearch.title',
     descriptionKey: 'servicesProvide.cards.enterpriseSearch.description',
+    // linkTo: '/services/enterprise-search',
     icon: '/images/services/Card3Icon.svg',
   },
 ];

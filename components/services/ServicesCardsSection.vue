@@ -53,6 +53,8 @@
             :image="card.imageUrl || fallbackServiceCardImage"
             :title="card.title"
             :description="card.description"
+            :link-to="card.linkTo"
+            link-label="Read more"
           />
           <ServiceCapabilityCard
             v-else
@@ -79,6 +81,8 @@
           :image="card.imageUrl || fallbackServiceCardImage"
           :title="card.title"
           :description="card.description"
+          :link-to="card.linkTo"
+          link-label="Read more"
         />
       </AnimatedElement>
     </div>
@@ -102,6 +106,7 @@ interface HomeCardConfig {
   image: string;
   titleKey: string;
   descriptionKey: string;
+  linkTo: string;
 }
 
 interface ResolvedCard {
@@ -109,6 +114,7 @@ interface ResolvedCard {
   description: string;
   displayType: StrapiCardDisplayType;
   imageUrl?: string;
+  linkTo?: string;
 }
 
 const props = withDefaults(defineProps<{
@@ -129,16 +135,19 @@ const homeCards: HomeCardConfig[] = [
     image: '/images/hero/Card1.webp',
     titleKey: 'servicesCards.aiConsulting.title',
     descriptionKey: 'servicesCards.aiConsulting.description',
+    linkTo: '/services/artificial-intelligence',
   },
   {
     image: '/images/hero/Card2.webp',
     titleKey: 'servicesCards.generativeAi.title',
     descriptionKey: 'servicesCards.generativeAi.description',
+    linkTo: '/services/ai-chatbots',
   },
   {
     image: '/images/hero/Card3.webp',
     titleKey: 'servicesCards.bigData.title',
     descriptionKey: 'servicesCards.bigData.description',
+    linkTo: '/services/data-engineering',
   },
 ];
 
@@ -171,6 +180,7 @@ const resolvedCards = computed<ResolvedCard[]>(() => {
       imageUrl: card.image?.url
         ? normalizeImageUrl(card.image.url)
         : '',
+      linkTo: '',
     }));
   }
 
@@ -179,6 +189,7 @@ const resolvedCards = computed<ResolvedCard[]>(() => {
     description: t(card.descriptionKey),
     displayType: 'withPicture',
     imageUrl: card.image,
+    linkTo: card.linkTo,
   }));
 });
 </script>
