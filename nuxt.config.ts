@@ -121,8 +121,8 @@ export default {
     dir: 'public',
     format: ['webp', 'jpeg', 'png'],
     quality: 85,
-    // provider: 'ipx',
-    provider: IS_PROD ? 'vercel' : 'ipx',
+    provider: 'ipx',
+    // provider: IS_PROD ? 'vercel' : 'ipx',
   },
 
   fonts: {
