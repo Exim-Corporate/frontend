@@ -1,32 +1,32 @@
 export default {
   faq: {
     title_span: 'FAQ',
-    subtitle: 'Clear, quick answers about our process and collaboration.',
+    subtitle: 'Des réponses claires et rapides sur notre processus et notre collaboration.',
     items: [
       {
-        question: 'What should you know about AS EXIM?',
+        question: 'Que faut-il savoir sur AS EXIM ?',
         answer:
-          'AS EXIM is a software development and staff augmentation partner focused on delivering vetted engineers, transparent collaboration, and measurable business outcomes.',
+          'AS EXIM est un partenaire en développement logiciel et en staff augmentation, axé sur des ingénieurs qualifiés, une collaboration transparente et des résultats mesurables.',
       },
       {
-        question: 'What types of software development projects does AS EXIM specialize in?',
+        question: 'Dans quels types de projets de développement logiciel AS EXIM est-il spécialisé ?',
         answer:
-          'We specialize in web and platform development, AI-driven solutions, product modernization, integrations, and dedicated team delivery for startups and enterprises.',
+          'Nous sommes spécialisés dans le développement web et plateforme, les solutions basées sur l’IA, la modernisation de produits, les intégrations et la mise à disposition d’équipes dédiées pour startups et entreprises.',
       },
       {
-        question: 'What technologies do your developers specialized in?',
+        question: 'Quelles technologies maîtrisent vos développeurs ?',
         answer:
-          'Our engineers work across Java, JavaScript/TypeScript, React, Angular, Node.js, PHP, cloud, DevOps, data, and modern AI/ML toolchains.',
+          'Nos ingénieurs travaillent avec Java, JavaScript/TypeScript, React, Angular, Node.js, PHP, le cloud, le DevOps, la data et les toolchains IA/ML modernes.',
       },
       {
-        question: "What is AS EXIM's pricing structure for development services?",
+        question: 'Quelle est la structure tarifaire d’AS EXIM pour les services de développement ?',
         answer:
-          'Pricing is flexible and depends on scope, seniority, and engagement model (time & materials, dedicated team, or fixed scope), with clear estimates and no hidden fees.',
+          'La tarification est flexible et dépend du périmètre, du niveau de séniorité et du modèle de collaboration (time & materials, équipe dédiée ou périmètre fixe), avec des estimations claires et sans frais cachés.',
       },
       {
-        question: 'What geographies does AS EXIM work?',
+        question: 'Dans quelles zones géographiques AS EXIM intervient-il ?',
         answer:
-          'We support clients across Europe, the UK, and North America, and we can operate globally with remote-first delivery and timezone-aligned collaboration.',
+          'Nous accompagnons des clients en Europe, au Royaume-Uni et en Amérique du Nord, et pouvons intervenir à l’échelle mondiale avec une livraison remote-first et une collaboration alignée sur les fuseaux horaires.',
       },
     ],
   },

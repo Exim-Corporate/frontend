@@ -11,7 +11,13 @@
 import { computed } from 'vue';
 import { twMerge } from 'tailwind-merge';
 
-type BaseTitleVariant = 'main' | 'subheader' | 'subheader18' | 'subheader16' | 'serifSubheader';
+type BaseTitleVariant =
+  | 'main'
+  | 'subheader'
+  | 'subheader18'
+  | 'subheader16'
+  | 'serifSubheader'
+  | 'header56';
 
 interface BaseTitleProps {
   tag?: string;
@@ -32,6 +38,8 @@ const variantClasses: Record<BaseTitleVariant, string> = {
   subheader16: 'font-sans font-normal text-[16px] leading-[normal] md:text-[22px] md:leading-[normal] font-semibold',
   serifSubheader:
     'font-serif font-semibold text-[26px] leading-[normal] md:text-[32px] md:leading-[normal] flex items-center',
+  header56:
+    'font-serif text-[28px] leading-[110%] font-semibold text-center md:text-[56px] md:leading-[100%] md:font-normal md:text-left',
 };
 
 const mergedClasses = computed(() => {

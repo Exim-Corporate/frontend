@@ -7,7 +7,7 @@
       >
         <BaseChip
           v-for="category in article.categories"
-          :key="category.documentId || category.name"
+          :key="category.name"
           variant="light"
           size="small"
         >
@@ -22,9 +22,13 @@
     </div>
 
     <!-- Main Title -->
-    <h1 class="mb-6 font-serif text-5xl font-bold leading-tight text-gray-900 dark:text-white">
+    <BaseTitle
+      tag="h1"
+      variant="header56"
+      class-name="mb-6 leading-tight text-gray-900 dark:text-white"
+    >
       {{ article.title }}
-    </h1>
+    </BaseTitle>
 
     <!-- Article Description -->
     <div
@@ -57,12 +61,14 @@
 
 <script setup lang="ts">
 import { useRouter } from 'nuxt/app';
+import { computed } from 'vue';
 
 import type { StrapiArticle } from '@/types/strapi';
 import BlogButton from '@/components/UI/blog/BlogButton.vue';
 import BaseChip from '@/components/UI/BaseChip.vue';
 import ArticleActions from './ArticleActions.vue';
 import { useI18n } from 'vue-i18n';
+import { BaseTitle } from '#components';
 const { locale } = useI18n();
 const router = useRouter();
 

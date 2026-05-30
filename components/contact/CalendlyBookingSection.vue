@@ -190,7 +190,7 @@ onMounted(() => {
 
   // Poll until the Calendly global is available (script is defer-loaded)
   const interval = setInterval(() => {
-    const C = (window as any).Calendly;
+    const C = (window as Window & { Calendly?: { initInlineWidget?: Function } })?.Calendly;
     if (C?.initInlineWidget && calendlyContainer.value) {
       clearInterval(interval);
       const prefill = normalizedPrefillEmail.value

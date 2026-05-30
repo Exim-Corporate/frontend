@@ -5,7 +5,7 @@
       :hero="resolvedPage.hero"
     />
     <section v-else class="container">
-      <BaseTitle tag="h1" variant="main" class-name="text-text-dark dark:text-text-light">
+      <BaseTitle tag="h1" variant="header56" class-name="text-text-dark dark:text-text-light">
         {{ resolvedPage.title }}
       </BaseTitle>
       <BaseText
