@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full aspect-square rounded-4xl bg-card-bg flex flex-col justify-between p-6 md:p-10">
+  <div class="w-full aspect-square rounded-4xl bg-card-bg flex flex-col max-h-80 xl:max-h-full justify-between p-6 md:p-10">
     <BaseTitle variant="subheader" class-name="text-left line-clamp-2">
       {{ title }}
     </BaseTitle>

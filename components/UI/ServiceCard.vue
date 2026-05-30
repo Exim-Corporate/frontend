@@ -1,5 +1,5 @@
 <template>
-  <div class="group relative w-full aspect-square rounded-4xl overflow-hidden bg-card-bg max-h-80 lg:max-h-full">
+  <div class="group relative w-full aspect-square rounded-4xl overflow-hidden bg-card-bg max-h-80 xl:max-h-full">
     <NuxtImg
       :src="image"
       :alt="title"

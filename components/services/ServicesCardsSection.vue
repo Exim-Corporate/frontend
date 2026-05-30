@@ -71,7 +71,7 @@
       <AnimatedElement
         v-for="(card, index) in resolvedCards"
         :key="`${card.title}-${index}`"
-        class="w-full min-w-0 md:flex-[1_1_calc(50%-0.75rem)] lg:flex-[1_1_calc(33.333%-1rem)]"
+        class="w-full min-w-0 md:flex-[1_1_calc(50%-0.75rem)] xl:flex-[1_1_calc(33.333%-1rem)]"
         direction="bottom"
         :delay="100 + index * 100"
       >
