@@ -3,6 +3,7 @@
 /* @import './base.css'; */
 /* @import "tailwindcss-primeui/css"; */
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @config "@/tailwind.config.ts";
 @import 'primeicons/primeicons.css';
 

@@ -1,24 +1,18 @@
 <template>
-  <div class="mb-8">
+  <div
+    v-if="cover?.url"
+    class="mb-8"
+  >
     <NuxtImg
-      v-if="cover?.url"
       :src="cover.url"
       :alt="cover?.alternativeText || cover?.caption || 'Article cover'"
-      className="w-full h-auto aspect-7/3 object-cover rounded-lg"
+      class="w-full h-auto aspect-7/3 object-cover rounded-lg"
       loading="eager"
       fetchpriority="high"
       quality="85"
       format="webp"
       sizes="100vw"
     />
-    <div
-      v-else
-      class="w-full h-64 flex items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-lg"
-    >
-      <span class="text-gray-500 dark:text-gray-400 text-lg font-semibold">
-        {{ $t('article.no_cover') }}
-      </span>
-    </div>
     <div
       v-if="cover?.caption || cover?.alternativeText"
       class="mt-3 text-sm text-gray-600 dark:text-gray-400 italic leading-relaxed"

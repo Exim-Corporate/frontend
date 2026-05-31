@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="renderedContent"
-    class="article-content"
+    class="article-content prose prose-neutral max-w-none"
     v-html="renderedContent"
   />
   <p
@@ -16,11 +16,16 @@
 import { computed } from 'vue';
 import MarkdownIt from 'markdown-it';
 import DOMPurify from 'isomorphic-dompurify';
+import { useRuntimeConfig } from '#imports';
 import type { StrapiArticle } from '@/types/strapi';
 
 const props = defineProps<{
   content: StrapiArticle['content'] | null;
 }>();
+
+const config = useRuntimeConfig();
+const strapiUrl = String(config.public.strapiUrl || 'http://localhost:1337').replace('://localhost', '://127.0.0.1');
+
 const md = new MarkdownIt({
   html: true,
   linkify: true,
@@ -31,41 +36,42 @@ const md = new MarkdownIt({
 const normalizeMalformedMarkdownLinks = (content: string) =>
   content.replace(/\[(https?:\/\/[^\]]+)\]\((link|url)\)/gi, '[link]($1)');
 
+// Encode unencoded spaces inside markdown link/image URLs: ![alt](url with spaces) → ![alt](url%20with%20spaces)
+const encodeMarkdownUrlSpaces = (content: string) =>
+  content.replace(/(!?\[[^\]]*\])\(([^)]+)\)/g, (_, prefix, url) =>
+    `${prefix}(${url.replace(/ /g, '%20')})`,
+  );
+
+// Convert unicode bullet characters (• ○ ◦) used in Strapi richtext to markdown list items
+const normalizeBullets = (content: string) =>
+  content.replace(/^[ \t]*[•○◦▪▸–\-][ \t]+/gm, '- ');
+
+// Rewrite relative Strapi upload paths to absolute URLs so <img> tags render correctly
+const rewriteStrapiImageUrls = (html: string) =>
+  html.replace(/(src|href)="(\/uploads\/)/g, `$1="${strapiUrl}$2`);
+
 const renderedContent = computed(() => {
   if (props.content && typeof props.content === 'string') {
-    const normalizedContent = normalizeMalformedMarkdownLinks(props.content);
-    const rawHtml = md.render(normalizedContent);
-    return DOMPurify.sanitize(rawHtml);
+    const step1 = normalizeMalformedMarkdownLinks(props.content);
+    const step2 = normalizeBullets(step1);
+    const step3 = encodeMarkdownUrlSpaces(step2);
+    const rawHtml = md.render(step3);
+    const rewrittenHtml = rewriteStrapiImageUrls(rawHtml);
+    return DOMPurify.sanitize(rewrittenHtml, { ADD_ATTR: ['target'] });
   }
   return '';
 });
 </script>
 
 <style scoped>
-/* Ensure links inside rendered markdown (v-html) look like links - use deep selector */
-.article-content :deep(a) {
-  color: var(--accent, #2563eb);
-  text-decoration: underline;
-}
-.article-content :deep(a:hover) {
-  opacity: 0.9;
-}
-
-/* Paragraph spacing: ensure paragraphs from markdown keep vertical rhythm even if global reset removed p margins */
-.article-content :deep(p) {
-  margin: 0 0 1rem;
-  line-height: 1.7;
-}
-
-/* Headings spacing */
-.article-content :deep(h1),
-.article-content :deep(h2),
-.article-content :deep(h3),
-.article-content :deep(h4),
-.article-content :deep(h5),
-.article-content :deep(h6) {
-  margin-top: 1.25rem;
-  margin-bottom: 0.75rem;
-  font-weight: 700;
+/* Images inside markdown content */
+.article-content :deep(img) {
+  max-width: 100%;
+  max-height: 450px;
+  height: auto;
+  width: auto;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+  display: block;
 }
 </style>
