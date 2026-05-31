@@ -1,18 +1,18 @@
 <template>
   <section id="faq" class="w-full">
     <div class="container">
-      <AnimatedElement direction="bottom" :delay="100">
+      <AnimatedElement v-if="faqSection?.title" direction="bottom" :delay="100">
         <div class="mb-10 flex flex-row items-start justify-between gap-8 md:mb-12">
           <BaseTitle tag="h2" variant="main" class-name="text-left lg:text-[56px]">
-            {{ $t('faq.title_span') }}
+            {{ faqSection?.title }}
           </BaseTitle>
           <BaseText variant="main" className="max-w-xs text-left md:text-right">
-            {{ $t('faq.subtitle') }}
+            {{ faqSection?.description }}
           </BaseText>
         </div>
       </AnimatedElement>
 
-      <AnimatedElement direction="bottom" :delay="180">
+      <AnimatedElement v-if="faqItems.length" direction="bottom" :delay="180">
         <AppAccordion
           :items="faqItems"
           :multiple="false"
@@ -35,7 +35,7 @@
                 {{ getFaqItem(item).index }}
               </BaseTitle>
               <BaseTitle tag="h3" variant="subheader" class-name="text-left !leading-[120%]">
-                {{ $t(getFaqItem(item).questionKey) }}
+                {{ getFaqItem(item).question }}
               </BaseTitle>
             </div>
           </template>
@@ -43,13 +43,13 @@
           <template #content="{ item }">
             <div class="pl-9 md:pl-13">
               <BaseText variant="main" class-name="max-w-[920px] text-left text-text-secondary">
-                {{ $t(getFaqItem(item).answerKey) }}
+                {{ getFaqItem(item).answer }}
               </BaseText>
             </div>
           </template>
         </AppAccordion>
       </AnimatedElement>
-      </div>
+    </div>
   </section>
 </template>
 
@@ -61,21 +61,41 @@ import AppAccordion from '@/components/UI/AppAccordion.vue';
 import type { AppAccordionItem } from '@/components/UI/AppAccordion.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
-
-const FAQ_COUNT = 5;
+import { useI18n } from 'vue-i18n';
+import { useAsyncData } from '#imports';
+import type { StrapiFaqSection } from '@/types/strapi';
 
 interface FaqAccordionItem extends AppAccordionItem {
   index: number;
-  questionKey: string;
-  answerKey: string;
+  question: string;
+  answer: string;
 }
 
+const { locale } = useI18n();
+
+const { data: faqSection } = await useAsyncData<StrapiFaqSection | null>(
+  `faq-section-${locale.value}`,
+  async () => {
+    const response = await $fetch<StrapiFaqSection | null>('/api/faq-section', {
+      query: { locale: locale.value },
+    });
+
+    return response;
+  },
+  {
+    default: () => null,
+    server: true,
+    lazy: false,
+    watch: [locale],
+  },
+);
+
 const faqItems = computed<FaqAccordionItem[]>(() =>
-  Array.from({ length: FAQ_COUNT }, (_, i) => ({
+  (faqSection.value?.accordions ?? []).map((item, i) => ({
     value: String(i),
     index: i + 1,
-    questionKey: `faq.items.${i}.question`,
-    answerKey: `faq.items.${i}.answer`,
+    question: item.title,
+    answer: item.description || '',
   }))
 );
 

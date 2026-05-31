@@ -333,6 +333,19 @@ export interface StrapiMainCalendly {
   link: string;
 }
 
+export interface StrapiFaqSectionItem {
+  id?: number;
+  title: string;
+  description: string;
+}
+
+export interface StrapiFaqSection {
+  id: number;
+  title: string;
+  description: string;
+  accordions: StrapiFaqSectionItem[];
+}
+
 export interface StrapiSingleResponse<T> {
   data: T;
   meta: Record<string, unknown>;
