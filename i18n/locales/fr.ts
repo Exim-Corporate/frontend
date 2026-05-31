@@ -2,7 +2,7 @@ export default {
   heroNew: {
     badge: 'Partenaire de Développement Logiciel et IA',
     title: 'Conduisez le changement via\nles solutions IA et Data.',
-    subtitle: 'Nous transformons les idées audacieuses en IA\net produits numériques',
+    subtitle: 'Nous transformons les idées audacieuses en IA et produits numériques',
     inputPlaceholder: 'Entrez votre email',
     scheduleButton: 'Planifier une consultation gratuite'
   },

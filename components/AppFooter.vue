@@ -2,7 +2,7 @@
   <footer class="mt-auto bg-text-dark text-text-light">
     <section class="container relative mx-auto px-4 pb-8 pt-8 sm:px-6 md:pb-6 md:pt-10">
       <div class="md:hidden">
-        <AnimatedElement direction="bottom">
+        <div>
           <div class="flex justify-start pr-16">
             <button
               type="button"
@@ -26,9 +26,9 @@
               />
             </button>
           </div>
-        </AnimatedElement>
+        </div>
 
-        <AnimatedElement direction="bottom">
+        <div>
           <div class="mt-14 flex flex-col items-center text-center">
             <BaseTitle tag="h2" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.company') }}
@@ -63,9 +63,9 @@
               </a>
             </div>
           </div>
-        </AnimatedElement>
+        </div>
 
-        <AnimatedElement direction="bottom">
+        <div>
           <div class="mt-16 flex flex-col items-center text-center">
             <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.navigation.industry.title') }}
@@ -84,9 +84,9 @@
               </NuxtLinkLocale>
             </div>
           </div>
-        </AnimatedElement>
+        </div>
 
-        <AnimatedElement direction="bottom">
+        <div>
           <div class="mt-16 flex flex-col items-center text-center">
             <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.navigation.services.title') }}
@@ -105,9 +105,9 @@
               </NuxtLinkLocale>
             </div>
           </div>
-        </AnimatedElement>
+        </div>
 
-        <AnimatedElement direction="bottom">
+        <div>
           <div class="mt-16 flex flex-col items-center text-center">
             <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.navigation.legal.title') }}
@@ -135,9 +135,9 @@
               </BaseText>
             </NuxtLinkLocale>
           </div>
-        </AnimatedElement>
+        </div>
 
-        <AnimatedElement direction="bottom">
+        <div>
           <div class="mt-16 flex justify-center">
             <a
               :href="clutchUrl"
@@ -159,10 +159,10 @@
               </div>
             </a>
           </div>
-        </AnimatedElement> 
+        </div> 
       </div>
 
-      <AnimatedElement direction="bottom" class="hidden md:block">
+      <div class="hidden md:block">
         <div class="mb-16 hidden md:flex md:w-full">
           <button
             type="button"
@@ -186,10 +186,10 @@
             />
           </button>
         </div>
-      </AnimatedElement>
+      </div>
 
       <div class="hidden md:grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_minmax(0,1.15fr)_minmax(0,0.82fr)] md:items-start md:gap-x-10 lg:gap-x-16">
-        <AnimatedElement direction="bottom">
+        <div>
           <div class="flex flex-col items-start text-left">
             <div>
               <BaseTitle tag="h2" variant="subheader18" class-name="text-text-light">
@@ -246,9 +246,9 @@
               </div>
             </div>
           </div>
-        </AnimatedElement>
+        </div>
 
-        <AnimatedElement direction="bottom">
+        <div>
           <div class="flex flex-col items-start text-left">
             <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.navigation.industry.title') }}
@@ -266,9 +266,9 @@
               </NuxtLinkLocale>
             </div>
           </div>
-        </AnimatedElement>
+        </div>
 
-        <AnimatedElement direction="bottom">
+        <div>
           <div class="flex flex-col items-start text-left">
             <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.navigation.services.title') }}
@@ -286,9 +286,9 @@
               </NuxtLinkLocale>
             </div>
           </div>
-        </AnimatedElement>
+        </div>
 
-        <AnimatedElement direction="bottom">
+        <div>
           <div class="flex flex-col items-start text-left">
             <BaseTitle tag="h3" variant="subheader18" class-name="text-text-light">
               {{ $t('footer.navigation.legal.title') }}
@@ -316,7 +316,7 @@
               </BaseText>
             </NuxtLinkLocale>
           </div>
-        </AnimatedElement>
+        </div>
       </div>
         <div class="mt-16 flex justify-center border-t border-text-light/12 pt-6 md:mt-12 md:justify-end md:border-t-0 md:pt-0">
           <BaseText variant="section" class-name="text-center text-text-light/45 md:text-right">
@@ -331,7 +331,6 @@
 import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { callOnce, useState } from '#imports';
-import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import AppIcon from '@/components/UI/AppIcon.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';

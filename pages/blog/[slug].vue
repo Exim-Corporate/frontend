@@ -4,7 +4,7 @@
       class="mx-auto container"
     >
       <ArticleHeader :article="resolvedArticle" />
-      <ArticleCover :cover="resolvedArticle.cover" />
+      <!-- <ArticleCover :cover="resolvedArticle.cover" /> -->
       <ArticleAuthor :authors="resolvedArticle.authors ?? null" />
       <ArticleContent :content="resolvedArticle.content" />
       <ArticleFooter />
@@ -33,7 +33,7 @@ import { useSEO } from '@/composables/useSEO';
 import { useI18n } from 'vue-i18n';
 import CtaSection from '@/components/CtaSection.vue';
 import ArticleHeader from '@/components/blog/ArticleHeader.vue';
-import ArticleCover from '@/components/blog/ArticleCover.vue';
+// import ArticleCover from '@/components/blog/ArticleCover.vue';
 import ArticleAuthor from '@/components/blog/ArticleAuthor.vue';
 import ArticleContent from '@/components/blog/ArticleContent.vue';
 import ArticleFooter from '@/components/blog/ArticleFooter.vue';

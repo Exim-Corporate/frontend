@@ -29,10 +29,9 @@
 
         <div v-else>
           <AnimatedElement
-            v-for="(article, index) in articles"
+            v-for="article in articles"
             :key="article.id"
             direction="bottom"
-            :delay="180 + index * 60"
           >
             <ArticleCard :article="article" />
           </AnimatedElement>

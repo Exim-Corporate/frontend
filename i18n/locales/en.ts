@@ -6,7 +6,7 @@ export default {
   heroNew: {
     badge: 'AI & Software Development Partner',
     title: 'Driving changes through\nAI & Data solutions.',
-    subtitle: 'We turn bold ideas into AI\nand digital products',
+    subtitle: 'We turn bold ideas into AI and digital products',
     inputPlaceholder: 'Enter your email',
     scheduleButton: 'Schedule free consultation'
   },

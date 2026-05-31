@@ -2,12 +2,12 @@
   <section ref="sectionRef" class="w-full bg-white">
     <div class="container">
       <div class="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
-        <AnimatedElement direction="bottom" :delay="100">
+        <AnimatedElement direction="bottom">
           <BaseTitle tag="h2" variant="main" class-name="text-center text-text-dark">
             {{ $t('testimonials.title') }}
           </BaseTitle>
         </AnimatedElement>
-        <AnimatedElement direction="bottom" :delay="180">
+        <AnimatedElement direction="bottom">
           <BaseText variant="section" class-name="max-w-xl text-center">
             {{ $t('testimonials.subtitle') }}
           </BaseText>
@@ -19,7 +19,6 @@
           v-for="(testimonial, index) in visibleTestimonials"
           :key="`mobile-${testimonial.id}`"
           direction="bottom"
-          :delay="140 + index * 60"
         >
           <div class="border-b border-form-border last:border-b-0">
             <TestimonialCard :testimonial="testimonial" />
@@ -33,7 +32,6 @@
             v-for="(testimonial, index) in visibleTestimonials"
             :key="`desktop-${testimonial.id}`"
             direction="bottom"
-            :delay="220 + index * 70"
           >
             <div class="border-b border-form-border last:border-b-0">
               <TestimonialCard :testimonial="testimonial" />
@@ -42,7 +40,7 @@
         </div>
       </div>
 
-      <AnimatedElement v-if="canToggle" direction="bottom" :delay="260">
+      <AnimatedElement v-if="canToggle" direction="bottom">
         <div class="mt-10 flex justify-center md:mt-12">
           <AppButton
             variant="gray"

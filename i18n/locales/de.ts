@@ -4,7 +4,7 @@ export default {
   heroNew: {
     badge: 'KI & Softwareentwicklungspartner',
     title: 'Veränderungen durch\nKI- & Datenlösungen vorantreiben.',
-    subtitle: 'Wir verwandeln mutige Ideen in KI\nund digitale Produkte',
+    subtitle: 'Wir verwandeln mutige Ideen in KI und digitale Produkte',
     inputPlaceholder: 'Geben Sie Ihre E-Mail ein',
     scheduleButton: 'Kostenlose Beratung vereinbaren'
   },

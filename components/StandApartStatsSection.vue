@@ -1,6 +1,6 @@
 <template>
   <section class="container w-full bg-white">
-    <AnimatedElement direction="bottom" :delay="100">
+    <AnimatedElement direction="bottom">
       <BaseTitle tag="h2" variant="main" class-name="text-center lg:text-left">
         {{ $t('standApart.title') }}
       </BaseTitle>
@@ -11,7 +11,6 @@
           v-for="(item, index) in stats"
           :key="item.labelKey"
           direction="bottom"
-          :delay="100 + index * 60"
         >
           <div class="flex items-center lg:items-start gap-4 border-b border-black/10 py-5 last:border-b-0">
             <BaseText variant="card" className="w-1/2 text-left text-text-dark">
@@ -29,7 +28,6 @@
         v-for="(item, index) in stats"
         :key="`desktop-${item.labelKey}`"
         direction="bottom"
-        :delay="220 + index * 60"
       >
         <div class="flex items-start gap-8 border-b border-black/10 py-7 lg:py-8 last:border-b-0">
           <BaseText variant="card" class-name="w-1/2 text-left text-text-dark">
