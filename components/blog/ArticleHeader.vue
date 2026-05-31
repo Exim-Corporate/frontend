@@ -1,62 +1,73 @@
 <template>
   <header class="mb-8">
-    <div class="mb-6 flex items-start justify-between gap-4 md:mb-8 md:items-center">
-      <AppBreadcrumb :items="breadcrumbItems" />
-      <BlogButton
-        :icon="'pi pi-arrow-left'"
-        :severity="'secondary'"
-        @click="goBack"
-      />
-    </div>
+    <AnimatedElement direction="bottom">
+      <div class="mb-6 flex items-start justify-between gap-4 md:mb-8 md:items-center">
+        <AppBreadcrumb :items="breadcrumbItems" />
+        <BlogButton
+          :icon="'pi pi-arrow-left'"
+          :severity="'secondary'"
+          @click="goBack"
+        />
+      </div>
+    </AnimatedElement>
 
     <!-- Main Title -->
-    <div class="relative mb-6 h-90 w-full overflow-hidden rounded-[20px] md:h-110 pb-20">
-      <NuxtImg
-        src="/images/blog-bg.png"
-        alt="Article header background"
-        class="absolute inset-0 block h-full w-full object-cover"
-        width="1200"
-        height="420"
-        loading="eager"
-        quality="90"
-        format="webp"
-        sizes="(max-width: 767px) 100vw, 1200px"
-      />
-      <div class="absolute inset-0 flex items-end justify-center px-10 md:px-15 pb-10 md:pb-15">
-        <BaseTitle
-          tag="h1"
-          variant="header56"
-          class-name="text-center text-white font-normal! leading-tight"
-        >
-          {{ article.title }}
-        </BaseTitle>
+    <AnimatedElement direction="bottom" :delay="100">
+      <div class="relative mb-6 h-90 w-full overflow-hidden rounded-[20px] md:h-110 pb-20">
+        <NuxtImg
+          src="/images/blog-bg.png"
+          alt="Article header background"
+          class="absolute inset-0 block h-full w-full object-cover"
+          width="1200"
+          height="420"
+          loading="eager"
+          quality="90"
+          format="webp"
+          sizes="(max-width: 767px) 100vw, 1200px"
+        />
+        <div class="absolute inset-0 flex items-end justify-center px-10 md:px-15 pb-10 md:pb-15">
+          <BaseTitle
+            tag="h1"
+            variant="header56"
+            class-name="text-center text-white font-normal! leading-tight"
+          >
+            {{ article.title }}
+          </BaseTitle>
+        </div>
       </div>
-    </div>
+    </AnimatedElement>
 
     <!-- Article Description -->
-    <div
+    <AnimatedElement
       v-if="article.description"
-      class="mb-8 font-sans text-xl leading-relaxed text-gray-700 dark:text-gray-300"
+      direction="bottom"
+      :delay="150"
     >
-      {{ article.description }}
-    </div>
+      <div
+        class="mb-8 font-sans text-xl leading-relaxed text-gray-700 dark:text-gray-300"
+      >
+        {{ article.description }}
+      </div>
+    </AnimatedElement>
     <div class="border-t border-gray-300 dark:border-gray-600" />
 
     <!-- Actions Bar -->
-    <div class="flex items-center justify-between py-4 mb-6">
-      <time
-        :datetime="article.publishedAt"
-        class="text-sm text-gray-500 dark:text-gray-400"
-      >
-        {{ formattedDate }}
-      </time>
-      <div class="gap-4 flex">
-        <ArticleActions
-          :article-id="article.documentId"
-          :title="article.title"
-        />
+    <AnimatedElement direction="bottom" :delay="200">
+      <div class="flex items-center justify-between py-4 mb-6">
+        <time
+          :datetime="article.publishedAt"
+          class="text-sm text-gray-500 dark:text-gray-400"
+        >
+          {{ formattedDate }}
+        </time>
+        <div class="gap-4 flex">
+          <ArticleActions
+            :article-id="article.documentId"
+            :title="article.title"
+          />
+        </div>
       </div>
-    </div>
+    </AnimatedElement>
 
     <!-- Gray Divider -->
   </header>
@@ -68,6 +79,7 @@ import { useLocalePath } from '#imports';
 import { computed } from 'vue';
 
 import type { StrapiArticle } from '@/types/strapi';
+import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BlogButton from '@/components/UI/blog/BlogButton.vue';
 import ArticleActions from './ArticleActions.vue';
 import { useI18n } from 'vue-i18n';

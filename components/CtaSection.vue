@@ -5,32 +5,40 @@
       :style="sectionBackgroundStyle"
     >
       <div class="flex min-h-50 flex-col justify-between gap-6 md:gap-8">
-        <div class="flex gap-4 flex-row justify-between md:gap-6">
-          <BaseTitle
-            tag="h2"
-            variant="main"
-            class-name="max-w-65 text-left text-white md:text-[40px] md:leading-12"
-          >
-            {{ sectionData.title }}
-          </BaseTitle>
+        <AnimatedElement direction="bottom" :delay="100">
+          <div class="flex gap-4 flex-row justify-between md:gap-6">
+            <BaseTitle
+              tag="h2"
+              variant="main"
+              class-name="max-w-65 text-left text-white md:text-[40px] md:leading-12"
+            >
+              {{ sectionData.title }}
+            </BaseTitle>
 
-          <div v-if="sectionData.buttonText && buttonHref" class="shrink-0 md:self-start">
-            <NuxtLink :to="buttonHref" @click="handleButtonClick">
-              <AppButton variant="white">
-                {{ sectionData.buttonText }}
-              </AppButton>
-            </NuxtLink>
+            <div v-if="sectionData.buttonText && buttonHref" class="shrink-0 md:self-start">
+              <NuxtLink :to="buttonHref" @click="handleButtonClick">
+                <AppButton variant="white">
+                  {{ sectionData.buttonText }}
+                </AppButton>
+              </NuxtLink>
+            </div>
           </div>
-        </div>
+        </AnimatedElement>
 
-        <div v-if="sectionData.description" class="w-full rounded-3xl bg-white/90 p-5 md:p-6">
-        <BaseText
-          variant="section"
-            class-name="text-left text-text-dark md:text-[18px] md:leading-7.5"
+        <AnimatedElement
+          v-if="sectionData.description"
+          direction="bottom"
+          :delay="150"
         >
-          {{ sectionData.description }}
-        </BaseText>
-        </div>
+          <div class="w-full rounded-3xl bg-white/90 p-5 md:p-6">
+            <BaseText
+              variant="section"
+              class-name="text-left text-text-dark md:text-[18px] md:leading-7.5"
+            >
+              {{ sectionData.description }}
+            </BaseText>
+          </div>
+        </AnimatedElement>
       </div>
 
       <span class="sr-only">{{ imageAlt }}</span>
@@ -40,6 +48,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import AppButton from '@/components/UI/AppButton.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';

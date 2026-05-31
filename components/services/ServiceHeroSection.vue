@@ -1,55 +1,70 @@
 <template>
   <section class="container overflow-hidden pt-2">
-    <div
+    <AnimatedElement
       v-if="hero.categories && hero.categories.length"
-      class="mb-6 flex flex-wrap justify-center gap-2 md:mb-8 md:justify-start"
+      direction="bottom"
     >
-      <BaseChip
-        v-for="cat in hero.categories"
-        :key="cat.documentId"
-        variant="light"
-        size="small"
-      >
-        {{ cat.name }}
-      </BaseChip>
-    </div>
+      <div class="mb-6 flex flex-wrap justify-center gap-2 md:mb-8 md:justify-start">
+        <BaseChip
+          v-for="cat in hero.categories"
+          :key="cat.documentId"
+          variant="light"
+          size="small"
+        >
+          {{ cat.name }}
+        </BaseChip>
+      </div>
+    </AnimatedElement>
 
-    <BaseTitle
-      tag="h1"
-      variant="header56"
-      class-name="text-center md:text-left"
-    >
-      {{ hero.title }}
-    </BaseTitle>
+    <AnimatedElement direction="bottom" :delay="100">
+      <BaseTitle
+        tag="h1"
+        variant="header56"
+        class-name="text-center md:text-left"
+      >
+          {{ hero.title }}
+      </BaseTitle>
+    </AnimatedElement>
 
     <div class="mt-6 flex flex-col items-center gap-6 md:mt-5 md:flex-row md:items-center md:justify-between md:gap-10">
-      <BaseText
+      <AnimatedElement
         v-if="hero.description"
-        variant="section"
-        class-name="text-center md:block md:max-w-[60%] md:text-left"
+        direction="bottom"
+        :delay="150"
       >
-        {{ hero.description }}
-      </BaseText>
-      <AppButton class="my-4 w-full shrink-0 md:mt-0 md:w-auto" @click="openContactModal('cta-button')">
-        {{ $t('servicesProvide.button') }}
-      </AppButton>
+        <BaseText
+          variant="section"
+          class-name="text-center md:block md:max-w-[60%] md:text-left"
+        >
+          {{ hero.description }}
+        </BaseText>
+      </AnimatedElement>
+      <AnimatedElement direction="bottom">
+        <AppButton class="my-4 w-full shrink-0 md:mt-0 md:w-auto" @click="openContactModal('cta-button')">
+          {{ $t('servicesProvide.button') }}
+        </AppButton>
+      </AnimatedElement>
     </div>
 
     <div class="mt-8 grid grid-cols-1 gap-3 md:mt-10 md:grid-cols-[30%_minmax(0,1fr)] md:gap-2.5">
-      <NuxtImg
-        :src="primaryImageUrl"
-        :alt="hero.title + ' primary image'"
-        class="h-56 w-full rounded-2xl object-cover md:h-120"
-        sizes="sm:100vw md:216px"
-        format="webp"
-      />
-      <NuxtImg
-        :src="secondaryImageUrl"
-        :alt="hero.title + ' secondary image'"
-        class="h-56 w-full rounded-2xl object-cover md:h-120"
-        sizes="sm:100vw md:900px"
-        format="webp"
-      />
+      <AnimatedElement direction="bottom" :delay="200">
+        <NuxtImg
+          :src="primaryImageUrl"
+          :alt="hero.title + ' primary image'"
+          class="h-56 w-full rounded-2xl object-cover md:h-120"
+          sizes="sm:100vw md:216px"
+          format="webp"
+        />
+      </AnimatedElement>
+      <AnimatedElement direction="bottom" :delay="250">
+        <NuxtImg
+          :src="secondaryImageUrl"
+          :alt="hero.title + ' secondary image'"
+          class="h-56 w-full rounded-2xl object-cover md:h-120"
+          sizes="sm:100vw md:900px"
+          format="webp"
+        />
+      </AnimatedElement>
     </div>
   </section>
 </template>
@@ -59,6 +74,7 @@ import { computed } from 'vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseChip from '@/components/UI/BaseChip.vue';
+import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import AppButton from '@/components/UI/AppButton.vue';
 import { useContactModal } from '@/composables/useContactModal';
 import { normalizeImageUrl } from '@/utils/normalizeImageUrl';

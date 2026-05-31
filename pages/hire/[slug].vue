@@ -1,36 +1,54 @@
 <template>
   <main class="min-h-screen bg-white dark:bg-gray-900">
-    <HireHero
-      :title="hirePage.heroTitle"
-      :subtitle="hirePage.heroSubtitle"
-      :hero-image="heroImage"
-      :flag-icon="flagIcon"
-      :country-name="hirePage.country?.name"
-    />
+    <AnimatedElement direction="bottom">
+      <HireHero
+        :title="hirePage.heroTitle"
+        :subtitle="hirePage.heroSubtitle"
+        :hero-image="heroImage"
+        :flag-icon="flagIcon"
+        :country-name="hirePage.country?.name"
+      />
+    </AnimatedElement>
 
-    <HireAtGlance
+    <AnimatedElement
       v-if="stats.length"
-      :stats="stats"
-    />
+      direction="bottom"
+    >
+      <HireAtGlance
+        :stats="stats"
+      />
+    </AnimatedElement>
 
-    <HireWhyHire
-      :country-name="hirePage.country?.name || 'Germany'"
-      :content="whyHireContent"
-      :image="whyHireImage"
-    />
+    <AnimatedElement direction="bottom">
+      <HireWhyHire
+        :country-name="hirePage.country?.name || 'Germany'"
+        :content="whyHireContent"
+        :image="whyHireImage"
+      />
+    </AnimatedElement>
 
-    <HireCTA />
+    <AnimatedElement direction="bottom">
+      <HireCTA />
+    </AnimatedElement>
 
-    <HireEmploymentConditions />
+    <AnimatedElement direction="bottom">
+      <HireEmploymentConditions />
+    </AnimatedElement>
 
-    <CtaSection
-      :section-data="pageCtaSection"
-      scroll-target-id="calendly-booking"
-    />
+    <AnimatedElement direction="bottom">
+      <CtaSection
+        :section-data="pageCtaSection"
+        scroll-target-id="calendly-booking"
+      />
+    </AnimatedElement>
 
-    <FAQSection />
+    <AnimatedElement direction="bottom">
+      <FAQSection />
+    </AnimatedElement>
 
-    <CalendlyBookingSection section-id="calendly-booking" />
+    <AnimatedElement direction="bottom">
+      <CalendlyBookingSection section-id="calendly-booking" />
+    </AnimatedElement>
   </main>
 </template>
 
@@ -38,6 +56,7 @@
 import { computed } from 'vue';
 import { createError, useAsyncData, useRoute, useRuntimeConfig, useSeoMeta } from '#imports';
 import { useI18n } from 'vue-i18n';
+import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import CtaSection from '@/components/CtaSection.vue';
 import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
 import { usePageContentApi } from '@/composables/usePageContentApi';

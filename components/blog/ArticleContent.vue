@@ -1,15 +1,17 @@
 <template>
-  <div
-    v-if="renderedContent"
-    class="article-content prose prose-neutral max-w-none"
-    v-html="renderedContent"
-  />
-  <p
-    v-else
-    class="text-gray-500 italic"
-  >
-    {{ $t('article.content_not_available') }}
-  </p>
+  <AnimatedElement direction="bottom">
+    <div
+      v-if="renderedContent"
+      class="article-content prose prose-neutral max-w-none"
+      v-html="renderedContent"
+    />
+    <p
+      v-else
+      class="text-gray-500 italic"
+    >
+      {{ $t('article.content_not_available') }}
+    </p>
+  </AnimatedElement>
 </template>
 
 <script setup lang="ts">
@@ -17,6 +19,7 @@ import { computed } from 'vue';
 import MarkdownIt from 'markdown-it';
 import DOMPurify from 'isomorphic-dompurify';
 import { useRuntimeConfig } from '#imports';
+import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import type { StrapiArticle } from '@/types/strapi';
 
 const props = defineProps<{

@@ -1,13 +1,13 @@
 <template>
   <section class=" bg-white container">
       <div class="mx-auto items-center max-w-5xl">
-        <AnimatedElement direction="bottom" :delay="100">
+        <AnimatedElement direction="bottom">
           <BaseTitle tag="h2" variant="main" class-name="text-left md:text-center">
             {{ $t('team.title') }}
           </BaseTitle>
         </AnimatedElement>
 
-        <AnimatedElement direction="bottom" :delay="170">
+        <AnimatedElement direction="bottom">
           <BaseText variant="section" class-name="mt-4 max-w-4xl text-text-secondary text-center">
             {{ $t('team.subtitle') }}
           </BaseText>
@@ -16,10 +16,10 @@
 
       <div class="mt-10 space-y-4 md:hidden">
         <AnimatedElement
-          v-for="(member, index) in teamMembers"
+          v-for="member in teamMembers"
           :key="`mobile-${member.id}`"
           direction="bottom"
-          :delay="120 + index * 70"
+          class="w-full"
         >
           <TeamMember :member="member" />
         </AnimatedElement>
@@ -28,10 +28,10 @@
       <div class="mt-10 hidden md:block">
         <div class="mx-auto grid grid-cols-2 gap-5 lg:gap-6">
           <AnimatedElement
-            v-for="(member, index) in teamMembers"
+            v-for="member in teamMembers"
             :key="`desktop-${member.id}`"
             direction="bottom"
-            :delay="180 + index * 90"
+            class="w-full"
           >
             <TeamMember :member="member" />
           </AnimatedElement>

@@ -1,31 +1,36 @@
 <template>
   <section class="container">
     <div class="md:hidden">
-      <div class="flex items-center justify-center gap-1 text-sm leading-4.25 text-text-dark/70">
-        <span>{{ sectionData.eyebrowPrefix || 'Expertise' }}</span>
-        <span class="text-base leading-6">/</span>
-        <span class="font-medium text-text-dark">{{ sectionData.eyebrowCurrent || '' }}</span>
-      </div>
+      <AnimatedElement direction="bottom">
+        <div class="flex items-center justify-center gap-1 text-sm leading-4.25 text-text-dark/70">
+          <span>{{ sectionData.eyebrowPrefix || 'Expertise' }}</span>
+          <span class="text-base leading-6">/</span>
+          <span class="font-medium text-text-dark">{{ sectionData.eyebrowCurrent || '' }}</span>
+        </div>
+      </AnimatedElement>
 
-      <div class="mt-5 flex flex-col items-center gap-5 text-center">
-        <BaseTitle tag="h2" variant="main" class-name="leading-[1.1] font-semibold">
-          {{ sectionData.title }}
-        </BaseTitle>
-        <BaseText v-if="sectionData.description" variant="section" class-name="leading-6 text-text-dark">
-          {{ sectionData.description }}
-        </BaseText>
-      </div>
+      <AnimatedElement direction="bottom">
+        <div class="mt-5 flex flex-col items-center gap-5 text-center">
+          <BaseTitle tag="h2" variant="main" class-name="leading-[1.1] font-semibold">
+            {{ sectionData.title }}
+          </BaseTitle>
+          <BaseText v-if="sectionData.description" variant="section" class-name="leading-6 text-text-dark">
+            {{ sectionData.description }}
+          </BaseText>
+        </div>
+      </AnimatedElement>
 
-      <div class="mt-12">
-        <AppAccordion
-          v-model="activeValue"
-          :items="accordionItems"
-          :multiple="false"
-          root-class="industry-description-accordion"
-          panel-class="!border-b !border-form-border"
-          header-class="!bg-transparent !border-none !rounded-none !px-0 !py-4"
-          content-class="!bg-transparent !border-none !px-0 !pb-5"
-        >
+      <AnimatedElement direction="bottom">
+        <div class="mt-12">
+          <AppAccordion
+            v-model="activeValue"
+            :items="accordionItems"
+            :multiple="false"
+            root-class="industry-description-accordion"
+            panel-class="!border-b !border-form-border"
+            header-class="!bg-transparent !border-none !rounded-none !px-0 !py-4"
+            content-class="!bg-transparent !border-none !px-0 !pb-5"
+          >
 
 
           <template #header="{ item }">
@@ -49,54 +54,68 @@
               </div>
             </div>
           </template>
-        </AppAccordion>
-      </div>
+          </AppAccordion>
+        </div>
+      </AnimatedElement>
     </div>
 
     <div class="hidden md:block">
-      <div class="flex items-center gap-1 text-lg leading-5.5 text-text-dark/70">
-        <span>{{ sectionData.eyebrowPrefix || 'Expertise' }}</span>
-        <span>/</span>
-        <span class="font-medium text-text-dark">{{ sectionData.eyebrowCurrent || '' }}</span>
-      </div>
+      <AnimatedElement direction="bottom">
+        <div class="flex items-center gap-1 text-lg leading-5.5 text-text-dark/70">
+          <span>{{ sectionData.eyebrowPrefix || 'Expertise' }}</span>
+          <span>/</span>
+          <span class="font-medium text-text-dark">{{ sectionData.eyebrowCurrent || '' }}</span>
+        </div>
+      </AnimatedElement>
 
-      <BaseTitle tag="h2" variant="main" class-name="mt-10 text-left">
-        {{ sectionData.title }}
-      </BaseTitle>
-      <BaseText v-if="sectionData.description" variant="section" class-name="mt-6 text-left text-[20px] leading-6 text-text-dark">
-        {{ sectionData.description }}
-      </BaseText>
+      <AnimatedElement direction="bottom">
+        <BaseTitle tag="h2" variant="main" class-name="mt-10 text-left">
+          {{ sectionData.title }}
+        </BaseTitle>
+      </AnimatedElement>
+      <AnimatedElement
+        v-if="sectionData.description"
+        direction="bottom"
+      >
+        <BaseText variant="section" class-name="mt-6 text-left text-[20px] leading-6 text-text-dark">
+          {{ sectionData.description }}
+        </BaseText>
+      </AnimatedElement>
 
       <div class="mt-22 grid grid-cols-[minmax(0,632px)_minmax(0,640px)] justify-between gap-8">
-        <div>
-          <AppAccordion
-            v-model="activeValue"
-            :items="accordionItems"
-            :multiple="false"
-            root-class="industry-description-accordion"
-            panel-class="!border-b !border-form-border"
-            header-class="!bg-transparent !border-none !rounded-none !px-0 !py-5"
-            content-class="!bg-transparent !border-none !px-0 !pb-8"
-          >
-            <template #header="{ item }">
-              <span class="w-full text-left font-sans text-[24px] font-normal leading-7.25 text-text-dark">
-                {{ getAccordionFromItem(item)?.title || item.title || '' }}
-              </span>
-            </template>
+        <AnimatedElement direction="bottom">
+          <div>
+            <AppAccordion
+              v-model="activeValue"
+              :items="accordionItems"
+              :multiple="false"
+              root-class="industry-description-accordion"
+              panel-class="!border-b !border-form-border"
+              header-class="!bg-transparent !border-none !rounded-none !px-0 !py-5"
+              content-class="!bg-transparent !border-none !px-0 !pb-8"
+            >
+              <template #header="{ item }">
+                <span class="w-full text-left font-sans text-[24px] font-normal leading-7.25 text-text-dark">
+                  {{ getAccordionFromItem(item)?.title || item.title || '' }}
+                </span>
+              </template>
 
-            <template #content="{ item }">
-              <BaseText variant="section" class-name="max-w-137 text-left text-[18px] leading-7 text-text-dark/90">
-                {{ getAccordionFromItem(item)?.description || item.content || '' }}
-              </BaseText>
-            </template>
-          </AppAccordion>
-        </div>
+              <template #content="{ item }">
+                <BaseText variant="section" class-name="max-w-137 text-left text-[18px] leading-7 text-text-dark/90">
+                  {{ getAccordionFromItem(item)?.description || item.content || '' }}
+                </BaseText>
+              </template>
+            </AppAccordion>
+          </div>
+        </AnimatedElement>
 
-        <ServiceCard
-          :image="getCardImage(activeCard)"
-          :title="activeCard?.title || ''"
-          :description="activeCard?.description || ''"
-        />
+        <AnimatedElement direction="bottom">
+          <ServiceCard
+            :image="getCardImage(activeCard)"
+            :title="activeCard?.title || ''"
+            :description="activeCard?.description || ''"
+          />
+        </AnimatedElement>
       </div>
     </div>
   </section>
@@ -104,6 +123,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
+import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import AppAccordion from '@/components/UI/AppAccordion.vue';
 import type { AppAccordionItem } from '@/components/UI/AppAccordion.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';

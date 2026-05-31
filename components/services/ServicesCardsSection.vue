@@ -12,32 +12,39 @@
             <span class="font-medium text-text-dark">{{ pageTitle }}</span>
           </div> -->
 
-          <BaseTitle
-            tag="h2"
-            variant="main"
-            class-name="mt-8 max-w-170 text-center md:text-left"
-          >
-            {{ sectionData?.title || '' }}
-          </BaseTitle>
+          <AnimatedElement direction="bottom">
+            <BaseTitle
+              tag="h2"
+              variant="main"
+              class-name="mt-8 max-w-170 text-center md:text-left"
+            >
+              {{ sectionData?.title || '' }}
+            </BaseTitle>
+          </AnimatedElement>
 
           <div class="mt-5 max-w-170 space-y-5">
-            <BaseText
+            <AnimatedElement
               v-if="sectionData?.description"
-              variant="section"
-              class-name="text-center text-text-dark/85 md:text-left"
-            >
-              {{ sectionData.description }}
-            </BaseText>
+              direction="bottom"            >
+              <BaseText
+                variant="section"
+                class-name="text-center text-text-dark/85 md:text-left"
+              >
+                {{ sectionData.description }}
+              </BaseText>
+            </AnimatedElement>
           </div>
         </div>
 
         <!-- <div class="md:pt-26"> -->
-          <AppButton 
-                      class="mt-auto w-full md:w-auto"
-          @click="openContactModal('cta-button')"
-          >
-            {{ buttonLabel }}
-          </AppButton>
+          <AnimatedElement direction="bottom"               class="mt-auto w-full md:w-auto"
+>
+            <AppButton
+              @click="openContactModal('cta-button')"
+            >
+              {{ buttonLabel }}
+            </AppButton>
+          </AnimatedElement>
         <!-- </div> -->
       </div>
 
@@ -46,7 +53,6 @@
           v-for="(card, index) in resolvedCards"
           :key="`${card.title}-${index}`"
           direction="bottom"
-          :delay="120 + index * 70"
         >
           <ServiceCard
             v-if="card.displayType === 'withPicture'"

@@ -1,73 +1,74 @@
 <template>
   <div class="my-10 flex w-full flex-col items-center">
-    <nav
+    <AnimatedElement direction="bottom">
+      <nav
       class="blog-paginator mb-2 flex flex-wrap items-center justify-center gap-2"
       :aria-label="$t('blog.pagination')"
-    >
+      >
       <Button
-        type="button"
-        label="«"
-        size="small"
-        severity="secondary"
-        rounded
-        class="blog-paginator-btn"
-        :class="{ 'is-disabled': currentPageNumber <= 1 }"
-        :disabled="currentPageNumber <= 1"
-        :aria-disabled="currentPageNumber <= 1"
-        @click="onPageChange(1)"
+      type="button"
+      label="«"
+      size="small"
+      severity="secondary"
+      rounded
+      class="blog-paginator-btn"
+      :class="{ 'is-disabled': currentPageNumber <= 1 }"
+      :disabled="currentPageNumber <= 1"
+      :aria-disabled="currentPageNumber <= 1"
+      @click="onPageChange(1)"
       />
-
+      
       <Button
-        type="button"
-        label="‹"
-        size="small"
-        severity="secondary"
-        rounded
-        class="blog-paginator-btn"
-        :class="{ 'is-disabled': currentPageNumber <= 1 }"
-        :disabled="currentPageNumber <= 1"
-        :aria-disabled="currentPageNumber <= 1"
-        @click="onPageChange(Math.max(1, currentPageNumber - 1))"
+      type="button"
+      label="‹"
+      size="small"
+      severity="secondary"
+      rounded
+      class="blog-paginator-btn"
+      :class="{ 'is-disabled': currentPageNumber <= 1 }"
+      :disabled="currentPageNumber <= 1"
+      :aria-disabled="currentPageNumber <= 1"
+      @click="onPageChange(Math.max(1, currentPageNumber - 1))"
       />
-
+      
       <Button
-        v-for="page in pages"
-        :key="page"
-        type="button"
-        :label="String(page)"
-        size="small"
-        :severity="page === currentPageNumber ? 'contrast' : 'secondary'"
-        rounded
-        class="blog-paginator-btn"
-        :class="{ 'is-active': page === currentPageNumber }"
-        :aria-current="page === currentPageNumber ? 'page' : undefined"
-        @click="onPageChange(page)"
+      v-for="page in pages"
+      :key="page"
+      type="button"
+      :label="String(page)"
+      size="small"
+      :severity="page === currentPageNumber ? 'contrast' : 'secondary'"
+      rounded
+      class="blog-paginator-btn"
+      :class="{ 'is-active': page === currentPageNumber }"
+      :aria-current="page === currentPageNumber ? 'page' : undefined"
+      @click="onPageChange(page)"
       />
-
+      
       <Button
-        type="button"
-        label="›"
-        size="small"
-        severity="secondary"
-        rounded
-        class="blog-paginator-btn"
-        :class="{ 'is-disabled': currentPageNumber >= pageCountNumber }"
-        :disabled="currentPageNumber >= pageCountNumber"
-        :aria-disabled="currentPageNumber >= pageCountNumber"
-        @click="onPageChange(Math.min(pageCountNumber, currentPageNumber + 1))"
+      type="button"
+      label="›"
+      size="small"
+      severity="secondary"
+      rounded
+      class="blog-paginator-btn"
+      :class="{ 'is-disabled': currentPageNumber >= pageCountNumber }"
+      :disabled="currentPageNumber >= pageCountNumber"
+      :aria-disabled="currentPageNumber >= pageCountNumber"
+      @click="onPageChange(Math.min(pageCountNumber, currentPageNumber + 1))"
       />
-
+      
       <Button
-        type="button"
-        label="»"
-        size="small"
-        severity="secondary"
-        rounded
-        class="blog-paginator-btn"
-        :class="{ 'is-disabled': currentPageNumber >= pageCountNumber }"
-        :disabled="currentPageNumber >= pageCountNumber"
-        :aria-disabled="currentPageNumber >= pageCountNumber"
-        @click="onPageChange(pageCountNumber)"
+      type="button"
+      label="»"
+      size="small"
+      severity="secondary"
+      rounded
+      class="blog-paginator-btn"
+      :class="{ 'is-disabled': currentPageNumber >= pageCountNumber }"
+      :disabled="currentPageNumber >= pageCountNumber"
+      :aria-disabled="currentPageNumber >= pageCountNumber"
+      @click="onPageChange(pageCountNumber)"
       />
     </nav>
     <div class="mt-2 text-center text-sm text-text-secondary">
@@ -81,12 +82,14 @@
         })
       }}
     </div>
+  </AnimatedElement>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import Button from 'primevue/button';
+import { AnimatedElement } from '#components';
 
 interface Props {
   currentPage: number;

@@ -1,20 +1,26 @@
-    <template>
+<template>
   <section class="container">
     <div>
-      <BaseTitle
-        tag="h2"
-        variant="main"
-        class-name="text-left leading-[35px] md:leading-[58px]"
-      >
-        {{ title }}
-      </BaseTitle>
+      <AnimatedElement direction="bottom">
+        <BaseTitle
+          tag="h2"
+          variant="main"
+          class-name="text-left leading-[35px] md:leading-[58px]"
+        >
+          {{ title }}
+        </BaseTitle>
+      </AnimatedElement>
 
       <div class="mt-3 md:mt-4">
-        <ArticleCard
+        <AnimatedElement
           v-for="article in articles"
           :key="article.id"
-          :article="article"
-        />
+          direction="bottom"
+        >
+          <ArticleCard
+            :article="article"
+          />
+        </AnimatedElement>
       </div>
     </div>
   </section>
@@ -22,6 +28,7 @@
 
 <script setup lang="ts">
 import type { StrapiArticle } from '@/types/strapi';
+import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import ArticleCard from '@/components/blog/ArticleCard.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 

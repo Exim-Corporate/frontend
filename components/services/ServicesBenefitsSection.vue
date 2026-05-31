@@ -16,7 +16,6 @@
           v-for="(item, index) in normalizedItems"
           :key="`${item.headline}-${index}`"
           direction="bottom"
-          :delay="130 + index * 60"
         >
           <article class="flex flex-col gap-2">
             <BaseText

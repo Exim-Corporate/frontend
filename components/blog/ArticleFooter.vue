@@ -1,29 +1,32 @@
 <template>
-  <div class="py-8 mt-8 border-t border-gray-200 dark:border-gray-700">
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-      <!-- Share Article -->
-      <div class="flex items-center gap-4">
-        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
-          {{ $t('article.share') }}:
-        </span>
-        <div class="flex gap-2">
-          <BlogButton
-            v-for="action in shareActions"
-            :key="action.key"
-            :icon="action.icon"
-            :aria-label="action.ariaLabel"
-            :severity="action.severity"
-            :rounded="true"
-            @click="action.onClick"
-          />
+  <AnimatedElement direction="bottom">
+    <div class="py-8 mt-8 border-t border-gray-200 dark:border-gray-700">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+        <!-- Share Article -->
+        <div class="flex items-center gap-4">
+          <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+            {{ $t('article.share') }}:
+          </span>
+          <div class="flex gap-2">
+            <BlogButton
+              v-for="action in shareActions"
+              :key="action.key"
+              :icon="action.icon"
+              :aria-label="action.ariaLabel"
+              :severity="action.severity"
+              :rounded="true"
+              @click="action.onClick"
+            />
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </AnimatedElement>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BlogButton from '@/components/UI/blog/BlogButton.vue';
 import { useI18n } from 'vue-i18n';
 import { copyArticleLink } from '@/utils/articleUtils';

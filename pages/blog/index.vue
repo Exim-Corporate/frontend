@@ -38,7 +38,9 @@
               :key="article.id"
               class="blog-page-item"
             >
+            <AnimatedElement direction="bottom">
               <ArticleCard :article="article" />
+            </AnimatedElement>
             </div>
           </div>
         </Transition>
@@ -80,6 +82,7 @@ import AppLoader from '@/components/UI/AppLoader.vue';
 import CtaSection from '@/components/CtaSection.vue';
 import FAQSection from '@/components/FAQSection.vue';
 import type { StrapiArticle, StrapiCtaSection } from '@/types/strapi';
+import { AnimatedElement } from '#components';
 
 const { fetchArticleList } = usePageContentApi();
 const { locale, t } = useI18n();

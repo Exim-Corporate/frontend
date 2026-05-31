@@ -31,7 +31,7 @@
       </div>
 
       <div class="md:basis-[65%]">
-        <AnimatedElement :delay="140">
+        <AnimatedElement>
           <BaseText
             v-if="sectionData.description"
             variant="section"
@@ -48,7 +48,6 @@
         v-for="(item, index) in limitedItems"
         :key="`${item.technologyName}-${index}`"
         direction="bottom"
-        :delay="160 + index * 70"
       >
         <article
           :class="[
