@@ -16,7 +16,7 @@
 
       <div class="mt-10 md:hidden">
         <AnimatedElement
-          v-for="(testimonial, index) in visibleTestimonials"
+          v-for="(testimonial) in visibleTestimonials"
           :key="`mobile-${testimonial.id}`"
           direction="bottom"
         >
@@ -29,7 +29,7 @@
       <div class="mt-14 hidden md:block">
         <div class="mx-auto max-w-5xl">
           <AnimatedElement
-            v-for="(testimonial, index) in visibleTestimonials"
+            v-for="(testimonial) in visibleTestimonials"
             :key="`desktop-${testimonial.id}`"
             direction="bottom"
           >
