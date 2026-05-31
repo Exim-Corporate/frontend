@@ -1,19 +1,7 @@
 <template>
   <header class="mb-8">
     <div class="mb-6 flex items-start justify-between gap-4 md:mb-8 md:items-center">
-      <div
-        v-if="article?.categories?.length"
-        class="flex flex-wrap justify-center gap-2 md:justify-start"
-      >
-        <BaseChip
-          v-for="category in article.categories"
-          :key="category.name"
-          variant="light"
-          size="small"
-        >
-          {{ category.name }}
-        </BaseChip>
-      </div>
+      <AppBreadcrumb :items="breadcrumbItems" />
       <BlogButton
         :icon="'pi pi-arrow-left'"
         :severity="'secondary'"
@@ -76,16 +64,17 @@
 
 <script setup lang="ts">
 import { useRouter } from 'nuxt/app';
+import { useLocalePath } from '#imports';
 import { computed } from 'vue';
 
 import type { StrapiArticle } from '@/types/strapi';
 import BlogButton from '@/components/UI/blog/BlogButton.vue';
-import BaseChip from '@/components/UI/BaseChip.vue';
 import ArticleActions from './ArticleActions.vue';
 import { useI18n } from 'vue-i18n';
 import { BaseTitle } from '#components';
-const { locale } = useI18n();
+const { locale, t } = useI18n();
 const router = useRouter();
+const localePath = useLocalePath();
 
 function goBack(): void {
   router.push('/blog');
@@ -99,6 +88,16 @@ const formattedDate = computed(() => {
     day: 'numeric',
   });
 });
+
+const breadcrumbItems = computed(() => ([
+  {
+    label: t('navigation.blog'),
+    to: localePath('/blog'),
+  },
+  {
+    label: props.article.title,
+  },
+]));
 
 const props = defineProps<{
   article: StrapiArticle;
