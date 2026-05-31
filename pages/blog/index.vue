@@ -38,7 +38,7 @@
               :key="article.id"
               class="blog-page-item"
             >
-            <AnimatedElement direction="bottom">
+            <AnimatedElement direction="bottom" class="p-0 m-0">
               <ArticleCard :article="article" />
             </AnimatedElement>
             </div>
