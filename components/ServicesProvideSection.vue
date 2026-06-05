@@ -22,26 +22,31 @@
         <AnimatedElement
           v-for="(card, index) in cards"
           :key="card.titleKey"
-          class="w-full min-w-0 md:flex-[1_1_calc(50%-0.75rem)] xl:flex-[1_1_calc(33.333%-1rem)]"
+          class="w-full min-w-0 max-h-80 xl:max-h-full md:flex-[1_1_calc(50%-0.75rem)] xl:flex-[1_1_calc(33.333%-1rem)]"
           direction="bottom"
           :delay="100 + index * 50"
         >
           <ServiceCard
             v-if="card.type === 'image'"
+            class="h-full"
             :image="card.image!"
             :title="$t(card.titleKey)"
             :description="$t(card.descriptionKey)"
             :link-to="card.linkTo"
             link-label="Read more"
           />
-          <!-- <ServiceIconCard
+          <ServiceIconCard
             v-else-if="card.type === 'icon'"
+            class="h-full"
             :title="$t(card.titleKey)"
             :description="$t(card.descriptionKey)"
             :icon="card.icon!"
-          /> -->
+            :link-to="card.linkTo"
+            link-label="Read more"
+          />
           <ServiceTextCard
             v-else
+            class="h-full"
             :title="$t(card.titleKey)"
             :description="$t(card.descriptionKey)"
             :link-to="card.linkTo"
@@ -58,6 +63,7 @@ import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import AppButton from '@/components/UI/AppButton.vue';
 import ServiceCard from '@/components/UI/ServiceCard.vue';
+import ServiceIconCard from '@/components/UI/ServiceIconCard.vue';
 import ServiceTextCard from '@/components/UI/ServiceTextCard.vue';
 import { useContactModal } from '@/composables/useContactModal';
 
@@ -77,14 +83,14 @@ const cards: CardConfig[] = [
     type: 'icon',
     titleKey: 'servicesProvide.cards.ai.title',
     descriptionKey: 'servicesProvide.cards.ai.description',
-    // linkTo: '/services/artificial-intelligence',
+    linkTo: '/services/artificial-intelligence',
     icon: '/images/services/Card1Icon.svg',
   },
   {
     type: 'text',
     titleKey: 'servicesProvide.cards.customSoftware.title',
     descriptionKey: 'servicesProvide.cards.customSoftware.description',
-    // linkTo: '/services/custom-software-development',
+    linkTo: '/services/custom-software-development',
   },
   {
     type: 'image',
@@ -104,20 +110,20 @@ const cards: CardConfig[] = [
     type: 'icon',
     titleKey: 'servicesProvide.cards.chatbots.title',
     descriptionKey: 'servicesProvide.cards.chatbots.description',
-    // linkTo: '/services/ai-chatbots',
+    linkTo: '/services/ai-chatbots',
     icon: '/images/services/Card2Icon.svg',
   },
   {
     type: 'text',
     titleKey: 'servicesProvide.cards.dataEngineering.title',
     descriptionKey: 'servicesProvide.cards.dataEngineering.description',
-    // linkTo: '/services/data-engineering',
+    linkTo: '/services/data-engineering',
   },
   {
     type: 'text',
     titleKey: 'servicesProvide.cards.cloud.title',
     descriptionKey: 'servicesProvide.cards.cloud.description',
-    // linkTo: '/services/cloud-services',
+    linkTo: '/services/cloud-services',
   },
   {
     type: 'image',
@@ -130,7 +136,7 @@ const cards: CardConfig[] = [
     type: 'icon',
     titleKey: 'servicesProvide.cards.enterpriseSearch.title',
     descriptionKey: 'servicesProvide.cards.enterpriseSearch.description',
-    // linkTo: '/services/enterprise-search',
+    linkTo: '/services/enterprise-search',
     icon: '/images/services/Card3Icon.svg',
   },
 ];
