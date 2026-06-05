@@ -28,14 +28,14 @@ export interface TranslationFunction {
 const emailStyles = {
   // Outer container
   outerContainer:
-    'width: 100%; max-width: 600px; margin: auto; background-color: #f5f7fa; padding: 20px 0; min-height: 100vh; display: table; table-layout: fixed;',
-  emailWrapper: 'vertical-align: top; text-align: center; padding: 20px;',
+    'width: 100%; max-width: 600px; margin: auto; background-color: #f5f7fa; padding: 10px 0; min-height: 100vh; display: table; table-layout: fixed;',
+  emailWrapper: 'vertical-align: top; text-align: center; padding: 10px;',
   container:
     'font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #000000; max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; text-align: left; display: inline-block; width: 100%;',
   
   // Header - black like footer
   header:
-    'background: #121212; padding: 40px 30px; text-align: center; border-radius: 12px 12px 0 0;',
+    'background: #121212; padding: 25px 20px; text-align: center; border-radius: 12px 12px 0 0;',
   headerTitle:
     'color: #ffffff; font-size: 28px; font-weight: 700; margin: 0;',
   headerSubtitle: 'color: #ffffff; font-size: 14px; margin: 10px 0 0 0; font-weight: 400; opacity: 0.9;',
@@ -55,10 +55,12 @@ const emailStyles = {
   
   // Steps list
   stepsList: 'margin: 0;',
-  stepItem: 'margin-bottom: 15px; padding: 0; display: flex; gap: 15px;',
+  stepItem:
+    'margin-bottom: 12px; padding: 14px 12px; display: table; width: 100%; box-sizing: border-box; background-color: #f5f7fa; border-left: 4px solid #000000; border-radius: 8px;',
   stepNumber:
-    'background-color: #000000; color: #ffffff; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; flex-shrink: 0;',
-  stepText: 'color: #333333; font-size: 14px; line-height: 1.6; margin: 0; padding-top: 8px;',
+    'background-color: #000000; color: #ffffff; border-radius: 50%; width: 32px; min-width: 32px; max-width: 32px; height: 32px; min-height: 32px; max-height: 32px; display: inline-block; line-height: 32px; text-align: center; font-weight: 700; font-size: 16px; vertical-align: top;',
+  stepText:
+    'color: #333333; font-size: 14px; line-height: 1.6; margin: 0; display: table-cell; vertical-align: top; padding-left: 12px;',
   
   // Info grid
   infoGrid:
@@ -69,11 +71,11 @@ const emailStyles = {
   
   // Button
   button:
-    'background-color: #000000; color: #EBE8D2; padding: 15px 24px; text-decoration: none; border-radius: 8px; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; font-weight: 600; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18); font-size: 16px; text-align: center; letter-spacing: 0.01em;',
-  buttonGroup: 'display: flex; flex-direction: column; gap: 12px; width: 100%; margin: 25px 0;',
+    'background-color: #000000; color: #EBE8D2; padding: 15px 24px; text-decoration: none; border-radius: 8px; display: block; width: 100%; box-sizing: border-box; font-weight: 600; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18); font-size: 16px; text-align: center; letter-spacing: 0.01em; margin: 0 0 12px 0;',
+  buttonGroup: 'width: 100%; margin: 25px 0;',
   
   footer:
-    'background-color: #f5f7fa; padding: 30px 20px; text-align: center; border-top: 1px solid #e5e7eb;',
+    'background-color: #f5f7fa; padding: 15px 15px; text-align: center; border-top: 1px solid #e5e7eb;',
   footerText: 'color: #666666; font-size: 13px; margin: 5px 0;',
   
   priority:
@@ -145,7 +147,7 @@ export function renderAdminContactEmail(contactData: ContactData, t: Translation
                     
                     <!-- Action Button -->
                     <div style="${emailStyles.buttonGroup}">
-                        <a href="mailto:${esc(contactData.email)}" style="${emailStyles.button}">
+                      <a href="mailto:${esc(contactData.email)}" style="${emailStyles.button}; margin-bottom: 0;">
                             📧 ${t('contactMail.admin.replyButton')}
                         </a>
                     </div>
@@ -241,7 +243,7 @@ export function renderUserContactEmail(contactData: ContactData, t: TranslationF
                         <a href="https://www.exim.eu.com/" style="${emailStyles.button}">
                             🌐 ${t('contactMail.user.visitWebsite')}
                         </a>
-                      <a href="https://www.linkedin.com/company/as-exim-cyprus" style="${emailStyles.button}">
+                      <a href="https://www.linkedin.com/company/as-exim-cyprus" style="${emailStyles.button}; margin-bottom: 0;">
                             💼 ${t('contactMail.user.followUs')}
                         </a>
                     </div>
