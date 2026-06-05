@@ -44,6 +44,24 @@ export default {
   },
 
   // Vercel runtime: SSR only, no ISR/cache for public pages.
+  // Prevent @nuxtjs/sitemap from prerendering pages that fetch live Strapi data.
+  // Without this, the module bakes stale build-time _payload.json files which
+  // Vercel serves as static assets — Strapi changes are never reflected until redeploy.
+  routeRules: {
+    '/': { prerender: false },
+    '/de': { prerender: false },
+    '/fr': { prerender: false },
+    '/es': { prerender: false },
+    '/blog': { prerender: false },
+    '/de/blog': { prerender: false },
+    '/fr/blog': { prerender: false },
+    '/es/blog': { prerender: false },
+    '/referrals': { prerender: false },
+    '/de/referrals': { prerender: false },
+    '/fr/referrals': { prerender: false },
+    '/es/referrals': { prerender: false },
+  },
+
   nitro: {
     preset: process.env.NODE_ENV === 'development' ? 'node-server' : 'vercel',
     vercel: {
