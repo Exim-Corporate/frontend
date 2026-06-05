@@ -64,7 +64,7 @@
       </template>
     </section>
 
-    <CtaSection :section-data="ctaData" />
+    <CtaSection :section-data="blogCtaData" />
     <FAQSection />
   </main>
 </template>
@@ -81,10 +81,10 @@ import ArticlePagination from '@/components/blog/ArticlePagination.vue';
 import AppLoader from '@/components/UI/AppLoader.vue';
 import CtaSection from '@/components/CtaSection.vue';
 import FAQSection from '@/components/FAQSection.vue';
-import type { StrapiArticle, StrapiCtaSection } from '@/types/strapi';
+import type { StrapiArticle, StrapiBlogPage, StrapiCtaSection } from '@/types/strapi';
 import { AnimatedElement } from '#components';
 
-const { fetchArticleList } = usePageContentApi();
+const { fetchArticleList, fetchBlogPage } = usePageContentApi();
 const { locale, t } = useI18n();
 const route = useRoute();
 const pageSize = ref(12);
@@ -208,6 +208,21 @@ const ctaData = computed<StrapiCtaSection>(() => ({
   buttonText: t('cta.button'),
   buttonUrl: '/#contact-us',
 }));
+
+const { data: blogPage } = await useAsyncData(
+  () => `blog-page-cta-${locale.value}`,
+  () => fetchBlogPage(locale.value),
+  {
+    default: () => ({ ctaSection: null } as StrapiBlogPage),
+    server: true,
+    lazy: false,
+    watch: [locale],
+  },
+);
+
+const blogCtaData = computed<StrapiCtaSection>(
+  () => blogPage.value?.ctaSection ?? ctaData.value,
+);
 
 useSEO({
   title: t('blog.title'),

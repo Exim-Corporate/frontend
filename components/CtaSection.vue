@@ -10,7 +10,7 @@
             <BaseTitle
               tag="h2"
               variant="main"
-              class-name="max-w-65 text-left text-white md:text-[40px] md:leading-12"
+              class-name="max-w-85 text-left text-white md:text-[40px] md:leading-12"
             >
               {{ sectionData.title }}
             </BaseTitle>

@@ -1,12 +1,26 @@
 import type {
   StrapiArticleListPayload,
   StrapiArticlePagePayload,
+  StrapiBlogPage,
+  StrapiHomePage,
   StrapiIndustryPage,
   StrapiReferralPage,
   StrapiServicePage,
 } from '@/types/strapi';
 
 export const usePageContentApi = () => {
+  const fetchHomePage = (locale?: string) => {
+    return $fetch<StrapiHomePage | null>('/api/home-page', {
+      query: locale ? { locale } : undefined,
+    });
+  };
+
+  const fetchBlogPage = (locale?: string) => {
+    return $fetch<StrapiBlogPage | null>('/api/blog-page', {
+      query: locale ? { locale } : undefined,
+    });
+  };
+
   const fetchIndustryPage = (slug: string, locale?: string) => {
     return $fetch<StrapiIndustryPage>(`/api/industry-pages/${encodeURIComponent(slug)}`, {
       query: locale ? { locale } : undefined,
@@ -46,7 +60,9 @@ export const usePageContentApi = () => {
   return {
     fetchArticleList,
     fetchArticlePage,
+    fetchBlogPage,
     fetchHirePage,
+    fetchHomePage,
     fetchIndustryPage,
     fetchReferralPage,
     fetchServicePage,

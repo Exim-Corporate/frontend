@@ -156,6 +156,18 @@ export interface StrapiCtaSection {
   imageAlt?: string;
 }
 
+export interface StrapiHomePage {
+  id: number;
+  documentId: string;
+  ctaSection?: StrapiCtaSection | null;
+}
+
+export interface StrapiBlogPage {
+  id: number;
+  documentId: string;
+  ctaSection?: StrapiCtaSection | null;
+}
+
 export interface StrapiIndustryPage {
   id: number;
   documentId: string;

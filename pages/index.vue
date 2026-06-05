@@ -4,23 +4,39 @@ import { useSEO } from '@/composables/useSEO';
 import CtaSection from '@/components/CtaSection.vue';
 import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
 import { useI18n } from 'vue-i18n';
-import type { StrapiCtaSection } from '@/types/strapi';
+import { useAsyncData } from '#imports';
+import { usePageContentApi } from '@/composables/usePageContentApi';
+import type { StrapiCtaSection, StrapiHomePage } from '@/types/strapi';
 
 const calendlyPrefillEmail = ref('');
-const { t } = useI18n();
+const { locale, t } = useI18n();
+const { fetchHomePage } = usePageContentApi();
 
 const handleHeroSubmitEmail = (email: string) => {
   calendlyPrefillEmail.value = email;
 };
 
-const pageCtaSection = computed<StrapiCtaSection>(() => ({
-  title: t('cta.title'),
-  description: t('cta.description'),
-  buttonText: t('cta.button'),
-  buttonUrl: '#contact-us',
-  image: null,
-  imageAlt: 'CTA image',
-}));
+const { data: homePage } = await useAsyncData(
+  () => `home-page-cta-${locale.value}`,
+  () => fetchHomePage(locale.value),
+  {
+    default: () => ({ ctaSection: null } as StrapiHomePage),
+    server: true,
+    lazy: false,
+    watch: [locale],
+  },
+);
+
+const pageCtaSection = computed<StrapiCtaSection>(() =>
+  homePage.value?.ctaSection ?? {
+    title: t('cta.title'),
+    description: t('cta.description'),
+    buttonText: t('cta.button'),
+    buttonUrl: '#contact-us',
+    image: null,
+    imageAlt: 'CTA image',
+  },
+);
 
 // Centralized SEO for the homepage using useSEO
 useSEO({
