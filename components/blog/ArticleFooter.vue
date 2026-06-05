@@ -40,13 +40,9 @@ const { t } = useI18n();
 const runtime = useRuntimeConfig();
 const route = useRoute();
 
-// Canonical page URL: prefer window.location on client; on server build from siteUrl + route.fullPath (safer than route.path)
+// Canonical page URL: use the public site URL so LinkedIn can fetch metadata.
 const pageUrl = computed(() => {
-  if (typeof window !== 'undefined' && window.location?.href) {
-    return window.location.href;
-  }
-  const base = runtime.public.siteUrl || runtime.public.strapiUrl || 'https://www.exim.eu.com';
-  // route.fullPath includes path + query/hash; fall back to route.path or '/'
+  const base = runtime.public.siteUrl || 'https://www.exim.eu.com';
   const path = String(route.fullPath || route.path || '/');
   return new URL(path, String(base)).href;
 });
