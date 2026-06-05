@@ -22,20 +22,34 @@ export default defineEventHandler(async event => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  try {
-    const response = await $fetch<StrapiSingleResponse<StrapiFaqSection>>(
+  const fetchFaqSection = async (requestedLocale?: string) =>
+    await $fetch<StrapiSingleResponse<StrapiFaqSection>>(
       `${strapiUrl}/api/faq-section`,
       {
         headers,
         query: {
-          locale,
+          locale: requestedLocale,
           populate: '*',
         },
       },
     );
 
+  try {
+    let response = await fetchFaqSection(locale);
+
+    if (!response?.data && locale && locale !== 'en') {
+      response = await fetchFaqSection('en');
+    }
+
     return response?.data ?? null;
-  } catch {
+  } catch (error) {
+    console.error('[faq-section] Failed to fetch FAQ section from Strapi', {
+      locale,
+      strapiUrl,
+      hasToken: Boolean(token),
+      error,
+    });
+
     return null;
   }
 });

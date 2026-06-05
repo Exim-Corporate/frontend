@@ -8,7 +8,7 @@
 
     <div class="mt-8 md:hidden">
         <AnimatedElement
-          v-for="(item, index) in stats"
+          v-for="(item) in stats"
           :key="item.labelKey"
           direction="bottom"
         >
@@ -25,7 +25,7 @@
 
     <div class="mt-12 hidden md:block">
       <AnimatedElement
-        v-for="(item, index) in stats"
+        v-for="(item) in stats"
         :key="`desktop-${item.labelKey}`"
         direction="bottom"
       >
