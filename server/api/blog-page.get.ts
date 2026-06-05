@@ -1,7 +1,7 @@
 import { useRuntimeConfig } from '#imports';
 import { createError, defineEventHandler, getQuery } from 'h3';
 import { stringify } from 'qs';
-import type { StrapiBlogPage, StrapiSingleResponse } from '../../types/strapi';
+import type { StrapiResponse, StrapiBlogPage } from '@/types/strapi';
 
 export default defineEventHandler(async event => {
   const query = getQuery(event);
@@ -23,34 +23,29 @@ export default defineEventHandler(async event => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const fetchPage = async (requestedLocale?: string) =>
-    await $fetch<StrapiSingleResponse<StrapiBlogPage>>(
-      `${strapiUrl}/api/blog-page?${stringify(
-        {
-          locale: requestedLocale,
+  const strapiQuery = stringify(
+    {
+      locale,
+      populate: {
+        ctaSection: {
           populate: {
-            ctaSection: {
-              populate: {
-                image: true,
-              },
-            },
+            image: true,
           },
         },
-        { encodeValuesOnly: true },
-      )}`,
+      },
+    },
+    { encodeValuesOnly: true },
+  );
+
+  try {
+    const response = await $fetch<StrapiResponse<StrapiBlogPage>>(
+      `${strapiUrl}/api/blog-page?${strapiQuery}`,
       { headers },
     );
 
-  try {
-    let response = await fetchPage(locale);
-
-    if (!response?.data && locale && locale !== 'en') {
-      response = await fetchPage('en');
-    }
-
     return response?.data ?? null;
   } catch (error) {
-    console.error('[blog-page] Failed to fetch page content from Strapi', {
+    console.error('[blog-page] Failed to fetch from Strapi', {
       locale,
       strapiUrl,
       hasToken: Boolean(token),

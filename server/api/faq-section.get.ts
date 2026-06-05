@@ -22,8 +22,14 @@ export default defineEventHandler(async event => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const fetchFaqSection = async (requestedLocale?: string) =>
-    await $fetch<StrapiSingleResponse<StrapiFaqSection>>(
+  const fetchFaqSection = async (requestedLocale?: string) => {
+    console.info('[faq-section] Fetching', {
+      url: `${strapiUrl}/api/faq-section`,
+      tokenPrefix: token ? token.slice(0, 10) + '...' : 'NO_TOKEN',
+      locale: requestedLocale,
+      populate: '*',
+    });
+    return await $fetch<StrapiSingleResponse<StrapiFaqSection>>(
       `${strapiUrl}/api/faq-section`,
       {
         headers,
@@ -33,6 +39,7 @@ export default defineEventHandler(async event => {
         },
       },
     );
+  };
 
   try {
     let response = await fetchFaqSection(locale);
