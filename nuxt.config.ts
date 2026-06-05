@@ -1,13 +1,12 @@
 import Noir from './assets/theme';
 import tailwindcss from '@tailwindcss/vite';
-const HOME_ISR_TTL = 60 * 60 * 24 * 7;
 const IS_PROD = process.env.NODE_ENV === 'production';
 
 export default {
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
 
-  // SSR by default; only homepage uses ISR.
+  // Temporary SSR-only mode: avoid CDN/ISR caching while debugging content updates.
   ssr: true,
 
   vite: {
@@ -44,7 +43,7 @@ export default {
     },
   },
 
-  // Vercel runtime: SSR by default + homepage ISR only.
+  // Vercel runtime: SSR only, no ISR/cache for public pages.
   nitro: {
     preset: process.env.NODE_ENV === 'development' ? 'node-server' : 'vercel',
     vercel: {
@@ -53,10 +52,9 @@ export default {
       },
     },
     routeRules: {
-      '/': { isr: HOME_ISR_TTL },
       '/api/**': {
         cors: true,
-        headers: { 'cache-control': 's-maxage=1, stale-while-revalidate=31536000' },
+        headers: { 'cache-control': 'no-store, no-cache, must-revalidate' },
       },
       '/preview/**': {
         prerender: false,
