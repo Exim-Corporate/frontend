@@ -408,7 +408,7 @@ export default {
     scrollToTop: 'Volver arriba',
     navigation: {
       industry: {
-        title: 'Experiencia en la industria',
+        title: 'Expertise',
         items: {
           healthcare: 'Salud',
           logistics: 'Logística',

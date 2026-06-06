@@ -256,7 +256,7 @@ export default {
     },
   },
   industryExpertise: {
-    title: 'Industry Expertise',
+    title: 'Expertise',
     button: 'Request Proposal',
     tags: {
       clinicalDecisionSupport: 'Clinical Decision Support',
@@ -398,7 +398,7 @@ export default {
     scrollToTop: 'Scroll to top',
     navigation: {
       industry: {
-        title: 'Industry Expertise',
+        title: 'Expertise',
         items: {
           healthcare: 'Healthcare',
           logistics: 'Logistics',

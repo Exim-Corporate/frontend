@@ -344,7 +344,6 @@ const {
   addressLines,
   clutchUrl,
   currentYear,
-  getFallbackNavigation,
   legalPrimaryLinks,
   legalSecondaryLink,
   loadNavigation,
@@ -357,7 +356,7 @@ const footerCache = useState<Record<string, FooterNavigationData>>('footer-nav-c
 
 const navigationData = useState<FooterNavigationData>(
   `footer-nav-${locale.value}`,
-  getFallbackNavigation,
+  () => ({ industry: [], services: [] }),
 );
 
 const loadForLocale = async (loc: string) => {
@@ -376,8 +375,8 @@ await callOnce(`footer-nav-init-${locale.value}`, () => loadForLocale(locale.val
 // Only re-fetch when locale actually changes
 watch(locale, newLocale => { loadForLocale(newLocale); });
 
-const industryLinks = computed(() => navigationData.value?.industry ?? getFallbackNavigation().industry);
-const serviceLinks = computed(() => navigationData.value?.services ?? getFallbackNavigation().services);
+const industryLinks = computed(() => navigationData.value?.industry ?? []);
+const serviceLinks = computed(() => navigationData.value?.services ?? []);
 
 </script>
 

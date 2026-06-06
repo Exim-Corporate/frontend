@@ -320,6 +320,8 @@ export interface StrapiHeaderNavLink {
   title: string;
   slug: string;
   description?: string;
+  headerOrder?: number;
+  footerOrder?: number;
 }
 
 export interface StrapiHeaderDropdown {

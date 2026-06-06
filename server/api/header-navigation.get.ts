@@ -21,15 +21,27 @@ export default defineEventHandler(async event => {
       populate: {
         aiDevelopmentDropdown: {
           populate: {
-            links: { fields: ['title', 'description', 'slug'] },
-            extraLinks: { fields: ['title', 'description', 'slug'] },
+            links: {
+              fields: ['title', 'description', 'slug', 'headerOrder', 'footerOrder'],
+              sort: ['headerOrder:asc', 'title:asc'],
+            },
+            extraLinks: {
+              fields: ['title', 'description', 'slug', 'headerOrder', 'footerOrder'],
+              sort: ['headerOrder:asc', 'title:asc'],
+            },
             image: { fields: ['url', 'alternativeText', 'formats'] },
           },
         },
         expertiseDropdown: {
           populate: {
-            links: { fields: ['title', 'description', 'slug'] },
-            extraLinks: { fields: ['title', 'description', 'slug'] },
+            links: {
+              fields: ['title', 'description', 'slug', 'headerOrder', 'footerOrder'],
+              sort: ['headerOrder:asc', 'title:asc'],
+            },
+            extraLinks: {
+              fields: ['title', 'description', 'slug', 'headerOrder', 'footerOrder'],
+              sort: ['headerOrder:asc', 'title:asc'],
+            },
             image: { fields: ['url', 'alternativeText', 'formats'] },
           },
         },

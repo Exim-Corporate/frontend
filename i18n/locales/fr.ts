@@ -238,7 +238,7 @@ export default {
     },
   },
   industryExpertise: {
-    title: 'Expertise sectorielle',
+    title: 'Expertise',
     button: 'Demander une proposition',
     tags: {
       clinicalDecisionSupport: 'Aide a la decision clinique',
@@ -376,7 +376,7 @@ export default {
     scrollToTop: 'Revenir en haut',
     navigation: {
       industry: {
-        title: 'Expertise sectorielle',
+        title: 'Expertise',
         items: {
           healthcare: 'Santé',
           logistics: 'Logistique',

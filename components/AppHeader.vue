@@ -10,18 +10,15 @@
           <HeaderLogo />
         </div>
 
-        <!-- <div class="hidden min-w-0 flex-1 items-center justify-center md:flex"> -->
-          <MegaMenu :model="menuItems" :pt="megaMenuPt" :dt="megaMenuDt" breakpoint="680px" class="border-0 bg-transparent hidden min-w-0 flex-1 items-center justify-center lg:flex">
+        <MegaMenu :model="menuItems" :pt="megaMenuPt" :dt="megaMenuDt" breakpoint="680px" class="border-0 bg-transparent hidden min-w-0 flex-1 items-center justify-center lg:flex">
             <template #item="{ item, hasSubmenu }" >
               <!-- Custom dropdown panel -->
               <div v-if="!item.root && isPanelItem(item.label)" class="flex max-h-[70vh] w-7xl max-w-[90vw] gap-12 overflow-y-auto p-6">
                 <div class="min-w-0 flex-1 flex flex-col justify-between">
                   <div class="space-y-6">
-                    <!-- Panel title -->
-                    
                     <section v-for="group in getPrimaryGroups(getPanelType(item.label))" :key="group.id">
-                        <h3 v-if="group.title" class="mb-3 text-base font-semibold text-text-dark">
-                        {{ getPanelTitle(item.label) }}
+                      <h3 v-if="group.title" class="mb-3 text-base font-semibold text-text-dark">
+                        {{ group.title }}
                       </h3>
                       <div class="flex flex-col lg:grid lg:grid-cols-2 lg:gap-x-10">
                         <NuxtLink
@@ -41,10 +38,6 @@
                         </NuxtLink>
                       </div>
                     </section>
-
-                    <div v-if="getPrimaryGroups(getPanelType(item.label)).length === 0" class="py-8 text-center text-text-dark/50">
-                      No content available
-                    </div>
                   </div>
 
                   <!-- Extra links section -->
@@ -103,8 +96,6 @@
               </span>
             </template>
           </MegaMenu>
-        <!-- </div> -->
-
         <div class="ml-auto flex shrink-0 items-center gap-2 lg:gap-4">
           <div class="hidden md:block">
             <ClientOnly>
@@ -222,7 +213,7 @@ interface LinkGroup {
   links: LinkItem[];
 }
 
-const { t, locale } = useI18n();
+const { locale } = useI18n();
 const localePath = useLocalePath();
 const config = useRuntimeConfig();
 const { open: openContactModal } = useContactModal();
@@ -333,30 +324,23 @@ const getPanelType = (label: unknown): PanelType | undefined => {
   return undefined;
 };
 
-const getPanelTitle = (label: unknown): string | undefined => {
-  const panelType = getPanelType(label);
-  if (panelType === 'ai') return headerData.value?.aiDevelopmentDropdown?.label;
-  if (panelType === 'expertise') return headerData.value?.expertiseDropdown?.label;
-  return undefined;
-};
-
 const menuItems = computed<MenuItem[]>(() => {
   if (!headerData.value) return [];
   return [
     {
-      label: headerData.value.aiDevelopmentDropdown?.label ?? t('header.aiDevelopmentMenu'),
+      label: headerData.value.aiDevelopmentDropdown?.label,
       root: true,
       items: [[{ label: '', items: [{ label: '_panel:ai' }] }]],
     },
     {
-      label: headerData.value.expertiseDropdown?.label ?? t('navigation.expertise'),
+      label: headerData.value.expertiseDropdown?.label,
       root: true,
       items: [[{ label: '', items: [{ label: '_panel:expertise' }] }]],
     },
     {
-      label: headerData.value.blogLabel ?? t('navigation.blog'),
+      label: headerData.value.blogLabel,
       root: true,
-      route: localePath(headerData.value.blogPath || '/blog'),
+      route: headerData.value.blogPath,
     },
   ];
 });
@@ -372,16 +356,16 @@ const mobileMenuItems = computed(() => {
 
   return [
     {
-      label: headerData.value.aiDevelopmentDropdown?.label ?? t('header.aiDevelopmentMenu'),
+      label: headerData.value.aiDevelopmentDropdown?.label,
       items: toItems(getAllGroups('ai')),
     },
     {
-      label: headerData.value.expertiseDropdown?.label ?? t('navigation.expertise'),
+      label: headerData.value.expertiseDropdown?.label,
       items: toItems(getAllGroups('expertise')),
     },
     {
-      label: headerData.value.blogLabel ?? t('navigation.blog'),
-      route: localePath(headerData.value.blogPath || '/blog'),
+      label: headerData.value.blogLabel,
+      route: headerData.value.blogPath,
     },
   ];
 });

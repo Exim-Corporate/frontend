@@ -226,7 +226,7 @@ export default {
     },
   },
   industryExpertise: {
-    title: 'Branchenexpertise',
+    title: 'Expertise',
     button: 'Angebot anfordern',
     tags: {
       clinicalDecisionSupport: 'Klinische Entscheidungsunterstutzung',
@@ -374,7 +374,7 @@ export default {
     scrollToTop: 'Nach oben scrollen',
     navigation: {
       industry: {
-        title: 'Branchenexpertise',
+        title: 'Expertise',
         items: {
           healthcare: 'Gesundheitswesen',
           logistics: 'Logistik',
