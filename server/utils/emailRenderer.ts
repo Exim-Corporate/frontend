@@ -220,23 +220,23 @@ export function renderUserContactEmail(contactData: ContactData, t: TranslationF
                     
                     <!-- Response Time Info (only once) -->
                     <div style="${emailStyles.divider}"></div>
-                    <p style="${emailStyles.intro}">
-                        <strong>⚡ ${t('contactMail.user.responseTime')}</strong><br>
-                        ${t('contactMail.user.responseTimeDetails')}
-                    </p>
                     
                     <!-- Submission Summary -->
                     <h2 style="${emailStyles.sectionTitle}">${t('contactMail.user.submission')}</h2>
                     <div style="${emailStyles.infoGrid}">
-                        <div style="${emailStyles.infoItem}">
-                            <span style="${emailStyles.infoLabel}">${t('contactMail.admin.email')}:</span>
-                            <span style="${emailStyles.infoValue}">${esc(contactData.email)}</span>
-                        </div>
-                        <div style="${emailStyles.infoItem}">
-                            <span style="${emailStyles.infoLabel}">${t('contactMail.admin.message')}:</span>
-                            <span style="${emailStyles.infoValue}">${nl2br(contactData.projectInformation)}</span>
-                        </div>
+                    <div style="${emailStyles.infoItem}">
+                    <span style="${emailStyles.infoLabel}">${t('contactMail.admin.email')}:</span>
+                    <span style="${emailStyles.infoValue}">${esc(contactData.email)}</span>
                     </div>
+                    <div style="${emailStyles.infoItem}">
+                    <span style="${emailStyles.infoLabel}">${t('contactMail.admin.message')}:</span>
+                    <span style="${emailStyles.infoValue}">${nl2br(contactData.projectInformation)}</span>
+                    </div>
+                    </div>
+                    <p style="${emailStyles.intro}">
+                        <strong>⚡ ${t('contactMail.user.responseTime')}</strong><br>
+                        ${t('contactMail.user.responseTimeDetails')}
+                    </p>
                     
                     <!-- Action Buttons -->
                     <div style="${emailStyles.buttonGroup}">
