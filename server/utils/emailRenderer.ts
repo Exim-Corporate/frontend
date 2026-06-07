@@ -234,7 +234,6 @@ export function renderUserContactEmail(contactData: ContactData, t: TranslationF
                     </div>
                     </div>
                     <p style="${emailStyles.intro}">
-                        <strong>⚡ ${t('contactMail.user.responseTime')}</strong><br>
                         ${t('contactMail.user.responseTimeDetails')}
                     </p>
                     

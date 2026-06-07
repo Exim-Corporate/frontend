@@ -166,6 +166,7 @@ export interface StrapiTestimonialCard {
   name: string;
   role: string;
   company: string;
+  order?: number;
   rating: number;
   comment: string;
   projectType: string;
@@ -188,6 +189,22 @@ export interface StrapiProcessSection {
   steps: StrapiProcessStep[];
 }
 
+export interface StrapiWhyChooseUsItem {
+  title: string;
+  description: string;
+}
+
+export interface StrapiWhyChooseUsSection {
+  title: string;
+  items: StrapiWhyChooseUsItem[];
+}
+
+export interface StrapiServicesProvideSection {
+  title: string;
+  subtitle: string;
+  buttonLabel: string;
+}
+
 export interface StrapiCtaSection {
   title: string;
   description?: string;
@@ -205,6 +222,8 @@ export interface StrapiHomePage {
   industryExpertiseSection?: StrapiIndustryExpertiseSection | null;
   testimonialsSection?: StrapiTestimonialsSection | null;
   processSection?: StrapiProcessSection | null;
+  whyChooseUsSection?: StrapiWhyChooseUsSection | null;
+  servicesProvideSection?: StrapiServicesProvideSection | null;
 }
 
 export interface StrapiBlogPage {
@@ -286,6 +305,7 @@ export interface StrapiServicePage {
   title: string;
   slug: string;
   description?: string;
+  headerOrder?: number;
   footerLabel?: string;
   footerOrder?: number;
   showInFooter?: boolean;
@@ -334,6 +354,7 @@ export type StrapiServiceBenefitItemType = 'metric' | 'statement';
 export interface StrapiServiceBenefitItem {
   itemType?: StrapiServiceBenefitItemType;
   headline: string;
+  subheader: string;
   description?: string;
 }
 

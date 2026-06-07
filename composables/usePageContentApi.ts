@@ -39,6 +39,12 @@ export const usePageContentApi = () => {
     });
   };
 
+  const fetchServicePages = (locale?: string) => {
+    return $fetch<StrapiServicePage[]>('/api/service-pages', {
+      query: locale ? { locale } : undefined,
+    });
+  };
+
   const fetchArticlePage = (slug: string, locale?: string) => {
     return $fetch<StrapiArticlePagePayload>(`/api/articles/${encodeURIComponent(slug)}`, {
       query: locale ? { locale } : undefined,
@@ -73,5 +79,6 @@ export const usePageContentApi = () => {
     fetchIndustryPages,
     fetchReferralPage,
     fetchServicePage,
+    fetchServicePages,
   };
 };

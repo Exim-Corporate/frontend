@@ -31,47 +31,7 @@ export default {
     },
   },
   servicesProvide: {
-    title: 'Nos Services',
-    subtitle: 'Des solutions numériques complètes adaptées aux besoins de votre entreprise.',
     button: 'Demander une Proposition',
-    cards: {
-      ai: {
-        title: 'Intelligence Artificielle',
-        description: 'Des solutions IA sur mesure qui automatisent les processus, améliorent la prise de décision et ouvrent de nouvelles sources de revenus grâce à l\'analyse intelligente des données.',
-      },
-      customSoftware: {
-        title: 'Développement Logiciel Sur Mesure',
-        description: 'Des logiciels conçus de A à Z pour correspondre à vos flux de travail, intégrations et exigences de scalabilité uniques.',
-      },
-      webApp: {
-        title: 'Développement d\'Applications Web',
-        description: 'Des applications web performantes avec des frameworks modernes, un design réactif et des expériences utilisateur fluides.',
-      },
-      mobile: {
-        title: 'Développement Mobile',
-        description: 'Des applications mobiles natives et cross-platform offrant des performances fluides et des interfaces intuitives sur chaque appareil.',
-      },
-      chatbots: {
-        title: 'Chatbots IA',
-        description: 'Des agents conversationnels intelligents qui gèrent les demandes clients, optimisent le support et stimulent l\'engagement en permanence.',
-      },
-      dataEngineering: {
-        title: 'Ingénierie des Données',
-        description: 'Des pipelines et architectures de données robustes qui transforment les informations brutes en jeux de données fiables et prêts pour l\'analyse.',
-      },
-      cloud: {
-        title: 'Services Cloud',
-        description: 'Infrastructure cloud évolutive, stratégies de migration et services managés qui réduisent les coûts et augmentent l\'agilité.',
-      },
-      vcto: {
-        title: 'Virtual CTO',
-        description: 'Conseil de CTO virtuel qui aligne votre stratégie technologique avec vos objectifs commerciaux et guide le leadership technique.',
-      },
-      enterpriseSearch: {
-        title: 'Recherche d\'Entreprise',
-        description: 'Des solutions de recherche alimentées par l\'IA qui font apparaître instantanément les bonnes informations dans toutes vos sources de données.',
-      },
-    },
   },
   navigation: {
     blog: 'Blog',
@@ -138,31 +98,6 @@ export default {
   },
   companies: {
     title: 'Approuvé par plus de 50 entreprises et startups',
-  },
-  chooseUs: {
-    title: 'Votre partenaire technologique stratégique',
-    subtitle: 'Nous offrons plus que des talents. Nous proposons une solution complète.',
-    counter: 'Ce qui nous distingue',
-    counter_desc1: 'Ingénieurs dans le réseau',
-    counter_desc2: "Temps moyen d'embauche (heures)",
-    counter_desc3: 'Clients servis',
-    counter_desc4: 'Experts à distance',
-    feat1_title: 'Recrutement rapide, sans tracas',
-    feat1_desc:
-      'Évitez les longs cycles de recrutement. Trouvez des talents technologiques de haut niveau en 48 heures.',
-    feat2_title: "Modèles d'engagement flexibles",
-    feat2_desc:
-      'Choisissez des contrats horaires, à temps partiel, à temps plein ou basés sur des projets.',
-    feat3_title: 'Expertise mondiale, stabilité basée à Chypre',
-    feat3_desc:
-      "Bénéficiez de développeurs mondiaux avec la fiabilité d'un partenaire basé dans l'UE.",
-    feat4_title: 'Professionnels pré-vérifiés uniquement',
-    feat4_desc: 'Nous travaillons uniquement avec des experts confirmés.',
-    feat5_title: 'Talents prêts à communiquer',
-    feat5_desc: "Chaque candidat parle couramment l'anglais et est adapté au travail à distance.",
-    feat6_title: 'Qualité de développement exceptionnelle',
-    feat6_desc:
-      'De l’idée à la livraison, nous vous aidons à livrer plus vite sans compromettre la qualité.',
   },
   services: {
     title1: "Quel type d'",

@@ -40,7 +40,9 @@ export default defineEventHandler(async event => {
         industryExpertiseSection: true,
         testimonialsSection: {
           populate: {
-            cards: true,
+            cards: {
+              sort: ['order:asc', 'name:asc'],
+            },
           },
         },
         processSection: {
@@ -48,6 +50,12 @@ export default defineEventHandler(async event => {
             steps: true,
           },
         },
+        whyChooseUsSection: {
+          populate: {
+            items: true,
+          },
+        },
+        servicesProvideSection: true,
       },
     },
     { encodeValuesOnly: true },

@@ -1,5 +1,6 @@
 <template>
   <section
+    v-if="sectionData"
     id="about"
     class="w-full mx-auto container overflow-hidden"
   >
@@ -10,7 +11,7 @@
           variant="main"
           class-name="text-center lg:text-left lg:max-w-md"
         >
-          {{ $t('chooseUs.title') }}
+          {{ sectionData.title }}
         </BaseTitle>
       </AnimatedElement>
 
@@ -32,15 +33,15 @@
       <div class="mt-10 md:mt-12 flex flex-col gap-6 lg:gap-8">
         <div
           v-for="(item, index) in items"
-          :key="item.titleKey"
+          :key="`${item.title}-${index}`"
           :ref="(el) => setItemRef(el, index)"
           data-aos="fade-up"
           data-aos-duration="450"
           :data-aos-delay="220 + index * 80"
         >
           <ChooseUsPartnerRow
-            :title="$t(item.titleKey)"
-            :description="$t(item.descriptionKey)"
+            :title="item.title"
+            :description="item.description"
             :is-active="activeIndex === index"
           />
         </div>
@@ -55,19 +56,15 @@ import { inView, useInView } from 'motion-v';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import ChooseUsPartnerRow from '@/components/chooseUs/ChooseUsPartnerRow.vue';
+import type { StrapiWhyChooseUsItem, StrapiWhyChooseUsSection } from '@/types/strapi';
 
-interface ChooseUsItem {
-  titleKey: string;
-  descriptionKey: string;
+interface Props {
+  sectionData?: StrapiWhyChooseUsSection | null;
 }
 
-const items: ChooseUsItem[] = [
-  { titleKey: 'chooseUs.feat3_title', descriptionKey: 'chooseUs.feat3_desc' },
-  { titleKey: 'chooseUs.feat2_title', descriptionKey: 'chooseUs.feat2_desc' },
-  { titleKey: 'chooseUs.feat4_title', descriptionKey: 'chooseUs.feat4_desc' },
-  { titleKey: 'chooseUs.feat5_title', descriptionKey: 'chooseUs.feat5_desc' },
-  { titleKey: 'chooseUs.feat6_title', descriptionKey: 'chooseUs.feat6_desc' },
-];
+const props = defineProps<Props>();
+
+const items = computed<StrapiWhyChooseUsItem[]>(() => props.sectionData?.items ?? []);
 
 const sectionRef = ref<HTMLElement | null>(null);
 const isSectionInView = useInView(sectionRef, { amount: 0.2, initial: false });

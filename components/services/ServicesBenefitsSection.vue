@@ -22,7 +22,14 @@
               variant="main"
               class-name="mb-2 text-left text-[36px] leading-11 font-light text-text-dark md:text-[40px] md:leading-12 md:font-normal"
             >
-              {{ item.headline }}
+              <AnimatedCounterValue :value="item.headline" />
+            </BaseText>
+
+            <BaseText
+              variant="card"
+              class-name="text-left font-medium text-text-dark"
+            >
+              {{ item.subheader }}
             </BaseText>
 
             <BaseText
@@ -42,6 +49,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
+import AnimatedCounterValue from '@/components/UI/AnimatedCounterValue.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import type { StrapiServiceBenefitItem, StrapiServiceBenefitsSection } from '@/types/strapi';

@@ -33,47 +33,7 @@ export default {
     },
   },
   servicesProvide: {
-    title: 'Servicios que Ofrecemos',
-    subtitle: 'Soluciones digitales integrales adaptadas a las necesidades de tu negocio.',
     button: 'Solicitar Propuesta',
-    cards: {
-      ai: {
-        title: 'Inteligencia Artificial',
-        description: 'Soluciones de IA personalizadas que automatizan procesos, mejoran la toma de decisiones y desbloquean nuevas fuentes de ingresos mediante análisis inteligente de datos.',
-      },
-      customSoftware: {
-        title: 'Desarrollo de Software a Medida',
-        description: 'Software personalizado construido desde cero para adaptarse a tus flujos de trabajo, integraciones y requisitos de escalabilidad únicos.',
-      },
-      webApp: {
-        title: 'Desarrollo de Aplicaciones Web',
-        description: 'Aplicaciones web de alto rendimiento con frameworks modernos, diseño responsivo y experiencias de usuario perfectas.',
-      },
-      mobile: {
-        title: 'Desarrollo Móvil',
-        description: 'Aplicaciones móviles nativas y multiplataforma que ofrecen un rendimiento fluido e interfaces intuitivas en cada dispositivo.',
-      },
-      chatbots: {
-        title: 'Chatbots de IA',
-        description: 'Agentes conversacionales inteligentes que gestionan consultas, optimizan el soporte e impulsan el compromiso las 24 horas.',
-      },
-      dataEngineering: {
-        title: 'Ingeniería de Datos',
-        description: 'Pipelines y arquitecturas de datos robustas que transforman información en bruto en conjuntos de datos fiables y listos para análisis.',
-      },
-      cloud: {
-        title: 'Servicios en la Nube',
-        description: 'Infraestructura cloud escalable, estrategias de migración y servicios gestionados que reducen costes y aumentan la agilidad.',
-      },
-      vcto: {
-        title: 'Virtual CTO',
-        description: 'Asesoramiento de CTO virtual que alinea tu estrategia tecnológica con los objetivos de negocio y guía el liderazgo técnico.',
-      },
-      enterpriseSearch: {
-        title: 'Búsqueda Empresarial',
-        description: 'Soluciones de búsqueda potenciadas por IA que muestran la información correcta al instante en todas tus fuentes de datos empresariales.',
-      },
-    },
   },
   navigation: {
     blog: 'Blog',
@@ -140,34 +100,6 @@ export default {
   },
   companies: {
     title: 'Confiado por más de 50 empresas y startups',
-  },
-  chooseUs: {
-    title: 'Su aliado estratégico en tecnología, no solo un proveedor',
-    subtitle:
-      'Ofrecemos más que talento. Proporcionamos una solución integral para sus necesidades tecnológicas.',
-    counter: '¿Qué nos hace destacar?',
-    counter_desc1: 'Ingenieros en la red',
-    counter_desc2: 'Tiempo promedio de contratación (horas)',
-    counter_desc3: 'Clientes atendidos',
-    counter_desc4: 'Expertos remotos',
-    feat1_title: 'Contratación rápida, sin complicaciones',
-    feat1_desc:
-      'Evite ciclos de reclutamiento prolongados. Encuentre talento tecnológico de primer nivel en 48 horas.',
-    feat2_title: 'Modelos de contratación flexibles',
-    feat2_desc:
-      'Elija contratos por horas, a tiempo parcial, a tiempo completo o basados en proyectos, adaptados a sus necesidades.',
-    feat3_title: 'Experiencia global, estabilidad con base en Chipre',
-    feat3_desc:
-      'Aproveche desarrolladores globales con la confiabilidad y protección legal de un socio con sede en la UE.',
-    feat4_title: 'Solo profesionales previamente evaluados',
-    feat4_desc:
-      'Trabajamos exclusivamente con expertos comprobados en desarrollo de software, datos, IA/ML, control de calidad y diseño.',
-    feat5_title: 'Talento preparado para la comunicación',
-    feat5_desc:
-      'Cada candidato habla inglés con fluidez, es colaborativo y está adaptado al trabajo remoto.',
-    feat6_title: 'Calidad excepcional de desarrollo',
-    feat6_desc:
-      'Desde la idea hasta la entrega, le ayudamos a avanzar más rápido sin comprometer la calidad.',
   },
   services: {
     title1: '¿Qué tipo de',

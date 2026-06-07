@@ -29,7 +29,7 @@
       scroll-target-id="calendly-booking"
     />
 
-    <TestimonialsSection />
+    <TestimonialsSection :section-data="testimonialsSection" />
     <FAQSection />
     <CalendlyBookingSection section-id="calendly-booking" />
   </main>
@@ -48,13 +48,13 @@ import ServicesAboutSection from '@/components/services/ServicesAboutSection.vue
 import ServicesBenefitsSection from '@/components/services/ServicesBenefitsSection.vue';
 import { usePageContentApi } from '@/composables/usePageContentApi';
 import { useSEO } from '@/composables/useSEO';
-import type { StrapiServicePage } from '@/types/strapi';
+import type { StrapiHomePage, StrapiServicePage } from '@/types/strapi';
 import { FAQSection, TestimonialsSection } from '#components';
 
 const route = useRoute();
 const { locale, t } = useI18n();
 const localePath = useLocalePath();
-const { fetchServicePage } = usePageContentApi();
+const { fetchServicePage, fetchHomePage } = usePageContentApi();
 
 const slug = computed(() => String(route.params.slug || ''));
 
@@ -64,11 +64,18 @@ const { data: page, error } = await useAsyncData<StrapiServicePage | null>(
   { default: () => null, watch: [slug, locale], server: true, lazy: false },
 );
 
+const { data: homePage } = await useAsyncData<StrapiHomePage | null>(
+  `service-page-home-${locale.value}`,
+  async () => await fetchHomePage(locale.value),
+  { default: () => null, watch: [locale], server: true, lazy: false },
+);
+
 if (error.value || !page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page Not Found', fatal: true });
 }
 
 const resolvedPage = computed<StrapiServicePage>(() => page.value as StrapiServicePage);
+const testimonialsSection = computed(() => homePage.value?.testimonialsSection ?? null);
 
 const breadcrumbItems = computed(() => [
   {

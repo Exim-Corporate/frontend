@@ -31,7 +31,7 @@
       :section-data="resolvedPage.industryStats"
     />
 
-    <TestimonialsSection />
+    <TestimonialsSection :section-data="testimonialsSection" />
 
     <CtaSection
       v-if="resolvedPage.ctaSection?.title"
@@ -59,13 +59,13 @@ import IndustryDescriptionSection from '@/components/industry/IndustryDescriptio
 import IndustryStatsSection from '@/components/industry/IndustryStatsSection.vue';
 import { usePageContentApi } from '@/composables/usePageContentApi';
 import { useSEO } from '@/composables/useSEO';
-import type { StrapiIndustryPage } from '@/types/strapi';
+import type { StrapiHomePage, StrapiIndustryPage } from '@/types/strapi';
 import { FAQSection, TestimonialsSection } from '#components';
 
 const route = useRoute();
 const { locale, t } = useI18n();
 const localePath = useLocalePath();
-const { fetchIndustryPage } = usePageContentApi();
+const { fetchIndustryPage, fetchHomePage } = usePageContentApi();
 
 const slug = computed(() => String(route.params.slug || ''));
 
@@ -75,11 +75,18 @@ const { data: page, error } = await useAsyncData<StrapiIndustryPage | null>(
   { default: () => null, watch: [slug, locale], server: true, lazy: false },
 );
 
+const { data: homePage } = await useAsyncData<StrapiHomePage | null>(
+  `industry-page-home-${locale.value}`,
+  async () => await fetchHomePage(locale.value),
+  { default: () => null, watch: [locale], server: true, lazy: false },
+);
+
 if (error.value || !page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page Not Found', fatal: true });
 }
 
 const resolvedPage = computed<StrapiIndustryPage>(() => page.value as StrapiIndustryPage);
+const testimonialsSection = computed(() => homePage.value?.testimonialsSection ?? null);
 
 const breadcrumbItems = computed(() => [
   {

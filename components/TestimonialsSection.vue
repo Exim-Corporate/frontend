@@ -79,21 +79,37 @@ const { t } = useI18n();
 
 const fallbackAvatarSrcs = [
   '/images/testimonials/marcusV.jpg',
-  '/images/testimonials/elenaR.jpg',
   '/images/testimonials/sarahL.jpg',
   '/images/testimonials/thomasD.jpg',
+  '/images/testimonials/elenaR.jpg',
   '/images/testimonials/chloeM.jpg',
 ];
 
+const avatarByName: Record<string, string> = {
+  'Marcus V.': '/images/testimonials/marcusV.jpg',
+  'Sarah L.': '/images/testimonials/sarahL.jpg',
+  'Thomas D.': '/images/testimonials/thomasD.jpg',
+  'Dr. Elena R.': '/images/testimonials/elenaR.jpg',
+  'Chloe M.': '/images/testimonials/chloeM.jpg',
+};
+
 const testimonials = computed(() => {
-  const cards = props.sectionData?.cards ?? [];
+  const cards = [...(props.sectionData?.cards ?? [])].sort((a, b) => {
+    const orderA = typeof a.order === 'number' ? a.order : Number.MAX_SAFE_INTEGER;
+    const orderB = typeof b.order === 'number' ? b.order : Number.MAX_SAFE_INTEGER;
+    if (orderA !== orderB) return orderA - orderB;
+    return a.name.localeCompare(b.name);
+  });
 
   return cards.map((card: StrapiTestimonialCard, index: number) => ({
     id: index + 1,
     name: card.name,
     role: card.role,
     company: card.company,
-    avatarSrc: fallbackAvatarSrcs[index % fallbackAvatarSrcs.length] ?? fallbackAvatarSrcs[0],
+    avatarSrc:
+      avatarByName[card.name] ??
+      fallbackAvatarSrcs[index % fallbackAvatarSrcs.length] ??
+      fallbackAvatarSrcs[0],
     rating: card.rating,
     comment: card.comment,
     projectType: card.projectType,

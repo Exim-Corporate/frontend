@@ -10,7 +10,7 @@ import type { StrapiCtaSection, StrapiHomePage, StrapiIndustryPage } from '@/typ
 
 const calendlyPrefillEmail = ref('');
 const { locale, t } = useI18n();
-const { fetchHomePage } = usePageContentApi();
+const { fetchHomePage, fetchServicePages } = usePageContentApi();
 
 const handleHeroSubmitEmail = (email: string) => {
   calendlyPrefillEmail.value = email;
@@ -40,6 +40,17 @@ const { data: industryPages } = await useAsyncData<StrapiIndustryPage[]>(
   },
 );
 
+const { data: servicePages } = await useAsyncData(
+  () => `home-page-service-pages-${locale.value}`,
+  () => fetchServicePages(locale.value),
+  {
+    default: () => [],
+    server: true,
+    lazy: false,
+    watch: [locale],
+  },
+);
+
 const pageCtaSection = computed<StrapiCtaSection>(() =>
   homePage.value?.ctaSection ?? {
     title: t('cta.title'),
@@ -55,7 +66,10 @@ const standApartStatsSection = computed(() => homePage.value?.standApartStats ??
 const testimonialsSection = computed(() => homePage.value?.testimonialsSection ?? null);
 const processSection = computed(() => homePage.value?.processSection ?? null);
 const industryExpertiseSection = computed(() => homePage.value?.industryExpertiseSection ?? null);
+const whyChooseUsSection = computed(() => homePage.value?.whyChooseUsSection ?? null);
+const servicesProvideSection = computed(() => homePage.value?.servicesProvideSection ?? null);
 const orderedIndustryPages = computed(() => industryPages.value ?? []);
+const orderedServicePages = computed(() => servicePages.value ?? []);
 
 // Centralized SEO for the homepage using useSEO
 useSEO({
@@ -99,21 +113,24 @@ useSEO({
 
     <ServicesCardsSection />
 
-    <ServicesProvideSection />
+    <ServicesProvideSection
+      :section-data="servicesProvideSection"
+      :services="orderedServicePages"
+    />
 
     <TechStackSection />
     
     <!-- Why Choose Us section -->
-    <WhyChooseUsSection />
+    <WhyChooseUsSection :section-data="whyChooseUsSection" />
 
-    <StandApartStatsSection :section-data="standApartStatsSection" />
+    <ProcessSection :section-data="processSection" />
     
     <!-- Process Section -->
-    <ProcessSection :section-data="processSection" />
     <IndustryExpertiseSection
-      :section-data="industryExpertiseSection"
-      :industries="orderedIndustryPages"
+    :section-data="industryExpertiseSection"
+    :industries="orderedIndustryPages"
     />
+    <StandApartStatsSection :section-data="standApartStatsSection" />
     <!-- <CaseStudiesSection /> --> 
     <TestimonialsSection :section-data="testimonialsSection" />
     <TeamSection />

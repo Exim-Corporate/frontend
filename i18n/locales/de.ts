@@ -33,47 +33,7 @@ export default {
     },
   },
   servicesProvide: {
-    title: 'Unsere Dienstleistungen',
-    subtitle: 'Ganzheitliche digitale Lösungen, maßgeschneidert für Ihre Geschäftsanforderungen.',
     button: 'Angebot anfordern',
-    cards: {
-      ai: {
-        title: 'Künstliche Intelligenz',
-        description: 'Individuelle KI-Lösungen, die Prozesse automatisieren, Entscheidungen verbessern und durch intelligente Datenanalyse neue Umsatzquellen erschließen.',
-      },
-      customSoftware: {
-        title: 'Individuelle Softwareentwicklung',
-        description: 'Maßgeschneiderte Software, die von Grund auf für Ihre individuellen Arbeitsabläufe, Integrationen und Skalierungsanforderungen entwickelt wird.',
-      },
-      webApp: {
-        title: 'Webanwendungsentwicklung',
-        description: 'Leistungsstarke Webanwendungen mit modernen Frameworks, responsivem Design und nahtloser Benutzererfahrung.',
-      },
-      mobile: {
-        title: 'Mobile Entwicklung',
-        description: 'Native und plattformübergreifende Apps mit herausragender Performance und intuitiven Oberflächen auf jedem Gerät.',
-      },
-      chatbots: {
-        title: 'KI-Chatbots',
-        description: 'Intelligente Konversationsagenten, die Kundenanfragen bearbeiten, den Support optimieren und rund um die Uhr Engagement fördern.',
-      },
-      dataEngineering: {
-        title: 'Data Engineering',
-        description: 'Robuste Datenpipelines und Architekturen, die Rohdaten in zuverlässige, analysebereite Datensätze umwandeln.',
-      },
-      cloud: {
-        title: 'Cloud Services',
-        description: 'Skalierbare Cloud-Infrastruktur, Migrationsstrategien und verwaltete Dienste, die Kosten senken und Agilität erhöhen.',
-      },
-      vcto: {
-        title: 'Virtual CTO',
-        description: 'Virtuelle CTO-Beratung, die Ihre Technologiestrategie mit Geschäftszielen abstimmt und technische Führung begleitet.',
-      },
-      enterpriseSearch: {
-        title: 'Enterprise Search',
-        description: 'KI-gestützte Suchlösungen, die sofort die richtigen Informationen aus allen Unternehmensdatenquellen bereitstellen.',
-      },
-    },
   },
   meta: {
     description:
@@ -108,33 +68,6 @@ export default {
   },
   companies: {
     title: 'Vertrauen von über 50+ Unternehmen und Startups',
-  },
-  chooseUs: {
-    title: 'Ihr strategischer Technologiepartner – nicht nur ein Anbieter',
-    subtitle:
-      'Wir liefern mehr als nur Talente. Wir bieten eine Komplettlösung für Ihre Technologiebedürfnisse.',
-    counter: 'Was macht uns besonders?',
-    counter_desc1: 'Ingenieure im Netzwerk',
-    counter_desc2: 'Durchschn. Einstellungszeit (Std.)',
-    counter_desc3: 'Betreute Kunden',
-    counter_desc4: 'Remote-Experten',
-    feat1_title: 'Schnelle Einstellung, null Aufwand',
-    feat1_desc:
-      'Überspringen Sie lange Rekrutierungszyklen. Finden Sie erstklassige Tech-Talente innerhalb von 48 Stunden.',
-    feat2_title: 'Flexible Engagements-Modelle',
-    feat2_desc:
-      'Wählen Sie stundenweise, teilzeit-, vollzeit- oder projektbasierte Verträge, die auf Ihre Bedürfnisse zugeschnitten sind.',
-    feat3_title: 'Globale Expertise, Stabilität aus Zypern',
-    feat3_desc:
-      'Nutzen Sie globale Entwickler mit der Zuverlässigkeit und dem rechtlichen Schutz eines EU-basierten Partners.',
-    feat4_title: 'Nur vorab geprüfte Profis',
-    feat4_desc:
-      'Wir arbeiten ausschließlich mit bewährten Experten in Softwareentwicklung, Daten, KI/ML, QA und Design.',
-    feat5_title: 'Kommunikationsbereite Talente',
-    feat5_desc: 'Jeder Kandidat spricht fließend Englisch, ist kollaborativ und remote-affin.',
-    feat6_title: 'Außergewöhnliche Entwicklungsqualität',
-    feat6_desc:
-      'Von der Idee bis zur Auslieferung helfen wir Ihnen, schneller zu liefern, ohne Kompromisse bei der Qualität.',
   },
   services: {
     title1: 'Welche Art von',
