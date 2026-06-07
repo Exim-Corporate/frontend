@@ -1,44 +1,46 @@
 <template>
   <section class="container w-full bg-white">
-    <AnimatedElement direction="bottom">
-      <BaseTitle tag="h2" variant="main" class-name="text-center lg:text-left">
-        {{ $t('standApart.title') }}
-      </BaseTitle>
-    </AnimatedElement>
+    <template v-if="sectionData">
+      <AnimatedElement direction="bottom">
+        <BaseTitle tag="h2" variant="main" class-name="text-center lg:text-left">
+          {{ sectionData.title }}
+        </BaseTitle>
+      </AnimatedElement>
 
-    <div class="mt-8 md:hidden">
+      <div class="mt-8 md:hidden">
         <AnimatedElement
-          v-for="(item) in stats"
-          :key="item.labelKey"
+          v-for="(item, index) in sectionData.stats"
+          :key="`${item.label}-${index}`"
           direction="bottom"
         >
           <div class="flex items-center lg:items-start gap-4 border-b border-black/10 py-5 last:border-b-0">
             <BaseText variant="card" className="w-1/2 text-left text-text-dark">
-              {{ $t(item.labelKey) }}
+              {{ item.label }}
             </BaseText>
             <BaseTitle tag="p" variant="main" class-name="w-1/2 text-start text-text-dark">
               <AnimatedCounterValue :value="item.value" />
             </BaseTitle>
           </div>
         </AnimatedElement>
-    </div>
+      </div>
 
-    <div class="mt-12 hidden md:block">
-      <AnimatedElement
-        v-for="(item) in stats"
-        :key="`desktop-${item.labelKey}`"
-        direction="bottom"
-      >
-        <div class="flex items-start gap-8 border-b border-black/10 py-7 lg:py-8 last:border-b-0">
-          <BaseText variant="card" class-name="w-1/2 text-left text-text-dark">
-            {{ $t(item.labelKey) }}
-          </BaseText>
-          <BaseTitle tag="p" variant="main" class-name="w-1/2 text-left text-text-dark">
-            <AnimatedCounterValue :value="item.value" />
-          </BaseTitle>
-        </div>
-      </AnimatedElement>
-    </div>
+      <div class="mt-12 hidden md:block">
+        <AnimatedElement
+          v-for="(item, index) in sectionData.stats"
+          :key="`desktop-${item.label}-${index}`"
+          direction="bottom"
+        >
+          <div class="flex items-start gap-8 border-b border-black/10 py-7 lg:py-8 last:border-b-0">
+            <BaseText variant="card" class-name="w-1/2 text-left text-text-dark">
+              {{ item.label }}
+            </BaseText>
+            <BaseTitle tag="p" variant="main" class-name="w-1/2 text-left text-text-dark">
+              <AnimatedCounterValue :value="item.value" />
+            </BaseTitle>
+          </div>
+        </AnimatedElement>
+      </div>
+    </template>
   </section>
 </template>
 
@@ -47,28 +49,11 @@ import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import AnimatedCounterValue from '@/components/UI/AnimatedCounterValue.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
+import type { StrapiStandApartStatsSection } from '@/types/strapi';
 
-interface StandApartStat {
-  labelKey: string;
-  value: string;
+interface Props {
+  sectionData?: StrapiStandApartStatsSection | null;
 }
 
-const stats: StandApartStat[] = [
-  {
-    labelKey: 'standApart.items.engineers',
-    value: '200+',
-  },
-  {
-    labelKey: 'standApart.items.knowHow',
-    value: '6',
-  },
-  {
-    labelKey: 'standApart.items.clients',
-    value: '100+',
-  },
-  {
-    labelKey: 'standApart.items.remote',
-    value: '100%',
-  },
-];
+defineProps<Props>();
 </script>

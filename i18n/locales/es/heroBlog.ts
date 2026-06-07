@@ -1,6 +1,6 @@
 export default {
   heroBlog: {
-    title: 'Blog: Detrás de escenas?',
+    title: 'Blog',
     viewMore: 'Ver más',
     empty: 'Los artículos aparecerán aquí pronto.',
   },

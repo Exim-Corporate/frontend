@@ -6,7 +6,7 @@ import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.
 import { useI18n } from 'vue-i18n';
 import { useAsyncData } from '#imports';
 import { usePageContentApi } from '@/composables/usePageContentApi';
-import type { StrapiCtaSection, StrapiHomePage } from '@/types/strapi';
+import type { StrapiCtaSection, StrapiHomePage, StrapiIndustryPage } from '@/types/strapi';
 
 const calendlyPrefillEmail = ref('');
 const { locale, t } = useI18n();
@@ -27,6 +27,19 @@ const { data: homePage } = await useAsyncData(
   },
 );
 
+const { fetchIndustryPages } = usePageContentApi();
+
+const { data: industryPages } = await useAsyncData<StrapiIndustryPage[]>(
+  () => `home-page-industry-pages-${locale.value}`,
+  () => fetchIndustryPages(locale.value),
+  {
+    default: () => [],
+    server: true,
+    lazy: false,
+    watch: [locale],
+  },
+);
+
 const pageCtaSection = computed<StrapiCtaSection>(() =>
   homePage.value?.ctaSection ?? {
     title: t('cta.title'),
@@ -37,6 +50,12 @@ const pageCtaSection = computed<StrapiCtaSection>(() =>
     imageAlt: 'CTA image',
   },
 );
+
+const standApartStatsSection = computed(() => homePage.value?.standApartStats ?? null);
+const testimonialsSection = computed(() => homePage.value?.testimonialsSection ?? null);
+const processSection = computed(() => homePage.value?.processSection ?? null);
+const industryExpertiseSection = computed(() => homePage.value?.industryExpertiseSection ?? null);
+const orderedIndustryPages = computed(() => industryPages.value ?? []);
 
 // Centralized SEO for the homepage using useSEO
 useSEO({
@@ -86,13 +105,17 @@ useSEO({
     
     <!-- Why Choose Us section -->
     <WhyChooseUsSection />
+
+    <StandApartStatsSection :section-data="standApartStatsSection" />
     
     <!-- Process Section -->
-    <ProcessSection />
-    <IndustryExpertiseSection />
-    <!-- <CaseStudiesSection /> --> // Temporarily removed as per request, can be added back when needed
-    <StandApartStatsSection />
-    <TestimonialsSection />
+    <ProcessSection :section-data="processSection" />
+    <IndustryExpertiseSection
+      :section-data="industryExpertiseSection"
+      :industries="orderedIndustryPages"
+    />
+    <!-- <CaseStudiesSection /> --> 
+    <TestimonialsSection :section-data="testimonialsSection" />
     <TeamSection />
     <HeroBlogSection />
     <CtaSection

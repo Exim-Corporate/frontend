@@ -28,6 +28,14 @@
       "{{ testimonial.comment }}"
     </BaseText>
 
+    <!-- <BaseText
+      v-if="testimonial.projectType"
+      variant="card"
+      class-name="text-left text-text-dark/70"
+    >
+      {{ testimonial.projectType }}
+    </BaseText> -->
+
     <div class="flex items-center gap-3">
       <NuxtImg
         :src="testimonial.avatarSrc"
@@ -44,7 +52,8 @@
           {{ testimonial.name }}
         </BaseTitle>
         <BaseText variant="card" class-name="text-left text-text-secondary !leading-5 mt-1">
-          {{ testimonial.role }} {{ $t('testimonials.at') }} {{ testimonial.company }}
+          {{ testimonial.role }}
+           <!-- {{ $t('testimonials.at') }} {{ testimonial.company }} -->
         </BaseText>
       </div>
     </div>

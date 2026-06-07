@@ -147,6 +147,47 @@ export interface StrapiIndustryStats {
   accordions: StrapiIndustryStatsAccordion[];
 }
 
+export interface StrapiStandApartStat {
+  value: string;
+  label: string;
+}
+
+export interface StrapiStandApartStatsSection {
+  title: string;
+  stats: StrapiStandApartStat[];
+}
+
+export interface StrapiIndustryExpertiseSection {
+  title: string;
+  buttonLabel: string;
+}
+
+export interface StrapiTestimonialCard {
+  name: string;
+  role: string;
+  company: string;
+  rating: number;
+  comment: string;
+  projectType: string;
+}
+
+export interface StrapiTestimonialsSection {
+  title: string;
+  subtitle?: string;
+  cards: StrapiTestimonialCard[];
+}
+
+export interface StrapiProcessStep {
+  title: string;
+  description: string;
+}
+
+export interface StrapiProcessSection {
+  title: string;
+  subtitle?: string;
+  steps: StrapiProcessStep[];
+}
+
 export interface StrapiCtaSection {
   title: string;
   description?: string;
@@ -160,6 +201,10 @@ export interface StrapiHomePage {
   id: number;
   documentId: string;
   ctaSection?: StrapiCtaSection | null;
+  standApartStats?: StrapiStandApartStatsSection | null;
+  industryExpertiseSection?: StrapiIndustryExpertiseSection | null;
+  testimonialsSection?: StrapiTestimonialsSection | null;
+  processSection?: StrapiProcessSection | null;
 }
 
 export interface StrapiBlogPage {

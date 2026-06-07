@@ -1,7 +1,7 @@
 import { useRuntimeConfig } from '#imports';
-import { createError, defineEventHandler, getQuery } from 'h3';
+import { defineEventHandler, getQuery } from 'h3';
 import { stringify } from 'qs';
-import type { StrapiResponse, StrapiHomePage } from '@/types/strapi';
+import type { StrapiIndustryPage, StrapiResponse } from '@/types/strapi';
 
 export default defineEventHandler(async event => {
   const query = getQuery(event);
@@ -12,7 +12,7 @@ export default defineEventHandler(async event => {
   const token = typeof config.strapiToken === 'string' ? config.strapiToken : undefined;
 
   if (!strapiUrl) {
-    throw createError({ statusCode: 500, message: 'Strapi URL not configured' });
+    return [] as StrapiIndustryPage[];
   }
 
   const headers: Record<string, string> = {
@@ -26,26 +26,21 @@ export default defineEventHandler(async event => {
   const strapiQuery = stringify(
     {
       locale,
+      filters: {
+        showInFooter: {
+          $eq: true,
+        },
+      },
+      sort: ['footerOrder:asc', 'title:asc'],
+      pagination: {
+        page: 1,
+        pageSize: 50,
+      },
       populate: {
-        ctaSection: {
+        hero: {
           populate: {
             image: true,
-          },
-        },
-        standApartStats: {
-          populate: {
-            stats: true,
-          },
-        },
-        industryExpertiseSection: true,
-        testimonialsSection: {
-          populate: {
-            cards: true,
-          },
-        },
-        processSection: {
-          populate: {
-            steps: true,
+            categories: true,
           },
         },
       },
@@ -54,20 +49,20 @@ export default defineEventHandler(async event => {
   );
 
   try {
-    const response = await $fetch<StrapiResponse<StrapiHomePage>>(
-      `${strapiUrl}/api/home-page?${strapiQuery}`,
+    const response = await $fetch<StrapiResponse<StrapiIndustryPage[]>>(
+      `${strapiUrl}/api/industry-pages?${strapiQuery}`,
       { headers },
     );
 
-    return response?.data ?? null;
+    return response?.data ?? [];
   } catch (error) {
-    console.error('[home-page] Failed to fetch from Strapi', {
+    console.error('[industry-pages] Failed to fetch from Strapi', {
       locale,
       strapiUrl,
       hasToken: Boolean(token),
       error,
     });
 
-    return null;
+    return [] as StrapiIndustryPage[];
   }
 });

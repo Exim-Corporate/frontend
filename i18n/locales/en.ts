@@ -169,15 +169,6 @@ export default {
     feat6_desc:
       'From idea to delivery, we help you ship faster without compromising quality.',
   },
-  standApart: {
-    title: 'What Makes Us Stand Apart?',
-    items: {
-      engineers: 'Engineers in network',
-      knowHow: 'Know-how and patents secured',
-      clients: 'Clients served',
-      remote: 'Remote experts',
-    },
-  },
   services: {
     title1: 'What Kind of',
     title_span: 'Experts',
@@ -253,82 +244,6 @@ export default {
       devops: {
         title: 'DevOps Engineers',
         description: 'Streamline deployments and infrastructure.',
-      },
-    },
-  },
-  industryExpertise: {
-    title: 'Expertise',
-    button: 'Request Proposal',
-    tags: {
-      clinicalDecisionSupport: 'Clinical Decision Support',
-      patientDataAnalytics: 'Patient Data Analytics',
-      aiSupplyChain: 'AI-powered Supply Chain',
-      blockchainSaas: 'Blockchain-based SaaS',
-      aiPricing: 'AI Pricing Optimization',
-      retailAnalytics: 'Retail Analytics Platforms',
-      fraudDetection: 'Fraud Detection',
-      riskAnalytics: 'Risk Analytics',
-      adaptiveLearning: 'Adaptive Learning',
-      learningAnalytics: 'Learning Analytics',
-      predictiveMaintenance: 'Predictive Maintenance',
-      qualityAnalytics: 'Quality Analytics',
-    },
-    cards: {
-      healthcare: {
-        title: 'Healthcare',
-        description:
-          'We build secure, compliant healthcare solutions that improve patient care, streamline operations, and unlock insights from medical data. From mental health platforms to clinical decision support and predictive analytics, we help healthcare organizations innovate responsibly and scale with confidence.',
-      },
-      logistics: {
-        title: 'Logistics',
-        description:
-          'Supply chain visibility, route planning, and warehouse systems built to reduce delays and keep operations predictable.',
-      },
-      retail: {
-        title: 'Retail',
-        description:
-          'Commerce platforms, dynamic pricing, and analytics workflows that help retail teams respond faster to customer demand.',
-      },
-      finance: {
-        title: 'Finance & FinTech',
-        description:
-          'Fraud prevention, risk tooling, and financial data products designed for resilient, regulated digital services.',
-      },
-      education: {
-        title: 'Education & EdTech',
-        description:
-          'Learning products with adaptive journeys, reporting, and engagement tooling for modern digital education.',
-      },
-      manufacturing: {
-        title: 'Manufacturing',
-        description:
-          'Operational platforms that surface quality trends, maintenance signals, and production insights in real time.',
-      },
-    },
-  },
-  process: {
-    title: 'Our Outsourcing Process',
-    subtitle: 'Industry leading methodologies across every layer of development',
-    steps: {
-      estimation: {
-        title: 'Estimation',
-        description: 'We analyze your requirements and provide clear scope, timelines, and costs',
-      },
-      discovery: {
-        title: 'Discovery',
-        description: 'Deep dive into your goals, workflows, and technical needs',
-      },
-      design: {
-        title: 'Design',
-        description: 'Designing solutions tailored to your business needs',
-      },
-      development: {
-        title: 'Development',
-        description: 'Agile delivery with regular updates and feedback loops',
-      },
-      continuousSupport: {
-        title: 'Continuous Support',
-        description: 'Ongoing optimization, maintenance, and scaling as you grow',
       },
     },
   },

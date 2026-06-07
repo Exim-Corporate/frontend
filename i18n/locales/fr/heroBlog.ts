@@ -1,6 +1,6 @@
 export default {
   heroBlog: {
-    title: 'Blog : Dans les coulisses ?',
+    title: 'Blog',
     viewMore: 'Voir plus',
     empty: 'Les articles apparaîtront bientôt ici.',
   },
