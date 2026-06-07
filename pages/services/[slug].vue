@@ -10,6 +10,7 @@
       mode="service"
       :page-title="resolvedPage.title"
       :section-data="resolvedPage.serviceCardsSection"
+      :breadcrumb-items="breadcrumbItems"
     />
 
     <ServicesAboutSection
@@ -37,6 +38,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { createError, useAsyncData, useRoute, useRuntimeConfig } from 'nuxt/app';
+import { useLocalePath } from '#imports';
 import { useI18n } from 'vue-i18n';
 import CtaSection from '@/components/CtaSection.vue';
 import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
@@ -51,6 +53,7 @@ import { FAQSection, TestimonialsSection } from '#components';
 
 const route = useRoute();
 const { locale, t } = useI18n();
+const localePath = useLocalePath();
 const { fetchServicePage } = usePageContentApi();
 
 const slug = computed(() => String(route.params.slug || ''));
@@ -66,6 +69,16 @@ if (error.value || !page.value) {
 }
 
 const resolvedPage = computed<StrapiServicePage>(() => page.value as StrapiServicePage);
+
+const breadcrumbItems = computed(() => [
+  {
+    label: t('navigation.home'),
+    to: localePath('/'),
+  },
+  {
+    label: resolvedPage.value.hero?.title || resolvedPage.value.title || slug.value,
+  },
+]);
 
 const config = useRuntimeConfig();
 const siteBase = config.public.siteUrl || 'https://www.exim.eu.com';

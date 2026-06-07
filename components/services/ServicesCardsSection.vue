@@ -4,6 +4,10 @@
     class="w-full bg-white"
   >
     <div class="container">
+      <div v-if="breadcrumbItems?.length" class="mb-6">
+        <AppBreadcrumb :items="breadcrumbItems" />
+      </div>
+
       <div class="grid grid-cols-1 justify-items-center gap-8 md:grid-cols-[minmax(0,840px)_auto] md:items-start md:justify-between md:justify-items-stretch">
         <div>
           <!-- <div class="flex items-center justify-center gap-1 text-sm leading-4.25 text-text-dark/70 md:justify-start">
@@ -99,6 +103,8 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
+import AppBreadcrumb from '@/components/AppBreadcrumb.vue';
+import type { BreadcrumbItem } from '@/components/AppBreadcrumb.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import AppButton from '@/components/UI/AppButton.vue';
@@ -127,10 +133,12 @@ const props = withDefaults(defineProps<{
   mode?: 'home' | 'service';
   pageTitle?: string;
   sectionData?: StrapiServiceCardsSection | null;
+  breadcrumbItems?: BreadcrumbItem[];
 }>(), {
   mode: 'home',
   pageTitle: '',
   sectionData: null,
+  breadcrumbItems: () => [],
 });
 
 const { t } = useI18n();

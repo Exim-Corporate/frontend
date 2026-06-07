@@ -4,7 +4,8 @@
       v-if="resolvedPage.hero"
       :hero="resolvedPage.hero"
     />
-    <section v-else class="container">
+
+    <section v-if="!resolvedPage.hero" class="container">
       <BaseTitle tag="h1" variant="header56" class-name="text-text-dark dark:text-text-light">
         {{ resolvedPage.title }}
       </BaseTitle>
@@ -20,6 +21,7 @@
     <IndustryDescriptionSection
       v-if="resolvedPage.industryDescription"
       :section-data="resolvedPage.industryDescription"
+      :breadcrumb-items="breadcrumbItems"
     />
 
     <TechStackSection />
@@ -46,6 +48,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { createError, useAsyncData, useRoute, useRuntimeConfig } from 'nuxt/app';
+import { useLocalePath } from '#imports';
 import { useI18n } from 'vue-i18n';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
@@ -61,6 +64,7 @@ import { FAQSection, TestimonialsSection } from '#components';
 
 const route = useRoute();
 const { locale, t } = useI18n();
+const localePath = useLocalePath();
 const { fetchIndustryPage } = usePageContentApi();
 
 const slug = computed(() => String(route.params.slug || ''));
@@ -76,6 +80,16 @@ if (error.value || !page.value) {
 }
 
 const resolvedPage = computed<StrapiIndustryPage>(() => page.value as StrapiIndustryPage);
+
+const breadcrumbItems = computed(() => [
+  {
+    label: t('navigation.home'),
+    to: localePath('/'),
+  },
+  {
+    label: resolvedPage.value.hero?.title || resolvedPage.value.title || slug.value,
+  },
+]);
 
 const config = useRuntimeConfig();
 const siteBase = config.public.siteUrl || 'https://www.exim.eu.com';

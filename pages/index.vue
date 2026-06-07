@@ -90,7 +90,7 @@ useSEO({
     <!-- Process Section -->
     <ProcessSection />
     <IndustryExpertiseSection />
-    <CaseStudiesSection />
+    <!-- <CaseStudiesSection /> --> // Temporarily removed as per request, can be added back when needed
     <StandApartStatsSection />
     <TestimonialsSection />
     <TeamSection />

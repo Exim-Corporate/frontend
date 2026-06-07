@@ -4,7 +4,11 @@
     class="mt-6 md:mt-8"
   >
     <div class="flex flex-col gap-8 md:flex-row md:items-center md:gap-10">
-      <div class="mx-auto flex w-full max-w-md flex-col items-center gap-5 md:mx-0 md:w-2/5 md:items-start md:gap-8">
+      <div class="relative mx-auto flex w-full max-w-md flex-col items-center gap-5 pt-8 md:mx-0 md:w-2/5 md:items-start md:gap-8 md:pt-10">
+        <div class="absolute left-0 top-0">
+          <AppBreadcrumb :items="breadcrumbItems" />
+        </div>
+
         <AnimatedElement direction="bottom" :delay="100">
           <BaseTitle
             tag="h1"
@@ -90,6 +94,7 @@ import { computed } from 'vue';
 import { useLocalePath, useRuntimeConfig } from '#imports';
 import { useI18n } from 'vue-i18n';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
+import AppBreadcrumb from '@/components/AppBreadcrumb.vue';
 import type { StrapiArticle } from '@/types/strapi';
 import { normalizeImageUrl } from '@/utils/normalizeImageUrl';
 
@@ -100,7 +105,17 @@ interface BlogHeroSectionProps {
 const props = defineProps<BlogHeroSectionProps>();
 const localePath = useLocalePath();
 const config = useRuntimeConfig();
-const { locale } = useI18n();
+const { locale, t } = useI18n();
+
+const breadcrumbItems = computed(() => ([
+  {
+    label: t('navigation.home'),
+    to: localePath('/'),
+  },
+  {
+    label: t('navigation.blog'),
+  },
+]));
 
 const heroArticlePath = computed<string>(() => {
   if (!props.article) {

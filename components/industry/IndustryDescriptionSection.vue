@@ -1,14 +1,10 @@
 <template>
   <section class="container">
-    <div class="md:hidden">
-      <AnimatedElement direction="bottom">
-        <div class="flex items-center justify-center gap-1 text-sm leading-4.25 text-text-dark/70">
-          <span>{{ sectionData.eyebrowPrefix || 'Expertise' }}</span>
-          <span class="text-base leading-6">/</span>
-          <span class="font-medium text-text-dark">{{ sectionData.eyebrowCurrent || '' }}</span>
-        </div>
-      </AnimatedElement>
+    <div v-if="breadcrumbItems?.length" class="mb-6">
+      <AppBreadcrumb :items="breadcrumbItems" />
+    </div>
 
+    <div class="md:hidden">
       <AnimatedElement direction="bottom">
         <div class="mt-5 flex flex-col items-center gap-5 text-center">
           <BaseTitle tag="h2" variant="main" class-name="leading-[1.1] font-semibold">
@@ -60,14 +56,6 @@
     </div>
 
     <div class="hidden md:block">
-      <AnimatedElement direction="bottom">
-        <div class="flex items-center gap-1 text-lg leading-5.5 text-text-dark/70">
-          <span>{{ sectionData.eyebrowPrefix || 'Expertise' }}</span>
-          <span>/</span>
-          <span class="font-medium text-text-dark">{{ sectionData.eyebrowCurrent || '' }}</span>
-        </div>
-      </AnimatedElement>
-
       <AnimatedElement direction="bottom">
         <BaseTitle tag="h2" variant="main" class-name="mt-10 text-left">
           {{ sectionData.title }}
@@ -123,6 +111,8 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
+import AppBreadcrumb from '@/components/AppBreadcrumb.vue';
+import type { BreadcrumbItem } from '@/components/AppBreadcrumb.vue';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import AppAccordion from '@/components/UI/AppAccordion.vue';
 import type { AppAccordionItem } from '@/components/UI/AppAccordion.vue';
@@ -142,6 +132,7 @@ interface IndustryDescriptionAccordionItem extends AppAccordionItem {
 
 const props = defineProps<{
   sectionData: StrapiIndustryDescription;
+  breadcrumbItems?: BreadcrumbItem[];
 }>();
 
 const accordionItems = computed<IndustryDescriptionAccordionItem[]>(() => {

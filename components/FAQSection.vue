@@ -2,11 +2,16 @@
   <section id="faq" class="w-full">
     <div class="container">
       <AnimatedElement v-if="faqSection?.title" direction="bottom" :delay="100">
-        <div class="mb-10 flex flex-row items-start justify-between gap-8 md:mb-12">
+        <div class="mb-10 md:mb-12">
           <BaseTitle tag="h2" variant="main" class-name="text-left lg:text-[56px]">
             {{ faqSection?.title }}
           </BaseTitle>
-          <BaseText variant="main" className="max-w-xs text-left md:text-right">
+
+          <BaseText
+            v-if="faqSection?.description"
+            variant="main"
+            className="mt-3 max-w-md text-left font-medium text-text-secondary"
+          >
             {{ faqSection?.description }}
           </BaseText>
         </div>

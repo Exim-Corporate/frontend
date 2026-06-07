@@ -74,14 +74,7 @@
           >
             <BaseText
               variant="section"
-              class-name="text-left font-semibold uppercase tracking-widest "
-            >
-              {{ card.exampleLabel || 'EXAMPLE' }}
-            </BaseText>
-
-            <BaseText
-              variant="section"
-              class-name="mt-2 text-left "
+              class-name="text-left "
             >
               {{ card.exampleText }}
             </BaseText>

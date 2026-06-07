@@ -1,22 +1,17 @@
 <template>
   <section class="container overflow-hidden">
-    <div class="mb-6 flex flex-wrap justify-center gap-2 md:mb-8 md:justify-start">
-      <BaseChip size="small" variant="light">
-        {{ $t('referrals.hero.chips.referralProgram') }}
+    <div
+      v-if="hero.categories && hero.categories.length"
+      class="mb-6 flex flex-wrap justify-center gap-2 md:mb-8 md:justify-start"
+    >
+      <BaseChip
+        v-for="cat in hero.categories"
+        :key="cat.documentId"
+        size="small"
+        variant="light"
+      >
+        {{ cat.name }}
       </BaseChip>
-      <BaseChip size="small" variant="light">
-        {{ $t('referrals.hero.chips.partnership') }}
-      </BaseChip>
-      <template v-if="hero.categories && hero.categories.length">
-        <BaseChip
-          v-for="cat in hero.categories"
-          :key="cat.documentId"
-          size="small"
-          variant="light"
-        >
-          {{ cat.name }}
-        </BaseChip>
-      </template>
     </div>
 
     <BaseTitle
@@ -37,11 +32,12 @@
       </BaseText>
 
       <AppButton
+        v-if="hero.buttonLabel"
         class="w-full shrink-0 md:w-auto"
         scrollToContact
         scroll-target-id="calendly-booking"
       >
-        {{ hero.buttonLabel || 'Become Referral Partner' }}
+        {{ hero.buttonLabel }}
       </AppButton>
     </div>
 

@@ -20,11 +20,11 @@
     </AnimatedElement>
 
     <AnimatedElement direction="bottom">
-      <HireWhyHire
+      <!-- <HireWhyHire
         :country-name="hirePage.country?.name || 'Germany'"
         :content="whyHireContent"
         :image="whyHireImage"
-      />
+      /> -->
     </AnimatedElement>
 
     <AnimatedElement direction="bottom">
