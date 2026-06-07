@@ -39,11 +39,9 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useRuntimeConfig } from '#imports';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import ServiceCard from '@/components/UI/ServiceCard.vue';
-import { normalizeImageUrl } from '@/utils/normalizeImageUrl';
 import type { StrapiIndustryExpertiseSection, StrapiIndustryPage } from '@/types/strapi';
 
 interface Props {
@@ -53,8 +51,16 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const config = useRuntimeConfig();
-const strapiUrl = String(config.public.strapiUrl ?? '');
+const LEGACY_EXPERTISE_IMAGE_BY_SLUG: Record<string, string> = {
+  healthcare: '/images/expertise/1.webp',
+  logistics: '/images/expertise/2.webp',
+  retail: '/images/expertise/3.webp',
+  'finance-fintech': '/images/expertise/4.webp',
+  'education-edtech': '/images/expertise/5.webp',
+  manufacturing: '/images/expertise/6.webp',
+};
+
+const LEGACY_EXPERTISE_IMAGES = Object.values(LEGACY_EXPERTISE_IMAGE_BY_SLUG);
 
 interface IndustryExpertiseItem {
   key: string;
@@ -66,11 +72,14 @@ interface IndustryExpertiseItem {
 }
 
 const industryCards = computed<IndustryExpertiseItem[]>(() => {
-  return (props.industries ?? []).slice(0, 6).map(page => ({
+  return (props.industries ?? []).slice(0, 6).map((page, index) => ({
     key: page.slug,
     title: page.title,
     description: page.description ?? page.hero?.description ?? '',
-    image: normalizeImageUrl(page.hero?.image?.url ?? '', strapiUrl),
+    image:
+      LEGACY_EXPERTISE_IMAGE_BY_SLUG[page.slug] ??
+      LEGACY_EXPERTISE_IMAGES[index % LEGACY_EXPERTISE_IMAGES.length] ??
+      LEGACY_EXPERTISE_IMAGES[0],
     tags: page.hero?.categories?.map(category => category.name) ?? [],
     linkTo: `/industry/${page.slug}`,
   }));

@@ -35,6 +35,15 @@
             :link-to="`/services/${card.slug}`"
             link-label="Read more"
           />
+          <ServiceIconCard
+            v-else-if="card.icon"
+            class="h-full"
+            :title="card.title"
+            :description="card.description"
+            :icon="card.icon"
+            :link-to="`/services/${card.slug}`"
+            link-label="Read more"
+          />
           <ServiceTextCard
             v-else
             class="h-full"
@@ -55,6 +64,7 @@ import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import AppButton from '@/components/UI/AppButton.vue';
 import ServiceCard from '@/components/UI/ServiceCard.vue';
+import ServiceIconCard from '@/components/UI/ServiceIconCard.vue';
 import ServiceTextCard from '@/components/UI/ServiceTextCard.vue';
 import { useContactModal } from '@/composables/useContactModal';
 import type { StrapiServicePage, StrapiServicesProvideSection } from '@/types/strapi';
@@ -71,12 +81,19 @@ const props = defineProps<Props>();
 interface ServicesProvideCard extends Omit<StrapiServicePage, 'description'> {
   description: string;
   backgroundImage?: string;
+  icon?: string;
 }
 
-const BACKGROUND_IMAGE_BY_SLUG: Record<string, string> = {
-  'web-application-development': '/images/services/Card3bg.webp',
-  'mobile-development': '/images/services/Card4bg.webp',
-  'virtual-cto': '/images/services/Card8bg.webp',
+const BACKGROUND_IMAGE_BY_INDEX: Record<number, string> = {
+  3: '/images/services/Card3bg.webp',
+  4: '/images/services/Card4bg.webp',
+  8: '/images/services/Card8bg.webp',
+};
+
+const ICON_BY_INDEX: Record<number, string> = {
+  0: '/images/services/Card1Icon.svg',
+  4: '/images/services/Card2Icon.svg',
+  8: '/images/services/Card3Icon.svg',
 };
 
 const cards = computed<ServicesProvideCard[]>(() => {
@@ -85,10 +102,11 @@ const cards = computed<ServicesProvideCard[]>(() => {
     const orderB = typeof b.headerOrder === 'number' ? b.headerOrder : Number.MAX_SAFE_INTEGER;
     if (orderA !== orderB) return orderA - orderB;
     return a.title.localeCompare(b.title);
-  }).map(service => ({
-    ...service,
-    description: service.description ?? '',
-    backgroundImage: BACKGROUND_IMAGE_BY_SLUG[service.slug],
-  }));
+  }).map((service, index) => ({
+      ...service,
+      description: service.description ?? '',
+      backgroundImage: BACKGROUND_IMAGE_BY_INDEX[index + 1],
+      icon: ICON_BY_INDEX[index],
+    }));
 });
 </script>
