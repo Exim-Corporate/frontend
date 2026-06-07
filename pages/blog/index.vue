@@ -64,8 +64,9 @@
       </template>
     </section>
 
-    <CtaSection :section-data="blogCtaData" />
+    <CtaSection :section-data="blogCtaData" scroll-target-id="calendly-booking" />
     <FAQSection />
+    <CalendlyBookingSection section-id="calendly-booking" />
   </main>
 </template>
 
@@ -81,6 +82,7 @@ import ArticlePagination from '@/components/blog/ArticlePagination.vue';
 import AppLoader from '@/components/UI/AppLoader.vue';
 import CtaSection from '@/components/CtaSection.vue';
 import FAQSection from '@/components/FAQSection.vue';
+import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
 import type { StrapiArticle, StrapiBlogPage, StrapiCtaSection } from '@/types/strapi';
 import { AnimatedElement } from '#components';
 
@@ -205,8 +207,8 @@ const onPageChange = (page: number): void => {
 const ctaData = computed<StrapiCtaSection>(() => ({
   title: t('cta.title'),
   description: t('cta.description'),
-  buttonText: t('cta.button'),
-  buttonUrl: '/#contact-us',
+  buttonText: t('booking.bookCall'),
+  buttonUrl: '#calendly-booking',
 }));
 
 const { data: blogPage } = await useAsyncData(
@@ -225,7 +227,7 @@ const blogCtaData = computed<StrapiCtaSection>(
 );
 
 useSEO({
-  title: t('blog.title'),
+  title: t('navigation.blog'),
   description: t('blog.description'),
 });
 </script>

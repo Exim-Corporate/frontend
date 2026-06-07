@@ -11,6 +11,7 @@ export default {
   booking: {
     title: 'Lassen Sie uns sprechen',
     description: 'Wählen Sie einen passenden Zeitpunkt und buchen Sie Ihre Beratung direkt auf unserer Website.',
+    bookCall: 'Termin buchen',
     loading: 'Buchungskalender wird geladen...',
     helper: 'Sie können das Gespräch vereinbaren, ohne diese Seite zu verlassen.',
     unavailable: 'Die Buchung ist derzeit nicht verfügbar. Bitte nutzen Sie das Kontaktformular oder schreiben Sie uns direkt per E-Mail.',

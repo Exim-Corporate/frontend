@@ -9,6 +9,7 @@ export default {
   booking: {
     title: 'Parlons-en',
     description: 'Choisissez un créneau qui vous convient et réservez une consultation directement sur notre site.',
+    bookCall: 'Réserver un appel',
     loading: 'Chargement du calendrier de réservation...',
     helper: 'Vous pouvez planifier la réunion sans quitter cette page.',
     unavailable: 'La réservation est momentanément indisponible. Veuillez utiliser le formulaire de contact ou nous écrire directement.',

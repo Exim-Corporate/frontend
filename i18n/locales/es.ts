@@ -11,6 +11,7 @@ export default {
   booking: {
     title: 'Hablemos',
     description: 'Elige un horario conveniente y reserva una consulta directamente en nuestro sitio.',
+    bookCall: 'Reservar una llamada',
     loading: 'Cargando calendario de reservas...',
     helper: 'Puedes programar la reunión sin salir de esta página.',
     unavailable: 'La reserva no está disponible temporalmente. Usa el formulario de contacto o escríbenos por correo.',

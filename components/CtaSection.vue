@@ -15,8 +15,16 @@
               {{ sectionData.title }}
             </BaseTitle>
 
-            <div v-if="sectionData.buttonText && buttonHref" class="shrink-0 md:self-start">
-              <NuxtLink :to="buttonHref" @click="handleButtonClick">
+            <div v-if="sectionData.buttonText && (isLocalScroll || buttonHref)" class="shrink-0 md:self-start">
+              <AppButton
+                v-if="isLocalScroll"
+                variant="white"
+                @click="handleButtonClick"
+              >
+                {{ sectionData.buttonText }}
+              </AppButton>
+
+              <NuxtLink v-else :to="buttonHref">
                 <AppButton variant="white">
                   {{ sectionData.buttonText }}
                 </AppButton>
@@ -63,9 +71,24 @@ const props = defineProps<{
 
 const { open: openContactModal } = useContactModal();
 
-const buttonHref = computed(() => {
+const localScrollTargetId = computed(() => {
   if (props.scrollTargetId) {
-    return `#${props.scrollTargetId}`;
+    return props.scrollTargetId;
+  }
+
+  const buttonUrl = props.sectionData.buttonUrl?.trim();
+  if (!buttonUrl || !buttonUrl.startsWith('#')) {
+    return '';
+  }
+
+  return buttonUrl.slice(1);
+});
+
+const isLocalScroll = computed(() => Boolean(localScrollTargetId.value));
+
+const buttonHref = computed(() => {
+  if (isLocalScroll.value) {
+    return `#${localScrollTargetId.value}`;
   }
 
   return props.sectionData.buttonUrl || '';
@@ -79,20 +102,18 @@ const imageSrc = computed(() => {
 
 const imageAlt = computed(() => props.sectionData.imageAlt || props.sectionData.title);
 
-const handleButtonClick = (event: MouseEvent) => {
-  if (!props.scrollTargetId || import.meta.server) {
+const handleButtonClick = () => {
+  if (import.meta.server || !localScrollTargetId.value) {
     return;
   }
 
-  const target = document.getElementById(props.scrollTargetId);
+  const target = document.getElementById(localScrollTargetId.value);
 
   if (!target) {
-    event.preventDefault();
     openContactModal('cta-button');
     return;
   }
 
-  event.preventDefault();
   target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 };
 

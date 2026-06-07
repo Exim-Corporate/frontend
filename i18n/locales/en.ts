@@ -13,6 +13,7 @@ export default {
   booking: {
     title: "Let's Talk",
     description: 'Choose a convenient time and book a consultation directly on our site.',
+    bookCall: 'Book a call',
     loading: 'Loading booking calendar...',
     helper: 'You can schedule the meeting without leaving this page.',
     unavailable: 'Booking is temporarily unavailable. Please use the contact form or email us directly.',

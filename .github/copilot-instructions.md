@@ -185,3 +185,24 @@ Use this exact sequence whenever adding a new Strapi-backed CTA section to `indu
 2. Validate the page fetch still resolves on SSR/ISR paths.
 3. Validate TypeScript after updating Strapi typings.
 4. Validate fallback image rendering when CTA image is absent.
+
+## 13) Strapi Content Update Procedure (REST API)
+Use this when updating CTA content values (e.g., `buttonText`, `buttonUrl`) for localized pages.
+
+1. **Read first (published + locale):**
+  - `GET /api/service-pages?locale=<loc>&status=published&populate[ctaSection][populate][image]=true`
+  - `GET /api/industry-pages?locale=<loc>&status=published&populate[ctaSection][populate][image]=true`
+  - `GET /api/blog-page?locale=<loc>&populate[ctaSection][populate][image]=true`
+2. **Sanitize component payload before update:**
+  - Remove system fields from `ctaSection`: `id`, `documentId`, timestamps, locale.
+  - Keep content fields (`title`, `description`, `image`, `imageAlt`) and override only required fields.
+3. **Update with locale + status query params (for collection types):**
+  - `PUT /api/service-pages/<documentId>?locale=<loc>&status=published`
+  - `PUT /api/industry-pages/<documentId>?locale=<loc>&status=published`
+  - `PUT /api/blog-page?locale=<loc>` (single type)
+4. **Use explicit values for CTA behavior:**
+  - `ctaSection.buttonText = "Book a call"`
+  - `ctaSection.buttonUrl = "#calendly-booking"`
+5. **Validate after write (all locales):**
+  - Re-fetch each endpoint and assert `ctaSection.buttonText` and `ctaSection.buttonUrl` are updated.
+  - Validate frontend receives values through internal server routes (`/api/service-pages/[slug]`, `/api/industry-pages/[slug]`, `/api/blog-page`).
