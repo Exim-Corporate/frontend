@@ -1,11 +1,11 @@
 <template>
-  <span ref="rootEl" class="inline-flex items-baseline">
-    <span v-if="parsed.prefix" class="whitespace-pre">{{ parsed.prefix }}</span>
+  <span ref="rootEl" class="inline wrap-break-word">
+    <span v-if="parsed.prefix" class="whitespace-normal">{{ parsed.prefix }}</span>
 
     <span v-if="parsed.isNumeric">{{ animatedValue }}</span>
-    <span v-else class="whitespace-pre">{{ textValue }}</span>
+    <span v-else class="whitespace-normal">{{ textValue }}</span>
 
-    <span v-if="parsed.suffix" class="whitespace-pre">{{ parsed.suffix }}</span>
+    <span v-if="parsed.suffix" class="whitespace-normal">{{ parsed.suffix }}</span>
   </span>
 </template>
 

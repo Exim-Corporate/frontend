@@ -1,7 +1,7 @@
 <template>
   <section class="container">
-    <div class="flex flex-col gap-10 md:flex-row items-center md:items-start md:gap-10">
-      <div class="md:basis-[35%] md:pr-4">
+    <div class="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-10">
+      <div class="lg:basis-[40%] lg:pr-4">
         <AnimatedElement :delay="80">
           <div>
           <BaseTitle
@@ -22,7 +22,7 @@
 
           <AppButton
             class="mt-10 w-full md:w-auto"
-            @click="openContactModal('cta-button')"
+            @click="scrollToCalendly"
           >
             {{ resolvedButtonText }}
           </AppButton>
@@ -30,7 +30,7 @@
         </AnimatedElement>
       </div>
 
-      <div class="md:basis-[65%]">
+      <div class="lg:flex-1">
         <AnimatedElement>
           <BaseText
             v-if="sectionData.description"
@@ -88,7 +88,6 @@ import AppButton from '@/components/UI/AppButton.vue';
 import AppIcon from '@/components/UI/AppIcon.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
-import { useContactModal } from '@/composables/useContactModal';
 import type { StrapiServiceAboutSection } from '@/types/strapi';
 
 const props = defineProps<{
@@ -96,7 +95,6 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
-const { open: openContactModal } = useContactModal();
 
 const resolvedButtonText = computed(() => {
   return props.sectionData.buttonText?.trim() || t('servicesProvide.button');
@@ -105,4 +103,11 @@ const resolvedButtonText = computed(() => {
 const limitedItems = computed(() => {
   return (props.sectionData.accordions || []).slice(0, 4);
 });
+
+const scrollToCalendly = () => {
+  document.getElementById('calendly-booking')?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start',
+  });
+};
 </script>

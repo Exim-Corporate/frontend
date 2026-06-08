@@ -23,14 +23,14 @@
           <article class="flex flex-col gap-2 md:gap-4">
             <BaseText
               variant="main"
-              class-name="text-left text-[36px] leading-11 font-light text-text-dark md:text-[48px] md:leading-14.5"
+              class-name="text-left text-[36px] leading-11 font-light text-text-dark md:text-[48px] md:leading-14.5 break-words"
             >
               <AnimatedCounterValue :value="item.title" />
             </BaseText>
             <BaseText
               v-if="item.description"
               variant="main"
-              class-name="text-left text-[16px] leading-7 font-light text-text-dark md:text-[20px] md:leading-8"
+              class-name="text-left text-[16px] leading-7 font-light text-text-dark md:text-[20px] md:leading-8 break-words"
             >
               {{ item.description }}
             </BaseText>
