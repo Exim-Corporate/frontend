@@ -72,8 +72,7 @@ const renderedContent = computed(() => {
   max-width: 100%;
   max-height: 450px;
   height: auto;
-  width: 100%;
-  border-radius: 0.5rem;
+  border-radius: 16px;
   margin: 1rem 0;
   display: block;
   aspect-ratio: 16/9;
