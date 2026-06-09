@@ -1,9 +1,10 @@
 import { useRuntimeConfig } from '#imports';
-import { defineEventHandler, createError, getQuery } from 'h3';
+import { createError, getQuery } from 'h3';
+import { defineCachedEventHandler } from 'nitropack/runtime';
 import { stringify } from 'qs';
 import type { StrapiHeaderNavigation, StrapiSingleResponse } from '@/types/strapi';
 
-export default defineEventHandler(async event => {
+export default defineCachedEventHandler(async event => {
   const queryParams = getQuery(event);
   const locale = typeof queryParams.locale === 'string' ? queryParams.locale : undefined;
 
@@ -79,4 +80,8 @@ export default defineEventHandler(async event => {
   } catch {
     return { id: 0 } as StrapiHeaderNavigation;
   }
+}, {
+  maxAge: 60,
+  swr: true,
+  getKey: event => `header-navigation:${String(getQuery(event).locale || 'en')}`,
 });

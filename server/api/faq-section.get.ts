@@ -1,8 +1,9 @@
 import { useRuntimeConfig } from '#imports';
-import { createError, defineEventHandler, getQuery } from 'h3';
+import { createError, getQuery } from 'h3';
+import { defineCachedEventHandler } from 'nitropack/runtime';
 import type { StrapiFaqSection, StrapiSingleResponse } from '@/types/strapi';
 
-export default defineEventHandler(async event => {
+export default defineCachedEventHandler(async event => {
   const query = getQuery(event);
   const locale = typeof query.locale === 'string' ? query.locale : undefined;
 
@@ -23,12 +24,6 @@ export default defineEventHandler(async event => {
   }
 
   const fetchFaqSection = async (requestedLocale?: string) => {
-    console.info('[faq-section] Fetching', {
-      url: `${strapiUrl}/api/faq-section`,
-      tokenPrefix: token ? token.slice(0, 10) + '...' : 'NO_TOKEN',
-      locale: requestedLocale,
-      populate: '*',
-    });
     return await $fetch<StrapiSingleResponse<StrapiFaqSection>>(
       `${strapiUrl}/api/faq-section`,
       {
@@ -59,4 +54,8 @@ export default defineEventHandler(async event => {
 
     return null;
   }
+}, {
+  maxAge: 300, // FAQ rarely changes — 5 min TTL
+  swr: true,
+  getKey: event => `faq-section:${String(getQuery(event).locale || 'en')}`,
 });

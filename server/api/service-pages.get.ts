@@ -3,7 +3,7 @@ import { defineEventHandler, getQuery } from 'h3';
 import { stringify } from 'qs';
 import type { StrapiResponse, StrapiServicePage } from '@/types/strapi';
 
-export default defineEventHandler(async event => {
+export default defineCachedEventHandler(async event => {
   const query = getQuery(event);
   const locale = typeof query.locale === 'string' ? query.locale : undefined;
 
@@ -54,4 +54,8 @@ export default defineEventHandler(async event => {
 
     return [] as StrapiServicePage[];
   }
+}, {
+  maxAge: 60,
+  swr: true,
+  getKey: event => `service-pages:${String(getQuery(event).locale || 'en')}`,
 });

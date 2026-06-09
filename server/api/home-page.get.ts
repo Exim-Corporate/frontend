@@ -3,7 +3,10 @@ import { createError, defineEventHandler, getQuery } from 'h3';
 import { stringify } from 'qs';
 import type { StrapiResponse, StrapiHomePage } from '@/types/strapi';
 
-export default defineEventHandler(async event => {
+// Cache Strapi responses in Nitro memory so Railway is not hit on every SSR/payload request.
+// TTL: 60s fresh + SWR (serve stale while revalidating in background).
+// Cache is cleared by /api/revalidate on Strapi webhook.
+export default defineCachedEventHandler(async event => {
   const query = getQuery(event);
   const locale = typeof query.locale === 'string' ? query.locale : undefined;
 
@@ -78,4 +81,8 @@ export default defineEventHandler(async event => {
 
     return null;
   }
+}, {
+  maxAge: 60,
+  swr: true,
+  getKey: event => `home-page:${String(getQuery(event).locale || 'en')}`,
 });

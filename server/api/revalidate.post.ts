@@ -46,6 +46,7 @@
  */
 
 import { defineEventHandler, createError, getHeader, readBody } from 'h3';
+import { useStorage } from 'nitropack/runtime';
 
 const SECRET       = process.env.REVALIDATE_SECRET || '';
 const BYPASS_TOKEN = process.env.VERCEL_BYPASS_TOKEN || '';
@@ -118,6 +119,17 @@ export default defineEventHandler(async event => {
   const baseUrl = SITE_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '');
   if (!baseUrl) {
     throw createError({ statusCode: 500, message: 'NUXT_PUBLIC_SITE_URL env var is not set' });
+
+  // ── Clear Nitro server-side API cache ─────────────────────────────────────
+  // defineCachedEventHandler stores responses in Nitro's in-memory cache.
+  // Without clearing it, ISR revalidation would still serve stale Strapi data
+  // for up to the cache TTL even after new content is published.
+  try {
+    const storage = useStorage('cache:nitro:handlers');
+    await storage.clear();
+  } catch {
+    // Non-fatal: cache will expire via TTL anyway. Don't block revalidation.
+  }
   }
 
   // ── Parse Strapi webhook body ─────────────────────────────────────────────
