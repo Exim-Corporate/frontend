@@ -238,13 +238,16 @@ export default {
   },
 
   aos: {
-    duration: 400,       // Was 850 — heavy on mobile CPUs
+    duration: 150,
     easing: 'ease-out',
     offset: 40,
     anchorPlacement: 'top-bottom',
-    once: true,          // Only animate once — saves repaints
-    mirror: false,       // Was true — caused re-animations and extra reflows
-    disable: 'phone',   // Disable JS animations entirely on phones (< 480px)
+    once: true,
+    mirror: false,
+    // NOTE: do NOT set disable: 'phone' — AOS CSS pre-sets opacity:0 on all [data-aos]
+    // elements. If AOS is disabled it never adds .aos-animate → entire page stays invisible
+    // on real mobile devices (white page bug). DevTools simulation hides this because AOS
+    // already initialised in desktop mode before the viewport was resized.
   },
 
   i18n: {
