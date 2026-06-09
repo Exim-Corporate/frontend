@@ -56,7 +56,7 @@ const emailStyles = {
   // Steps list
   stepsList: 'margin: 0;',
   stepItem:
-    'margin-bottom: 12px; padding: 14px 12px; display: table; width: 100%; box-sizing: border-box; background-color: #f5f7fa; border-left: 4px solid #000000; border-radius: 8px;',
+    'margin-bottom: 12px; padding: 14px 12px; display: table; width: 100%; box-sizing: border-box; background-color: #eef2f9; border-left: 4px solid #000000; border-radius: 8px;',
   stepNumber:
     'background-color: #000000; color: #ffffff; border-radius: 50%; width: 32px; min-width: 32px; max-width: 32px; height: 32px; min-height: 32px; max-height: 32px; display: inline-block; line-height: 32px; text-align: center; font-weight: 700; font-size: 16px; vertical-align: top;',
   stepText:
@@ -233,6 +233,7 @@ export function renderUserContactEmail(contactData: ContactData, t: TranslationF
                     <span style="${emailStyles.infoValue}">${nl2br(contactData.projectInformation)}</span>
                     </div>
                     </div>
+
                     <p style="${emailStyles.intro}">
                         ${t('contactMail.user.responseTimeDetails')}
                     </p>
