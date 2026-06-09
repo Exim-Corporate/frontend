@@ -64,7 +64,7 @@ const emailStyles = {
   
   // Info grid
   infoGrid:
-    'background-color: #f5f7fa; border-radius: 8px; padding: 20px; text-align: left; border-left: 4px solid #000000;',
+    'background-color: #eef2f9; border-radius: 8px; padding: 20px; text-align: left; border-left: 4px solid #000000;',
   infoItem: 'margin-bottom: 12px; padding: 0;',
   infoLabel: 'font-weight: 700; color: #000000; display: inline-block;',
   infoValue: 'color: #666666; margin-left: 8px;',
@@ -233,7 +233,7 @@ export function renderUserContactEmail(contactData: ContactData, t: TranslationF
                     <span style="${emailStyles.infoValue}">${nl2br(contactData.projectInformation)}</span>
                     </div>
                     </div>
-
+                    <br/>
                     <p style="${emailStyles.intro}">
                         ${t('contactMail.user.responseTimeDetails')}
                     </p>
