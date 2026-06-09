@@ -62,7 +62,7 @@
           </Transition>
 
           <!-- Calendly widget container — populated by initInlineWidget on mount -->
-          <div ref="calendlyContainer" class="w-full rounded-3xl bg-white" />
+          <div ref="calendlyContainer" class="w-full rounded-3xl bg-white min-h-157.5" />
         </div>
       </div>
 
@@ -111,6 +111,8 @@ const shouldLoadWidget = ref(false);
 const isWidgetInitialized = ref(false);
 let sectionObserver: IntersectionObserver | null = null;
 let fallbackTimer: number | null = null;
+// Fallback if IntersectionObserver never fires on iOS Safari (rootMargin bugs)
+let ioFallbackTimer: number | null = null;
 
 const { data: calendlyContent, pending } = await useAsyncData<StrapiMainCalendly | null>(
   () => 'main-calendly',
@@ -297,6 +299,13 @@ onMounted(() => {
   fallbackTimer = window.setTimeout(() => {
     widgetLoading.value = false;
   }, 8000);
+
+  // Mobile fallback: IntersectionObserver with rootMargin can be unreliable on
+  // iOS Safari. If the widget hasn't been triggered after 6s, force-load it.
+  // requestCalendlyLoad() is idempotent — safe to call even if IO already fired.
+  ioFallbackTimer = window.setTimeout(() => {
+    requestCalendlyLoad();
+  }, 6000);
 });
 
 onUnmounted(() => {
@@ -306,6 +315,10 @@ onUnmounted(() => {
   if (fallbackTimer !== null) {
     window.clearTimeout(fallbackTimer);
     fallbackTimer = null;
+  }
+  if (ioFallbackTimer !== null) {
+    window.clearTimeout(ioFallbackTimer);
+    ioFallbackTimer = null;
   }
 });
 </script>

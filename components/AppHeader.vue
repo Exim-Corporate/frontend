@@ -151,7 +151,20 @@
             <h4 v-if="item.sectionHeading" class="px-2 pb-1 pt-6 text-sm font-semibold text-text-dark">
               {{ item.label }}
             </h4>
-            <NuxtLink v-else-if="item.route" :to="item.route" class="block" @click="drawerVisible = false">
+            <NuxtLink
+              v-else-if="item.route && !item.subtext"
+              :to="item.route"
+              class="flex w-full items-center justify-between px-2 py-3 text-base font-medium text-text-dark"
+              @click="drawerVisible = false"
+            >
+              {{ item.label }}
+            </NuxtLink>
+            <NuxtLink
+              v-else-if="item.route"
+              :to="item.route"
+              class="block"
+              @click="drawerVisible = false"
+            >
               <ArticleCard
                 :article="{ title: String(item.label ?? ''), description: item.subtext }"
                 as="div"
@@ -172,7 +185,7 @@
         </PanelMenu>
 
         <div class="mt-auto pt-6">
-          <AppButton class="w-full" severity="contrast" @click="handleMobileContactClick">
+          <AppButton class="w-full!" severity="contrast" @click="handleMobileContactClick">
             {{ $t('header.contactUs') }}
           </AppButton>
         </div>
