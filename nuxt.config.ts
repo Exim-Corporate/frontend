@@ -42,23 +42,61 @@ export default {
     },
   },
 
-  // ISR: Vercel caches rendered pages at the edge and revalidates in the background.
-  // This dramatically reduces TTFB for returning visitors (from ~1-3s to <100ms).
-  // isr: N means revalidate at most every N seconds. Strapi content changes
-  // will appear within the revalidation window.
+  // ISR (Incremental Static Regeneration):
+  // Vercel renders the page once, caches it at the edge (CDN) globally, serves from cache.
+  // isr: N = background revalidation every N seconds (SWR pattern).
+  // isr: true = cache forever until on-demand revalidation via /api/revalidate.
+  //
+  // WHY NOT prerender: true — @nuxtjs/sitemap used to trigger prerender at build time,
+  // baking stale _payload.json static files that Vercel served forever regardless of ISR.
+  // With isr: N there are NO static files generated → _payload.json bug is gone.
+  //
+  // ON-DEMAND REVALIDATION: Configure Strapi webhook → POST /api/revalidate
+  // (see server/api/revalidate.post.ts for full instructions)
   routeRules: {
-    '/': { isr: 3600 },       // Revalidate every hour
-    '/de': { isr: 3600 },
-    '/fr': { isr: 3600 },
-    '/es': { isr: 3600 },
-    '/blog': { isr: 1800 },   // Revalidate every 30 min (articles update more often)
-    '/de/blog': { isr: 1800 },
-    '/fr/blog': { isr: 1800 },
-    '/es/blog': { isr: 1800 },
-    '/referrals': { isr: 86400 }, // Revalidate once a day
-    '/de/referrals': { isr: 86400 },
-    '/fr/referrals': { isr: 86400 },
-    '/es/referrals': { isr: 86400 },
+    // --- Truly static pages: prerender once at build, content never changes ---
+    '/privacy': { prerender: true },
+    '/terms': { prerender: true },
+    '/cookie-policy': { prerender: true },
+    '/impressum': { prerender: true },
+    '/referral-program': { prerender: true },
+
+    // --- Dynamic pages: ISR 1 month. On-demand revalidation via Strapi webhook. ---
+    // Home
+    '/': { isr: 2592000 },
+    '/de': { isr: 2592000 },
+    '/fr': { isr: 2592000 },
+    '/es': { isr: 2592000 },
+    // Blog index
+    '/blog': { isr: 2592000 },
+    '/de/blog': { isr: 2592000 },
+    '/fr/blog': { isr: 2592000 },
+    '/es/blog': { isr: 2592000 },
+    // Blog articles — THIS is why clicking a blog link was slow (was missing entirely)
+    '/blog/**': { isr: 2592000 },
+    '/de/blog/**': { isr: 2592000 },
+    '/fr/blog/**': { isr: 2592000 },
+    '/es/blog/**': { isr: 2592000 },
+    // Service pages
+    '/services/**': { isr: 2592000 },
+    '/de/services/**': { isr: 2592000 },
+    '/fr/services/**': { isr: 2592000 },
+    '/es/services/**': { isr: 2592000 },
+    // Industry pages
+    '/industry/**': { isr: 2592000 },
+    '/de/industry/**': { isr: 2592000 },
+    '/fr/industry/**': { isr: 2592000 },
+    '/es/industry/**': { isr: 2592000 },
+    // Hire pages
+    '/hire/**': { isr: 2592000 },
+    '/de/hire/**': { isr: 2592000 },
+    '/fr/hire/**': { isr: 2592000 },
+    '/es/hire/**': { isr: 2592000 },
+    // Referrals
+    '/referrals': { isr: 2592000 },
+    '/de/referrals': { isr: 2592000 },
+    '/fr/referrals': { isr: 2592000 },
+    '/es/referrals': { isr: 2592000 },
   },
 
   nitro: {
