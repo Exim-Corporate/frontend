@@ -37,29 +37,28 @@ export default {
         '@vuelidate/core',
         '@vuelidate/validators',
         'vue3-carousel-3d',
-        'vue-star-rating',
         'qs',
       ],
     },
   },
 
-  // Vercel runtime: SSR only, no ISR/cache for public pages.
-  // Prevent @nuxtjs/sitemap from prerendering pages that fetch live Strapi data.
-  // Without this, the module bakes stale build-time _payload.json files which
-  // Vercel serves as static assets — Strapi changes are never reflected until redeploy.
+  // ISR: Vercel caches rendered pages at the edge and revalidates in the background.
+  // This dramatically reduces TTFB for returning visitors (from ~1-3s to <100ms).
+  // isr: N means revalidate at most every N seconds. Strapi content changes
+  // will appear within the revalidation window.
   routeRules: {
-    '/': { prerender: false },
-    '/de': { prerender: false },
-    '/fr': { prerender: false },
-    '/es': { prerender: false },
-    '/blog': { prerender: false },
-    '/de/blog': { prerender: false },
-    '/fr/blog': { prerender: false },
-    '/es/blog': { prerender: false },
-    '/referrals': { prerender: false },
-    '/de/referrals': { prerender: false },
-    '/fr/referrals': { prerender: false },
-    '/es/referrals': { prerender: false },
+    '/': { isr: 3600 },       // Revalidate every hour
+    '/de': { isr: 3600 },
+    '/fr': { isr: 3600 },
+    '/es': { isr: 3600 },
+    '/blog': { isr: 1800 },   // Revalidate every 30 min (articles update more often)
+    '/de/blog': { isr: 1800 },
+    '/fr/blog': { isr: 1800 },
+    '/es/blog': { isr: 1800 },
+    '/referrals': { isr: 86400 }, // Revalidate once a day
+    '/de/referrals': { isr: 86400 },
+    '/fr/referrals': { isr: 86400 },
+    '/es/referrals': { isr: 86400 },
   },
 
   nitro: {
@@ -197,11 +196,13 @@ export default {
   },
 
   aos: {
-    duration: 850,
-    easing: 'ease-in-out',
-    offset: 60,
+    duration: 400,       // Was 850 — heavy on mobile CPUs
+    easing: 'ease-out',
+    offset: 40,
     anchorPlacement: 'top-bottom',
-    mirror: true,
+    once: true,          // Only animate once — saves repaints
+    mirror: false,       // Was true — caused re-animations and extra reflows
+    disable: 'phone',   // Disable JS animations entirely on phones (< 480px)
   },
 
   i18n: {
@@ -347,6 +348,10 @@ export default {
         // Favicon
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/images/logoPic.webp' },
+        // Preconnect to external origins used on every page — reduces DNS+TCP+TLS latency
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        { rel: 'dns-prefetch', href: process.env.STRAPI_URL || 'http://localhost:1337' },
       ],
     },
     pageTransition: {

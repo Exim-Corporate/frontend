@@ -4,11 +4,12 @@
       :src="member.imageSrc"
       :alt="member.name"
       class="absolute inset-0 h-full w-full object-cover object-top grayscale-75"
+      sizes="sm:100vw md:50vw lg:640px"
       width="640"
       height="740"
       loading="lazy"
       format="webp"
-      quality="90"
+      quality="80"
     />
 
     <div class="absolute inset-0 bg-linear-to-t from-text-dark/20 via-text-dark/20 to-text-dark/20" />

@@ -1,5 +1,5 @@
 <template>
-  <section class="w-full min-h-150">
+  <section class="w-full min-h-75 md:min-h-150">
     <div class="container mx-auto">
       <AnimatedElement direction="bottom" :delay="100">
         <BaseTitle tag="h2" variant="main" class-name="text-center">
