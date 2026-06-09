@@ -522,6 +522,10 @@ export default {
       footerText: 'Best regards, The AS Exim Team',
     },
   },
+  homeSeo: {
+    title: 'AS Exim — Strategic Technology Partner',
+    description: 'We help ambitious companies build and scale digital products — from AI-driven solutions and cloud architecture to full-cycle custom software development. Pre-vetted engineers, senior technical leadership, 48-hour estimates.',
+  },
   referrals: referralsTranslations.referrals,
   caseStudies: caseStudiesTranslations.caseStudies,
 };

@@ -530,6 +530,10 @@ export default {
       footerText: 'Saludos cordiales, El equipo de AS Exim',
     },
   },
+  homeSeo: {
+    title: 'AS Exim — Socio Tecnológico Estratégico',
+    description: 'Ayudamos a empresas ambiciosas a construir y escalar productos digitales — desde soluciones impulsadas por IA y arquitectura cloud hasta desarrollo de software a medida. Ingenieros preseleccionados, liderazgo técnico senior, presupuestos en 48 horas.',
+  },
   referrals: {
     form: {
       full_name: 'Nombre completo',

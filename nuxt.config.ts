@@ -37,29 +37,66 @@ export default {
         '@vuelidate/core',
         '@vuelidate/validators',
         'vue3-carousel-3d',
-        'vue-star-rating',
         'qs',
       ],
     },
   },
 
-  // Vercel runtime: SSR only, no ISR/cache for public pages.
-  // Prevent @nuxtjs/sitemap from prerendering pages that fetch live Strapi data.
-  // Without this, the module bakes stale build-time _payload.json files which
-  // Vercel serves as static assets — Strapi changes are never reflected until redeploy.
+  // ISR (Incremental Static Regeneration):
+  // Vercel renders the page once, caches it at the edge (CDN) globally, serves from cache.
+  // isr: N = background revalidation every N seconds (SWR pattern).
+  // isr: true = cache forever until on-demand revalidation via /api/revalidate.
+  //
+  // WHY NOT prerender: true — @nuxtjs/sitemap used to trigger prerender at build time,
+  // baking stale _payload.json static files that Vercel served forever regardless of ISR.
+  // With isr: N there are NO static files generated → _payload.json bug is gone.
+  //
+  // ON-DEMAND REVALIDATION: Configure Strapi webhook → POST /api/revalidate
+  // (see server/api/revalidate.post.ts for full instructions)
   routeRules: {
-    '/': { prerender: false },
-    '/de': { prerender: false },
-    '/fr': { prerender: false },
-    '/es': { prerender: false },
-    '/blog': { prerender: false },
-    '/de/blog': { prerender: false },
-    '/fr/blog': { prerender: false },
-    '/es/blog': { prerender: false },
-    '/referrals': { prerender: false },
-    '/de/referrals': { prerender: false },
-    '/fr/referrals': { prerender: false },
-    '/es/referrals': { prerender: false },
+    // --- Truly static pages: prerender once at build, content never changes ---
+    '/privacy': { prerender: true },
+    '/terms': { prerender: true },
+    '/cookie-policy': { prerender: true },
+    '/impressum': { prerender: true },
+    '/referral-program': { prerender: true },
+
+    // --- Dynamic pages: ISR 1 month. On-demand revalidation via Strapi webhook. ---
+    // Home
+    '/': { isr: 2592000 },
+    '/de': { isr: 2592000 },
+    '/fr': { isr: 2592000 },
+    '/es': { isr: 2592000 },
+    // Blog index
+    '/blog': { isr: 2592000 },
+    '/de/blog': { isr: 2592000 },
+    '/fr/blog': { isr: 2592000 },
+    '/es/blog': { isr: 2592000 },
+    // Blog articles — THIS is why clicking a blog link was slow (was missing entirely)
+    '/blog/**': { isr: 2592000 },
+    '/de/blog/**': { isr: 2592000 },
+    '/fr/blog/**': { isr: 2592000 },
+    '/es/blog/**': { isr: 2592000 },
+    // Service pages
+    '/services/**': { isr: 2592000 },
+    '/de/services/**': { isr: 2592000 },
+    '/fr/services/**': { isr: 2592000 },
+    '/es/services/**': { isr: 2592000 },
+    // Industry pages
+    '/industry/**': { isr: 2592000 },
+    '/de/industry/**': { isr: 2592000 },
+    '/fr/industry/**': { isr: 2592000 },
+    '/es/industry/**': { isr: 2592000 },
+    // Hire pages
+    '/hire/**': { isr: 2592000 },
+    '/de/hire/**': { isr: 2592000 },
+    '/fr/hire/**': { isr: 2592000 },
+    '/es/hire/**': { isr: 2592000 },
+    // Referrals
+    '/referrals': { isr: 2592000 },
+    '/de/referrals': { isr: 2592000 },
+    '/fr/referrals': { isr: 2592000 },
+    '/es/referrals': { isr: 2592000 },
   },
 
   nitro: {
@@ -197,11 +234,13 @@ export default {
   },
 
   aos: {
-    duration: 850,
-    easing: 'ease-in-out',
-    offset: 60,
+    duration: 400,       // Was 850 — heavy on mobile CPUs
+    easing: 'ease-out',
+    offset: 40,
     anchorPlacement: 'top-bottom',
-    mirror: true,
+    once: true,          // Only animate once — saves repaints
+    mirror: false,       // Was true — caused re-animations and extra reflows
+    disable: 'phone',   // Disable JS animations entirely on phones (< 480px)
   },
 
   i18n: {
@@ -347,6 +386,10 @@ export default {
         // Favicon
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/images/logoPic.webp' },
+        // Preconnect to external origins used on every page — reduces DNS+TCP+TLS latency
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        { rel: 'dns-prefetch', href: process.env.STRAPI_URL || 'http://localhost:1337' },
       ],
     },
     pageTransition: {

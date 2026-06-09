@@ -15,9 +15,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref, watchEffect } from 'vue';
 import MarkdownIt from 'markdown-it';
-import DOMPurify from 'isomorphic-dompurify';
+// NOTE: isomorphic-dompurify is NOT imported here.
+// It pulls jsdom → html-encoding-sniffer → @exodus/bytes (ESM-only) which crashes
+// Vercel SSR with "require() of ES Module not supported", causing every article
+// page to return HTTP 500 and breaking LinkedIn share previews.
+// Content comes from admin-controlled Strapi, so server-side sanitization is
+// not required. DOMPurify runs client-side only via dynamic import.
 import { useRuntimeConfig } from '#imports';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import type { StrapiArticle } from '@/types/strapi';
@@ -53,17 +58,40 @@ const normalizeBullets = (content: string) =>
 const rewriteStrapiImageUrls = (html: string) =>
   html.replace(/(src|href)="(\/uploads\/)/g, `$1="${strapiUrl}$2`);
 
-const renderedContent = computed(() => {
+const buildHtml = (): string => {
   if (props.content && typeof props.content === 'string') {
     const step1 = normalizeMalformedMarkdownLinks(props.content);
     const step2 = normalizeBullets(step1);
     const step3 = encodeMarkdownUrlSpaces(step2);
     const rawHtml = md.render(step3);
-    const rewrittenHtml = rewriteStrapiImageUrls(rawHtml);
-    return DOMPurify.sanitize(rewrittenHtml, { ADD_ATTR: ['target'] });
+    return rewriteStrapiImageUrls(rawHtml);
   }
   return '';
-});
+};
+
+// Server renders raw HTML (trusted Strapi content).
+// Client sanitizes asynchronously with DOMPurify (browser-native DOM, no jsdom).
+const renderedContent = ref(buildHtml());
+
+if (import.meta.client) {
+  watchEffect(async () => {
+    const html = buildHtml();
+    if (!html) {
+      renderedContent.value = '';
+      return;
+    }
+    try {
+      const { default: DOMPurify } = await import('dompurify');
+      renderedContent.value = DOMPurify.sanitize(html, { ADD_ATTR: ['target'] });
+    } catch {
+      renderedContent.value = html;
+    }
+  });
+} else {
+  watchEffect(() => {
+    renderedContent.value = buildHtml();
+  });
+}
 </script>
 
 <style scoped>

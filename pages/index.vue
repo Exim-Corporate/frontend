@@ -73,9 +73,8 @@ const orderedServicePages = computed(() => servicePages.value ?? []);
 
 // Centralized SEO for the homepage using useSEO
 useSEO({
-  title: 'AS Exim - Expert IT Staffing & Remote Developers',
-  description:
-    'Your trusted partner for custom software development solutions. Connect with top-tier tech talent - pre-vetted developers, designers, and QA engineers ready for your projects.',
+  title: t('homeSeo.title'),
+  description: t('homeSeo.description'),
   image: '/logo.png',
   type: 'website',
 });

@@ -84,6 +84,8 @@ useSEO({
   title: resolvedArticle.value.title,
   description: resolvedArticle.value.description || '',
   image: ogImage,
+  imageWidth: resolvedArticle.value.cover?.width,
+  imageHeight: resolvedArticle.value.cover?.height,
   url: ogUrl,
   type: 'article',
 });

@@ -48,10 +48,7 @@ const pageUrl = computed(() => {
 });
 
 function copyLink() {
-  copyArticleLink(showSuccess, t, 'blog.link_copied');
-  if (typeof window !== 'undefined') {
-    navigator.clipboard.writeText(pageUrl.value);
-  }
+  copyArticleLink(showSuccess, t, 'blog.link_copied', pageUrl.value);
 }
 
 const shareActions = computed(() => [

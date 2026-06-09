@@ -76,8 +76,8 @@ const { data: articleResponse, pending } = await useAsyncData<StrapiArticleListP
     });
   },
   {
-    server: true,
-    lazy: false,
+    server: false, // Below-the-fold section — load after hydration to unblock SSR/TTFB
+    lazy: true,
     watch: [locale],
     default: () => null,
   },
