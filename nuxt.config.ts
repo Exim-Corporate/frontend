@@ -231,6 +231,10 @@ export default {
 
   experimental: {
     scanPageMeta: true,
+    // Inline component CSS into the SSR HTML instead of separate <link> tags.
+    // Eliminates render-blocking requests for TechStackSection.css, FAQSection.css,
+    // CalendlyBookingSection.css etc. CSS is served inline in the same HTML document.
+    inlineSSRStyles: true,
   },
 
   aos: {

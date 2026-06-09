@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue';
 import { useSEO } from '@/composables/useSEO';
 import CtaSection from '@/components/CtaSection.vue';
-import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
 import { useI18n } from 'vue-i18n';
 import { useAsyncData } from '#imports';
 import { usePageContentApi } from '@/composables/usePageContentApi';
@@ -132,17 +131,17 @@ useSEO({
     <StandApartStatsSection :section-data="standApartStatsSection" />
     <!-- <CaseStudiesSection /> --> 
     <TestimonialsSection :section-data="testimonialsSection" />
-    <TeamSection />
-    <HeroBlogSection />
+    <LazyTeamSection />
+    <LazyHeroBlogSection />
     <CtaSection
       :section-data="pageCtaSection"
       scroll-target-id="contact-us"
     />
 
     <!-- FAQ Section -->
-    <FAQSection />
+    <LazyFAQSection />
 
-    <CalendlyBookingSection
+    <LazyCalendlyBookingSection
       :key="calendlyPrefillEmail || 'no-prefill'"
       section-id="contact-us"
       utm-source="homepage"
