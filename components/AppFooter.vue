@@ -15,6 +15,8 @@
                 alt="AS Exim logo mark"
                 class="h-auto w-10"
                 draggable="false"
+                width="40"
+                height="40"
                 loading="lazy"
               />
               <NuxtImg
@@ -22,6 +24,8 @@
                 alt="AS Exim"
                 class="h-7 w-auto"
                 draggable="false"
+                width="123"
+                height="28"
                 loading="lazy"
               />
             </button>
@@ -153,6 +157,8 @@
                     alt="Top Software Development Company Clutch 2025"
                     class="h-full w-full object-cover"
                     draggable="false"
+                    width="108"
+                    height="130"
                     loading="lazy"
                   />
                 </div>
@@ -175,6 +181,8 @@
               alt="AS Exim logo mark"
               class="h-auto w-11"
               draggable="false"
+              width="44"
+              height="44"
               loading="lazy"
             />
             <NuxtImg
@@ -182,6 +190,8 @@
               alt="AS Exim"
               class="h-7 w-auto"
               draggable="false"
+              width="123"
+              height="28"
               loading="lazy"
             />
           </button>

@@ -2,7 +2,7 @@
   <section class="w-full min-h-150">
     <div class="container mx-auto">
       <AnimatedElement direction="bottom" :delay="100">
-        <BaseTitle tag="h3" variant="main" class-name="text-center">
+        <BaseTitle tag="h2" variant="main" class-name="text-center">
           {{ $t('techStack.title') }}
         </BaseTitle>
       </AnimatedElement>

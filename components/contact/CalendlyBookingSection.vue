@@ -1,5 +1,5 @@
 <template>
-  <section :id="sectionId || undefined">
+  <section :id="sectionId || undefined" ref="sectionRoot">
     <div class="container">
       <div class="mx-auto max-w-5xl text-center">
         <AnimatedElement direction="bottom" :delay="100">
@@ -85,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted, nextTick } from 'vue';
 import { useAsyncData, useHead, useRuntimeConfig } from '#imports';
 import { useI18n } from 'vue-i18n';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
@@ -104,8 +104,13 @@ const runtimeConfig = useRuntimeConfig();
 const { t } = useI18n();
 const contactEmail = String(runtimeConfig.public.contactEmail || '');
 
+const sectionRoot = ref<HTMLElement | null>(null);
 const calendlyContainer = ref<HTMLElement | null>(null);
 const widgetLoading = ref(true);
+const shouldLoadWidget = ref(false);
+const isWidgetInitialized = ref(false);
+let sectionObserver: IntersectionObserver | null = null;
+let fallbackTimer: number | null = null;
 
 const { data: calendlyContent, pending } = await useAsyncData<StrapiMainCalendly | null>(
   () => 'main-calendly',
@@ -150,22 +155,98 @@ const normalizedPrefillEmail = computed(() => {
 
 const showFallbackState = computed(() => !pending.value && !bookingLink.value);
 
-// Preconnect + preload the Calendly widget script
+type CalendlyInitConfig = {
+  url: string;
+  parentElement: HTMLElement;
+  resize: boolean;
+  prefill?: { email: string };
+};
+
+type CalendlyWindow = Window & {
+  Calendly?: {
+    initInlineWidget?: (config: CalendlyInitConfig) => void;
+  };
+  __asEximCalendlyScriptPromise?: Promise<void>;
+};
+
+const ensureCalendlyScript = async (): Promise<void> => {
+  if (import.meta.server) return;
+
+  const w = window as CalendlyWindow;
+  if (w.Calendly?.initInlineWidget) return;
+
+  if (!w.__asEximCalendlyScriptPromise) {
+    w.__asEximCalendlyScriptPromise = new Promise<void>((resolve, reject) => {
+      const existing = document.querySelector<HTMLScriptElement>('script[data-calendly-widget="true"]');
+      if (existing) {
+        existing.addEventListener('load', () => resolve(), { once: true });
+        existing.addEventListener('error', () => reject(new Error('Calendly script load failed')), { once: true });
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://assets.calendly.com/assets/external/widget.js';
+      script.async = true;
+      script.defer = true;
+      script.dataset.calendlyWidget = 'true';
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error('Calendly script load failed'));
+      document.head.appendChild(script);
+    });
+  }
+
+  await w.__asEximCalendlyScriptPromise;
+};
+
+const initCalendlyWidget = async (): Promise<void> => {
+  if (!shouldLoadWidget.value || !bookingLink.value || isWidgetInitialized.value) return;
+
+  await nextTick();
+  if (!calendlyContainer.value) return;
+
+  widgetLoading.value = true;
+
+  try {
+    await ensureCalendlyScript();
+    const calendly = (window as CalendlyWindow).Calendly;
+    if (!calendly?.initInlineWidget || !calendlyContainer.value) {
+      widgetLoading.value = false;
+      return;
+    }
+
+    const prefill = normalizedPrefillEmail.value
+      ? { email: normalizedPrefillEmail.value }
+      : undefined;
+
+    calendly.initInlineWidget({
+      url: bookingLink.value,
+      parentElement: calendlyContainer.value,
+      resize: true,
+      prefill,
+    });
+
+    isWidgetInitialized.value = true;
+  }
+  catch {
+    widgetLoading.value = false;
+  }
+};
+
+const requestCalendlyLoad = (): void => {
+  if (shouldLoadWidget.value) return;
+  shouldLoadWidget.value = true;
+  void initCalendlyWidget();
+};
+
+// Add preconnect only when widget is actually requested
 useHead(() => ({
-  link: bookingOrigin.value
+  link: shouldLoadWidget.value && bookingOrigin.value
     ? [
         { rel: 'preconnect', href: bookingOrigin.value, crossorigin: '' },
         { rel: 'dns-prefetch', href: bookingOrigin.value },
         { rel: 'preconnect', href: 'https://assets.calendly.com', crossorigin: '' },
       ]
     : [],
-  script: [
-    {
-      src: 'https://assets.calendly.com/assets/external/widget.js',
-      defer: true,
-      tagPosition: 'head',
-    },
-  ],
 }));
 
 // Listen for Calendly postMessage to detect when widget finishes loading
@@ -183,36 +264,49 @@ function onCalendlyMessage(e: MessageEvent) {
 }
 
 onMounted(() => {
-  if (!bookingLink.value) return;
+  if (!bookingLink.value) {
+    widgetLoading.value = false;
+    return;
+  }
 
   window.addEventListener('message', onCalendlyMessage);
 
-  // Poll until the Calendly global is available (script is defer-loaded)
-  const interval = setInterval(() => {
-    const C = (window as Window & { Calendly?: { initInlineWidget?: (config: { url: string; parentElement: HTMLElement; resize: boolean; prefill?: { email: string } }) => void } })?.Calendly;
-    if (C?.initInlineWidget && calendlyContainer.value) {
-      clearInterval(interval);
-      const prefill = normalizedPrefillEmail.value
-        ? { email: normalizedPrefillEmail.value }
-        : undefined;
+  const shouldLoadImmediately =
+    props.embedded
+    || (props.sectionId && window.location.hash === `#${props.sectionId}`);
 
-      C.initInlineWidget({
-        url: bookingLink.value,
-        parentElement: calendlyContainer.value,
-        resize: true, // auto-adjusts height — fixes mobile clipping
-        prefill,
-      });
-    }
-  }, 50);
+  if (shouldLoadImmediately) {
+    requestCalendlyLoad();
+  }
+  else if (sectionRoot.value && 'IntersectionObserver' in window) {
+    sectionObserver = new IntersectionObserver((entries) => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        sectionObserver?.disconnect();
+        sectionObserver = null;
+        requestCalendlyLoad();
+      }
+    }, { rootMargin: '400px 0px' });
+
+    sectionObserver.observe(sectionRoot.value);
+  }
+  else {
+    requestCalendlyLoad();
+  }
 
   // Safety fallback: if widget.js never loads, hide loader after 8s
-  setTimeout(() => {
+  fallbackTimer = window.setTimeout(() => {
     widgetLoading.value = false;
   }, 8000);
 });
 
 onUnmounted(() => {
   window.removeEventListener('message', onCalendlyMessage);
+  sectionObserver?.disconnect();
+  sectionObserver = null;
+  if (fallbackTimer !== null) {
+    window.clearTimeout(fallbackTimer);
+    fallbackTimer = null;
+  }
 });
 </script>
 

@@ -50,6 +50,7 @@
         class="absolute bottom-6 right-6 text-sm font-semibold text-text-dark underline underline-offset-4 decoration-black/30 hover:text-accent"
       >
         {{ linkLabel }}
+        <span class="sr-only"> {{ title }}</span>
       </NuxtLink>
 <!-- 
       <div v-if="tags.length" class="mt-auto flex flex-wrap gap-2">
