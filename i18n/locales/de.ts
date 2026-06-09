@@ -530,6 +530,10 @@ export default {
       footerText: 'Mit freundlichen Grüßen, Das AS Exim Team',
     },
   },
+  homeSeo: {
+    title: 'AS Exim — Strategischer Technologiepartner',
+    description: 'Wir helfen ambitionierten Unternehmen, digitale Produkte aufzubauen und zu skalieren — von KI-gestützten Lösungen und Cloud-Architekturen bis hin zur vollständigen Softwareentwicklung. Vorgeprüfte Ingenieure, erfahrene technische Führung, Angebote in 48 Stunden.',
+  },
   referrals: {
     form: {
       full_name: 'Vollständiger Name',

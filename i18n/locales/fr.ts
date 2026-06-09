@@ -498,6 +498,10 @@ export default {
       footerText: "Cordialement, L'équipe AS Exim",
     },
   },
+  homeSeo: {
+    title: 'AS Exim — Partenaire Technologique Stratégique',
+    description: "Nous aidons les entreprises ambitieuses à concevoir et faire évoluer leurs produits numériques — des solutions IA et architectures cloud au développement logiciel sur mesure. Ingénieurs pré-sélectionnés, leadership technique senior, estimations en 48 heures.",
+  },
   referrals: {
     form: {
       full_name: 'Nom complet',

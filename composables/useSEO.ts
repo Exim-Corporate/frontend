@@ -8,6 +8,8 @@ interface SEOConfig {
   description?: string;
   image?: string;
   imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   url?: string;
   type?: 'website' | 'article' | 'profile';
   siteName?: string;
@@ -22,6 +24,8 @@ export const useSEO = (config: SEOConfig = {}) => {
     description = 'Your trusted partner for custom software development solutions. Connect with top-tier tech talent - pre-vetted developers, designers, and QA engineers ready for your projects.',
     image = '/logo.png',
     imageAlt = 'AS Exim - Expert IT Developers & Engineers',
+    imageWidth,
+    imageHeight,
     url,
     type = 'website',
     siteName = 'AS Exim',
@@ -57,6 +61,8 @@ export const useSEO = (config: SEOConfig = {}) => {
     ogDescription: description,
     ogImage: resolvedImage,
     ogImageAlt: imageAlt,
+    ogImageWidth: imageWidth,
+    ogImageHeight: imageHeight,
     ogType: type,
     ogUrl: currentUrl,
     ogSiteName: siteName,
