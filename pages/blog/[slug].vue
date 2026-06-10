@@ -46,12 +46,12 @@ const { fetchArticlePage } = usePageContentApi();
 const route = useRoute();
 const { locale } = useI18n();
 
-const slug = computed(() => route.params.slug as string);
+const slug = route.params.slug as string;
 
 const { data: articlePage, error } = await useAsyncData<StrapiArticlePagePayload | null>(
-  `article-page-${slug.value}-${locale.value}`,
-  async () => await fetchArticlePage(slug.value, locale.value),
-  { default: () => null, watch: [slug, locale], server: true, lazy: false },
+  `article-page-${slug}`,
+  async () => await fetchArticlePage(slug, locale.value),
+  { default: () => null }
 );
 
 if (error.value || !articlePage.value?.article) {

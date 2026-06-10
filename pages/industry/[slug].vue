@@ -67,17 +67,20 @@ const { locale, t } = useI18n();
 const localePath = useLocalePath();
 const { fetchIndustryPage, fetchHomePage } = usePageContentApi();
 
-const slug = computed(() => String(route.params.slug || ''));
+// const slug = computed(() => String(route.params.slug || ''));
+const slug = route.params.slug as string;
 
 const { data: page, error } = await useAsyncData<StrapiIndustryPage | null>(
-  `industry-page-${slug.value}-${locale.value}`,
-  async () => await fetchIndustryPage(slug.value, locale.value),
-  { default: () => null, watch: [slug, locale], server: true, lazy: false },
+  `industry-page-${slug}`,
+  async () => await fetchIndustryPage(slug, locale.value),
+  // ()=>null,
+  { default: () => null },
 );
 
 const { data: homePage } = await useAsyncData<StrapiHomePage | null>(
-  `industry-page-home-${locale.value}`,
+  `industry-page-home`,
   async () => await fetchHomePage(locale.value),
+  // () => null,
   { default: () => null },
 );
 
@@ -94,7 +97,7 @@ const breadcrumbItems = computed(() => [
     to: localePath('/'),
   },
   {
-    label: resolvedPage.value.hero?.title || resolvedPage.value.title || slug.value,
+    label: resolvedPage.value.hero?.title || resolvedPage.value.title || slug,
   },
 ]);
 

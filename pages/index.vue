@@ -17,29 +17,23 @@ const handleHeroSubmitEmail = (email: string) => {
 };
 
 const { data: homePage } = await useAsyncData(
-  () => `home-page-cta-${locale.value}`,
+  `home-page-cta`,
   () => fetchHomePage(locale.value),
-  {
-    default: () => ({ ctaSection: null } as StrapiHomePage),
-  },
+  { default: () => ({ ctaSection: null } as StrapiHomePage) },
 );
 
 const { fetchIndustryPages } = usePageContentApi();
 
 const { data: industryPages } = await useAsyncData<StrapiIndustryPage[]>(
-  () => `home-page-industry-pages-${locale.value}`,
+  `home-page-industry-pages`,
   () => fetchIndustryPages(locale.value),
-  {
-    default: () => [],
-  },
+  { default: () => [] },
 );
 
 const { data: servicePages } = await useAsyncData(
-  () => `home-page-service-pages-${locale.value}`,
+  `home-page-service-pages`,
   () => fetchServicePages(locale.value),
-  {
-    default: () => [],
-  },
+  { default: () => [] },
 );
 
 const pageCtaSection = computed<StrapiCtaSection>(() =>

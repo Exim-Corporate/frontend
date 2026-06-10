@@ -108,7 +108,7 @@ const currentPage = computed<number>(() => {
 // Hero article: always the very first (latest) article from Strapi.
 // Fetched once per locale — does NOT react to currentPage changes.
 const { data: heroData } = await useAsyncData(
-  () => `blog-hero-${locale.value}`,
+  `blog-hero-${locale.value}`,
   async () => {
     const response = await fetchArticleList({
       locale: locale.value,
@@ -119,11 +119,12 @@ const { data: heroData } = await useAsyncData(
   },
   {
     default: () => null as StrapiArticle | null,
+    getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key]
   },
 );
 
 const { data: articleData, pending, error } = await useAsyncData(
-  () => `blog-articles-${locale.value}-page-${currentPage.value}`,
+  `blog-articles-${locale.value}-page-${currentPage.value}`,
   async () => {
     const response = await fetchArticleList({
       locale: locale.value,
@@ -146,7 +147,7 @@ const { data: articleData, pending, error } = await useAsyncData(
     default: () => ({ articles: [] as StrapiArticle[], total: 0, pageCount: 0 }),
     server: true,
     lazy: false,
-    watch: [locale, currentPage, pageSize],
+    getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key]
   },
 );
 
@@ -209,10 +210,11 @@ const ctaData = computed<StrapiCtaSection>(() => ({
 }));
 
 const { data: blogPage } = await useAsyncData(
-  () => `blog-page-cta-${locale.value}`,
+  `blog-page-cta-${locale.value}`,
   () => fetchBlogPage(locale.value),
   {
     default: () => ({ ctaSection: null } as StrapiBlogPage),
+    getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key]
   },
 );
 

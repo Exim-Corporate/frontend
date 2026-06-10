@@ -56,16 +56,16 @@ const { locale, t } = useI18n();
 const localePath = useLocalePath();
 const { fetchServicePage, fetchHomePage } = usePageContentApi();
 
-const slug = computed(() => String(route.params.slug || ''));
+const slug = route.params.slug as string;
 
 const { data: page, error } = await useAsyncData<StrapiServicePage | null>(
-  `service-page-${slug.value}-${locale.value}`,
-  async () => await fetchServicePage(slug.value, locale.value),
-  { default: () => null, watch: [slug, locale], server: true, lazy: false },
+  `service-page-${slug}`,
+  async () => await fetchServicePage(slug, locale?.value),
+  { default: () => null },
 );
 
 const { data: homePage } = await useAsyncData<StrapiHomePage | null>(
-  `service-page-home-${locale.value}`,
+  `service-page-home`,
   async () => await fetchHomePage(locale.value),
   { default: () => null },
 );
@@ -83,7 +83,7 @@ const breadcrumbItems = computed(() => [
     to: localePath('/'),
   },
   {
-    label: resolvedPage.value.hero?.title || resolvedPage.value.title || slug.value,
+    label: resolvedPage.value.hero?.title || resolvedPage.value.title || slug,
   },
 ]);
 

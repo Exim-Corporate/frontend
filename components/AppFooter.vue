@@ -361,29 +361,11 @@ const {
   socialLinks,
 } = useFooterData();
 
-// Shared cache persists SSR→client and across all route changes
-const footerCache = useState<Record<string, FooterNavigationData>>('footer-nav-cache', () => ({}));
-
-const navigationData = useState<FooterNavigationData>(
-  `footer-nav-${locale.value}`,
-  () => ({ industry: [], services: [] }),
+const { data: navigationData } = await useAsyncData<FooterNavigationData>(
+  `footer-nav`,
+  () => loadNavigation(),
+  { default: () => ({ industry: [], services: [] }), getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] }
 );
-
-const loadForLocale = async (loc: string) => {
-  if (footerCache.value[loc]) {
-    navigationData.value = footerCache.value[loc];
-    return;
-  }
-  const data = await loadNavigation();
-  footerCache.value[loc] = data;
-  navigationData.value = data;
-};
-
-// callOnce: runs SSR once, skipped on every subsequent client navigation
-await callOnce(`footer-nav-init-${locale.value}`, () => loadForLocale(locale.value));
-
-// Only re-fetch when locale actually changes
-watch(locale, newLocale => { loadForLocale(newLocale); });
 
 const industryLinks = computed(() => navigationData.value?.industry ?? []);
 const serviceLinks = computed(() => navigationData.value?.services ?? []);

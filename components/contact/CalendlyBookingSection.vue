@@ -83,7 +83,7 @@ const calendlyContainer = ref<HTMLElement | null>(null);
 const calendlyScriptSrc = 'https://assets.calendly.com/assets/external/widget.js';
 
 const { data: calendlyContent, pending } = await useAsyncData<StrapiMainCalendly | null>(
-  () => 'main-calendly',
+  'main-calendly',
   async () => {
     try {
       return await $fetch<StrapiMainCalendly>('/api/main-calendly');

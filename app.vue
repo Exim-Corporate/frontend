@@ -3,10 +3,11 @@
     <Analytics mode="production" />
     <NuxtLayout>
       <NuxtPage
+        :page-key="route => route.fullPath.split('?')[0]"
         :transition="{
           name: 'page',
           mode: 'out-in',
-          onBeforeEnter,
+          onBeforeEnter
         }"
       />
     </NuxtLayout>
@@ -20,11 +21,9 @@ const { t, locale, finalizePendingLocaleChange } = useI18n();
 const route = useRoute();
 
 const onBeforeEnter = async () => {
-  // finalizePendingLocaleChange больше не нужен в Nuxt 3 + @nuxtjs/i18n
+  // Wait for the locale change to finish before entering new route
   finalizePendingLocaleChange();
 };
-
-// Initialize AOS on client-side only
 onMounted(() => {
   // AOS is already initialized by the nuxt-aos module
   // This is just a placeholder in case we need custom initialization

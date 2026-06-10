@@ -52,7 +52,7 @@ const { locale, t } = useI18n();
 const { fetchReferralPage } = usePageContentApi();
 
 const { data: page, error } = await useAsyncData<StrapiReferralPage | null>(
-  `referral-page-referrals-${locale.value}`,
+  `referral-page-${locale.value}`,
   async () => await fetchReferralPage('referrals', locale.value),
   { default: () => null },
 );

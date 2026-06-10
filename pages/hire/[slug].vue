@@ -94,17 +94,12 @@ const route = useRoute();
 const { locale } = useI18n();
 const config = useRuntimeConfig();
 
-const slug = computed(() => route.params.slug as string);
+const slug = route.params.slug as string;
 
 const { data: hirePageData, error } = await useAsyncData<HirePageData | null>(
-  `hire-${slug.value}-${locale.value}`,
-  async () => await fetchHirePage<HirePageData>(slug.value, locale.value),
-  {
-    default: () => null,
-    server: true,
-    lazy: false,
-    watch: [locale, slug],
-  },
+  `hire-page-${slug}`,
+  async () => await fetchHirePage<HirePageData>(slug, locale.value),
+  { default: () => null }
 );
 
 if (error.value || !hirePageData.value) {

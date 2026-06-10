@@ -240,19 +240,10 @@ let lastScrollTop = 0;
 const isHeaderReady = computed(() => import.meta.server || isMounted.value);
 
 const { data: headerData } = await useAsyncData<StrapiHeaderNavigation>(
-  () => `header-navigation-${locale.value}`,
+  `header-navigation`,
   () => $fetch<StrapiHeaderNavigation>('/api/header-navigation', { query: { locale: locale.value } }),
-  { default: () => null }
+  { default: () => null, getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] }
 );
-
-watch(locale, (newLocale) => {
-  // Trigger a silent background refresh of the header when language changes without suspending the app
-  $fetch<StrapiHeaderNavigation>('/api/header-navigation', { query: { locale: newLocale } })
-    .then(data => {
-      if (data) headerData.value = data;
-    })
-    .catch(() => {});
-});
 
 const toServicePath = (slug: string) => localePath(`/services/${slug}`);
 const toIndustryPath = (slug: string) => localePath(`/industry/${slug}`);

@@ -79,7 +79,7 @@ interface FaqAccordionItem extends AppAccordionItem {
 const { locale } = useI18n();
 
 const { data: faqSection } = await useAsyncData<StrapiFaqSection | null>(
-  `faq-section-${locale.value}`,
+  `faq-section`,
   async () => {
     const response = await $fetch<StrapiFaqSection | null>('/api/faq-section', {
       query: { locale: locale.value },
@@ -87,9 +87,7 @@ const { data: faqSection } = await useAsyncData<StrapiFaqSection | null>(
 
     return response;
   },
-  {
-    default: () => null,
-  },
+  { default: () => null }
 );
 
 const faqItems = computed<FaqAccordionItem[]>(() =>

@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import Dropdown from 'primevue/dropdown';
 import { ref } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { useI18n, useSwitchLocalePath, navigateTo } from '#imports';
 
 const { locale } = useI18n();
 const switchLocalePath = useSwitchLocalePath();

@@ -64,10 +64,8 @@ const { fetchArticleList } = usePageContentApi();
 const { locale } = useI18n();
 const localePath = useLocalePath();
 
-const key = computed(() => `hero-blog-${locale.value}`);
-
 const { data: articleResponse, pending } = await useAsyncData<StrapiArticleListPayload | null>(
-  key,
+  `hero-blog`,
   async () => {
     return await fetchArticleList({
       locale: locale.value,
@@ -75,11 +73,7 @@ const { data: articleResponse, pending } = await useAsyncData<StrapiArticleListP
       pageSize: 4,
     });
   },
-  {
-    server: true,
-    lazy: false,
-    default: () => null,
-  },
+  { default: () => null }
 );
 
 const articles = computed<StrapiArticle[]>(() => articleResponse.value?.data ?? []);
