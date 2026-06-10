@@ -89,9 +89,6 @@ const { data: faqSection } = await useAsyncData<StrapiFaqSection | null>(
   },
   {
     default: () => null,
-    server: true,
-    lazy: false,
-    watch: [locale],
   },
 );
 

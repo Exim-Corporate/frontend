@@ -76,13 +76,8 @@ const { data: articleResponse, pending } = await useAsyncData<StrapiArticleListP
     });
   },
   {
-    // server: true so data is included in the ISR-cached HTML response.
-    // This is safe now that ISR caches the full page — no extra Strapi round-trip
-    // on every request. Previously this was server:false to shorten SSR time,
-    // but that broke inside LazyHeroBlogSection (deferred fetch never fired on mobile).
     server: true,
     lazy: false,
-    watch: [locale],
     default: () => null,
   },
 );

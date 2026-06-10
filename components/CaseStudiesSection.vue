@@ -24,7 +24,10 @@ import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import CaseStudiesDesktop from '@/components/caseStudies/CaseStudiesDesktop.vue';
 import CaseStudiesMobile from '@/components/caseStudies/CaseStudiesMobile.vue';
+import { useLocalePath } from '#imports';
 import type { CaseStudyItem } from '@/types/case-studies';
+
+const localePath = useLocalePath();
 
 const studies: CaseStudyItem[] = [
   {
@@ -33,7 +36,7 @@ const studies: CaseStudyItem[] = [
     titleKey: 'caseStudies.items.industrialAi.title',
     descriptionKey: 'caseStudies.items.industrialAi.description',
     image: '/images/caseStudies/industrial.webp',
-    linkTo: '/industry/manufacturing',
+    linkTo: localePath('/industry/manufacturing'),
     impacts: [
       {
         value: '27%',

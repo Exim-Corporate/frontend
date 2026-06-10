@@ -21,9 +21,6 @@ const { data: homePage } = await useAsyncData(
   () => fetchHomePage(locale.value),
   {
     default: () => ({ ctaSection: null } as StrapiHomePage),
-    server: true,
-    lazy: false,
-    watch: [locale],
   },
 );
 
@@ -34,9 +31,6 @@ const { data: industryPages } = await useAsyncData<StrapiIndustryPage[]>(
   () => fetchIndustryPages(locale.value),
   {
     default: () => [],
-    server: true,
-    lazy: false,
-    watch: [locale],
   },
 );
 
@@ -45,9 +39,6 @@ const { data: servicePages } = await useAsyncData(
   () => fetchServicePages(locale.value),
   {
     default: () => [],
-    server: true,
-    lazy: false,
-    watch: [locale],
   },
 );
 

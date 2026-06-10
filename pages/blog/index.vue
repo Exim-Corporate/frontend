@@ -119,9 +119,6 @@ const { data: heroData } = await useAsyncData(
   },
   {
     default: () => null as StrapiArticle | null,
-    server: true,
-    lazy: false,
-    watch: [locale],
   },
 );
 
@@ -216,9 +213,6 @@ const { data: blogPage } = await useAsyncData(
   () => fetchBlogPage(locale.value),
   {
     default: () => ({ ctaSection: null } as StrapiBlogPage),
-    server: true,
-    lazy: false,
-    watch: [locale],
   },
 );
 

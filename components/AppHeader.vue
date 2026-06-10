@@ -195,9 +195,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useLocalePath, useAsyncData, useRuntimeConfig } from '#imports';
+import { useLocalePath, useAsyncData, useRuntimeConfig, useRoute } from '#imports';
 import type { MenuItem } from 'primevue/menuitem';
 import MegaMenu from 'primevue/megamenu';
 import PanelMenu from 'primevue/panelmenu';
@@ -230,6 +230,7 @@ const { locale } = useI18n();
 const localePath = useLocalePath();
 const config = useRuntimeConfig();
 const { open: openContactModal } = useContactModal();
+const route = useRoute();
 
 const isScrolling = ref(false);
 const drawerVisible = ref(false);
@@ -241,8 +242,17 @@ const isHeaderReady = computed(() => import.meta.server || isMounted.value);
 const { data: headerData } = await useAsyncData<StrapiHeaderNavigation>(
   () => `header-navigation-${locale.value}`,
   () => $fetch<StrapiHeaderNavigation>('/api/header-navigation', { query: { locale: locale.value } }),
-  { server: true, lazy: false, watch: [locale] },
+  { default: () => null }
 );
+
+watch(locale, (newLocale) => {
+  // Trigger a silent background refresh of the header when language changes without suspending the app
+  $fetch<StrapiHeaderNavigation>('/api/header-navigation', { query: { locale: newLocale } })
+    .then(data => {
+      if (data) headerData.value = data;
+    })
+    .catch(() => {});
+});
 
 const toServicePath = (slug: string) => localePath(`/services/${slug}`);
 const toIndustryPath = (slug: string) => localePath(`/industry/${slug}`);
@@ -447,6 +457,10 @@ function handleScroll() {
   if (scrollTop < lastScrollTop) isScrolling.value = false;
   lastScrollTop = scrollTop;
 }
+
+watch(route, () => {
+  drawerVisible.value = false;
+});
 
 const handleMobileContactClick = () => {
   drawerVisible.value = false;

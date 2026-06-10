@@ -112,6 +112,7 @@ import ServiceCard from '@/components/UI/ServiceCard.vue';
 import ServiceCapabilityCard from '@/components/services/ServiceCapabilityCard.vue';
 import { useContactModal } from '@/composables/useContactModal';
 import { normalizeImageUrl } from '@/utils/normalizeImageUrl';
+import { useLocalePath } from '#imports';
 import type { StrapiCardDisplayType, StrapiServiceCardsSection } from '@/types/strapi';
 
 interface HomeCardConfig {
@@ -142,6 +143,7 @@ const props = withDefaults(defineProps<{
 });
 
 const { t } = useI18n();
+const localePath = useLocalePath();
 const { open: openContactModal } = useContactModal();
 
 const homeCards: HomeCardConfig[] = [
@@ -203,7 +205,7 @@ const resolvedCards = computed<ResolvedCard[]>(() => {
     description: t(card.descriptionKey),
     displayType: 'withPicture',
     imageUrl: card.image,
-    linkTo: card.linkTo,
+    linkTo: localePath(card.linkTo),
   }));
 });
 </script>

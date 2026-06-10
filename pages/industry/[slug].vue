@@ -78,7 +78,7 @@ const { data: page, error } = await useAsyncData<StrapiIndustryPage | null>(
 const { data: homePage } = await useAsyncData<StrapiHomePage | null>(
   `industry-page-home-${locale.value}`,
   async () => await fetchHomePage(locale.value),
-  { default: () => null, watch: [locale], server: true, lazy: false },
+  { default: () => null },
 );
 
 if (error.value || !page.value) {
