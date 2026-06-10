@@ -33,6 +33,16 @@
       <!-- Calendly JS widget embed -->
       <div v-else class="overflow-hidden min-h-140 rounded-3xl p-5">
         <div class="relative w-full rounded-3xl bg-white">
+          <iframe
+            v-if="useIframeEmbed"
+            :src="iframeBookingLink"
+            title="Calendly booking"
+            class="w-full min-h-157.5 rounded-3xl border-0"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+          />
+
+          <template v-else>
           <!-- Custom loader shown until calendly fires event_type_viewed -->
           <Transition name="fade">
             <div
@@ -63,6 +73,7 @@
 
           <!-- Calendly widget container — populated by initInlineWidget on mount -->
           <div ref="calendlyContainer" class="w-full rounded-3xl bg-white min-h-157.5" />
+          </template>
         </div>
       </div>
 
@@ -109,6 +120,7 @@ const calendlyContainer = ref<HTMLElement | null>(null);
 const widgetLoading = ref(true);
 const shouldLoadWidget = ref(false);
 const isWidgetInitialized = ref(false);
+const useIframeEmbed = ref(false);
 let sectionObserver: IntersectionObserver | null = null;
 let fallbackTimer: number | null = null;
 // Fallback if IntersectionObserver never fires on iOS Safari (rootMargin bugs)
@@ -140,6 +152,20 @@ const bookingLink = computed(() => {
   }
 });
 
+const iframeBookingLink = computed(() => {
+  if (!bookingLink.value) return '';
+  try {
+    const url = new URL(bookingLink.value);
+    // Recommended by Calendly docs: hide Calendly's own GDPR banner if website
+    // already manages consent. Reduces mobile overlay issues.
+    url.searchParams.set('hide_gdpr_banner', '1');
+    return url.toString();
+  }
+  catch {
+    return bookingLink.value;
+  }
+});
+
 const bookingOrigin = computed(() => {
   if (!bookingLink.value) return '';
   try {
@@ -155,7 +181,9 @@ const normalizedPrefillEmail = computed(() => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : '';
 });
 
-const showFallbackState = computed(() => !pending.value && !bookingLink.value);
+const showFallbackState = computed(() => {
+  return !pending.value && !bookingLink.value;
+});
 
 type CalendlyInitConfig = {
   url: string;
@@ -213,6 +241,8 @@ const initCalendlyWidget = async (): Promise<void> => {
     const calendly = (window as CalendlyWindow).Calendly;
     if (!calendly?.initInlineWidget || !calendlyContainer.value) {
       widgetLoading.value = false;
+      // JS embed unavailable (content blocker / browser policy) → switch to iframe mode.
+      useIframeEmbed.value = true;
       return;
     }
 
@@ -231,6 +261,8 @@ const initCalendlyWidget = async (): Promise<void> => {
   }
   catch {
     widgetLoading.value = false;
+    // JS blocked/error on some mobile browsers → render iframe so widget still appears.
+    useIframeEmbed.value = true;
   }
 };
 
@@ -271,6 +303,15 @@ onMounted(() => {
     return;
   }
 
+  // Calendly docs recommend iframe mode when scripts are blocked by platform/browser.
+  // Real mobile devices/in-app browsers commonly block third-party script execution,
+  // so use iframe proactively on phones to ensure the scheduler is visible.
+  if (window.matchMedia('(max-width: 768px)').matches) {
+    useIframeEmbed.value = true;
+    widgetLoading.value = false;
+    return;
+  }
+
   window.addEventListener('message', onCalendlyMessage);
 
   const shouldLoadImmediately =
@@ -297,7 +338,10 @@ onMounted(() => {
 
   // Safety fallback: if widget.js never loads, hide loader after 8s
   fallbackTimer = window.setTimeout(() => {
-    widgetLoading.value = false;
+    if (!isWidgetInitialized.value) {
+      widgetLoading.value = false;
+      useIframeEmbed.value = true;
+    }
   }, 8000);
 
   // Mobile fallback: IntersectionObserver with rootMargin can be unreliable on
