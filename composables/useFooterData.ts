@@ -1,4 +1,4 @@
-import { useRuntimeConfig } from 'nuxt/app';
+import { useRuntimeConfig, useLocalePath } from '#imports';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type {
@@ -22,6 +22,7 @@ const clutchUrl = 'https://clutch.co/profile/exim';
 export const useFooterData = () => {
   const { t, locale } = useI18n();
   const runtimeConfig = useRuntimeConfig();
+  const localePath = useLocalePath();
 
   interface FooterProxyResponse {
     industry: FooterStrapiEntry[];
@@ -55,21 +56,21 @@ export const useFooterData = () => {
 
   const legalPrimaryLinks = computed<FooterLegalLink[]>(() => [
     {
-      to: '/privacy',
+      to: localePath('/privacy'),
       label: t('footer.navigation.legal.items.privacyPolicy'),
     },
     {
-      to: '/terms',
+      to: localePath('/terms'),
       label: t('footer.navigation.legal.items.termsOfService'),
     },
     {
-      to: '/cookie-policy',
+      to: localePath('/cookie-policy'),
       label: t('footer.navigation.legal.items.cookiePolicy'),
     },
   ]);
 
   const legalSecondaryLink = computed<FooterLegalLink>(() => ({
-    to: '/referrals',
+    to: localePath('/referrals'),
     label: t('footer.navigation.legal.items.referralProgram'),
   }));
 
@@ -112,7 +113,7 @@ export const useFooterData = () => {
 
   const resolveNavigationTarget = (item: FooterNavigationItem): string => {
     const basePath = item.section === 'industry' ? '/industry' : '/services';
-    return `${basePath}/${item.slug}`;
+    return localePath(`${basePath}/${item.slug}`);
   };
 
   return {

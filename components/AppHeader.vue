@@ -353,7 +353,7 @@ const menuItems = computed<MenuItem[]>(() => {
     {
       label: headerData.value.blogLabel,
       root: true,
-      route: headerData.value.blogPath,
+      route: headerData.value.blogPath ? localePath(headerData.value.blogPath) : undefined,
     },
   ];
 });
@@ -378,7 +378,7 @@ const mobileMenuItems = computed(() => {
     },
     {
       label: headerData.value.blogLabel,
-      route: headerData.value.blogPath,
+      route: headerData.value.blogPath ? localePath(headerData.value.blogPath) : undefined,
     },
   ];
 });

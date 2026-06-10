@@ -116,7 +116,7 @@
         >
           {{ $t('contact.privacy_policy_agreement') }} *
           <NuxtLink
-            to="/privacy"
+            :to="localePath('/privacy')"
             class="text-accent hover:underline"
           >
             {{ $t('contact.privacy_policy') }}
@@ -169,6 +169,7 @@ const { t } = useI18n();
 
 // Initialize toast service
 const toast = useToast();
+const localePath = useLocalePath();
 
 // Get form data from shared composable
 const { serviceRoles, /* technologyOptions, */ shouldEnableTechSelect } = useContactForm();

@@ -82,7 +82,7 @@
           />
           <label for="modal-privacy" class="text-sm leading-6 text-text-dark">
             {{ $t('contact.privacy_policy_agreement') }}
-            <NuxtLink to="/privacy" class="underline">
+            <NuxtLink :to="localePath('/privacy')" class="underline">
               {{ $t('contact.privacy_policy') }}
             </NuxtLink>
           </label>
@@ -115,10 +115,12 @@ import Checkbox from 'primevue/checkbox';
 import AppButton from '@/components/UI/AppButton.vue';
 import AppIcon from '@/components/UI/AppIcon.vue';
 import { useContactModal } from '@/composables/useContactModal';
+import { useLocalePath } from '#imports';
 
 const { t, locale } = useI18n();
 const toast = useToast();
 const { isOpen, close, source } = useContactModal();
+const localePath = useLocalePath();
 
 const loading = ref(false);
 const isSubmitted = ref(false);

@@ -42,7 +42,10 @@ import { computed } from 'vue';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import ServiceCard from '@/components/UI/ServiceCard.vue';
+import { useLocalePath } from '#imports';
 import type { StrapiIndustryExpertiseSection, StrapiIndustryPage } from '@/types/strapi';
+
+const localePath = useLocalePath();
 
 interface Props {
   sectionData?: StrapiIndustryExpertiseSection | null;
@@ -81,7 +84,7 @@ const industryCards = computed<IndustryExpertiseItem[]>(() => {
       LEGACY_EXPERTISE_IMAGES[index % LEGACY_EXPERTISE_IMAGES.length] ??
       LEGACY_EXPERTISE_IMAGES[0],
     tags: page.hero?.categories?.map(category => category.name) ?? [],
-    linkTo: `/industry/${page.slug}`,
+    linkTo: localePath(`/industry/${page.slug}`),
   }));
 });
 

@@ -32,7 +32,7 @@
             :image="card.backgroundImage"
             :title="card.title"
             :description="card.description"
-            :link-to="`/services/${card.slug}`"
+            :link-to="localePath(`/services/${card.slug}`)"
             link-label="Read more"
           />
           <ServiceIconCard
@@ -41,7 +41,7 @@
             :title="card.title"
             :description="card.description"
             :icon="card.icon"
-            :link-to="`/services/${card.slug}`"
+            :link-to="localePath(`/services/${card.slug}`)"
             link-label="Read more"
           />
           <ServiceTextCard
@@ -49,7 +49,7 @@
             class="h-full"
             :title="card.title"
             :description="card.description"
-            :link-to="`/services/${card.slug}`"
+            :link-to="localePath(`/services/${card.slug}`)"
             link-label="Read more"
           />
         </AnimatedElement>
@@ -67,8 +67,10 @@ import ServiceCard from '@/components/UI/ServiceCard.vue';
 import ServiceIconCard from '@/components/UI/ServiceIconCard.vue';
 import ServiceTextCard from '@/components/UI/ServiceTextCard.vue';
 import { useContactModal } from '@/composables/useContactModal';
+import { useLocalePath } from '#imports';
 import type { StrapiServicePage, StrapiServicesProvideSection } from '@/types/strapi';
 
+const localePath = useLocalePath();
 const { open: openContactModal } = useContactModal();
 
 interface Props {
