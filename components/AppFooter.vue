@@ -338,9 +338,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { callOnce, useState } from '#imports';
+import { computed } from 'vue';
 import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import AppIcon from '@/components/UI/AppIcon.vue';
 import BaseText from '@/components/UI/BaseText.vue';
@@ -349,7 +347,6 @@ import { useFooterData } from '@/composables/useFooterData';
 import { useNavigateHome } from '@/composables/useNavigateHome';
 import type { FooterNavigationData } from '@/types/footer';
 
-const { locale } = useI18n();
 const resolvedLocale = useResolvedLocale();
 const { navigateToHome } = useNavigateHome();
 const {

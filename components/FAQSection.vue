@@ -66,7 +66,6 @@ import AppAccordion from '@/components/UI/AppAccordion.vue';
 import type { AppAccordionItem } from '@/components/UI/AppAccordion.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
-import { useI18n } from 'vue-i18n';
 import { useAsyncData } from '#imports';
 import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import type { StrapiFaqSection } from '@/types/strapi';
@@ -77,7 +76,6 @@ interface FaqAccordionItem extends AppAccordionItem {
   answer: string;
 }
 
-const { locale } = useI18n();
 const resolvedLocale = useResolvedLocale();
 
 const { data: faqSection } = await useAsyncData<StrapiFaqSection | null>(

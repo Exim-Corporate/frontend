@@ -10,7 +10,7 @@ import cookiesDe from '@/i18n/locales/coockies/cookies-de';
 // Without this, the CSS was bundled into a separate chunk and added as a
 // render-blocking <link rel="stylesheet"> — making the consent banner text the
 // LCP element at ~4.5 s even with a 2-second delay.
-// @ts-ignore — Vite ?inline transform is valid at runtime; no TS declaration needed
+// @ts-expect-error — Vite ?inline transform is valid at runtime; no TS declaration needed
 import ccStyles from 'vanilla-cookieconsent/dist/cookieconsent.css?inline';
 
 function injectConsentStyles() {

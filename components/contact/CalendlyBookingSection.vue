@@ -133,6 +133,19 @@ const embedBookingLink = computed(() => {
   }
 });
 
+interface CalendlyWidgetOptions {
+  url: string;
+  parentElement: HTMLElement;
+  resize?: boolean;
+}
+
+interface CalendlyGlobal {
+  initInlineWidget: (options: CalendlyWidgetOptions) => void;
+  initPopupWidget: (options: { url: string }) => void;
+}
+
+type WindowWithCalendly = Window & { Calendly?: CalendlyGlobal };
+
 const showFallbackState = computed(() => {
   return !pending.value && !bookingLink.value;
 });
@@ -140,14 +153,14 @@ const showFallbackState = computed(() => {
 const ensureCalendlyScriptLoaded = async () => {
   if (!import.meta.client) return;
 
-  if ((window as any).Calendly?.initInlineWidget) return;
+  if ((window as WindowWithCalendly).Calendly?.initInlineWidget) return;
 
   const existingScript = document.querySelector<HTMLScriptElement>(
     `script[src="${calendlyScriptSrc}"]`,
   );
 
   if (existingScript) {
-    if ((window as any).Calendly?.initInlineWidget) return;
+    if ((window as WindowWithCalendly).Calendly?.initInlineWidget) return;
     await new Promise<void>((resolve, reject) => {
       existingScript.addEventListener('load', () => resolve(), { once: true });
       existingScript.addEventListener('error', () => reject(new Error('Calendly script failed to load')), {
@@ -173,7 +186,7 @@ const renderCalendly = async () => {
 
   await ensureCalendlyScriptLoaded();
 
-  const Calendly = (window as any).Calendly;
+  const Calendly = (window as WindowWithCalendly).Calendly;
   if (!Calendly?.initInlineWidget) return;
 
   calendlyContainer.value.innerHTML = '';

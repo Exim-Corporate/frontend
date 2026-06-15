@@ -196,7 +196,6 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useLocalePath, useAsyncData, useRuntimeConfig, useRoute } from '#imports';
 import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import type { MenuItem } from 'primevue/menuitem';
@@ -227,7 +226,6 @@ interface LinkGroup {
   links: LinkItem[];
 }
 
-const { locale } = useI18n();
 const localePath = useLocalePath();
 const config = useRuntimeConfig();
 const { open: openContactModal } = useContactModal();
