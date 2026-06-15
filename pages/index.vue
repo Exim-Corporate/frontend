@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useSEO } from '@/composables/useSEO';
-import CtaSection from '@/components/CtaSection.vue';
-import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
 import { useI18n } from 'vue-i18n';
 import { useAsyncData } from '#imports';
 import { usePageContentApi } from '@/composables/usePageContentApi';
@@ -97,29 +95,30 @@ useSEO({
 
     <ServicesCardsSection />
 
-    <ServicesProvideSection
+    <!-- Lazy-loaded sections below the fold -->
+    <LazyServicesProvideSection
       :section-data="servicesProvideSection"
       :services="orderedServicePages"
     />
 
-    <TechStackSection />
-    
-    <!-- Why Choose Us section -->
-    <WhyChooseUsSection :section-data="whyChooseUsSection" />
+    <LazyTechStackSection />
 
-    <ProcessSection :section-data="processSection" />
-    
+    <!-- Why Choose Us section -->
+    <LazyWhyChooseUsSection :section-data="whyChooseUsSection" />
+
+    <LazyProcessSection :section-data="processSection" />
+
     <!-- Process Section -->
-    <IndustryExpertiseSection
-    :section-data="industryExpertiseSection"
-    :industries="orderedIndustryPages"
+    <LazyIndustryExpertiseSection
+      :section-data="industryExpertiseSection"
+      :industries="orderedIndustryPages"
     />
-    <StandApartStatsSection :section-data="standApartStatsSection" />
-    <!-- <CaseStudiesSection /> --> 
-    <TestimonialsSection :section-data="testimonialsSection" />
+    <LazyStandApartStatsSection :section-data="standApartStatsSection" />
+    <!-- <CaseStudiesSection /> -->
+    <LazyTestimonialsSection :section-data="testimonialsSection" />
     <LazyTeamSection />
     <LazyHeroBlogSection />
-    <CtaSection
+    <LazyCtaSection
       :section-data="pageCtaSection"
       scroll-target-id="contact-us"
     />
@@ -128,7 +127,7 @@ useSEO({
     <LazyFAQSection />
 
     <ClientOnly>
-      <CalendlyBookingSection
+      <LazyContactCalendlyBookingSection
         :key="calendlyPrefillEmail || 'no-prefill'"
         section-id="contact-us"
         utm-source="homepage"
