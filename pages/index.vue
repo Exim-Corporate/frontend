@@ -127,12 +127,14 @@ useSEO({
     <!-- FAQ Section -->
     <LazyFAQSection />
 
-    <CalendlyBookingSection
-      :key="calendlyPrefillEmail || 'no-prefill'"
-      section-id="contact-us"
-      utm-source="homepage"
-      :prefill-email="calendlyPrefillEmail"
-    />
+    <ClientOnly>
+      <CalendlyBookingSection
+        :key="calendlyPrefillEmail || 'no-prefill'"
+        section-id="contact-us"
+        utm-source="homepage"
+        :prefill-email="calendlyPrefillEmail"
+      />
+    </ClientOnly>
     <!-- Contact Section -->
     <!-- <ContactSection /> -->
 

@@ -19,9 +19,17 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import AppIcon from '@/components/UI/AppIcon.vue';
 
 const visible = ref(false);
+let ticking = false;
 
+// Throttled scroll handler using requestAnimationFrame to avoid forced reflows
 const updateVisibility = (): void => {
-  visible.value = window.scrollY > 200;
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      visible.value = window.scrollY > 200;
+      ticking = false;
+    });
+    ticking = true;
+  }
 };
 
 const scrollToTop = (): void => {

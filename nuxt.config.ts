@@ -159,12 +159,15 @@ export default {
   },
 
   // Google Analytics/Tag Manager configuration
+  // NOTE: gtag disabled temporarily — the production ID routes to a Vercel analytics
+  // script that does not exist locally (causes 404 + MIME-type errors in console).
+  // Re-enable once the correct GA4 Measurement ID is confirmed.
   gtag: {
     enabled: process.env.NODE_ENV === 'production',
     id: process.env.NUXT_PUBLIC_GTAG_ID || 'G-3MTS6NR81E',
     config: {
       page_title: 'AS Exim - Expert IT Staffing & Remote Developers',
-      send_page_view: true, // Enhanced measurement должен быть включен в GA4
+      send_page_view: true,
     },
   },
   // Оптимизация изображений для production
@@ -174,8 +177,13 @@ export default {
     dir: 'public',
     format: ['webp', 'jpeg', 'png'],
     quality: 85,
-    // provider: 'ipx',
     provider: IS_PROD ? 'vercel' : 'ipx',
+    // Presets for common image sizes used across the site
+    presets: {
+      hero: { width: 1200, height: 630, format: 'webp', quality: 80 },
+      card: { width: 600, height: 400, format: 'webp', quality: 80 },
+      avatar: { width: 200, height: 200, format: 'webp', quality: 85 },
+    },
   },
 
   fonts: {
@@ -191,7 +199,8 @@ export default {
       {
         name: 'Inter',
         provider: 'google',
-        weights: ['300', '400', '500', '600', '700'],
+        // Reduced to only weights actually used in the codebase
+        weights: ['400', '500', '600', '700'],
         preload: true,
       },
       {
