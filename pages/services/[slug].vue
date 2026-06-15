@@ -47,27 +47,29 @@ import ServicesCardsSection from '@/components/services/ServicesCardsSection.vue
 import ServicesAboutSection from '@/components/services/ServicesAboutSection.vue';
 import ServicesBenefitsSection from '@/components/services/ServicesBenefitsSection.vue';
 import { usePageContentApi } from '@/composables/usePageContentApi';
+import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import { useSEO } from '@/composables/useSEO';
 import type { StrapiHomePage, StrapiServicePage } from '@/types/strapi';
 import { FAQSection, TestimonialsSection } from '#components';
 
 const route = useRoute();
-const { locale, t } = useI18n();
+const { t } = useI18n();
 const localePath = useLocalePath();
+const resolvedLocale = useResolvedLocale();
 const { fetchServicePage, fetchHomePage } = usePageContentApi();
 
 const slug = route.params.slug as string;
 
 const { data: page, error } = await useAsyncData<StrapiServicePage | null>(
-  `service-page-${slug}`,
-  async () => await fetchServicePage(slug, locale?.value),
-  { default: () => null },
+  `service-page-${slug}-${resolvedLocale.value}`,
+  async () => await fetchServicePage(slug, resolvedLocale.value),
+  { default: () => null, getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] },
 );
 
 const { data: homePage } = await useAsyncData<StrapiHomePage | null>(
-  `service-page-home`,
-  async () => await fetchHomePage(locale.value),
-  { default: () => null },
+  `service-page-home-${resolvedLocale.value}`,
+  async () => await fetchHomePage(resolvedLocale.value),
+  { default: () => null, getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] },
 );
 
 if (error.value || !page.value) {

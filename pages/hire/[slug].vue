@@ -55,11 +55,11 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { createError, useAsyncData, useRoute, useRuntimeConfig, useSeoMeta } from '#imports';
-import { useI18n } from 'vue-i18n';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import CtaSection from '@/components/CtaSection.vue';
 import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
 import { usePageContentApi } from '@/composables/usePageContentApi';
+import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import HireHero from '@/components/hire/HireHero.vue';
 import HireAtGlance from '@/components/hire/HireAtGlance.vue';
 import HireWhyHire from '@/components/hire/HireWhyHire.vue';
@@ -91,15 +91,15 @@ interface HirePageData {
 
 const { fetchHirePage } = usePageContentApi();
 const route = useRoute();
-const { locale } = useI18n();
+const resolvedLocale = useResolvedLocale();
 const config = useRuntimeConfig();
 
 const slug = route.params.slug as string;
 
 const { data: hirePageData, error } = await useAsyncData<HirePageData | null>(
-  `hire-page-${slug}`,
-  async () => await fetchHirePage<HirePageData>(slug, locale.value),
-  { default: () => null }
+  `hire-page-${slug}-${resolvedLocale.value}`,
+  async () => await fetchHirePage<HirePageData>(slug, resolvedLocale.value),
+  { default: () => null, getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] }
 );
 
 if (error.value || !hirePageData.value) {

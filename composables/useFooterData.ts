@@ -93,10 +93,10 @@ export const useFooterData = () => {
     return mappedItems.length ? mappedItems : [];
   };
 
-  const loadNavigation = async (): Promise<FooterNavigationData> => {
+  const loadNavigation = async (lang?: string): Promise<FooterNavigationData> => {
     try {
       const proxyResponse = await $fetch<FooterProxyResponse>('/api/footer-navigation', {
-        query: { locale: locale.value },
+        query: { locale: lang || locale.value },
       });
 
       return {

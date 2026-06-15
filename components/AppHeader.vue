@@ -198,6 +198,7 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useLocalePath, useAsyncData, useRuntimeConfig, useRoute } from '#imports';
+import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import type { MenuItem } from 'primevue/menuitem';
 import MegaMenu from 'primevue/megamenu';
 import PanelMenu from 'primevue/panelmenu';
@@ -231,6 +232,7 @@ const localePath = useLocalePath();
 const config = useRuntimeConfig();
 const { open: openContactModal } = useContactModal();
 const route = useRoute();
+const resolvedLocale = useResolvedLocale();
 
 const isScrolling = ref(false);
 const drawerVisible = ref(false);
@@ -240,8 +242,8 @@ let lastScrollTop = 0;
 const isHeaderReady = computed(() => import.meta.server || isMounted.value);
 
 const { data: headerData } = await useAsyncData<StrapiHeaderNavigation>(
-  `header-navigation`,
-  () => $fetch<StrapiHeaderNavigation>('/api/header-navigation', { query: { locale: locale.value } }),
+  `header-navigation-${resolvedLocale.value}`,
+  () => $fetch<StrapiHeaderNavigation>('/api/header-navigation', { query: { locale: resolvedLocale.value } }),
   { default: () => null, getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] }
 );
 

@@ -341,6 +341,7 @@
 import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { callOnce, useState } from '#imports';
+import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import AppIcon from '@/components/UI/AppIcon.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
@@ -349,6 +350,7 @@ import { useNavigateHome } from '@/composables/useNavigateHome';
 import type { FooterNavigationData } from '@/types/footer';
 
 const { locale } = useI18n();
+const resolvedLocale = useResolvedLocale();
 const { navigateToHome } = useNavigateHome();
 const {
   addressLines,
@@ -362,8 +364,8 @@ const {
 } = useFooterData();
 
 const { data: navigationData } = await useAsyncData<FooterNavigationData>(
-  `footer-nav`,
-  () => loadNavigation(),
+  `footer-nav-${resolvedLocale.value}`,
+  () => loadNavigation(resolvedLocale.value),
   { default: () => ({ industry: [], services: [] }), getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] }
 );
 

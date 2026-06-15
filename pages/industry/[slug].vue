@@ -58,30 +58,29 @@ import IndustryHeroSection from '@/components/industry/IndustryHeroSection.vue';
 import IndustryDescriptionSection from '@/components/industry/IndustryDescriptionSection.vue';
 import IndustryStatsSection from '@/components/industry/IndustryStatsSection.vue';
 import { usePageContentApi } from '@/composables/usePageContentApi';
+import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import { useSEO } from '@/composables/useSEO';
 import type { StrapiHomePage, StrapiIndustryPage } from '@/types/strapi';
 import { FAQSection, TestimonialsSection } from '#components';
 
 const route = useRoute();
-const { locale, t } = useI18n();
+const { t } = useI18n();
 const localePath = useLocalePath();
+const resolvedLocale = useResolvedLocale();
 const { fetchIndustryPage, fetchHomePage } = usePageContentApi();
 
-// const slug = computed(() => String(route.params.slug || ''));
 const slug = route.params.slug as string;
 
 const { data: page, error } = await useAsyncData<StrapiIndustryPage | null>(
-  `industry-page-${slug}`,
-  async () => await fetchIndustryPage(slug, locale.value),
-  // ()=>null,
-  { default: () => null },
+  `industry-page-${slug}-${resolvedLocale.value}`,
+  async () => await fetchIndustryPage(slug, resolvedLocale.value),
+  { default: () => null, getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] },
 );
 
 const { data: homePage } = await useAsyncData<StrapiHomePage | null>(
-  `industry-page-home`,
-  async () => await fetchHomePage(locale.value),
-  // () => null,
-  { default: () => null },
+  `industry-page-home-${resolvedLocale.value}`,
+  async () => await fetchHomePage(resolvedLocale.value),
+  { default: () => null, getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] },
 );
 
 if (error.value || !page.value) {

@@ -51,29 +51,29 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { navigateTo, useAsyncData, useLocalePath } from '#imports';
-import { useI18n } from 'vue-i18n';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import AppButton from '@/components/UI/AppButton.vue';
 import ArticleCard from '@/components/blog/ArticleCard.vue';
 import { usePageContentApi } from '@/composables/usePageContentApi';
+import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import type { StrapiArticle, StrapiArticleListPayload } from '@/types/strapi';
 
 const { fetchArticleList } = usePageContentApi();
-const { locale } = useI18n();
+const resolvedLocale = useResolvedLocale();
 const localePath = useLocalePath();
 
 const { data: articleResponse, pending } = await useAsyncData<StrapiArticleListPayload | null>(
-  `hero-blog`,
+  `hero-blog-${resolvedLocale.value}`,
   async () => {
     return await fetchArticleList({
-      locale: locale.value,
+      locale: resolvedLocale.value,
       page: 1,
       pageSize: 4,
     });
   },
-  { default: () => null }
+  { default: () => null, getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] }
 );
 
 const articles = computed<StrapiArticle[]>(() => articleResponse.value?.data ?? []);

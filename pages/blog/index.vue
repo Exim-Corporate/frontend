@@ -75,6 +75,7 @@ import { navigateTo, useAsyncData, useRoute } from '#imports';
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { usePageContentApi } from '@/composables/usePageContentApi';
+import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import { useSEO } from '@/composables/useSEO';
 import ArticleCard from '@/components/blog/ArticleCard.vue';
 import BlogHeroSection from '@/components/blog/BlogHeroSection.vue';
@@ -87,7 +88,8 @@ import type { StrapiArticle, StrapiBlogPage, StrapiCtaSection } from '@/types/st
 import { AnimatedElement } from '#components';
 
 const { fetchArticleList, fetchBlogPage } = usePageContentApi();
-const { locale, t } = useI18n();
+const { t } = useI18n();
+const resolvedLocale = useResolvedLocale();
 const route = useRoute();
 const pageSize = ref(12);
 const articlesTopAnchor = ref<HTMLElement | null>(null);
@@ -108,10 +110,10 @@ const currentPage = computed<number>(() => {
 // Hero article: always the very first (latest) article from Strapi.
 // Fetched once per locale — does NOT react to currentPage changes.
 const { data: heroData } = await useAsyncData(
-  `blog-hero-${locale.value}`,
+  `blog-hero-${resolvedLocale.value}`,
   async () => {
     const response = await fetchArticleList({
-      locale: locale.value,
+      locale: resolvedLocale.value,
       page: 1,
       pageSize: 1,
     });
@@ -124,10 +126,10 @@ const { data: heroData } = await useAsyncData(
 );
 
 const { data: articleData, pending, error } = await useAsyncData(
-  `blog-articles-${locale.value}-page-${currentPage.value}`,
+  `blog-articles-${resolvedLocale.value}-page-${currentPage.value}`,
   async () => {
     const response = await fetchArticleList({
-      locale: locale.value,
+      locale: resolvedLocale.value,
       page: currentPage.value,
       pageSize: pageSize.value,
     });
@@ -210,8 +212,8 @@ const ctaData = computed<StrapiCtaSection>(() => ({
 }));
 
 const { data: blogPage } = await useAsyncData(
-  `blog-page-cta-${locale.value}`,
-  () => fetchBlogPage(locale.value),
+  `blog-page-cta-${resolvedLocale.value}`,
+  () => fetchBlogPage(resolvedLocale.value),
   {
     default: () => ({ ctaSection: null } as StrapiBlogPage),
     getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key]

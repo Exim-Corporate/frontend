@@ -29,8 +29,8 @@
 import { computed } from 'vue';
 import { createError, useAsyncData, useRoute, useRuntimeConfig } from '#imports';
 import { usePageContentApi } from '@/composables/usePageContentApi';
+import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import { useSEO } from '@/composables/useSEO';
-import { useI18n } from 'vue-i18n';
 import CtaSection from '@/components/CtaSection.vue';
 import ArticleHeader from '@/components/blog/ArticleHeader.vue';
 // import ArticleCover from '@/components/blog/ArticleCover.vue';
@@ -43,15 +43,15 @@ import type { StrapiArticle, StrapiArticlePagePayload, StrapiCtaSection } from '
 import { FAQSection } from '#components';
 
 const { fetchArticlePage } = usePageContentApi();
+const resolvedLocale = useResolvedLocale();
 const route = useRoute();
-const { locale } = useI18n();
 
 const slug = route.params.slug as string;
 
 const { data: articlePage, error } = await useAsyncData<StrapiArticlePagePayload | null>(
-  `article-page-${slug}`,
-  async () => await fetchArticlePage(slug, locale.value),
-  { default: () => null }
+  `article-page-${slug}-${resolvedLocale.value}`,
+  async () => await fetchArticlePage(slug, resolvedLocale.value),
+  { default: () => null, getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] }
 );
 
 if (error.value || !articlePage.value?.article) {

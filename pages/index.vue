@@ -6,34 +6,34 @@ import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.
 import { useI18n } from 'vue-i18n';
 import { useAsyncData } from '#imports';
 import { usePageContentApi } from '@/composables/usePageContentApi';
+import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import type { StrapiCtaSection, StrapiHomePage, StrapiIndustryPage } from '@/types/strapi';
 
 const calendlyPrefillEmail = ref('');
-const { locale, t } = useI18n();
-const { fetchHomePage, fetchServicePages } = usePageContentApi();
+const { t } = useI18n();
+const resolvedLocale = useResolvedLocale();
+const { fetchHomePage, fetchServicePages, fetchIndustryPages } = usePageContentApi();
 
 const handleHeroSubmitEmail = (email: string) => {
   calendlyPrefillEmail.value = email;
 };
 
 const { data: homePage } = await useAsyncData(
-  `home-page-cta`,
-  () => fetchHomePage(locale.value),
-  { default: () => ({ ctaSection: null } as StrapiHomePage) },
+  `home-page-cta-${resolvedLocale.value}`,
+  () => fetchHomePage(resolvedLocale.value),
+  { default: () => ({ ctaSection: null } as StrapiHomePage), getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] },
 );
 
-const { fetchIndustryPages } = usePageContentApi();
-
 const { data: industryPages } = await useAsyncData<StrapiIndustryPage[]>(
-  `home-page-industry-pages`,
-  () => fetchIndustryPages(locale.value),
-  { default: () => [] },
+  `home-page-industry-pages-${resolvedLocale.value}`,
+  () => fetchIndustryPages(resolvedLocale.value),
+  { default: () => [], getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] },
 );
 
 const { data: servicePages } = await useAsyncData(
-  `home-page-service-pages`,
-  () => fetchServicePages(locale.value),
-  { default: () => [] },
+  `home-page-service-pages-${resolvedLocale.value}`,
+  () => fetchServicePages(resolvedLocale.value),
+  { default: () => [], getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] },
 );
 
 const pageCtaSection = computed<StrapiCtaSection>(() =>

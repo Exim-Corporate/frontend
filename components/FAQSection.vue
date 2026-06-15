@@ -68,6 +68,7 @@ import BaseText from '@/components/UI/BaseText.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import { useI18n } from 'vue-i18n';
 import { useAsyncData } from '#imports';
+import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import type { StrapiFaqSection } from '@/types/strapi';
 
 interface FaqAccordionItem extends AppAccordionItem {
@@ -77,17 +78,18 @@ interface FaqAccordionItem extends AppAccordionItem {
 }
 
 const { locale } = useI18n();
+const resolvedLocale = useResolvedLocale();
 
 const { data: faqSection } = await useAsyncData<StrapiFaqSection | null>(
-  `faq-section`,
+  `faq-section-${resolvedLocale.value}`,
   async () => {
     const response = await $fetch<StrapiFaqSection | null>('/api/faq-section', {
-      query: { locale: locale.value },
+      query: { locale: resolvedLocale.value },
     });
 
     return response;
   },
-  { default: () => null }
+  { default: () => null, getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] }
 );
 
 const faqItems = computed<FaqAccordionItem[]>(() =>

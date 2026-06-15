@@ -42,19 +42,21 @@ import BaseTitle from '@/components/UI/BaseTitle.vue';
 import CalendlyBookingSection from '@/components/contact/CalendlyBookingSection.vue';
 import CtaSection from '@/components/CtaSection.vue';
 import { usePageContentApi } from '@/composables/usePageContentApi';
+import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import { useSEO } from '@/composables/useSEO';
 import type { StrapiReferralPage } from '@/types/strapi';
 import ReferralsHero from '@/components/referrals/ReferralsHero.vue';
 import ReferralProgramSection from '@/components/referrals/ReferralProgramSection.vue';
 
 const route = useRoute();
-const { locale, t } = useI18n();
+const { t } = useI18n();
+const resolvedLocale = useResolvedLocale();
 const { fetchReferralPage } = usePageContentApi();
 
 const { data: page, error } = await useAsyncData<StrapiReferralPage | null>(
-  `referral-page-${locale.value}`,
-  async () => await fetchReferralPage('referrals', locale.value),
-  { default: () => null },
+  `referral-page-${resolvedLocale.value}`,
+  async () => await fetchReferralPage('referrals', resolvedLocale.value),
+  { default: () => null, getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] },
 );
 
 if (error.value || !page.value) {

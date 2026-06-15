@@ -63,6 +63,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useAsyncData, useRuntimeConfig } from '#imports';
+import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import { useI18n } from 'vue-i18n';
 import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BaseText from '@/components/UI/BaseText.vue';
@@ -78,21 +79,22 @@ const props = defineProps({
 
 const runtimeConfig = useRuntimeConfig();
 const { t } = useI18n();
+const resolvedLocale = useResolvedLocale();
 const contactEmail = String(runtimeConfig.public.contactEmail || '');
 const calendlyContainer = ref<HTMLElement | null>(null);
 const calendlyScriptSrc = 'https://assets.calendly.com/assets/external/widget.js';
 
 const { data: calendlyContent, pending } = await useAsyncData<StrapiMainCalendly | null>(
-  'main-calendly',
+  `main-calendly-${resolvedLocale.value}`,
   async () => {
     try {
-      return await $fetch<StrapiMainCalendly>('/api/main-calendly');
+      return await $fetch<StrapiMainCalendly>('/api/main-calendly', { query: { locale: resolvedLocale.value } });
     }
     catch {
       return null;
     }
   },
-  { server: true, lazy: false, default: () => null },
+  { server: true, lazy: false, default: () => null, getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key] },
 );
 
 const bookingLink = computed(() => {
