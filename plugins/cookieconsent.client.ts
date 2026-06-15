@@ -75,23 +75,49 @@ export default defineNuxtPlugin(async nuxtApp => {
     });
   };
 
-  // Показываем баннер только через 2 секунды после загрузки страницы (только при первой инициализации)
+  // Delay cookie consent banner to avoid impacting LCP and Core Web Vitals.
+  // Using requestIdleCallback + 5s delay ensures the banner loads after:
+  // 1. LCP has been recorded (typically < 2.5s)
+  // 2. First Input Delay / INP is not affected
+  // 3. CLS is not impacted by the banner injection
+  // The banner uses position:fixed so it won't cause layout shifts when it appears.
   let consentInitialized = false;
+
   const showConsent = () => {
     if (consentInitialized) return;
     consentInitialized = true;
-    setTimeout(() => {
+
+    // Use requestIdleCallback if available, otherwise setTimeout
+    const scheduleConsent = (callback: () => void) => {
+      if ('requestIdleCallback' in window) {
+        // Wait for browser idle + 5s minimum delay to ensure LCP is complete
+        const startTime = Date.now();
+        requestIdleCallback(
+          () => {
+            const elapsed = Date.now() - startTime;
+            const remaining = Math.max(0, 5000 - elapsed);
+            setTimeout(callback, remaining);
+          },
+          { timeout: 10000 }, // Max wait 10s before forcing execution
+        );
+      } else {
+        // Fallback: just use 5s delay
+        setTimeout(callback, 5000);
+      }
+    };
+
+    scheduleConsent(() => {
       injectConsentStyles(); // Inject CSS only now — not on page load
       runConsent(locale.value);
-      // Подписка на смену языка
+      // Subscribe to locale changes
       watch(
         () => locale.value,
         newLocale => {
-          // Не сбрасываем куки, просто обновляем язык баннера
+          // Don't reset cookies, just update banner language
           runConsent(newLocale);
         },
       );
-    }, 2000);
+    });
   };
 
   if (document.readyState === 'complete') {

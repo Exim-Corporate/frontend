@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useAsyncData, useRuntimeConfig } from '#imports';
 import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import { useI18n } from 'vue-i18n';
@@ -83,6 +83,11 @@ const resolvedLocale = useResolvedLocale();
 const contactEmail = String(runtimeConfig.public.contactEmail || '');
 const calendlyContainer = ref<HTMLElement | null>(null);
 const calendlyScriptSrc = 'https://assets.calendly.com/assets/external/widget.js';
+
+// Lazy loading state
+const isVisible = ref(false);
+const hasLoaded = ref(false);
+let intersectionObserver: IntersectionObserver | null = null;
 
 const { data: calendlyContent, pending } = await useAsyncData<StrapiMainCalendly | null>(
   `main-calendly-${resolvedLocale.value}`,
@@ -197,14 +202,47 @@ const renderCalendly = async () => {
   });
 };
 
-onMounted(async () => {
-  if (showFallbackState.value) return;
+// Lazy load Calendly only when section becomes visible
+const loadCalendlyIfNeeded = async () => {
+  if (hasLoaded.value || showFallbackState.value) return;
+  hasLoaded.value = true;
   await nextTick();
   await renderCalendly();
+};
+
+onMounted(async () => {
+  if (!import.meta.client || showFallbackState.value) return;
+
+  // Use Intersection Observer for lazy loading
+  if (calendlyContainer.value) {
+    intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            isVisible.value = true;
+            loadCalendlyIfNeeded();
+            // Disconnect after first intersection
+            intersectionObserver?.disconnect();
+          }
+        });
+      },
+      {
+        // Start loading 200px before section comes into view
+        rootMargin: '200px 0px',
+        threshold: 0,
+      },
+    );
+
+    intersectionObserver.observe(calendlyContainer.value);
+  }
+});
+
+onBeforeUnmount(() => {
+  intersectionObserver?.disconnect();
 });
 
 watch(embedBookingLink, async () => {
-  if (!import.meta.client || showFallbackState.value) return;
+  if (!import.meta.client || showFallbackState.value || !isVisible.value) return;
   await nextTick();
   await renderCalendly();
 });
