@@ -200,7 +200,19 @@ const renderCalendly = async () => {
 onMounted(async () => {
   if (showFallbackState.value) return;
   await nextTick();
-  await renderCalendly();
+
+  // Defer Calendly loading to idle time so third-party script doesn't hurt LCP / INP.
+  // requestIdleCallback lets the browser finish critical work first;
+  // fallback for Safari: setTimeout 2s.
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(() => {
+      renderCalendly();
+    });
+  } else {
+    setTimeout(() => {
+      renderCalendly();
+    }, 7000);
+  }
 });
 
 watch(embedBookingLink, async () => {
