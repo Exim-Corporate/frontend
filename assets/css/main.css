@@ -6,6 +6,7 @@
 @plugin "@tailwindcss/typography";
 @config "@/tailwind.config.ts";
 @import 'primeicons/primeicons.css';
+@import './animations.css';
 
 @theme {
   --color-background-gray: #F5F7FA;

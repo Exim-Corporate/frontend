@@ -1,26 +1,26 @@
 <template>
   <section class="container relative w-full overflow-hidden bg-white pb-0">
     <div class=" mx-auto flex flex-col items-center justify-center pt-12">
-      
-      <AnimatedElement direction="bottom">
-        <BaseChip variant="light" size="normal" class="mb-6 md:mb-6">
+
+      <div class="animate-fade-up hero-animate mb-6 md:mb-6">
+        <BaseChip variant="light" size="normal">
           {{ $t('heroNew.badge') }}
         </BaseChip>
-      </AnimatedElement>
+      </div>
 
-      <AnimatedElement direction="bottom" :delay="100" class="">
+      <div class="animate-fade-up hero-animate delay-100">
         <BaseTitle variant="main" class-name="mb-8 whitespace-pre-line text-center max-w-3xl font-semibold text-[28px] md:text-[56px] leading-[1.1]">
           {{ $t('heroNew.title') }}
         </BaseTitle>
-      </AnimatedElement>
+      </div>
 
-      <AnimatedElement direction="bottom" :delay="150" class="w-full max-w-2xl">
+      <div class="animate-fade-up hero-animate delay-150 w-full max-w-2xl">
         <BaseText variant="main" class-name="mb-12 w-full text-center">
           {{ $t('heroNew.subtitle') }}
         </BaseText>
-      </AnimatedElement>
+      </div>
 
-      <AnimatedElement direction="bottom" :delay="200" class="w-full max-w-3xl">
+      <div class="animate-fade-up hero-animate delay-200 w-full max-w-3xl">
         <form
           class="mb-12 w-full"
           @submit.prevent="submitForm"
@@ -41,18 +41,17 @@
             </AppButton>
           </div>
         </form>
-      </AnimatedElement>
+      </div>
 
-      <AnimatedElement direction="bottom" :delay="250" class="w-full">
+      <div class="animate-fade-up hero-animate delay-250 w-full">
         <CompaniesCarousel />
-      </AnimatedElement>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import BaseChip from '@/components/UI/BaseChip.vue';

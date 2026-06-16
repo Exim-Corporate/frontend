@@ -1,0 +1,121 @@
+/* ============================================
+   Optimized CSS Animations for Hero & Services
+   Replace AOS with native CSS for Lighthouse
+   ============================================ */
+
+/* Base animation styles */
+.animate-fade-up,
+.animate-fade-down,
+.animate-fade-left,
+.animate-fade-right,
+.animate-fade-zoom {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Fade Up Animation */
+.animate-fade-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade Down Animation */
+.animate-fade-down {
+  animation: fadeInDown 0.6s ease-out forwards;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade Left Animation */
+.animate-fade-left {
+  animation: fadeInLeft 0.6s ease-out forwards;
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Fade Right Animation */
+.animate-fade-right {
+  animation: fadeInRight 0.6s ease-out forwards;
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Zoom Animation */
+.animate-fade-zoom {
+  animation: fadeInZoom 0.6s ease-out forwards;
+}
+
+@keyframes fadeInZoom {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Staggered delay classes */
+.delay-100 { animation-delay: 100ms; }
+.delay-150 { animation-delay: 150ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-250 { animation-delay: 250ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-350 { animation-delay: 350ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-450 { animation-delay: 450ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-550 { animation-delay: 550ms; }
+.delay-600 { animation-delay: 600ms; }
+.delay-650 { animation-delay: 650ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-750 { animation-delay: 750ms; }
+.delay-800 { animation-delay: 800ms; }
+
+/* Hero section specific - faster animations for above-the-fold */
+.hero-animate {
+  animation-duration: 0.5s;
+}
+
+/* Services section specific - slightly longer for below-fold */
+.services-animate {
+  animation-duration: 0.6s;
+}

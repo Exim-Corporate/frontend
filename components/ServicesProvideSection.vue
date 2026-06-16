@@ -2,29 +2,28 @@
   <section v-if="sectionData" class="w-full bg-white container">
       <div class="flex flex-col items-center md:flex-row md:items-start md:justify-between gap-6 mb-12 md:mb-16">
         <div class="flex flex-col gap-4">
-          <AnimatedElement direction="bottom" :delay="100">
+          <div class="animate-fade-up services-animate delay-100">
             <BaseTitle tag="h2" variant="main" class-name="text-center md:text-left">
               {{ sectionData.title }}
             </BaseTitle>
-          </AnimatedElement>
-          <AnimatedElement direction="bottom" :delay="200">
+          </div>
+          <div class="animate-fade-up services-animate delay-200">
             <BaseText variant="section" class-name="text-center md:text-left max-w-md">
               {{ sectionData.subtitle }}
             </BaseText>
-          </AnimatedElement>
+          </div>
         </div>
-        <AnimatedElement direction="bottom" :delay="200">
+        <div class="animate-fade-up services-animate delay-200">
           <AppButton :label="sectionData.buttonLabel" @click="openContactModal('cta-button')" />
-        </AnimatedElement>
+        </div>
       </div>
 
       <div class="flex flex-wrap gap-6">
-        <AnimatedElement
+        <div
           v-for="(card, index) in cards"
           :key="card.slug"
-          class="w-full min-w-0 max-h-80 xl:max-h-full md:flex-[1_1_calc(50%-0.75rem)] xl:flex-[1_1_calc(33.333%-1rem)]"
-          direction="bottom"
-          :delay="100 + index * 50"
+          class="animate-fade-up services-animate w-full min-w-0 max-h-80 xl:max-h-full md:flex-[1_1_calc(50%-0.75rem)] xl:flex-[1_1_calc(33.333%-1rem)]"
+          :class="getDelayClass(index)"
         >
           <ServiceCard
             v-if="card.backgroundImage"
@@ -52,14 +51,13 @@
             :link-to="localePath(`/services/${card.slug}`)"
             link-label="Read more"
           />
-        </AnimatedElement>
+        </div>
       </div>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import AnimatedElement from '@/components/UI/AnimatedElement.vue';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
 import AppButton from '@/components/UI/AppButton.vue';
@@ -111,4 +109,12 @@ const cards = computed<ServicesProvideCard[]>(() => {
       icon: ICON_BY_INDEX[index],
     }));
 });
+
+const getDelayClass = (index: number): string => {
+  const delays = [
+    'delay-100', 'delay-150', 'delay-200', 'delay-250', 'delay-300',
+    'delay-350', 'delay-400', 'delay-450', 'delay-500', 'delay-550'
+  ];
+  return delays[index] || 'delay-100';
+};
 </script>
