@@ -13,11 +13,10 @@
       width="180"
       height="42"
       sizes="(max-width: 768px) 132px, 180px"
-      loading="eager"
-      preload
-      fetchpriority="high"
+      :preload="{ fetchPriority: 'high' }" 
       quality="85"
       format="png"
+      unoptimized
     />
   </NuxtLink>
 </template>
