@@ -253,10 +253,7 @@ export default {
     anchorPlacement: 'top-bottom',
     once: true,
     mirror: false,
-    // NOTE: do NOT set disable: 'phone' — AOS CSS pre-sets opacity:0 on all [data-aos]
-    // elements. If AOS is disabled it never adds .aos-animate → entire page stays invisible
-    // on real mobile devices (white page bug). DevTools simulation hides this because AOS
-    // already initialised in desktop mode before the viewport was resized.
+    disable: 'phone',
   },
 
   i18n: {
