@@ -7,7 +7,7 @@
     <NuxtImg
       :src="image"
       :alt="title"
-      loading="lazy"
+      :preload="eager ? { fetchPriority: 'high' } : false"
       format="webp"
       quality="80"
       sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
@@ -81,10 +81,12 @@ const props = withDefaults(defineProps<{
   tags?: string[];
   linkTo?: string;
   linkLabel?: string;
+  eager?: boolean;
 }>(), {
   tags: () => [],
   linkTo: '',
   linkLabel: 'Read more',
+  eager: false,
 });
 
 const isMobileOrTablet = computed(() => {

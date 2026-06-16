@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useAsyncData, useRuntimeConfig } from '#imports';
 import { useResolvedLocale } from '@/composables/useResolvedLocale';
 import { useI18n } from 'vue-i18n';
@@ -197,22 +197,39 @@ const renderCalendly = async () => {
   });
 };
 
+let calendlyObserver: IntersectionObserver | null = null;
+
 onMounted(async () => {
   if (showFallbackState.value) return;
   await nextTick();
 
-  // Defer Calendly loading to idle time so third-party script doesn't hurt LCP / INP.
-  // requestIdleCallback lets the browser finish critical work first;
-  // fallback for Safari: setTimeout 2s.
-  if ('requestIdleCallback' in window) {
-    window.requestIdleCallback(() => {
-      renderCalendly();
-    });
+  // Use IntersectionObserver to defer Calendly loading until the section
+  // is near the viewport. This prevents 2.6MB of third-party JS/CSS from
+  // blocking the main thread during initial page load (fixes TBT 970ms).
+  const container = calendlyContainer.value;
+  if (!container) return;
+
+  if ('IntersectionObserver' in window) {
+    calendlyObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          calendlyObserver?.disconnect();
+          calendlyObserver = null;
+          renderCalendly();
+        }
+      },
+      { rootMargin: '400px' }, // Start loading 400px before visible
+    );
+    calendlyObserver.observe(container);
   } else {
-    setTimeout(() => {
-      renderCalendly();
-    }, 7000);
+    // Fallback: load after 3s for browsers without IntersectionObserver
+    setTimeout(() => renderCalendly(), 3000);
   }
+});
+
+onUnmounted(() => {
+  calendlyObserver?.disconnect();
+  calendlyObserver = null;
 });
 
 watch(embedBookingLink, async () => {

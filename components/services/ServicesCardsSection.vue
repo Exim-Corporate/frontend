@@ -65,6 +65,7 @@
             :description="card.description"
             :link-to="card.linkTo"
             link-label="Read more"
+            :eager="index === 0"
           />
           <ServiceCapabilityCard
             v-else
@@ -93,6 +94,7 @@
           :description="card.description"
           :link-to="card.linkTo"
           link-label="Read more"
+          :eager="index === 0"
         />
       </AnimatedElement>
     </div>
