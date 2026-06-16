@@ -399,9 +399,7 @@ export default {
         // Favicon
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/images/logoPic.webp' },
-        // Preconnect to external origins used on every page — reduces DNS+TCP+TLS latency
-        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        // NOTE: preconnect to Google Fonts removed — @nuxt/fonts self-hosts fonts from /_fonts/
         { rel: 'dns-prefetch', href: process.env.STRAPI_URL || 'http://localhost:1337' },
       ],
     },
