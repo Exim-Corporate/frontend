@@ -178,6 +178,16 @@ export default {
     format: ['webp', 'jpeg', 'png'],
     quality: 85,
     provider: IS_PROD ? 'vercel' : 'ipx',
+    // Screen breakpoints — Vercel provider uses these to generate responsive srcset.
+    // Without this, srcset generates only "0w" and browser downloads full-size image.
+    screens: {
+      xs: 375,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      '2xl': 1536,
+    },
     // Presets for common image sizes used across the site
     presets: {
       hero: { width: 1200, height: 630, format: 'webp', quality: 80 },

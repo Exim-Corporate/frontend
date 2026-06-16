@@ -33,6 +33,7 @@
             :description="card.description"
             :link-to="localePath(`/services/${card.slug}`)"
             link-label="Read more"
+            :eager="index === 0"
           />
           <ServiceIconCard
             v-else-if="card.icon"
