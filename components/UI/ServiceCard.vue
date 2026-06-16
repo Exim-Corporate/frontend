@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import BaseTitle from '@/components/UI/BaseTitle.vue';
 import BaseText from '@/components/UI/BaseText.vue';
@@ -89,9 +89,24 @@ const props = withDefaults(defineProps<{
   eager: false,
 });
 
-const isMobileOrTablet = computed(() => {
-  if (typeof window === 'undefined') return false;
-  return window.innerWidth < 1024;
+// Use matchMedia instead of window.innerWidth to avoid forced reflows.
+// matchMedia is event-based and non-blocking — no layout recalculation.
+const isMobileOrTablet = ref(false);
+let mediaQuery: MediaQueryList | null = null;
+
+const updateMediaQuery = (e: MediaQueryListEvent | MediaQueryList) => {
+  isMobileOrTablet.value = e.matches;
+};
+
+onMounted(() => {
+  if (typeof window === 'undefined') return;
+  mediaQuery = window.matchMedia('(max-width: 1023px)');
+  isMobileOrTablet.value = mediaQuery.matches;
+  mediaQuery.addEventListener('change', updateMediaQuery);
+});
+
+onUnmounted(() => {
+  mediaQuery?.removeEventListener('change', updateMediaQuery);
 });
 
 const handleCardClick = () => {

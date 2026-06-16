@@ -77,11 +77,14 @@ const itemCenters = ref<number[]>([]);
 const imageHeight = 220;
 const baseImageTop = 20;
 
+// Cache section height to avoid forced reflow in computed
+const sectionHeight = ref(0);
+
 // Image Y derived purely from pre-measured layout — no per-frame DOM reads
 const imageY = computed(() => {
   const center = itemCenters.value[activeIndex.value];
-  if (center === undefined || !sectionRef.value) return 0;
-  const maxY = Math.max(sectionRef.value.offsetHeight - imageHeight, 0);
+  if (center === undefined || sectionHeight.value === 0) return 0;
+  const maxY = Math.max(sectionHeight.value - imageHeight, 0);
   return Math.min(Math.max(center - imageHeight / 2 - baseImageTop, 0), maxY);
 });
 
@@ -94,7 +97,8 @@ const stopFns: Array<() => void> = [];
 onMounted(async () => {
   await nextTick();
 
-  // One-time layout measurement — no scroll-time DOM reads
+  // One-time layout measurements — no scroll-time DOM reads
+  sectionHeight.value = sectionRef.value?.offsetHeight ?? 0;
   itemCenters.value = rowElements.value.map(
     (el) => (el ? el.offsetTop + el.offsetHeight / 2 : 0),
   );
