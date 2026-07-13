@@ -17,7 +17,7 @@
             <BaseText variant="card" className="w-1/2 text-left text-text-dark">
               {{ item.label }}
             </BaseText>
-            <BaseTitle tag="p" variant="main" class-name="w-1/2 text-start text-text-dark">
+            <BaseTitle tag="p" variant="main" class-name="w-1/2 text-center text-text-dark">
               <AnimatedCounterValue :value="item.value" />
             </BaseTitle>
           </div>
@@ -30,7 +30,7 @@
           :key="`desktop-${item.label}-${index}`"
           direction="bottom"
         >
-          <div class="flex items-start gap-8 border-b border-black/10 py-7 lg:py-8 last:border-b-0">
+          <div class="flex lg:items-start gap-8 border-b border-black/10 py-7 lg:py-8 last:border-b-0">
             <BaseText variant="card" class-name="w-1/2 text-left text-text-dark">
               {{ item.label }}
             </BaseText>

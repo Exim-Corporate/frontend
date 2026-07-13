@@ -2,7 +2,7 @@
   <section v-if="sectionData" class="container w-full bg-white">
     <div class="mb-6 flex items-start justify-between gap-4 md:mb-12 md:items-center lg:mb-16">
       <AnimatedElement direction="bottom" :delay="100">
-        <BaseTitle tag="h2" variant="main" class-name="max-w-[180px] text-left md:max-w-none">
+        <BaseTitle tag="h2" variant="main" class-name="max-w-[180px] text-left md:max-w-none break-words">
           {{ sectionData.title }}
         </BaseTitle>
       </AnimatedElement>
